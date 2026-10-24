@@ -100,34 +100,117 @@
       flex: 1;
     }
 
-    .project-footer {
+    .project-card-actions {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-top: 1px solid $border-glass;
-      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 18px;
+      margin-top: auto;
+      gap: 12px;
+      flex-wrap: wrap;
 
-      .repo-link {
+      .btn-action-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .btn-lab-launch {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        color: $accent-cyan;
-        font-weight: 600;
-        font-size: 0.9rem;
+        background: linear-gradient(135deg, rgba(0, 245, 212, 0.18) 0%, rgba(76, 201, 240, 0.12) 100%);
+        border: 1px solid rgba(0, 245, 212, 0.45);
+        color: #00f5d4;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        padding: 6px 14px;
+        border-radius: $radius-full;
+        text-decoration: none;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 12px rgba(0, 245, 212, 0.15);
+
+        .btn-glow-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #00f5d4;
+          box-shadow: 0 0 6px #00f5d4;
+        }
+
+        .btn-arrow {
+          font-size: 0.85rem;
+          transition: transform 0.2s ease;
+        }
 
         &:hover {
-          text-decoration: underline;
+          background: linear-gradient(135deg, rgba(0, 245, 212, 0.35) 0%, rgba(76, 201, 240, 0.25) 100%);
+          border-color: #00f5d4;
+          color: #ffffff;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 245, 212, 0.4);
+
+          .btn-arrow {
+            transform: translate(2px, -2px);
+          }
         }
       }
 
-      .live-badge {
-        font-family: $font-mono;
-        font-size: 0.75rem;
-        color: $accent-cyan;
-        background: rgba(0, 245, 212, 0.1);
-        border: 1px solid rgba(0, 245, 212, 0.25);
-        padding: 2px 8px;
+      .btn-source-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 6px 12px;
         border-radius: $radius-full;
+        text-decoration: none;
+        transition: all 0.25s ease;
+
+        .btn-arrow {
+          font-size: 0.75rem;
+          transition: transform 0.2s ease;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.12);
+          border-color: rgba(255, 255, 255, 0.3);
+          color: #ffffff;
+          transform: translateY(-1px);
+
+          .btn-arrow {
+            transform: translate(1px, -1px);
+          }
+        }
+      }
+
+      .project-status-badge {
+        font-family: $font-mono;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: $accent-cyan;
+        background: rgba(0, 245, 212, 0.08);
+        border: 1px solid rgba(0, 245, 212, 0.22);
+        padding: 3px 9px;
+        border-radius: $radius-full;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        .status-pulse {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: $accent-cyan;
+          box-shadow: 0 0 6px $accent-cyan;
+          animation: pulseGlow 2s infinite ease-in-out;
+        }
       }
     }
   }

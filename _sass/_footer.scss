@@ -66,5 +66,23 @@
     padding-top: 24px;
     font-size: 0.85rem;
     color: $text-muted;
+
+    .footer-credit {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+
+      .credit-link {
+        color: $accent-cyan;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s ease;
+
+        &:hover {
+          text-shadow: 0 0 8px rgba(0, 245, 212, 0.5);
+          text-decoration: underline;
+        }
+      }
+    }
   }
 }

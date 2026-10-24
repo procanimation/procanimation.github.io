@@ -25,16 +25,24 @@
         <div class="project-body">
           <h3>{{ proj.name }}</h3>
           <p>{{ proj.description }}</p>
-          <div class="project-footer">
-            {% if proj.article_url %}
-            <a href="{{ proj.article_url }}" class="repo-link" style="color:#00f5d4; font-weight:600;">
-              Interactive Sim &amp; Math ↗
-            </a>
-            {% endif %}
-            <a href="{{ proj.repo_url }}" target="_blank" class="repo-link">
-              Source Code ↗
-            </a>
-            <span class="live-badge">Open Source</span>
+          <div class="project-card-actions">
+            <div class="btn-action-group">
+              {% if proj.article_url %}
+              <a href="{{ proj.article_url }}" class="btn-lab-launch">
+                <span class="btn-glow-dot"></span>
+                <span>Interactive Sim Lab</span>
+                <span class="btn-arrow">↗</span>
+              </a>
+              {% endif %}
+              <a href="{{ proj.repo_url }}" target="_blank" class="btn-source-pill">
+                <span>Code</span>
+                <span class="btn-arrow">↗</span>
+              </a>
+            </div>
+            <span class="project-status-badge">
+              <span class="status-pulse"></span>
+              Live Sim
+            </span>
           </div>
         </div>
       </div>
