@@ -54,15 +54,17 @@
   featured: true
   gradient: "linear-gradient(135deg, #4cc9f0 0%, #4361ee 100%)"
 
-- name: "Mathematical Visualizations"
-  slug: "mathematics-stuff"
+- name: "Fourier Epicycles & Harmonic Analysis"
+  slug: "fourier-series"
   category: "math"
-  tag: "Trigonometry • Curves"
-  tech: "Creative Code"
-  description: "Harmonic oscillation curves, Fourier epicycles, and geometric trigonometry visualizations."
+  tag: "Harmonics • Signals"
+  tech: "p5.js / Canvas"
+  description: "Jean-Baptiste Fourier's harmonic series synthesis, rotating epicycle chains, and Gibbs phenomenon waveform reconstruction."
+  article_url: "/experiments/fourier-series.html"
   repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/trignometry/trignofunction"
-  featured: false
-  gradient: "linear-gradient(135deg, #fee440 0%, #f77f00 100%)"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #f72585 100%)"
+
 
 - name: "Pictography & Generative Image"
   slug: "pictography"

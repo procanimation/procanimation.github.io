@@ -43,3 +43,14 @@
   video_url: "https://www.youtube.com/shorts/T9CM8CtTHuY"
   article_url: "/experiments/lorenz-attractor.html"
 
+- title: "The Fourier Transform: Drawing Anything with Rotating Circles"
+  series: "Visual Mathematics"
+  format: "Shorts (9:16 Vertical • 60 FPS)"
+  duration: "00:48"
+  description: "How Joseph Fourier's harmonic series synthesis turns spinning circular epicycles into square waves and complex waveforms."
+  tags: ["Fourier", "Math", "Physics", "p5.js", "Creative Coding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #00f5d4, #f72585)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/fourier-series.html"
+

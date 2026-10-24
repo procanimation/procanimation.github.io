@@ -1,0 +1,273 @@
+---
+layout: article
+title: "The Fourier Transform: Drawing Anything with Spinning Circles"
+tagline: "Harmonic Analysis, Epicycles & The Mathematics of Frequency"
+description: "How Joseph Fourier proved that any periodic signal or continuous curve can be synthesized from a sum of pure rotating trigonometric circles."
+category: "Visual Mathematics & Signal Processing"
+permalink: /experiments/fourier-series.html
+---
+
+<p class="article-lead">
+  In 1822, French mathematician and physicist Jean-Baptiste Joseph Fourier introduced an audacious claim to the French Academy of Sciences: <em>any periodic mathematical function or arbitrary curve, no matter how jagged or discontinuous, can be synthesized as a sum of pure sinusoidal frequencies.</em> His contemporaries, including Lagrange and Laplace, initially scoffed at the idea. Today, the Fourier Transform underpins modern digital existence: JPEG compression, MP3 audio, MRI imaging, quantum wave mechanics, and telecommunications.
+</p>
+
+<!-- The Fourier Lexicon -->
+<h3>The Harmonic Analysis Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Harmonic Epicycles</h4>
+    <p>A chain of rotating vectors linked head-to-tail, each orbiting at integer multiples of a fundamental frequency ($\omega, 2\omega, 3\omega, \dots$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Orthogonality of Sine & Cosine</h4>
+    <p>Trigonometric basis functions are mutually orthogonal over a period: $\int_{-\pi}^{\pi} \sin(mx)\sin(nx)\,dx = \pi \delta_{mn}$. This isolates each frequency independently.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Gibbs Phenomenon</h4>
+    <p>At jump discontinuities, the Fourier series overshoots the true function value by $\approx 8.95\%$, an inescapable artifact of truncating an infinite trigonometric basis.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Time vs. Frequency Duality</h4>
+    <p>The Fourier transform provides a bidirectional mathematical lens: time-domain oscillations on one side, and spectral frequency spikes on the other.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE FOURIER EPICYCLE SYNTHESIS LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Harmonic Decomposition)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Rotating Vectors</span>
+      <span style="color:#f72585;">● Synthesized Signal</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="height:480px; position:relative; background:#05070e;">
+    <canvas id="fourierCanvas" style="width:100%; height:100%; display:block;"></canvas>
+  </div>
+
+  <!-- Interactive Control Toolbar -->
+  <div class="simulation-toolbar">
+    <div class="toolbar-section">
+      <span class="toolbar-label">Waveform Profile:</span>
+      <div class="sim-btn-group">
+        <button class="sim-btn" id="btnWaveSquare" onclick="window.setFourierWave('square')">Square Wave</button>
+        <button class="sim-btn" id="btnWaveSawtooth" onclick="window.setFourierWave('sawtooth')">Sawtooth</button>
+        <button class="sim-btn" id="btnWaveTriangle" onclick="window.setFourierWave('triangle')">Triangle</button>
+      </div>
+    </div>
+
+    <div class="toolbar-section">
+      <span class="toolbar-label">Harmonics: <strong id="harmonicsLabel" style="color:#00f5d4;">12</strong></span>
+      <input type="range" id="harmonicsSlider" min="1" max="32" value="12" style="accent-color:#00f5d4; cursor:pointer;" oninput="window.updateHarmonics(this.value)">
+    </div>
+  </div>
+</div>
+
+<!-- Interactive JavaScript Engine -->
+<script>
+(function() {
+  const canvas = document.getElementById('fourierCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth || 800;
+    canvas.height = canvas.parentElement.clientHeight || 480;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let time = 0;
+  let wave = [];
+  let numHarmonics = 12;
+  let waveType = 'square';
+
+  window.setFourierWave = function(type) {
+    waveType = type;
+    wave = [];
+    document.querySelectorAll('.sim-btn').forEach(b => b.classList.remove('primary-glow'));
+    if (type === 'square') document.getElementById('btnWaveSquare')?.classList.add('primary-glow');
+    if (type === 'sawtooth') document.getElementById('btnWaveSawtooth')?.classList.add('primary-glow');
+    if (type === 'triangle') document.getElementById('btnWaveTriangle')?.classList.add('primary-glow');
+  };
+  window.setFourierWave('square');
+
+  window.updateHarmonics = function(val) {
+    numHarmonics = parseInt(val);
+    document.getElementById('harmonicsLabel').textContent = val;
+  };
+
+  function getHarmonic(i, type) {
+    if (type === 'square') {
+      let n = i * 2 + 1;
+      let radius = 100 * (4 / (n * Math.PI));
+      return { n: n, radius: radius };
+    } else if (type === 'sawtooth') {
+      let n = i + 1;
+      let radius = 80 * (2 / (n * Math.PI)) * (i % 2 === 0 ? 1 : -1);
+      return { n: n, radius: radius };
+    } else { // Triangle
+      let n = i * 2 + 1;
+      let radius = 110 * (8 / (Math.PI * Math.PI * n * n)) * (i % 2 === 0 ? 1 : -1);
+      return { n: n, radius: radius };
+    }
+  }
+
+  function loop() {
+    ctx.fillStyle = '#05070e';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Subtle Grid
+    ctx.strokeStyle = '#12192a';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 60) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 60) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    let originX = canvas.width * 0.28;
+    let originY = canvas.height * 0.5;
+
+    let x = originX;
+    let y = originY;
+
+    for (let i = 0; i < numHarmonics; i++) {
+      let prevx = x;
+      let prevy = y;
+      let h = getHarmonic(i, waveType);
+
+      x += h.radius * Math.cos(h.n * time);
+      y += h.radius * Math.sin(h.n * time);
+
+      // Circle
+      ctx.beginPath();
+      ctx.arc(prevx, prevy, Math.abs(h.radius), 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(0, 245, 212, 0.22)';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      // Vector arm
+      ctx.beginPath();
+      ctx.moveTo(prevx, prevy);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = 'rgba(76, 201, 240, 0.8)';
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+
+      // Node
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = '#00f5d4';
+      ctx.fill();
+    }
+
+    // Lead head
+    ctx.beginPath();
+    ctx.arc(x, y, 6, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+
+    wave.unshift(y);
+    if (wave.length > 500) wave.pop();
+
+    let waveStartX = canvas.width * 0.52;
+
+    // Laser dashed line
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(waveStartX, y);
+    ctx.strokeStyle = 'rgba(247, 37, 133, 0.7)';
+    ctx.setLineDash([4, 6]);
+    ctx.stroke();
+    ctx.restore();
+
+    // Center baseline
+    ctx.beginPath();
+    ctx.moveTo(waveStartX, originY);
+    ctx.lineTo(canvas.width - 20, originY);
+    ctx.strokeStyle = 'rgba(40, 55, 85, 0.8)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Draw synthesized wave
+    ctx.beginPath();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#f72585';
+    for (let i = 0; i < wave.length; i++) {
+      let px = waveStartX + i;
+      if (px < canvas.width - 20) {
+        if (i === 0) ctx.moveTo(px, wave[i]);
+        else ctx.lineTo(px, wave[i]);
+      }
+    }
+    ctx.stroke();
+
+    time += 0.035;
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+
+<h2>1. The Mathematical Foundation</h2>
+<p>
+  Any periodic function $f(t)$ with period $T$ and fundamental frequency $\omega_0 = \frac{2\pi}{T}$ can be expressed as a linear combination of infinite sines and cosines:
+</p>
+
+<div class="math-derivation-box">
+  <div class="math-title">General Fourier Series</div>
+  $$f(t) = \frac{a_0}{2} + \sum_{n=1}^{\infty} \left[ a_n \cos(n \omega_0 t) + b_n \sin(n \omega_0 t) \right]$$
+  $$\text{where} \quad a_n = \frac{2}{T} \int_{0}^{T} f(t) \cos(n \omega_0 t)\,dt, \quad b_n = \frac{2}{T} \int_{0}^{T} f(t) \sin(n \omega_0 t)\,dt$$
+</div>
+
+<h2>2. Deconstructing the Square Wave</h2>
+<p>
+  Because the ideal square wave of period $2\pi$ is an odd function ($f(-t) = -f(t)$), all cosine coefficients $a_n$ vanish identically to zero ($a_n = 0$). Evaluating the sine coefficients:
+</p>
+
+<div class="math-derivation-box">
+  <div class="math-title">Square Wave Fourier Synthesis</div>
+  $$b_n = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t) \sin(nt)\,dt = \frac{2}{\pi} \int_{0}^{\pi} \sin(nt)\,dt = \frac{2}{n\pi} [1 - (-1)^n]$$
+  $$\text{For even } n: \quad b_n = 0. \qquad \text{For odd } n: \quad b_n = \frac{4}{n\pi}.$$
+  $$f_{\text{square}}(t) = \frac{4}{\pi} \left( \sin(\omega t) + \frac{1}{3}\sin(3\omega t) + \frac{1}{5}\sin(5\omega t) + \frac{1}{7}\sin(7\omega t) + \dots \right)$$
+</div>
+
+<!-- PRODUCTION VIDEO EMBED & SHOWCASE -->
+<h2>3. 4K Ultra HD Procedural Video Showcase</h2>
+<p>
+  This visualization was produced and automated via the <strong>Procanimation World Studio Pipeline</strong>. Watch the full animated breakdown:
+</p>
+
+<div class="video-showcase-card">
+  <div class="video-badge">
+    <span>▶ 4K ULTRA HD • 60 FPS • PROCEDURAL RENDER</span>
+  </div>
+  <div class="video-info">
+    <h3>The Fourier Transform: Drawing Anything with Rotating Circles (YouTube Shorts)</h3>
+    <p>Visualizing harmonic synthesis, rotating epicycle vectors, and Gibbs overshoot ripples with precision creative code.</p>
+    <div class="video-meta-tags">
+      <span class="meta-tag">Code: p5.js / Canvas</span>
+      <span class="meta-tag">Audio: Andrew Multilingual Neural + Ambient Sine</span>
+      <span class="meta-tag">Format: Vertical 9:16 Shorts</span>
+    </div>
+    <a href="https://youtube.com/@procanimation" target="_blank" class="btn btn-youtube" style="display:inline-flex; align-items:center; gap:8px; margin-top:16px;">
+      ▶ Watch on YouTube Shorts ↗
+    </a>
+  </div>
+</div>
+
+<!-- SOURCE CODE -->
+<h2>4. Open Source Implementation</h2>
+<p>
+  The complete harmonic Fourier decomposition code and standalone interactive demo is available in the Procanimation mathematics repository:
+  <a href="https://github.com/procanimation/mathematics-stuff/tree/main/trignometry/trignofunction" target="_blank" style="color:#00f5d4; font-weight:700; margin-left:6px;">
+    View on GitHub (mathematics-stuff) ↗
+  </a>
+</p>
