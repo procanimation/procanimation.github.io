@@ -15,7 +15,6 @@ author:
   watermark: "/assets/images/brand/procanimation_video_watermark.jpg"
   youtube_url: "https://youtube.com/@procanimation"
   github_url: "https://github.com/procanimation"
-  github_studio: "https://github.com/procanimation/procanimation-world"
 
 # Sass / SCSS Configuration
 sass:

@@ -22,6 +22,7 @@ This is the public portfolio and creative coding showcase website for **Procanim
 
 ---
 
-## 🔒 Parent Studio Repository
-The private parent studio containing the automated video production pipeline, Playwright rendering engine, and local TTS generator is located at:
-👉 [https://github.com/procanimation/procanimation-world](https://github.com/procanimation/procanimation-world)
+## 📺 Connect & Follow
+* **YouTube**: [@procanimation](https://youtube.com/@procanimation)
+* **GitHub**: [github.com/procanimation](https://github.com/procanimation)
+* **Instagram**: [@procanimation](https://instagram.com/procanimation)

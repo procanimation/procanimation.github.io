@@ -15,7 +15,7 @@
   tag: "Generative Art"
   tech: "Creative Code"
   description: "Procedural geometry, recursive tessellations, and harmonic algorithmic pattern generation."
-  repo_url: "https://github.com/procanimation/patterns"
+  is_private: true
   featured: true
   gradient: "linear-gradient(135deg, #f72585 0%, #7209b7 100%)"
 
@@ -45,7 +45,7 @@
   tag: "Processing • AI"
   tech: "Processing"
   description: "Traditional strategy board game logic, board state visualization, and algorithmic gameplay."
-  repo_url: "https://github.com/procanimation/twelve-bead"
+  is_private: true
   featured: false
   gradient: "linear-gradient(135deg, #7b2cbf 0%, #3a0ca3 100%)"
 
