@@ -32,13 +32,14 @@
   video_url: "https://youtube.com/@procanimation"
   article_url: "/2026/09/27/chaos-theory-double-pendulum.html"
 
-- title: "Lorenz Attractor: The Butterfly That Sparks a Hurricane"
+- title: "Lorenz Attractor: The Butterfly That Rewrote Physics"
   series: "Dynamic Systems"
-  format: "Shorts (9:16 Vertical)"
-  duration: "00:45"
-  description: "3D chaotic attractor differential equations rendered with Three.js particle velocity vectors."
-  tags: ["Three.js", "Chaos", "3D"]
-  badge: "Shorts Pick"
-  gradient: "linear-gradient(135deg, #9d4edd, #5a189a)"
+  format: "Shorts (9:16 Vertical • 60 FPS)"
+  duration: "00:48"
+  description: "3D chaotic strange attractor differential equations with dual diverging trajectories and Lyapunov exponents in Three.js."
+  tags: ["Three.js", "Chaos", "3D", "Differential Equations"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #00f5d4, #7209b7)"
   video_url: "https://youtube.com/@procanimation"
-  article_url: "/2026/09/27/chaos-theory-double-pendulum.html"
+  article_url: "/experiments/lorenz-attractor.html"
+

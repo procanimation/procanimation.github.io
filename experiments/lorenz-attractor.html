@@ -1,0 +1,341 @@
+---
+layout: article
+title: "The Lorenz Attractor: The Butterfly That Rewrote Physics"
+tagline: "Deterministic Chaos, Strange Attractors & The Butterfly Effect"
+description: "How a tiny roundoff error in Edward Lorenz's 1963 atmospheric convection model destroyed Laplacian determinism and founded modern chaos theory."
+category: "Chaos Theory & Dynamic Systems"
+permalink: /experiments/lorenz-attractor.html
+---
+
+<p class="article-lead">
+  In the winter of 1961, meteorologist and mathematician <strong>Edward Lorenz</strong> entered a set of numbers into a Royal McBee LGP-30 computer simulating atmospheric convection. Trying to save time, he started the simulation halfway through, typing <code>0.506</code> instead of the full precision <code>0.506127</code>. When he returned, the new simulation did not match the original—it had diverged into an entirely different weather system.
+</p>
+
+<!-- SPATIAL GLASSMORPHIC SIMULATION LAB (3D LORENZ ATTRACTOR) -->
+<div class="interactive-simulation-box" id="lorenzLab">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span class="sim-status-dot"></span>
+      <span>3D CHAOTIC STRANGE ATTRACTOR OBSERVATORY</span>
+      <span class="sim-tag">Three.js WebGL Engine</span>
+    </div>
+    <div class="sim-legend">
+      <span class="legend-a">Trajectory A (x₀ = 0.1000)</span>
+      <span class="legend-b">Trajectory B (x₀ = 0.1001)</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="height: 540px; position: relative;">
+    <div id="lorenzCanvasContainer" style="width: 100%; height: 100%;"></div>
+    
+    <!-- Floating Telemetry HUD -->
+    <div class="canvas-hud">
+      <div class="hud-row">
+        <span class="hud-label">PARAMETERS:</span>
+        <span class="hud-val">σ=10.0, ρ=28.0, β=2.67</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label">DIVERGENCE:</span>
+        <span id="hudDelta" class="hud-val">|Δx| = 0.000100</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label">LYAPUNOV EXP:</span>
+        <span class="hud-val">λ ≈ +0.9056</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label">FRACTAL DIM:</span>
+        <span class="hud-val">D ≈ 2.06</span>
+      </div>
+      <div class="hud-hint">Click & Drag to Rotate 3D Camera • Wheel to Zoom</div>
+    </div>
+  </div>
+
+  <!-- Interactive Control Toolbar -->
+  <div class="simulation-toolbar">
+    <div class="toolbar-section">
+      <span class="toolbar-label">Attractor Presets:</span>
+      <div class="sim-btn-group">
+        <button class="sim-btn" onclick="window.setLorenzPreset('standard')">Standard Butterfly (ρ=28)</button>
+        <button class="sim-btn" onclick="window.setLorenzPreset('turbulent')">High Turbulence (ρ=99)</button>
+        <button class="sim-btn" onclick="window.setLorenzPreset('periodic')">Limit Cycle (ρ=14)</button>
+        <button class="sim-btn" onclick="window.resetLorenzSim()">↺ Reset</button>
+      </div>
+    </div>
+
+    <div class="toolbar-section">
+      <button class="sim-btn primary-glow" onclick="window.toggleLorenzPerturbation()">
+        <span>⚡ Perturb +0.0001</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Three.js CDN and Interactive Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function() {
+  const container = document.getElementById('lorenzCanvasContainer');
+  if (!container) return;
+
+  let width = container.clientWidth || 800;
+  let height = container.clientHeight || 540;
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x04060c, 0.002);
+
+  const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+  camera.position.set(0, 8, 80);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x04060c, 1.0);
+  container.appendChild(renderer.domElement);
+
+  let sigma = 10.0, rho = 28.0, beta = 8.0 / 3.0;
+  const MAX_POINTS = 2600;
+
+  function makeTraj(xInit, colorHex) {
+    const geo = new THREE.BufferGeometry();
+    const pos = new Float32Array(MAX_POINTS * 3);
+    const cols = new Float32Array(MAX_POINTS * 3);
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+
+    const mat = new THREE.LineBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending
+    });
+
+    const line = new THREE.Line(geo, mat);
+    scene.add(line);
+
+    const head = new THREE.Mesh(
+      new THREE.SphereGeometry(1.2, 16, 16),
+      new THREE.MeshBasicMaterial({ color: colorHex })
+    );
+    scene.add(head);
+
+    return { x: xInit, y: 0.0, z: 0.0, pts: [], line, head, col: new THREE.Color(colorHex) };
+  }
+
+  let tA = makeTraj(0.1000, 0x00f5d4);
+  let tB = makeTraj(0.1001, 0xf72585);
+
+  function step(t, dt) {
+    const dx = sigma * (t.y - t.x) * dt;
+    const dy = (t.x * (rho - t.z) - t.y) * dt;
+    const dz = (t.x * t.y - beta * t.z) * dt;
+    t.x += dx; t.y += dy; t.z += dz;
+
+    t.pts.push(new THREE.Vector3(t.x * 1.4, t.y * 1.4, (t.z - 25) * 1.4));
+    if (t.pts.length > MAX_POINTS) t.pts.shift();
+
+    const pArray = t.line.geometry.attributes.position.array;
+    const cArray = t.line.geometry.attributes.color.array;
+    const n = t.pts.length;
+
+    for (let i = 0; i < n; i++) {
+      const pt = t.pts[i];
+      pArray[i * 3] = pt.x; pArray[i * 3 + 1] = pt.y; pArray[i * 3 + 2] = pt.z;
+      const alpha = (i / n);
+      cArray[i * 3] = t.col.r * alpha;
+      cArray[i * 3 + 1] = t.col.g * alpha;
+      cArray[i * 3 + 2] = t.col.b * alpha;
+    }
+    t.line.geometry.setDrawRange(0, n);
+    t.line.geometry.attributes.position.needsUpdate = true;
+    t.line.geometry.attributes.color.needsUpdate = true;
+    t.head.position.set(t.x * 1.4, t.y * 1.4, (t.z - 25) * 1.4);
+  }
+
+  // Prepopulate
+  for (let k = 0; k < 120; k++) { step(tA, 0.008); step(tB, 0.008); }
+
+  let isUserInteracting = false;
+  let prevMouseX = 0, prevMouseY = 0;
+  let rotX = 0.1, rotY = 0.0;
+
+  renderer.domElement.addEventListener('mousedown', (e) => {
+    isUserInteracting = true;
+    prevMouseX = e.clientX;
+    prevMouseY = e.clientY;
+  });
+  window.addEventListener('mouseup', () => isUserInteracting = false);
+  renderer.domElement.addEventListener('mousemove', (e) => {
+    if (!isUserInteracting) return;
+    const dx = e.clientX - prevMouseX;
+    const dy = e.clientY - prevMouseY;
+    prevMouseX = e.clientX;
+    prevMouseY = e.clientY;
+    rotY += dx * 0.008;
+    rotX += dy * 0.008;
+  });
+
+  let timeClock = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    for (let s = 0; s < 5; s++) { step(tA, 0.009); step(tB, 0.009); }
+
+    timeClock += 0.01;
+    if (!isUserInteracting) {
+      rotY = timeClock * 0.3;
+    }
+
+    const dist = 75;
+    camera.position.x = Math.sin(rotY) * Math.cos(rotX) * dist;
+    camera.position.z = Math.cos(rotY) * Math.cos(rotX) * dist;
+    camera.position.y = Math.sin(rotX) * dist + 10;
+    camera.lookAt(0, 0, 0);
+
+    const delta = Math.hypot(tA.x - tB.x, tA.y - tB.y, tA.z - tB.z);
+    const hudDelta = document.getElementById('hudDelta');
+    if (hudDelta) hudDelta.textContent = `|Δ| = ${delta.toFixed(4)}`;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    width = container.clientWidth;
+    height = container.clientHeight;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  });
+
+  window.setLorenzPreset = function(preset) {
+    if (preset === 'standard') { rho = 28.0; }
+    else if (preset === 'turbulent') { rho = 99.0; }
+    else if (preset === 'periodic') { rho = 14.0; }
+    window.resetLorenzSim();
+  };
+
+  window.resetLorenzSim = function() {
+    tA.pts = []; tB.pts = [];
+    tA.x = 0.1000; tA.y = 0.0; tA.z = 0.0;
+    tB.x = 0.1001; tB.y = 0.0; tB.z = 0.0;
+  };
+
+  window.toggleLorenzPerturbation = function() {
+    tB.x += 0.001;
+  };
+})();
+</script>
+
+<!-- THE FRACTAL & CHAOS LEXICON -->
+<h3>The Dynamic Systems Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Strange Attractor</h4>
+    <p>A bounded set in phase space to which trajectories converge, yet within which motion is completely non-periodic and chaotic.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Lyapunov Exponent ($\lambda > 0$)</h4>
+    <p>The rate at which infinitesimally close trajectories separate exponentially over time: $|\Delta \mathbf{x}(t)| \approx |\Delta \mathbf{x}(0)| e^{\lambda t}$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Phase Space Dimensionality</h4>
+    <p>A 3D continuum $(x, y, z)$ describing temperature, convective velocity, and thermal gradient simultaneously.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Hausdorff Dimension ($D \approx 2.06$)</h4>
+    <p>The butterfly attractor is not a 2D surface nor a 3D volume, but an infinitely folded fractal sheet of dimension ~2.06.</p>
+  </div>
+</div>
+
+<!-- MATHEMATICAL DERIVATIONS -->
+<h2>1. The Non-Linear Differential Equations</h2>
+<p>
+  Edward Lorenz derived these equations by performing a 3-mode Galerkin truncation of the Navier-Stokes and heat transfer equations for a 2D fluid layer heated from below (Rayleigh-Bénard convection):
+</p>
+
+<div class="math-derivation-box">
+  <div class="math-title">The Lorenz System (1963)</div>
+  $$\frac{dx}{dt} = \sigma (y - x)$$
+  $$\frac{dy}{dt} = x (\rho - z) - y$$
+  $$\frac{dz}{dt} = x y - \beta z$$
+</div>
+
+<p>
+  The variables represent physical atmospheric state parameters:
+</p>
+<ul>
+  <li><strong>$x$ (Convective Intensity):</strong> Proportional to the circulating velocity of fluid flow.</li>
+  <li><strong>$y$ (Temperature Difference):</strong> Proportional to the horizontal temperature gradient between ascending and descending fluid currents.</li>
+  <li><strong>$z$ (Thermal Inversion):</strong> Distortion of the vertical temperature profile from pure linearity.</li>
+</ul>
+
+<h2>2. Volume Contraction & Dissipation</h2>
+<p>
+  The Lorenz system is strictly <strong>dissipative</strong>, meaning phase space volumes shrink exponentially to zero. We can compute the divergence of the vector field:
+</p>
+<div class="math-derivation-box">
+  <div class="math-title">Phase Space Volume Contraction Proof</div>
+  $$\nabla \cdot \mathbf{F} = \frac{\partial \dot{x}}{\partial x} + \frac{\partial \dot{y}}{\partial y} + \frac{\partial \dot{z}}{\partial z} = -\sigma - 1 - \beta$$
+  $$\text{For canonical parameters } \sigma=10, \beta=8/3: \quad \nabla \cdot \mathbf{F} = -10 - 1 - 2.667 = -13.667 < 0$$
+  $$V(t) = V(0) e^{-(\sigma + 1 + \beta) t} \to 0 \quad \text{as } t \to \infty$$
+</div>
+<p>
+  Because volume contracts to zero while trajectories remain perpetually bounded in a finite region, all long-term states are compressed onto an object of zero 3D volume: the <strong>Strange Attractor</strong>.
+</p>
+
+<h2>3. Sensitive Dependence on Initial Conditions (The Butterfly Effect)</h2>
+<p>
+  Because trajectories continually stretch along the unstable manifold and fold back due to dissipative contraction, any two initial conditions separated by distance $\delta_0 = 10^{-4}$ separate at an average rate governed by the maximal Lyapunov exponent:
+</p>
+$$\delta(t) \sim \delta_0 e^{\lambda_{\max} t}, \quad \lambda_{\max} \approx 0.9056$$
+<p>
+  This exponential separation means that after a finite prediction horizon $t_{\text{horizon}} \sim \frac{1}{\lambda} \ln(1 / \delta_0)$, microscopic quantum or thermal fluctuations render deterministic long-term weather forecasting mathematically impossible.
+</p>
+
+<!-- PRODUCTION VIDEO EMBED & SHOWCASE -->
+<h2>4. 4K Ultra HD Procedural Video Showcase</h2>
+<p>
+  This simulation was engineered, rendered, and automated via the <strong>Procanimation World Studio Pipeline</strong>. Watch the full animated sequence demonstrating the 3D butterfly divergence:
+</p>
+
+<div class="video-showcase-card">
+  <div class="video-badge">
+    <span>▶ 4K ULTRA HD • 60 FPS • PROCEDURAL RENDER</span>
+  </div>
+  <div class="video-info">
+    <h3>The Lorenz Attractor: The Butterfly That Rewrote Physics (YouTube Shorts)</h3>
+    <p>Journeying around the dual wings of the strange attractor with dual diverging trajectories and 3D camera orbits.</p>
+    <div class="video-meta-tags">
+      <span class="meta-tag">Engine: Three.js / WebGL</span>
+      <span class="meta-tag">Audio: Multilingual Neural Voice + Ambient Drone</span>
+      <span class="meta-tag">Format: Vertical 9:16 Shorts</span>
+    </div>
+    <a href="https://youtube.com/@procanimation" target="_blank" class="btn btn-youtube" style="display:inline-flex; align-items:center; gap:8px; margin-top:16px;">
+      ▶ Watch on YouTube Shorts ↗
+    </a>
+  </div>
+</div>
+
+<!-- SOURCE CODE -->
+<h2>5. Open Source Three.js Implementation</h2>
+<p>
+  Full source code and 3D WebGL procedural shaders:
+  <a href="https://github.com/procanimation/science-stuff/tree/main/lorenz_attractor" target="_blank" style="color:#00f5d4; font-weight:700; margin-left:6px;">
+    View on GitHub (science-stuff/lorenz_attractor) ↗
+  </a>
+</p>
+<div class="code-window">
+  <div class="code-window-header">
+    <div class="traffic-lights">
+      <span></span><span></span><span></span>
+    </div>
+    <span class="code-filename">lorenz_attractor_3d.js</span>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('lorenzCode').innerText); alert('Code copied to clipboard!');">Copy Code</button>
+  </div>
+  <pre><code id="lorenzCode">// Procanimation World — 3D Lorenz Attractor Numerical Integrator
+function stepLorenz(x, y, z, sigma, rho, beta, dt) {
+  const dx = sigma * (y - x) * dt;
+  const dy = (x * (rho - z) - y) * dt;
+  const dz = (x * y - beta * z) * dt;
+  return { x: x + dx, y: y + dy, z: z + dz };
+}</code></pre>
+</div>
