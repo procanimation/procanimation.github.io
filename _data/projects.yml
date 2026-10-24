@@ -39,7 +39,7 @@
   tech: "Three.js / RK4"
   description: "Edward Lorenz's 1963 atmospheric convection model with dual diverging trajectories, sensitive dependence, and real-time Lyapunov divergence."
   article_url: "/experiments/lorenz-attractor.html"
-  repo_url: "https://github.com/procanimation/science-stuff"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/lorenz_attractor"
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 100%)"
 
