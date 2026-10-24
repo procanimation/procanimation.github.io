@@ -1,0 +1,23 @@
+# Secrets & Private Credentials (CRITICAL)
+.env
+.env.*
+*.pem
+*.key
+*.token
+*secret*
+*credential*
+credentials.json
+client_secret*.json
+
+# Dependencies & Build artifacts
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+_site/
+vendor/
+node_modules/
+.venv/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
