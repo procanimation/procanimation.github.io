@@ -1,0 +1,137 @@
+---
+layout: article
+title: "The Mandelbrot Deep Zoom: Where Mathematics Becomes Infinite"
+tagline: "Complex Numbers, Escape-Time Algorithms & Fractal Geometry"
+description: "How repeating the simple function z = z^2 + c in the complex plane generates infinite non-repeating self-similarity, and why its boundary has a Hausdorff dimension of 2."
+category: "Fractals & Pure Mathematics"
+custom_js: "/assets/js/mandelbrot-sim.js"
+permalink: /experiments/mandelbrot-deep-zoom.html
+---
+
+<p class="article-lead">
+  In 1980, while exploring graphical outputs on an IBM mainframe, mathematician <strong>Benoit Mandelbrot</strong> visualized an unassuming quadratic recurrence relation in the complex plane. What appeared was not a standard conic section, but a structure of unfathomable mathematical complexity: the boundary of the set was infinitely intricate, containing endless miniature copies of itself nested within fractal filigrees.
+</p>
+
+<!-- The Fractal Lexicon -->
+<h3>The Fractal Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Complex Plane ($\mathbb{C}$)</h4>
+    <p>A 2D geometric representation where numbers have both real ($x$) and imaginary ($iy$) components: $c = x + iy$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Escape Radius</h4>
+    <p>If $|z_k| > 2$ for any iteration $k$, the sequence is mathematically guaranteed to diverge to infinity.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Self-Similarity</h4>
+    <p>The geometric property where zooming into arbitrary sub-regions reveals smaller, perturbed copies of the global structure.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Hausdorff Dimension ($D = 2$)</h4>
+    <p>Mitsuhiro Shishikura proved in 1998 that the boundary $\partial M$ is so convoluted that its fractal dimension is exactly 2.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE COMPLEX PLANE EXPLORER</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Continuous Smooth Shading)</span>
+    </div>
+    <div class="sim-legend">
+      <span class="legend-a">Bounded Core (Set $M$)</span>
+      <span class="legend-b">Escape Field ($\partial M$)</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage">
+    <canvas id="mandelbrotCanvas"></canvas>
+    <div class="canvas-hud">
+      <div>Center: <span id="hudCoords" class="hud-val">-0.70000 + 0.00000i</span></div>
+      <div>Zoom Level: <span id="hudZoom" class="hud-val">1.0x</span></div>
+      <div style="font-size:0.72rem; color:#64748b; margin-top:4px;">Drag to pan • Mouse wheel to zoom</div>
+    </div>
+  </div>
+
+  <div class="simulation-toolbar">
+    <div class="sim-btn-group">
+      <button class="sim-btn primary" onclick="window.setMandelbrotPreset('seahorse')">Seahorse Valley</button>
+      <button class="sim-btn" onclick="window.setMandelbrotPreset('elephant')">Elephant Valley</button>
+      <button class="sim-btn" onclick="window.setMandelbrotPreset('mini')">Mini Mandelbrot</button>
+      <button class="sim-btn" onclick="window.setMandelbrotPreset('reset')">Reset View</button>
+    </div>
+    <div style="font-family:var(--font-mono); font-size:0.75rem; color:#94a3b8;">
+      Scroll mouse wheel over canvas to zoom up to 100x
+    </div>
+  </div>
+</div>
+
+<h2>1. The Iterative Definition</h2>
+<p>
+  The Mandelbrot set $M$ is defined for complex numbers $c \in \mathbb{C}$ under the iteration of the quadratic polynomial:
+</p>
+
+<div class="math-derivation-box">
+  <div class="math-title">The Fundamental Recurrence Relation</div>
+  $$z_0 = 0$$
+  $$z_{n+1} = z_n^2 + c$$
+  $$M = \left\{ c \in \mathbb{C} : \lim_{n \to \infty} |z_n| \neq \infty \right\}$$
+</div>
+
+<p>
+  A point $c$ belongs to the Mandelbrot set if and only if the orbit of $0$ remains bounded. If the sequence $|z_n|$ ever exceeds $2$, it is strictly proven that $|z_n| \to \infty$ exponentially.
+</p>
+
+<h2>2. The Escape-Time Algorithm & Smooth Coloring</h2>
+<p>
+  In computational creative coding, we count the number of iterations $k$ before $|z_k| > 2$. To avoid discrete banding artifacts, we compute a normalized fractional continuous index using the potential function:
+</p>
+$$\nu(z) = k + 1 - \frac{\ln(\ln|z_{k}|)}{\ln 2}$$
+<p>
+  This continuous interpolation guarantees buttery smooth color transitions across millions of zoom levels without stair-step banding.
+</p>
+
+<h2>3. Shishikura’s Theorem & Boundary Dimension</h2>
+<p>
+  Is the boundary of the Mandelbrot set a 1D curve or a 2D surface?
+</p>
+<p>
+  In 1998, Japanese mathematician <strong>Mitsuhiro Shishikura</strong> published a landmark 80-page proof in the <em>Annals of Mathematics</em> showing that the topological boundary $\partial M$ has a <strong>Hausdorff dimension of exactly 2</strong>:
+</p>
+$$\dim_{\text{Hausdorff}}(\partial M) = 2$$
+<p>
+  This means the boundary is so infinitely crinkled and densely folded that it completely fills two-dimensional area locally, despite enclosing a finite area ($\approx 1.50659$)!
+</p>
+
+<h2>4. Open Source p5.js / Canvas Implementation</h2>
+<div class="code-window">
+  <div class="code-window-header">
+    <div class="traffic-lights">
+      <span></span><span></span><span></span>
+    </div>
+    <span class="code-filename">mandelbrot_smooth_escape.js</span>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('mandelCode').innerText); alert('Code copied to clipboard!');">Copy Code</button>
+  </div>
+  <pre><code id="mandelCode">// Procanimation World — Smooth Escape-Time Mandelbrot Implementation
+function computeMandelbrotPixel(cRe, cIm, maxIter) {
+  let zRe = 0.0;
+  let zIm = 0.0;
+  let iter = 0;
+
+  while (zRe * zRe + zIm * zIm <= 4.0 && iter < maxIter) {
+    const nextRe = zRe * zRe - zIm * zIm + cRe;
+    zIm = 2.0 * zRe * zIm + cIm;
+    zRe = nextRe;
+    iter++;
+  }
+
+  if (iter === maxIter) return { inSet: true, smooth: maxIter };
+
+  // Smooth continuous index calculation
+  const modZ = Math.sqrt(zRe * zRe + zIm * zIm);
+  const smooth = iter + 1 - Math.log(Math.max(1, Math.log(modZ))) / Math.log(2);
+  return { inSet: false, smooth: smooth };
+}</code></pre>
+</div>

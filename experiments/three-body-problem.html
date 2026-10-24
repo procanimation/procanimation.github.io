@@ -1,0 +1,124 @@
+---
+layout: article
+title: "The Three-Body Problem: Why Gravity Can Never Be Solved"
+tagline: "Celestial Mechanics, Poincaré Non-Integrability & Chaos"
+description: "Why two bodies orbit in Keplerian harmony, but adding a third triggers deterministic chaos without a closed-form analytical solution."
+category: "Astrophysics & Celestial Mechanics"
+custom_js: "/assets/js/three-body-sim.js"
+permalink: /experiments/three-body-problem.html
+---
+
+<p class="article-lead">
+  In 1687, Sir Isaac Newton published the <em>Principia</em>, completely solving the two-body gravitational problem: two masses orbiting under an inverse-square force trace exact, eternal conic sections (circles, ellipses, parabolas, or hyperbolas). But when Newton attempted to calculate the simultaneous gravitational interactions of the Sun, Earth, and Moon, he confessed that <em>"the three-body problem made his head ache and kept him awake so often that he would think of it no more."</em>
+</p>
+
+<!-- The Three-Body Lexicon -->
+<h3>The Celestial Mechanics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Poincaré Non-Integrability</h4>
+    <p>In 1887, Henri Poincaré proved that the general three-body problem cannot be integrated in terms of algebraic functions, birthing modern chaos theory.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Lagrange Equilibrium Points</h4>
+    <p>Joseph-Louis Lagrange discovered five equilibrium positions (L1–L5) where centrifugal and gravitational forces cancel out.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Figure-Eight Choreography</h4>
+    <p>In 1993, Chenciner and Montgomery discovered a zero-angular-momentum stable choreography where 3 equal masses chase each other along a figure-8.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Symplectic Integration</h4>
+    <p>Numerical schemes (like Verlet and Runge-Kutta) that conserve total energy $E = T + V$ without artificial orbital decay over long times.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE 3-BODY GRAVITATIONAL SIMULATION</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Symplectic Verlet / RK4)</span>
+    </div>
+    <div class="sim-legend">
+      <span class="legend-a" style="color:#00f5d4;">Star A</span>
+      <span class="legend-b" style="color:#f72585;">Star B</span>
+      <span class="legend-a" style="color:#fee440; &::before{background:#fee440;}">Star C</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage">
+    <canvas id="threeBodyCanvas"></canvas>
+  </div>
+
+  <div class="simulation-toolbar">
+    <div class="sim-btn-group">
+      <button class="sim-btn primary" onclick="window.setThreeBodyPreset('chaotic')">Chaotic Break-up</button>
+      <button class="sim-btn" onclick="window.setThreeBodyPreset('figure8')">Figure-8 Choreography</button>
+      <button class="sim-btn" onclick="window.setThreeBodyPreset('lagrange')">Lagrange Triangle</button>
+      <button id="btnToggle3Body" class="sim-btn">Pause</button>
+      <button id="btnTrails3Body" class="sim-btn">Hide Trails</button>
+    </div>
+    <div style="font-family:var(--font-mono); font-size:0.75rem; color:#94a3b8;">
+      White ring indicates system Center of Mass
+    </div>
+  </div>
+</div>
+
+<h2>1. The Governing Differential Equations</h2>
+<p>
+  For $N = 3$ point masses $m_1, m_2, m_3$ with position vectors $\mathbf{r}_1, \mathbf{r}_2, \mathbf{r}_3 \in \mathbb{R}^3$, Newton’s universal gravitation dictates:
+</p>
+
+<div class="math-derivation-box">
+  <div class="math-title">Newton's Gravitational System</div>
+  $$m_i \frac{d^2\mathbf{r}_i}{dt^2} = \sum_{j \neq i}^3 G \frac{m_i m_j}{|\mathbf{r}_j - \mathbf{r}_i|^3} (\mathbf{r}_j - \mathbf{r}_i)$$
+</div>
+
+<p>
+  This represents a set of 18 coupled first-order nonlinear differential equations. Standard conservation laws provide 10 integrals of motion:
+</p>
+<ul>
+  <li><strong>Conservation of Linear Momentum (3 integrals):</strong> $\sum m_i \dot{\mathbf{r}}_i = \mathbf{P}_{\text{total}}$</li>
+  <li><strong>Conservation of Center of Mass (3 integrals):</strong> $\sum m_i \mathbf{r}_i = \mathbf{P}_{\text{total}} t + \mathbf{R}_0$</li>
+  <li><strong>Conservation of Angular Momentum (3 integrals):</strong> $\mathbf{L} = \sum m_i (\mathbf{r}_i \times \dot{\mathbf{r}}_i)$</li>
+  <li><strong>Conservation of Total Energy (1 integral):</strong> $E = \frac{1}{2}\sum m_i |\dot{\mathbf{r}}_i|^2 - \sum_{i < j} \frac{G m_i m_j}{|\mathbf{r}_i - \mathbf{r}_j|}$</li>
+</ul>
+
+<p>
+  Reducing the 18 degrees of freedom by these 10 constants leaves 8 unsolved dimensions. Bruns (1887) and Poincaré (1889) proved that no additional independent algebraic integrals of motion exist. The system is <strong>analytically non-integrable</strong>.
+</p>
+
+<h2>2. Open Source p5.js / JavaScript Implementation</h2>
+<div class="code-window">
+  <div class="code-window-header">
+    <div class="traffic-lights">
+      <span></span><span></span><span></span>
+    </div>
+    <span class="code-filename">three_body_gravity.js</span>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('tbCode').innerText); alert('Code copied to clipboard!');">Copy Code</button>
+  </div>
+  <pre><code id="tbCode">// Procanimation World — 3-Body Gravitational Acceleration Computation
+function computeGravitationalAccelerations(bodies, G, softening) {
+  const accels = bodies.map(() => ({ ax: 0, ay: 0 }));
+
+  for (let i = 0; i < bodies.length; i++) {
+    for (let j = i + 1; j < bodies.length; j++) {
+      const dx = bodies[j].x - bodies[i].x;
+      const dy = bodies[j].y - bodies[i].y;
+      const distSq = dx * dx + dy * dy + softening * softening;
+      const dist = Math.sqrt(distSq);
+      const forceMag = (G / (distSq * dist));
+
+      // Force on body i due to j
+      accels[i].ax += forceMag * bodies[j].m * dx;
+      accels[i].ay += forceMag * bodies[j].m * dy;
+
+      // Equal and opposite reaction on body j
+      accels[j].ax -= forceMag * bodies[i].m * dx;
+      accels[j].ay -= forceMag * bodies[i].m * dy;
+    }
+  }
+  return accels;
+}</code></pre>
+</div>

@@ -10,15 +10,27 @@
   featured: true
   gradient: "linear-gradient(135deg, #f72585 0%, #7209b7 50%, #4cc9f0 100%)"
 
-- name: "Planetary Motion & Gravity"
+- name: "Planetary Motion & The 3-Body Problem"
   slug: "planetary-motion"
   category: "science"
   tag: "Physics • Gravity"
   tech: "p5.js / Canvas"
-  description: "Interactive gravitational N-body orbital dynamics, planetary resonance simulations, and particle velocity trails."
+  description: "Interactive gravitational 3-body orbital dynamics, chaotic ejection break-ups, and Chenciner-Montgomery figure-8 choreographies."
+  article_url: "/experiments/three-body-problem.html"
   repo_url: "https://github.com/procanimation/planetary-motion"
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #0077b6 100%)"
+
+- name: "The Mandelbrot Deep Zoom"
+  slug: "mandelbrot"
+  category: "math"
+  tag: "Fractals • Chaos"
+  tech: "p5.js / WebGL"
+  description: "Deep zoom exploration of z = z^2 + c in the complex plane with smooth escape-time shading and Hausdorff dimension 2."
+  article_url: "/experiments/mandelbrot-deep-zoom.html"
+  repo_url: "https://github.com/procanimation/mathematics-stuff"
+  featured: true
+  gradient: "linear-gradient(135deg, #7b2cbf 0%, #f72585 100%)"
 
 - name: "Physics & Wave Simulation"
   slug: "science-stuff"
