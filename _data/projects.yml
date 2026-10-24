@@ -28,7 +28,7 @@
   tech: "p5.js / WebGL"
   description: "Deep zoom exploration of z = z^2 + c in the complex plane with smooth escape-time shading and Hausdorff dimension 2."
   article_url: "/experiments/mandelbrot-deep-zoom.html"
-  repo_url: "https://github.com/procanimation/mathematics-stuff"
+  repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/mandelbrot"
   featured: true
   gradient: "linear-gradient(135deg, #7b2cbf 0%, #f72585 100%)"
 
@@ -49,7 +49,7 @@
   tag: "Trigonometry • Curves"
   tech: "Creative Code"
   description: "Harmonic oscillation curves, Fourier epicycles, and geometric trigonometry visualizations."
-  repo_url: "https://github.com/procanimation/mathematics-stuff"
+  repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/trignometry/trignofunction"
   featured: false
   gradient: "linear-gradient(135deg, #fee440 0%, #f77f00 100%)"
 
