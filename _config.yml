@@ -1,7 +1,7 @@
 # Procanimation World - Jekyll Configuration for GitHub Pages
 title: "Procanimation World"
-tagline: "Automated Creative Animation Studio & Procedural Video Production"
-description: "High-definition educational videos exploring fractals, chaos theory, orbital mechanics, and generative art with zero recurring software costs."
+tagline: "Creative Coding, Procedural Animation & Science"
+description: "High-definition educational animations exploring fractals, chaos theory, orbital mechanics, and generative art."
 url: "https://procanimation.github.io"
 baseurl: ""
 

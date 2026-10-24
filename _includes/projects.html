@@ -1,9 +1,9 @@
 <section id="projects" class="section projects-section">
   <div class="container">
     <div class="section-header">
-      <span class="section-tag">Creative Code Ecosystem</span>
-      <h2>Repositories & Procedural Experiments</h2>
-      <p>Modular open-source repositories powering animations, simulations, and interactive graphics.</p>
+      <span class="section-tag">Interactive Experiments</span>
+      <h2>Open Source Creative Coding</h2>
+      <p>Explore our visual simulations, generative art algorithms, and mathematical models.</p>
     </div>
 
     <!-- Category Filter Bar -->
@@ -12,7 +12,6 @@
       <button class="filter-btn" data-filter="science">Physics & Science</button>
       <button class="filter-btn" data-filter="generative_art">Generative Art</button>
       <button class="filter-btn" data-filter="math">Mathematics</button>
-      <button class="filter-btn" data-filter="creative_coding">Creative Coding</button>
     </div>
 
     <!-- Projects Grid -->
@@ -27,14 +26,10 @@
           <h3>{{ proj.name }}</h3>
           <p>{{ proj.description }}</p>
           <div class="project-footer">
-            {% if proj.is_private %}
-            <span class="repo-link" style="color: #94a3b8; cursor: default;">🔒 Studio Internal</span>
-            {% else %}
             <a href="{{ proj.repo_url }}" target="_blank" class="repo-link">
-              View on GitHub ↗
+              View Source Code ↗
             </a>
-            {% endif %}
-            <span class="submodule-badge"><code>./{{ proj.slug }}</code></span>
+            <span class="live-badge">Open Source</span>
           </div>
         </div>
       </div>
