@@ -1,0 +1,40 @@
+<section id="projects" class="section projects-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Creative Code Ecosystem</span>
+      <h2>Repositories & Procedural Experiments</h2>
+      <p>Modular open-source repositories powering animations, simulations, and interactive graphics.</p>
+    </div>
+
+    <!-- Category Filter Bar -->
+    <div class="projects-filter-bar">
+      <button class="filter-btn active" data-filter="all">All Experiments</button>
+      <button class="filter-btn" data-filter="science">Physics & Science</button>
+      <button class="filter-btn" data-filter="generative_art">Generative Art</button>
+      <button class="filter-btn" data-filter="math">Mathematics</button>
+      <button class="filter-btn" data-filter="creative_coding">Creative Coding</button>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="projects-grid">
+      {% for proj in site.data.projects %}
+      <div class="project-card" data-category="{{ proj.category }}">
+        <div class="project-gradient-header" style="background: {{ proj.gradient }};">
+          <span class="project-tag">{{ proj.tag }}</span>
+          <span class="project-tech">{{ proj.tech }}</span>
+        </div>
+        <div class="project-body">
+          <h3>{{ proj.name }}</h3>
+          <p>{{ proj.description }}</p>
+          <div class="project-footer">
+            <a href="{{ proj.repo_url }}" target="_blank" class="repo-link">
+              View on GitHub ↗
+            </a>
+            <span class="submodule-badge"><code>./{{ proj.slug }}</code></span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

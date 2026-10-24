@@ -1,0 +1,86 @@
+// Procanimation - Studio Architecture Showcase & Pipeline
+
+.studio-pipeline-section {
+  .pipeline-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 50px;
+  }
+
+  .pipeline-card {
+    background: $bg-card;
+    border: 1px solid $border-glass;
+    border-radius: $radius-md;
+    padding: 24px;
+    position: relative;
+    backdrop-filter: blur($blur-glass);
+    transition: $transition-smooth;
+
+    &:hover {
+      transform: translateY(-4px);
+      border-color: rgba(76, 201, 240, 0.4);
+      box-shadow: 0 10px 30px rgba(76, 201, 240, 0.15);
+    }
+
+    .pipeline-step-badge {
+      font-family: $font-mono;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: $accent-cyan;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .pipeline-icon {
+      font-size: 2.2rem;
+      margin-bottom: 14px;
+    }
+
+    h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: $text-secondary;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+  }
+
+  .studio-banner-cta {
+    background: linear-gradient(135deg, rgba(123, 44, 191, 0.25), rgba(0, 245, 212, 0.15));
+    border: 1px solid rgba(0, 245, 212, 0.25);
+    border-radius: $radius-lg;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+    h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: $text-secondary;
+      font-size: 1.1rem;
+      max-width: 650px;
+      margin: 0 auto 28px;
+    }
+
+    .code-pill {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      border-radius: $radius-full;
+      font-family: $font-mono;
+      color: $accent-cyan;
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+      border: 1px solid rgba(0, 245, 212, 0.2);
+    }
+  }
+}

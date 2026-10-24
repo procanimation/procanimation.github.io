@@ -1,0 +1,49 @@
+<section id="youtube" class="section youtube-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">YouTube Journey</span>
+      <h2>Educational Storytelling with Procedural Animation</h2>
+      <p>Turning abstract physics, pure mathematics, and complex algorithms into visually captivating stories.</p>
+    </div>
+
+    <!-- Official Channel Banner Card -->
+    <div class="yt-channel-banner-card">
+      <img src="{{ site.author.banner }}" alt="Procanimation YouTube Banner" class="yt-banner-img">
+      <div class="yt-banner-overlay">
+        <div class="yt-channel-profile">
+          <img src="{{ site.author.avatar }}" alt="Avatar" class="yt-avatar">
+          <div>
+            <h3>Procanimation World</h3>
+            <p>{{ site.author.handle }} • Educational Creative Animation & Science</p>
+          </div>
+        </div>
+        <a href="{{ site.author.youtube_url }}" target="_blank" class="btn btn-youtube">
+          Subscribe Channel
+        </a>
+      </div>
+    </div>
+
+    <!-- Video Grid -->
+    <div class="video-grid">
+      {% for video in site.data.youtube %}
+      <div class="video-card">
+        <div class="video-thumbnail-wrapper" style="background: {{ video.gradient }};">
+          <span class="video-badge">{{ video.badge }}</span>
+          <div class="play-btn">▶</div>
+          <span class="video-duration">{{ video.duration }}</span>
+        </div>
+        <div class="video-info">
+          <span class="video-series">{{ video.series }} • {{ video.format }}</span>
+          <h4>{{ video.title }}</h4>
+          <p>{{ video.description }}</p>
+          <div class="video-tags">
+            {% for tag in video.tags %}
+            <span>#{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

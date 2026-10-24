@@ -1,0 +1,36 @@
+# YouTube Video Series & Educational Tracks
+- title: "The Mandelbrot Deep Zoom: Into Mathematical Infinity"
+  series: "Fractals & Chaos"
+  format: "Landscape (16:9 • 60 FPS)"
+  duration: "10:24"
+  description: "Diving billions of levels into the boundary of the Mandelbrot set. Exploring how simple complex quadratic equations yield infinite organic complexity."
+  tags: ["Fractals", "Mathematics", "p5.js"]
+  badge: "Featured Episode"
+  gradient: "linear-gradient(135deg, #7209b7, #3f37c9)"
+
+- title: "N-Body Orbital Chaos: The Three-Body Problem Explained"
+  series: "Cosmic Physics"
+  format: "Landscape (16:9 • 60 FPS)"
+  duration: "08:15"
+  description: "Why are gravitational systems with three or more bodies inherently chaotic? Simulating resonance, Lagrange points, and orbital decay."
+  tags: ["Physics", "Orbits", "Gravity"]
+  badge: "High Physics"
+  gradient: "linear-gradient(135deg, #0077b6, #0096c7)"
+
+- title: "Turing Patterns: How Chemistry Creates Biological Skins"
+  series: "Generative Nature"
+  format: "Shorts (9:16 Vertical)"
+  duration: "00:58"
+  description: "Reaction-diffusion equations simulated via GLSL fragment shaders on the GPU. Exploring leopard spots and zebra stripes."
+  tags: ["GLSL", "Morphogenesis", "Shaders"]
+  badge: "Viral Short"
+  gradient: "linear-gradient(135deg, #e63946, #d90429)"
+
+- title: "Lorenz Attractor: The Butterfly That Sparks a Hurricane"
+  series: "Dynamic Systems"
+  format: "Shorts (9:16 Vertical)"
+  duration: "00:45"
+  description: "3D chaotic attractor differential equations rendered with Three.js particle velocity vectors."
+  tags: ["Three.js", "Chaos", "3D"]
+  badge: "Shorts Pick"
+  gradient: "linear-gradient(135deg, #9d4edd, #5a189a)"

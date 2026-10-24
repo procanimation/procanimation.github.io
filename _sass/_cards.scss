@@ -1,0 +1,130 @@
+// Procanimation - Projects Showcase Cards
+
+.projects-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+
+  .filter-btn {
+    background: $bg-card;
+    border: 1px solid $border-glass;
+    color: $text-secondary;
+    padding: 8px 18px;
+    border-radius: $radius-full;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition-smooth;
+
+    &:hover, &.active {
+      color: #07090e;
+      background: $accent-cyan;
+      border-color: $accent-cyan;
+      box-shadow: 0 4px 18px rgba(0, 245, 212, 0.35);
+    }
+  }
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 28px;
+}
+
+.project-card {
+  background: $bg-card;
+  border: 1px solid $border-glass;
+  border-radius: $radius-md;
+  overflow: hidden;
+  backdrop-filter: blur($blur-glass);
+  transition: $transition-smooth;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: $border-glow;
+    box-shadow: $shadow-glow-cyan;
+  }
+
+  .project-gradient-header {
+    height: 140px;
+    position: relative;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .project-tag {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      padding: 4px 10px;
+      border-radius: $radius-full;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      font-family: $font-mono;
+    }
+
+    .project-tech {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 4px 10px;
+      border-radius: $radius-full;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+    }
+  }
+
+  .project-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: $text-secondary;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid $border-glass;
+      padding-top: 16px;
+
+      .repo-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: $accent-cyan;
+        font-weight: 600;
+        font-size: 0.9rem;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .submodule-badge {
+        font-family: $font-mono;
+        font-size: 0.75rem;
+        color: $text-muted;
+      }
+    }
+  }
+}

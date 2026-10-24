@@ -1,0 +1,24 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="{{ site.author.avatar }}" alt="Avatar">
+        <div>
+          <h4>Procanimation World</h4>
+          <p>Automated Creative Coding & Procedural Video Production</p>
+        </div>
+      </div>
+
+      <div class="footer-socials">
+        <a href="{{ site.author.youtube_url }}" target="_blank" title="YouTube">▶</a>
+        <a href="{{ site.author.github_url }}" target="_blank" title="GitHub">🐙</a>
+        <a href="https://instagram.com/procanimation" target="_blank" title="Instagram">📸</a>
+        <a href="mailto:{{ site.author.email }}" title="Email">✉️</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {{ site.time | date: "%Y" }} Procanimation World. Built with Jekyll & Sass on GitHub Pages. Zero Recurring Software Costs.</p>
+    </div>
+  </div>
+</footer>

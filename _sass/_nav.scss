@@ -1,0 +1,67 @@
+// Procanimation - Navigation Bar
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(7, 9, 14, 0.75);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid $border-glass;
+  transition: $transition-smooth;
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.5px;
+
+    .brand-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid $accent-cyan;
+      box-shadow: 0 0 14px rgba(0, 245, 212, 0.4);
+    }
+
+    .brand-title {
+      background: linear-gradient(135deg, #fff 40%, $accent-cyan);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+
+    a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: $text-secondary;
+
+      &:hover {
+        color: $accent-cyan;
+      }
+    }
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+}

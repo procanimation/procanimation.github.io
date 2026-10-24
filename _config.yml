@@ -1,0 +1,37 @@
+# Procanimation World - Jekyll Configuration for GitHub Pages
+title: "Procanimation World"
+tagline: "Automated Creative Animation Studio & Procedural Video Production"
+description: "High-definition educational videos exploring fractals, chaos theory, orbital mechanics, and generative art with zero recurring software costs."
+url: "https://procanimation.github.io"
+baseurl: ""
+
+# Author & Branding
+author:
+  name: "Procanimation"
+  handle: "@procanimation"
+  email: "contact@procanimation.com"
+  avatar: "/assets/images/brand/procanimation_profile.png"
+  banner: "/assets/images/brand/procanimation_youtube_banner.jpg"
+  watermark: "/assets/images/brand/procanimation_video_watermark.jpg"
+  youtube_url: "https://youtube.com/@procanimation"
+  github_url: "https://github.com/procanimation"
+  github_studio: "https://github.com/procanimation/procanimation-world"
+
+# Sass / SCSS Configuration
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Markdown & Syntax
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Excludes
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .venv
