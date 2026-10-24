@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "Double Pendulum & Lagrangian Chaos"
+  slug: "double-pendulum"
+  category: "science"
+  tag: "Chaos • Lagrangian"
+  tech: "p5.js / RK4"
+  description: "Euler-Lagrange equations of motion, sensitive dependence on initial conditions (0.01° offset), and real-time Lyapunov divergence."
+  article_url: "/2026/09/27/chaos-theory-double-pendulum.html"
+  repo_url: "https://github.com/procanimation/science-stuff"
+  featured: true
+  gradient: "linear-gradient(135deg, #f72585 0%, #7209b7 50%, #4cc9f0 100%)"
+
 - name: "Planetary Motion & Gravity"
   slug: "planetary-motion"
   category: "science"
@@ -9,12 +20,13 @@
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #0077b6 100%)"
 
-- name: "Physics & Chaos Simulation"
+- name: "Physics & Wave Simulation"
   slug: "science-stuff"
   category: "science"
   tag: "Chaos • Waves"
   tech: "p5.js / WebGL"
-  description: "Visualizing chaotic double pendulums, wave interference patterns, and emergent cellular automata."
+  description: "Visualizing chaotic dynamics, wave interference patterns, and emergent cellular automata."
+  article_url: "/2026/09/27/chaos-theory-double-pendulum.html"
   repo_url: "https://github.com/procanimation/science-stuff"
   featured: true
   gradient: "linear-gradient(135deg, #4cc9f0 0%, #4361ee 100%)"

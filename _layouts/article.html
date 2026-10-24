@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include head.html %}
+</head>
+<body class="article-page">
+
+  {% include nav.html %}
+
+  <main>
+    <article>
+      <header class="article-hero">
+        <div class="container">
+          <div class="article-meta-badge">
+            <span>{{ page.category | default: "Physics & Chaos Theory" }}</span>
+            <span>•</span>
+            <span>Educational Research</span>
+          </div>
+          <h1 class="article-title">{{ page.title }}</h1>
+          <p class="article-subtitle">{{ page.tagline | default: page.description }}</p>
+          
+          <div class="article-stats-bar">
+            <span>📚 10 min read</span>
+            <span>📐 Euler-Lagrange Formulation</span>
+            <span>⚡ Interactive p5.js / RK4</span>
+            <span>🔬 Open Source</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="article-content container">
+        {{ content }}
+
+        <div class="article-footer-cta">
+          <h3>Explore More Visual Mathematics</h3>
+          <p>Procanimation World transforms complex physics, differential geometry, and chaos into high-definition interactive simulations and educational video productions.</p>
+          <div class="cta-buttons">
+            <a href="https://youtube.com/@procanimation" target="_blank" class="sim-btn primary">Watch on YouTube ↗</a>
+            <a href="https://github.com/procanimation" target="_blank" class="sim-btn">View GitHub Repository ↗</a>
+            <a href="/#projects" class="sim-btn">All Experiments ↗</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  {% include footer.html %}
+
+  <!-- Core Scripts -->
+  <script src="/assets/js/main.js"></script>
+  {% if page.custom_js %}
+  <script src="{{ page.custom_js }}"></script>
+  {% endif %}
+</body>
+</html>
