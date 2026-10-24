@@ -7,6 +7,8 @@
   tags: ["Fractals", "Mathematics", "p5.js"]
   badge: "Featured Episode"
   gradient: "linear-gradient(135deg, #7209b7, #3f37c9)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/mandelbrot-deep-zoom.html"
 
 - title: "N-Body Orbital Chaos: The Three-Body Problem Explained"
   series: "Cosmic Physics"
@@ -16,15 +18,19 @@
   tags: ["Physics", "Orbits", "Gravity"]
   badge: "High Physics"
   gradient: "linear-gradient(135deg, #0077b6, #0096c7)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/three-body-problem.html"
 
-- title: "Turing Patterns: How Chemistry Creates Biological Skins"
-  series: "Generative Nature"
+- title: "Double Pendulum & Lagrangian Chaos"
+  series: "Chaos Theory"
   format: "Shorts (9:16 Vertical)"
-  duration: "00:58"
-  description: "Reaction-diffusion equations simulated via GLSL fragment shaders on the GPU. Exploring leopard spots and zebra stripes."
-  tags: ["GLSL", "Morphogenesis", "Shaders"]
+  duration: "00:48"
+  description: "Euler-Lagrange equations of motion, sensitive dependence on initial conditions (0.01° offset), and real-time Lyapunov divergence."
+  tags: ["Chaos", "Physics", "Lagrangian"]
   badge: "Viral Short"
-  gradient: "linear-gradient(135deg, #e63946, #d90429)"
+  gradient: "linear-gradient(135deg, #f72585, #7209b7)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/2026/09/27/chaos-theory-double-pendulum.html"
 
 - title: "Lorenz Attractor: The Butterfly That Sparks a Hurricane"
   series: "Dynamic Systems"
@@ -34,3 +40,5 @@
   tags: ["Three.js", "Chaos", "3D"]
   badge: "Shorts Pick"
   gradient: "linear-gradient(135deg, #9d4edd, #5a189a)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/2026/09/27/chaos-theory-double-pendulum.html"

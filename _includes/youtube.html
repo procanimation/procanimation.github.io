@@ -27,11 +27,11 @@
     <div class="video-grid">
       {% for video in site.data.youtube %}
       <div class="video-card">
-        <div class="video-thumbnail-wrapper" style="background: {{ video.gradient }};">
+        <a href="{{ video.video_url }}" target="_blank" class="video-thumbnail-wrapper" style="background: {{ video.gradient }}; text-decoration: none;">
           <span class="video-badge">{{ video.badge }}</span>
           <div class="play-btn">▶</div>
           <span class="video-duration">{{ video.duration }}</span>
-        </div>
+        </a>
         <div class="video-info">
           <span class="video-series">{{ video.series }} • {{ video.format }}</span>
           <h4>{{ video.title }}</h4>
@@ -40,6 +40,16 @@
             {% for tag in video.tags %}
             <span>#{{ tag }}</span>
             {% endfor %}
+          </div>
+          <div class="video-card-actions">
+            <a href="{{ video.video_url }}" target="_blank" class="btn-video-watch">
+              <span>▶ Watch on YouTube</span>
+            </a>
+            {% if video.article_url %}
+            <a href="{{ video.article_url }}" class="btn-video-article">
+              <span>⚡ Sim Lab &amp; Math ↗</span>
+            </a>
+            {% endif %}
           </div>
         </div>
       </div>
