@@ -12,13 +12,13 @@
 
 - title: "N-Body Orbital Chaos: The Three-Body Problem Explained"
   series: "Cosmic Physics"
-  format: "Landscape (16:9 • 60 FPS)"
-  duration: "08:15"
+  format: "Shorts (9:16 Vertical)"
+  duration: "00:56"
   description: "Why are gravitational systems with three or more bodies inherently chaotic? Simulating resonance, Lagrange points, and orbital decay."
   tags: ["Physics", "Orbits", "Gravity"]
   badge: "High Physics"
   gradient: "linear-gradient(135deg, #0077b6, #0096c7)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://www.youtube.com/shorts/lGvIhmJy57w"
   article_url: "/experiments/three-body-problem.html"
 
 - title: "Double Pendulum & Lagrangian Chaos"
