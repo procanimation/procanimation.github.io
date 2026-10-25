@@ -1,0 +1,506 @@
+// =============================================================================
+// PROCANIMATION STUDIO — COMPREHENSIVE RESPONSIVE DESIGN SYSTEM
+// Fluid Layouts for Mobile (<480px), Phablet/Tablet (481px-900px), & Desktop
+// =============================================================================
+
+// Base navbar desktop/mobile reset
+.nav-toggle {
+  display: none;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+// Ensure pre and mathematical formulas never break horizontal viewports
+pre, code, .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
+  -webkit-overflow-scrolling: touch;
+}
+
+img, video, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+// =============================================================================
+// TABLET & MEDIUM SCREENS (max-width: 992px)
+// =============================================================================
+@media (max-width: 992px) {
+  .hero-section {
+    .hero-title {
+      font-size: clamp(2.8rem, 6vw, 3.6rem);
+    }
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .video-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .pipeline-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .chaos-lexicon-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// =============================================================================
+// MOBILE NAVBAR & COMPACT SCREENS (max-width: 900px)
+// =============================================================================
+@media (max-width: 900px) {
+  .navbar {
+    .nav-inner {
+      height: 66px;
+      position: relative;
+    }
+
+    .nav-brand {
+      .brand-avatar {
+        width: 34px;
+        height: 34px;
+      }
+      .brand-title {
+        font-size: 1.1rem;
+      }
+    }
+
+    // Hamburger button
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 32px;
+      height: 24px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1001;
+
+      .bar {
+        width: 100%;
+        height: 2.5px;
+        background: $accent-cyan;
+        border-radius: 2px;
+        transition: $transition-smooth;
+      }
+
+      &.active {
+        .bar:nth-child(1) {
+          transform: translateY(7.5px) rotate(45deg);
+        }
+        .bar:nth-child(2) {
+          opacity: 0;
+        }
+        .bar:nth-child(3) {
+          transform: translateY(-7.5px) rotate(-45deg);
+        }
+      }
+    }
+
+    // Off-canvas slide-down drawer
+    .nav-menu {
+      position: fixed;
+      top: 66px;
+      left: 0;
+      width: 100%;
+      height: auto;
+      max-height: calc(100vh - 66px);
+      overflow-y: auto;
+      background: rgba(7, 9, 14, 0.98);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(0, 245, 212, 0.25);
+      padding: 24px 20px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      transform: translateY(-120%);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+
+      &.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        width: 100%;
+
+        li {
+          width: 100%;
+        }
+
+        a {
+          display: block;
+          width: 100%;
+          font-size: 1.1rem;
+          font-weight: 600;
+          padding: 10px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          color: $text-primary;
+
+          &:hover {
+            color: $accent-cyan;
+            padding-left: 6px;
+          }
+        }
+      }
+
+      .nav-actions {
+        width: 100%;
+        margin-top: 10px;
+
+        .btn {
+          width: 100%;
+          justify-content: center;
+          text-align: center;
+          padding: 12px;
+          font-size: 0.95rem;
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// PHABLET & MOBILE (max-width: 768px)
+// =============================================================================
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  .container {
+    padding: 0 18px;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .section-header {
+    margin-bottom: 36px;
+
+    h2 {
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  // Hero Section
+  .hero-section {
+    min-height: auto;
+    padding-top: 90px;
+    padding-bottom: 50px;
+
+    .hero-title {
+      font-size: clamp(2.1rem, 7.5vw, 2.9rem);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      padding: 0 8px;
+    }
+
+    .hero-cta-group {
+      flex-direction: column;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto 36px;
+      gap: 12px;
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      max-width: 360px;
+      margin: 0 auto;
+      border-top: 1px solid $border-glass;
+      padding-top: 22px;
+
+      .metric-item {
+        .metric-value {
+          font-size: 1.4rem;
+        }
+        .metric-label {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  // Projects Showcase
+  .projects-filter-bar {
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    flex-wrap: nowrap;
+    gap: 8px;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 2px;
+    }
+
+    .filter-btn {
+      white-space: nowrap;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+    }
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  // YouTube Section
+  .youtube-section {
+    .yt-channel-banner-card {
+      .yt-banner-img {
+        height: 150px;
+      }
+
+      .yt-banner-overlay {
+        position: relative;
+        background: rgba(7, 9, 14, 0.95);
+        padding: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+
+        .yt-channel-profile {
+          .yt-avatar {
+            width: 48px;
+            height: 48px;
+          }
+          h3 {
+            font-size: 1.15rem;
+          }
+          p {
+            font-size: 0.8rem;
+          }
+        }
+
+        .btn-youtube {
+          width: 100%;
+          justify-content: center;
+          text-align: center;
+        }
+      }
+    }
+
+    .video-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  // Studio Pipeline
+  .studio-pipeline-section {
+    .pipeline-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .studio-banner-cta {
+      padding: 24px 18px;
+
+      h3 {
+        font-size: 1.4rem;
+      }
+      p {
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  // Scientific Articles & Interactive Labs
+  .article-hero {
+    padding: 70px 0 24px;
+
+    .article-title {
+      font-size: clamp(1.75rem, 6vw, 2.3rem);
+    }
+    .article-subtitle {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+    .article-stats-bar {
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      justify-content: center;
+      font-size: 0.78rem;
+      padding: 10px 0;
+    }
+  }
+
+  .article-content {
+    padding: 20px 16px 70px;
+
+    h2 {
+      font-size: 1.45rem;
+      margin-top: 36px;
+    }
+    h3 {
+      font-size: 1.25rem;
+      margin-top: 28px;
+    }
+
+    .chaos-lexicon-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .interactive-simulation-box {
+      padding: 12px;
+      border-radius: 10px;
+
+      .simulation-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+
+        .sim-title {
+          font-size: 0.9rem;
+        }
+        .sim-legend {
+          flex-wrap: wrap;
+          gap: 8px 14px;
+          font-size: 0.75rem;
+        }
+      }
+
+      .canvas-stage {
+        height: 380px !important;
+
+        .canvas-hud {
+          flex-direction: column;
+          gap: 4px;
+          font-size: 9.5px;
+          padding: 6px 10px;
+        }
+      }
+
+      .simulation-controls {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+
+        & > div {
+          width: 100%;
+          min-width: 100% !important;
+        }
+
+        button {
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  // Footer
+  .site-footer {
+    padding: 40px 0 24px;
+
+    .footer-inner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .footer-socials {
+      justify-content: center;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// =============================================================================
+// SMALL PHONES (max-width: 420px)
+// =============================================================================
+@media (max-width: 420px) {
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 14px;
+  }
+
+  .hero-section {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-metrics {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      text-align: center;
+    }
+  }
+
+  .canvas-stage {
+    height: 320px !important;
+  }
+}

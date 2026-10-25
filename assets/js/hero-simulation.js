@@ -29,6 +29,28 @@
     mouse.y = null;
   });
 
+  // Mobile Touch Interaction
+  window.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches.length > 0) {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.touches[0].clientX - rect.left;
+      mouse.y = e.touches[0].clientY - rect.top;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches.length > 0) {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.touches[0].clientX - rect.left;
+      mouse.y = e.touches[0].clientY - rect.top;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
   class Particle {
     constructor() {
       this.reset(true);

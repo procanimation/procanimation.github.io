@@ -5,17 +5,25 @@
       <span class="brand-title">Procanimation</span>
     </a>
 
-    <ul class="nav-links">
-      <li><a href="#youtube">YouTube Series</a></li>
-      <li><a href="#journal">Research Journal</a></li>
-      <li><a href="#studio">Studio Pipeline</a></li>
-      <li><a href="{{ site.author.github_url }}" target="_blank">GitHub ↗</a></li>
-    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
 
-    <div class="nav-actions">
-      <a href="{{ site.author.youtube_url }}" target="_blank" class="btn btn-youtube">
-        ▶ Subscribe on YouTube
-      </a>
+    <div class="nav-menu" id="navMenu">
+      <ul class="nav-links">
+        <li><a href="/#youtube" class="nav-link-item">YouTube Series</a></li>
+        <li><a href="/#journal" class="nav-link-item">Research Journal</a></li>
+        <li><a href="/#studio" class="nav-link-item">Studio Pipeline</a></li>
+        <li><a href="{{ site.author.github_url }}" target="_blank" rel="noopener" class="nav-link-item">GitHub ↗</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="{{ site.author.youtube_url }}" target="_blank" rel="noopener" class="btn btn-youtube">
+          ▶ Subscribe on YouTube
+        </a>
+      </div>
     </div>
   </div>
 </nav>
