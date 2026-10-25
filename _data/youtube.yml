@@ -23,13 +23,13 @@
 
 - title: "Double Pendulum & Lagrangian Chaos"
   series: "Chaos Theory"
-  format: "Shorts (9:16 Vertical)"
+  format: "Shorts (9:16 Vertical • 60 FPS)"
   duration: "00:48"
   description: "Euler-Lagrange equations of motion, sensitive dependence on initial conditions (0.01° offset), and real-time Lyapunov divergence."
-  tags: ["Chaos", "Physics", "Lagrangian"]
-  badge: "Viral Short"
+  tags: ["Chaos", "Physics", "Lagrangian", "RK4"]
+  badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #f72585, #7209b7)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://www.youtube.com/shorts/GNwcn2bJjuw"
   article_url: "/2026/09/27/chaos-theory-double-pendulum.html"
 
 - title: "Lorenz Attractor: The Butterfly That Rewrote Physics"
@@ -64,5 +64,17 @@
   gradient: "linear-gradient(135deg, #00f5d4, #7209b7, #f72585)"
   video_url: "https://www.youtube.com/shorts/Vo1i-e7y650"
   article_url: "/experiments/turing-morphogenesis.html"
+
+- title: "Swarm Intelligence: How Brainless Agents Solve Impossible Mazes"
+  series: "Emergent Systems"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:53"
+  description: "Ant Colony Optimization (ACO), stigmergy, and evaporating chemical pheromone trails routing 500 agents through complex mazes."
+  tags: ["AI", "Swarm", "Algorithms", "p5.js", "Biology"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #00f5d4, #ffbe0b)"
+  video_url: "https://www.youtube.com/shorts/mkORha4ej3Q"
+  article_url: "/experiments/ant-swarm-intelligence.html"
+
 
 
