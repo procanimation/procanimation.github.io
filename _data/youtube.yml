@@ -109,6 +109,18 @@
   video_url: "https://youtube.com/@procanimation"
   article_url: "/experiments/quantum-double-slit.html"
 
+- title: "Von Kármán Vortex Streets: The Hidden Rhythm of Fluid Turbulence"
+  series: "Fluid Dynamics"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:48"
+  description: "Boundary layer separation, alternating counter-rotating vortex trails, Strouhal shedding frequencies, and aeroelastic resonance flutter."
+  tags: ["FluidDynamics", "Physics", "NavierStokes", "VonKarman", "Engineering", "TacomaNarrows"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #00f5d4, #f72585, #facc15)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/von-karman-vortex.html"
+
+
 
 
 

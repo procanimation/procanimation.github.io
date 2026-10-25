@@ -1,0 +1,224 @@
+---
+layout: article
+title: "Von Kármán Vortex Streets: The Hidden Rhythm of Fluid Turbulence"
+tagline: "Navier-Stokes Wake Dynamics, Reynolds Numbers & Aeroelastic Resonance"
+description: "How fluids flowing past blunt obstacles destabilize into counter-rotating vortex trails, creating deadly transverse lift forces that can destroy bridges and towers."
+category: "Fluid Mechanics & Nonlinear Dynamics"
+permalink: /experiments/von-karman-vortex.html
+---
+
+<p class="article-lead">
+  When wind howls through telephone wires, you hear a high-pitched hum. When rivers rush past bridge piers, twin rows of swirling whirlpools peel off in a rhythmic, alternating dance. And on November 7, 1940, this exact fluid phenomenon twisted the 2,800-foot Tacoma Narrows Bridge until it snapped and plummeted into Puget Sound. Welcome to the mesmerizing, dangerous physics of the <strong>Von Kármán Vortex Street</strong>.
+</p>
+
+<!-- The Fluid Dynamics Lexicon -->
+<h3>The Fluid Dynamics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Reynolds Number ($Re$)</h4>
+    <p>The dimensionless ratio of inertial forces to viscous forces: $Re = \frac{\rho U D}{\mu}$. At $Re < 40$, flow is smooth and laminar. Between $47 < Re < 200$, steady periodic vortex shedding emerges.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Strouhal Number ($St$)</h4>
+    <p>A dimensionless parameter describing oscillating flow mechanisms: $St = \frac{f D}{U} \approx 0.21$ for circular cylinders, linking shedding frequency directly to flow velocity.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Boundary Layer Separation</h4>
+    <p>Viscous friction decelerates fluid near the obstacle surface. Under an adverse pressure gradient, the flow reverses direction, detaching from the wall into a free shear layer.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Aeroelastic Resonance & Flutter</h4>
+    <p>Every detaching vortex creates an asymmetric pressure drop, imparting a fluctuating lift force. If shedding frequency matches the structure's mechanical eigenfrequency, catastrophic failure occurs.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌊 REAL-TIME VON KÁRMÁN VORTEX SIMULATOR</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Navier-Stokes Wake & Lamb-Oseen Swirl Dynamics)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Clockwise Vortex</span>
+      <span style="color:#f72585;">● Counter-Clockwise Vortex</span>
+      <span style="color:#facc15;">● Helical Strake Control</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="vortexCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(2,6,23,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(0,245,212,0.25);">
+      <div>Reynolds No ($Re$): <span id="hudRe" style="color:#00f5d4; font-weight:bold;">160</span></div>
+      <div>Shedding Freq ($f$): <span id="hudFreq" style="color:#ffbe0b; font-weight:bold;">1.35 Hz</span></div>
+      <div>Flow Speed ($U$): <span id="hudSpeed" style="color:#fff; font-weight:bold;">320 px/s</span></div>
+      <div>Strakes: <span id="hudStrake" style="color:#f72585; font-weight:bold;">OFF</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:16px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <button id="btnToggleStrakes" class="btn btn-primary" style="padding:10px 18px; font-size:12px; border-radius:6px; cursor:pointer; background:#facc15; color:#020617; font-weight:bold; border:none;">
+      Toggle Helical Strakes
+    </button>
+    <div style="flex:1; min-width:180px;">
+      <label style="display:block; font-size:12px; color:#94a3b8; margin-bottom:4px;">Reynolds Number ($Re$)</label>
+      <input type="range" id="sliderRe" min="20" max="300" step="5" value="160" style="width:100%;">
+    </div>
+    <div style="flex:1; min-width:180px;">
+      <label style="display:block; font-size:12px; color:#94a3b8; margin-bottom:4px;">Cylinder Diameter ($D$)</label>
+      <input type="range" id="sliderD" min="30" max="85" step="2" value="54" style="width:100%;">
+    </div>
+  </div>
+  <p style="font-size:11px; color:#64748b; margin-top:8px;">💡 <em>Interactive Lab: Drag the Reynolds Number slider to watch laminar flow destabilize into chaotic swirling vortices, or activate Helical Strakes to suppress aerodynamic flutter!</em></p>
+</div>
+
+<div class="experiment-actions" style="margin-top:32px; display:flex; gap:16px; flex-wrap:wrap;">
+  <a href="https://github.com/procanimation/science-stuff/tree/main/von_karman_vortex" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    <span>Explore Companion Source Code on GitHub</span>
+  </a>
+  <a href="https://youtube.com/@procanimation" id="btnShortsLink" target="_blank" rel="noopener" class="btn btn-secondary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    <span>Watch High-Definition Master Short</span>
+  </a>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('vortexCanvas');
+  const ctx = canvas.getContext('2d');
+  const hudRe = document.getElementById('hudRe');
+  const hudFreq = document.getElementById('hudFreq');
+  const hudSpeed = document.getElementById('hudSpeed');
+  const hudStrake = document.getElementById('hudStrake');
+  const sliderRe = document.getElementById('sliderRe');
+  const sliderD = document.getElementById('sliderD');
+  const btnToggleStrakes = document.getElementById('btnToggleStrakes');
+
+  let strakeActive = false;
+  btnToggleStrakes.addEventListener('click', () => {
+    strakeActive = !strakeActive;
+    hudStrake.textContent = strakeActive ? "ACTIVE (SUPPRESSED)" : "OFF";
+    hudStrake.style.color = strakeActive ? "#facc15" : "#f72585";
+  });
+
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let t = 0;
+  function render() {
+    t += 0.03;
+    const w = canvas.width;
+    const h = canvas.height;
+    const currentRe = parseFloat(sliderRe.value);
+    const R = parseFloat(sliderD.value) * 0.5;
+    const cx = w * 0.22;
+    const cy = h * 0.5;
+    const U = 260;
+    const fShed = 1.35;
+    const waveSpeed = U * 0.85;
+    const lambda = waveSpeed / fShed;
+
+    hudRe.textContent = Math.round(currentRe);
+    hudFreq.textContent = (currentRe > 45 ? fShed : 0).toFixed(2) + " Hz";
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, w, h);
+
+    // Streamlines / Wake
+    if (currentRe > 45) {
+      const amp = Math.min(48.0, (currentRe - 45) * 0.35) * (strakeActive ? 0.2 : 1.0);
+      const steps = 140;
+
+      // Cyan line
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#00f5d4';
+      ctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const x = cx + R + (i / steps) * (w - cx - R);
+        const dx = x - cx;
+        const env = Math.sin((i / steps) * Math.PI) * Math.exp(-dx / (w * 0.8));
+        const y = cy - 12 - amp * env * Math.sin((dx / lambda) * Math.PI * 2 - t * fShed * Math.PI * 2);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Magenta line
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#f72585';
+      ctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const x = cx + R + (i / steps) * (w - cx - R);
+        const dx = x - cx;
+        const env = Math.sin((i / steps) * Math.PI) * Math.exp(-dx / (w * 0.8));
+        const y = cy + 12 + amp * env * Math.sin((dx / lambda) * Math.PI * 2 - t * fShed * Math.PI * 2 + Math.PI);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Vortex spiraling centers
+      ctx.globalCompositeOperation = 'lighter';
+      for (let k = 0; k < 6; k++) {
+        const xL = cx + 60 + k * lambda + ((t * waveSpeed) % lambda);
+        const yL = cy - 42;
+        const xR = cx + 60 + (k + 0.5) * lambda + ((t * waveSpeed) % lambda);
+        const yR = cy + 42;
+
+        if (xL < w - 20) {
+          ctx.fillStyle = 'rgba(0, 245, 212, 0.35)';
+          ctx.beginPath();
+          ctx.arc(xL, yL, 28 * (strakeActive ? 0.3 : 1.0), 0, Math.PI * 2);
+          ctx.fill();
+        }
+        if (xR < w - 20) {
+          ctx.fillStyle = 'rgba(247, 37, 133, 0.35)';
+          ctx.beginPath();
+          ctx.arc(xR, yR, 28 * (strakeActive ? 0.3 : 1.0), 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    } else {
+      // Laminar parallel lines
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#38bdf8';
+      [-18, 18].forEach(off => {
+        ctx.beginPath();
+        ctx.moveTo(0, cy + off);
+        ctx.lineTo(w, cy + off);
+        ctx.stroke();
+      });
+    }
+
+    // Cylinder body
+    ctx.fillStyle = '#0f172a';
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = strakeActive ? '#facc15' : '#38bdf8';
+    ctx.stroke();
+
+    if (strakeActive) {
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 3;
+      for (let a = 0; a < 3; a++) {
+        ctx.beginPath();
+        const ang = t * 2.5 + a * (Math.PI * 2 / 3);
+        ctx.arc(cx, cy, R + 6, ang, ang + 1.2);
+        ctx.stroke();
+      }
+    }
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>

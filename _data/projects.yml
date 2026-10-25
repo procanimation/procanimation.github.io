@@ -139,4 +139,15 @@
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
 
+- id: "von-karman-vortex"
+  name: "Von Kármán Vortex Streets"
+  tag: "Fluid Dynamics • Turbulence"
+  tech: "HTML5 Canvas • Navier-Stokes"
+  description: "Boundary layer separation, alternating counter-rotating vortex trails, Strouhal shedding frequencies, and aeroelastic resonance flutter."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/von_karman_vortex"
+  demo_url: "/experiments/von-karman-vortex.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #f72585 50%, #facc15 100%)"
+
+
 
