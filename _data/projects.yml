@@ -65,6 +65,17 @@
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #f72585 100%)"
 
+- name: "Turing Morphogenesis & Reaction-Diffusion"
+  slug: "turing-morphogenesis"
+  category: "science"
+  tag: "Biology • Turing"
+  tech: "WebGL / PDEs"
+  description: "Alan Turing's 1952 activator-inhibitor partial differential equations, Gray-Scott pattern regimes, and biological symmetry breaking."
+  article_url: "/experiments/turing-morphogenesis.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/turing_morphogenesis"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
+
 
 - name: "Pictography & Generative Image"
   slug: "pictography"

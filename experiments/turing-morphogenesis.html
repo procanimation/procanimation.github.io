@@ -1,0 +1,266 @@
+---
+layout: article
+title: "Turing Morphogenesis: How the Leopard Got Its Spots Through Math"
+tagline: "Reaction-Diffusion Systems, Gray-Scott Dynamics & Alan Turing's Biological Math"
+description: "How Alan Turing's 1952 mathematical paper proved that two interacting chemicals diffusing at different rates naturally generate stripes, spots, and biological patterns."
+category: "Mathematical Biology & Non-Linear Dynamics"
+permalink: /experiments/turing-morphogenesis.html
+---
+
+<p class="article-lead">
+  In 1952, two years before his tragic death, British mathematician and computing pioneer <strong>Alan Turing</strong> published a revolutionary paper titled <em>"The Chemical Basis of Morphogenesis"</em> in the <em>Philosophical Transactions of the Royal Society</em>. He posed a question that had baffled biologists for centuries: <em>How does a homogeneous, spherically symmetric cluster of identical embryonic cells know where to grow stripes, tentacles, or limbs?</em> Turing proved that symmetry can break spontaneously through the simple interaction of two diffusing chemical substances.
+</p>
+
+<!-- The Morphogenesis Lexicon -->
+<h3>The Reaction-Diffusion Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Activator vs. Inhibitor</h4>
+    <p>Morphogenesis requires two chemical morphogens: an <strong>activator</strong> ($u$) that catalyzes its own creation, and an <strong>inhibitor</strong> ($v$) that suppresses the activator.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Diffusion Asymmetry</h4>
+    <p>Turing's crucial insight: the inhibitor must diffuse through tissue <em>significantly faster</em> than the activator ($D_v \gg D_u$). This local activation and lateral inhibition forms stable periodic boundaries.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Feed & Kill Kinetics</h4>
+    <p>In the Gray-Scott formulation, parameter $F$ represents the constant rate at which raw reactant $A$ is replenished, while $k$ represents the decay rate of reactant $B$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Spontaneous Symmetry Breaking</h4>
+    <p>A mathematically uniform field is unstable. Microscopic thermal fluctuations are amplified into macroscopic, macroscopic animal coat patterns: cheetah spots, zebra stripes, and angelfish bands.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE REACTION-DIFFUSION LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Gray-Scott Numerical Solver)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● High Activator ($v$)</span>
+      <span style="color:#f72585;">● Reaction Front</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="height:480px; position:relative; background:#05070e;">
+    <canvas id="turingCanvas" style="width:100%; height:100%; display:block; cursor:crosshair;"></canvas>
+  </div>
+
+  <!-- Interactive Control Toolbar -->
+  <div class="simulation-toolbar">
+    <div class="toolbar-section">
+      <span class="toolbar-label">Morphology Preset:</span>
+      <div class="sim-btn-group">
+        <button class="sim-btn active" id="btnPresetSpots" onclick="window.setTuringPreset('spots')">🐆 Leopard Spots</button>
+        <button class="sim-btn" id="btnPresetStripes" onclick="window.setTuringPreset('stripes')">🦓 Zebra Stripes</button>
+        <button class="sim-btn" id="btnPresetCoral" onclick="window.setTuringPreset('coral')">🧠 Brain Coral</button>
+        <button class="sim-btn" id="btnPresetMitosis" onclick="window.setTuringPreset('mitosis')">🧬 Dividing Cells</button>
+      </div>
+    </div>
+
+    <div class="toolbar-section">
+      <span class="toolbar-label">Canvas Actions:</span>
+      <div class="sim-btn-group">
+        <button class="sim-btn" onclick="window.seedTuringCenter()">Seed Center</button>
+        <button class="sim-btn" style="border-color:#f72585; color:#f72585;" onclick="window.resetTuringGrid()">Clear Grid</button>
+      </div>
+    </div>
+  </div>
+</div>
+<p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px; text-align:center;">
+  💡 <strong>Interactive Seeding:</strong> Click and drag anywhere across the canvas to inject active morphogen chemical clusters into the simulation in real time!
+</p>
+
+<!-- The Mathematical Equations -->
+<h3>The Non-Linear Partial Differential Equations</h3>
+<p>
+  The Gray-Scott model simulates a coupled pair of non-linear partial differential equations governed by spatial diffusion (the 2D Laplacian operator $\nabla^2$) and cubic chemical kinetics ($uv^2$):
+</p>
+
+<div class="math-card" style="background:rgba(12, 18, 30, 0.85); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:20px; margin:24px 0; text-align:center;">
+  $$\frac{\partial u}{\partial t} = D_u \nabla^2 u - uv^2 + F(1 - u)$$
+  $$\frac{\partial v}{\partial t} = D_v \nabla^2 v + uv^2 - (F + k)v$$
+</div>
+
+<p>
+  Where $D_u = 1.0$ and $D_v = 0.5$. Because $D_v$ is strictly smaller than $D_u$, the activator diffuses much slower than the surrounding inhibitor, confining reactions to tight geometric clusters. As John Pearson classified in his famous 1993 <em>Science</em> paper, small variations in the 2D parameter space $(F, k)$ produce a vast zoo of natural textures—from isolated solitons to replicating waves.
+</p>
+
+<!-- Repository and Source Code Links -->
+<div class="experiment-actions" style="margin-top:32px; display:flex; gap:16px; flex-wrap:wrap;">
+  <a href="https://github.com/procanimation/science-stuff/tree/main/turing_morphogenesis" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    <span>Explore Companion Source Code on GitHub</span>
+  </a>
+  <a href="https://youtube.com/@procanimation" target="_blank" rel="noopener" class="btn btn-secondary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    <span>Watch High-Definition Master Short</span>
+  </a>
+</div>
+
+<!-- Embedded Interactive JavaScript Engine -->
+<script>
+(function() {
+  const canvas = document.getElementById('turingCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const W = 160;
+  const H = 90;
+
+  const dA = 1.0;
+  const dB = 0.5;
+
+  let feed = 0.038;
+  let k = 0.061;
+
+  let gridA = new Float32Array(W * H);
+  let gridB = new Float32Array(W * H);
+  let nextA = new Float32Array(W * H);
+  let nextB = new Float32Array(W * H);
+
+  const PRESETS = {
+    spots: { feed: 0.038, k: 0.061 },
+    stripes: { feed: 0.022, k: 0.051 },
+    coral: { feed: 0.055, k: 0.062 },
+    mitosis: { feed: 0.0367, k: 0.0649 }
+  };
+
+  function initGrid() {
+    for (let i = 0; i < W * H; i++) {
+      gridA[i] = 1.0;
+      gridB[i] = 0.0;
+      nextA[i] = 1.0;
+      nextB[i] = 0.0;
+    }
+    seedCenters();
+  }
+
+  function seedCenters() {
+    const cx = Math.floor(W / 2);
+    const cy = Math.floor(H / 2);
+
+    const spots = [
+      [cx, cy],
+      [cx - 35, cy - 18],
+      [cx + 35, cy + 18],
+      [cx - 25, cy + 22],
+      [cx + 25, cy - 22]
+    ];
+
+    spots.forEach(([sx, sy]) => {
+      for (let i = -7; i <= 7; i++) {
+        for (let j = -7; j <= 7; j++) {
+          const nx = sx + i;
+          const ny = sy + j;
+          if (nx >= 0 && nx < W && ny >= 0 && ny < H && (i * i + j * j <= 49)) {
+            gridB[nx + ny * W] = 1.0;
+          }
+        }
+      }
+    });
+  }
+
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+  initGrid();
+
+  let isPointerDown = false;
+  function handlePointer(e) {
+    const rect = canvas.getBoundingClientRect();
+    const px = Math.floor(((e.clientX - rect.left) / rect.width) * W);
+    const py = Math.floor(((e.clientY - rect.top) / rect.height) * H);
+    for (let i = -5; i <= 5; i++) {
+      for (let j = -5; j <= 5; j++) {
+        const nx = px + i;
+        const ny = py + j;
+        if (nx >= 0 && nx < W && ny >= 0 && ny < H && (i * i + j * j <= 25)) {
+          gridB[nx + ny * W] = 1.0;
+        }
+      }
+    }
+  }
+
+  canvas.addEventListener('mousedown', (e) => { isPointerDown = true; handlePointer(e); });
+  window.addEventListener('mouseup', () => { isPointerDown = false; });
+  canvas.addEventListener('mousemove', (e) => { if (isPointerDown) handlePointer(e); });
+
+  canvas.addEventListener('touchstart', (e) => { isPointerDown = true; if (e.touches[0]) handlePointer(e.touches[0]); e.preventDefault(); }, {passive: false});
+  window.addEventListener('touchend', () => { isPointerDown = false; });
+  canvas.addEventListener('touchmove', (e) => { if (isPointerDown && e.touches[0]) handlePointer(e.touches[0]); e.preventDefault(); }, {passive: false});
+
+  function step() {
+    for (let stepCount = 0; stepCount < 6; stepCount++) {
+      for (let x = 1; x < W - 1; x++) {
+        for (let y = 1; y < H - 1; y++) {
+          const idx = x + y * W;
+          const a = gridA[idx];
+          const b = gridB[idx];
+
+          const lapA = (gridA[(x - 1) + y * W] + gridA[(x + 1) + y * W] + gridA[x + (y - 1) * W] + gridA[x + (y + 1) * W] - 4.0 * a) * 0.2;
+          const lapB = (gridB[(x - 1) + y * W] + gridB[(x + 1) + y * W] + gridB[x + (y - 1) * W] + gridB[x + (y + 1) * W] - 4.0 * b) * 0.2;
+
+          const reaction = a * b * b;
+          nextA[idx] = Math.max(0.0, Math.min(1.0, a + (dA * lapA - reaction + feed * (1.0 - a))));
+          nextB[idx] = Math.max(0.0, Math.min(1.0, b + (dB * lapB + reaction - (k + feed) * b)));
+        }
+      }
+      let tA = gridA; gridA = nextA; nextA = tA;
+      let tB = gridB; gridB = nextB; nextB = tB;
+    }
+
+    // Render pass
+    ctx.fillStyle = '#05070e';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const cellW = canvas.width / W;
+    const cellH = canvas.height / H;
+
+    for (let x = 0; x < W; x += 2) {
+      for (let y = 0; y < H; y += 2) {
+        const val = gridB[x + y * W];
+        if (val > 0.05) {
+          const r = Math.round(val * 180);
+          const g = Math.round(val * 245);
+          const b = Math.round(212 + (1.0 - val) * 40);
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.9)`;
+          ctx.fillRect(x * cellW, y * cellH, cellW * 2.1, cellH * 2.1);
+        }
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+
+  window.setTuringPreset = function(pKey) {
+    document.querySelectorAll('.sim-btn-group .sim-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById(`btnPreset${pKey.charAt(0).toUpperCase() + pKey.slice(1)}`);
+    if (btn) btn.classList.add('active');
+    if (PRESETS[pKey]) {
+      feed = PRESETS[pKey].feed;
+      k = PRESETS[pKey].k;
+      initGrid();
+    }
+  };
+
+  window.seedTuringCenter = function() {
+    seedCenters();
+  };
+
+  window.resetTuringGrid = function() {
+    for (let i = 0; i < W * H; i++) {
+      gridA[i] = 1.0;
+      gridB[i] = 0.0;
+    }
+  };
+})();
+</script>
