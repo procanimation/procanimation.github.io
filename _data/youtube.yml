@@ -141,3 +141,14 @@
   gradient: "linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)"
   video_url: "https://youtube.com/@procanimation"
   article_url: "/experiments/cellular-automata-rule30.html"
+
+- title: "The Chaos Game: When Random Chance Obeys Mathematical Law (Barnsley Fern)"
+  series: "Fractals & Chaos"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:53"
+  description: "Michael Barnsley's 1988 iterated function systems, affine matrix contractions, stochastic probability distributions, and botanical self-similarity."
+  tags: ["ChaosGame", "BarnsleyFern", "Fractals", "IteratedFunctionSystems", "Math", "CreativeCoding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #4ade80, #38bdf8, #f59e0b)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/chaos-game-ifs.html"

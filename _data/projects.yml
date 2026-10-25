@@ -167,4 +167,12 @@
   demo_url: "/experiments/cellular-automata-rule30.html"
   featured: true
   gradient: "linear-gradient(135deg, #38bdf8 0%, #4ade80 50%, #f43f5e 100%)"
-
+- id: "chaos-game-ifs"
+  name: "The Chaos Game & Barnsley Fern"
+  tag: "Fractals • Stochastic Dynamics"
+  tech: "HTML5 Canvas • Monte Carlo IFS"
+  description: "Michael Barnsley's 1988 iterated function systems, affine matrix contractions, stochastic probability distributions, and botanical self-similarity."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/chaos_game_ifs"
+  demo_url: "/experiments/chaos-game-ifs.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #4ade80 0%, #38bdf8 50%, #f59e0b 100%)"

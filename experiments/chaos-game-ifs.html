@@ -1,0 +1,229 @@
+---
+layout: article
+title: "The Chaos Game & Iterated Function Systems: Fractals from Blind Randomness"
+tagline: "Stochastic Dynamics, Affine Transformations & The Barnsley Botanical Fern"
+description: "How rolling a die and jumping halfway toward geometric anchors forces pure mathematical randomness to crystallize into self-similar fractals and botanical ferns."
+category: "Discrete Mathematics & Computational Art"
+permalink: /experiments/chaos-game-ifs.html
+---
+
+<p class="article-lead">
+  In 1988, British mathematician Michael Barnsley proved one of the most counter-intuitive theorems in modern dynamics: <strong>the Chaos Game</strong>. By repeatedly choosing one of a few affine matrix transformations at random and plotting the sequence of points, an attractor emerges that is completely deterministic, infinitely detailed, and immune to initial conditions. Pure chance, when constrained by contractive mappings, acts as a sculptor of mathematical nature.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Stochastic Mathematics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Chaos Game Principle</h4>
+    <p>Given a set of $N$ contraction mappings $\{f_1, f_2, \dots, f_N\}$ on $\mathbb{R}^2$ with associated probabilities $p_i$, iterating $P_{n+1} = f_k(P_n)$ with probability $p_k$ generates a sequence whose closure is the unique compact attractor $A = \bigcup_{i=1}^N f_i(A)$ by the Banach Fixed-Point Theorem.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Sierpinski Gasket Convergence</h4>
+    <p>With 3 vertices of an equilateral triangle and uniform jumping $P_{n+1} = \frac{P_n + V_k}{2}$ ($p_k = 1/3$), the points avoid the central inverted triangles completely, converging to a Hausdorff dimension of $D = \frac{\ln 3}{\ln 2} \approx 1.585$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Barnsley Fern Affine Matrices</h4>
+    <p>Four 2D affine transformations $f_i(x, y) = A_i \mathbf{x} + \mathbf{b}_i$ simulate botanical self-similarity: stem growth ($1\%$), successive main leaflets ($85\%$), left sub-fronds ($7\%$), and right sub-fronds ($7\%$). Its fractal dimension is $D \approx 1.78$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Hutchinson Operator & Invariance</h4>
+    <p>The attractor is strictly invariant under the union of its transformations. The random walk visits the dense set of points on the fractal with a natural ergodic probability measure.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ REAL-TIME CHAOS GAME & IFS ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Monte Carlo Stochastic Particle Accumulator)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#4ade80;">● Main Frond</span>
+      <span style="color:#38bdf8;">● Lateral Fronds</span>
+      <span style="color:#f59e0b;">● Stem Rachis</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:540px; background:#030712; border-radius:8px; overflow:hidden;">
+    <canvas id="chaosCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(3,7,18,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(74,222,128,0.25);">
+      <div>Attractor: <span id="hudMode" style="color:#4ade80; font-weight:bold;">Barnsley Botanical Fern</span></div>
+      <div>Points Plotted: <span id="hudCount" style="color:#38bdf8; font-weight:bold;">0</span></div>
+      <div>FPS / Speed: <span id="hudSpeed" style="color:#ffbe0b; font-weight:bold;">5,000 pts/frame</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <button id="btnToggle" class="btn btn-primary" style="padding:8px 16px; font-size:12px; border-radius:6px; cursor:pointer; background:#4ade80; color:#030712; font-weight:bold; border:none;">
+      ❚❚ Pause Accumulation
+    </button>
+    <button id="btnClear" class="btn btn-secondary" style="padding:8px 14px; font-size:12px; border-radius:6px; cursor:pointer; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">
+      ↺ Clear Canvas
+    </button>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">FRACTAL PRESET:</label>
+      <button class="preset-btn" data-preset="fern" style="padding:6px 12px; font-size:11px; background:#1e293b; color:#4ade80; border:1px solid #4ade80; border-radius:4px; cursor:pointer; font-weight:bold;">Barnsley Fern</button>
+      <button class="preset-btn" data-preset="sierpinski" style="padding:6px 12px; font-size:11px; background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.15); border-radius:4px; cursor:pointer;">Sierpinski Triangle</button>
+      <button class="preset-btn" data-preset="tree" style="padding:6px 12px; font-size:11px; background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.15); border-radius:4px; cursor:pointer;">Fractal Tree</button>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">POINTS / FRAME:</label>
+      <input type="range" id="rateSlider" min="500" max="15000" step="500" value="4000" style="width:90px;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('chaosCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let width = canvas.width = canvas.parentElement.clientWidth;
+  let height = canvas.height = canvas.parentElement.clientHeight;
+
+  let isRunning = true;
+  let currentPreset = 'fern';
+  let pointsPerFrame = 4000;
+  let totalPoints = 0;
+
+  let curX = 0, curY = 0;
+
+  // Barnsley Fern Matrices
+  const fernTransforms = [
+    { a: 0.0,  b: 0.0,   c: 0.0,   d: 0.16, e: 0.0, f: 0.0,  p: 0.01, col: '#f59e0b' },
+    { a: 0.85, b: 0.04,  c: -0.04, d: 0.85, e: 0.0, f: 1.6,  p: 0.85, col: 'rgba(74, 222, 128, 0.65)' },
+    { a: 0.2,  b: -0.26, c: 0.23,  d: 0.22, e: 0.0, f: 1.6,  p: 0.07, col: 'rgba(56, 189, 248, 0.8)' },
+    { a: -0.15,b: 0.28,  c: 0.26,  d: 0.24, e: 0.0, f: 0.44, p: 0.07, col: 'rgba(163, 230, 53, 0.8)' }
+  ];
+
+  // Sierpinski vertices
+  let triVerts = [];
+  function updateTriVerts() {
+    triVerts = [
+      { x: width / 2, y: 40 },
+      { x: width * 0.15, y: height - 40 },
+      { x: width * 0.85, y: height - 40 }
+    ];
+  }
+
+  function reset() {
+    ctx.fillStyle = '#030712';
+    ctx.fillRect(0, 0, width, height);
+    totalPoints = 0;
+    curX = width / 2;
+    curY = height / 2;
+    updateTriVerts();
+    document.getElementById('hudCount').innerText = '0';
+  }
+
+  function stepFern() {
+    const r = Math.random();
+    let t = fernTransforms[1];
+    if (r < 0.01) t = fernTransforms[0];
+    else if (r < 0.86) t = fernTransforms[1];
+    else if (r < 0.93) t = fernTransforms[2];
+    else t = fernTransforms[3];
+
+    const nx = t.a * curX + t.b * curY + t.e;
+    const ny = t.c * curX + t.d * curY + t.f;
+    curX = nx;
+    curY = ny;
+
+    // Map to canvas: x in [-2.5, 2.8], y in [0, 10.5]
+    const scale = Math.min(width / 6.0, height / 11.0);
+    const px = width / 2 + curX * scale;
+    const py = height - 20 - curY * scale;
+
+    ctx.fillStyle = t.col;
+    ctx.fillRect(px, py, 1.2, 1.2);
+  }
+
+  function stepSierpinski() {
+    const vIdx = Math.floor(Math.random() * 3);
+    const v = triVerts[vIdx];
+    curX = (curX + v.x) / 2;
+    curY = (curY + v.y) / 2;
+
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+    ctx.fillRect(curX, curY, 1.4, 1.4);
+  }
+
+  function stepTree() {
+    const r = Math.random();
+    let nx, ny;
+    if (r < 0.05) {
+      nx = 0;
+      ny = 0.5 * curY;
+      ctx.fillStyle = '#f59e0b';
+    } else if (r < 0.52) {
+      nx = 0.42 * curX - 0.42 * curY;
+      ny = 0.42 * curX + 0.42 * curY + 0.2;
+      ctx.fillStyle = 'rgba(74, 222, 128, 0.7)';
+    } else {
+      nx = 0.42 * curX + 0.42 * curY;
+      ny = -0.42 * curX + 0.42 * curY + 0.2;
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.7)';
+    }
+    curX = nx;
+    curY = ny;
+    const scale = Math.min(width, height) * 1.4;
+    const px = width / 2 + curX * scale;
+    const py = height - 30 - curY * scale;
+    ctx.fillRect(px, py, 1.2, 1.2);
+  }
+
+  function animate() {
+    if (isRunning) {
+      for (let i = 0; i < pointsPerFrame; i++) {
+        if (currentPreset === 'fern') stepFern();
+        else if (currentPreset === 'sierpinski') stepSierpinski();
+        else stepTree();
+      }
+      totalPoints += pointsPerFrame;
+      document.getElementById('hudCount').innerText = totalPoints.toLocaleString();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  document.getElementById('btnToggle').addEventListener('click', function() {
+    isRunning = !isRunning;
+    this.innerText = isRunning ? '❚❚ Pause Accumulation' : '▶ Resume Accumulation';
+  });
+
+  document.getElementById('btnClear').addEventListener('click', reset);
+
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.preset-btn').forEach(b => {
+        b.style.borderColor = 'rgba(255,255,255,0.15)';
+        b.style.color = '#cbd5e1';
+      });
+      this.style.borderColor = '#4ade80';
+      this.style.color = '#4ade80';
+
+      currentPreset = this.getAttribute('data-preset');
+      const labels = { fern: 'Barnsley Botanical Fern', sierpinski: 'Sierpinski Triangle', tree: 'Fractal Branching Tree' };
+      document.getElementById('hudMode').innerText = labels[currentPreset] || currentPreset;
+      reset();
+    });
+  });
+
+  document.getElementById('rateSlider').addEventListener('input', function() {
+    pointsPerFrame = parseInt(this.value);
+    document.getElementById('hudSpeed').innerText = `${pointsPerFrame.toLocaleString()} pts/frame`;
+  });
+
+  window.addEventListener('resize', function() {
+    width = canvas.width = canvas.parentElement.clientWidth;
+    height = canvas.height = canvas.parentElement.clientHeight;
+    reset();
+  });
+
+  reset();
+  requestAnimationFrame(animate);
+})();
+</script>
