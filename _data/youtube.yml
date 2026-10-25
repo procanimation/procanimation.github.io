@@ -98,6 +98,18 @@
   video_url: "https://youtube.com/@procanimation"
   article_url: "/experiments/conways-game-of-life.html"
 
+- title: "The Quantum Double Slit Experiment: Reality Changes When You Look"
+  series: "Quantum Mechanics"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:53"
+  description: "Wave-particle duality, de Broglie matter waves, Schrödinger's wavefunction, Born's probability density rule, and quantum observer collapse."
+  tags: ["Quantum", "Physics", "DoubleSlit", "Schrodinger", "WaveParticle"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #00f5d4, #7209b7, #f72585)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/quantum-double-slit.html"
+
+
 
 
 

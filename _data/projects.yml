@@ -126,6 +126,17 @@
   description: "Emergent complexity from 4 simple rules: Gosper glider guns, pulsars, and Turing-complete cellular automata."
   repo_url: "https://github.com/procanimation/science-stuff/tree/main/game_of_life"
   demo_url: "/experiments/conways-game-of-life.html"
-  featured: true
+  featured: false
   gradient: "linear-gradient(135deg, #00f5d4 0%, #06d6a0 50%, #ffbe0b 100%)"
+
+- id: "quantum-double-slit"
+  name: "Quantum Double Slit Experiment"
+  tag: "Quantum Mechanics • Physics"
+  tech: "HTML5 Canvas • JS"
+  description: "Wave-particle duality, de Broglie matter waves, Schrödinger's wavefunction, Born's probability density rule, and quantum observer collapse."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/quantum_double_slit"
+  demo_url: "/experiments/quantum-double-slit.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
+
 

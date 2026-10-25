@@ -1,0 +1,246 @@
+---
+layout: article
+title: "The Quantum Double Slit Experiment: Reality Changes When You Look"
+tagline: "Wave-Particle Duality, de Broglie Matter Waves & Wavefunction Collapse"
+description: "How single electrons produce wave interference when unobserved, and collapse into classical particles the instant a measurement is performed."
+category: "Quantum Mechanics & Modern Physics"
+permalink: /experiments/quantum-double-slit.html
+---
+
+<p class="article-lead">
+  If you shoot bullets through two narrow slits in a steel wall, they form two distinct bands on the target. If you send water waves, they pass through both slits, ripple outwards, and create an alternating pattern of constructive crests and destructive cancellations. But if you fire microscopic quantum particles—electrons, photons, or even whole molecules—they behave like waves when left alone, and like particles the instant you try to catch them in the act.
+</p>
+
+<!-- The Quantum Lexicon -->
+<h3>The Quantum Physics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Wavefunction ($\psi$)</h4>
+    <p>A complex mathematical function $\psi(x, y, t)$ governed by the Schrödinger equation $i\hbar \frac{\partial \psi}{\partial t} = \hat{H}\psi$, containing all information about a quantum system.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Born Rule ($P = |\psi|^2$)</h4>
+    <p>Formulated by Max Born in 1926. The square of the wavefunction's absolute value represents the probability density of discovering the particle at a given point in space.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Quantum Superposition</h4>
+    <p>Before measurement, a particle does not choose Slit 1 or Slit 2. It exists simultaneously in a coherent linear combination of states: $|\psi\rangle = \frac{1}{\sqrt{2}}(|\text{Slit 1}\rangle + |\text{Slit 2}\rangle)$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Wavefunction Collapse & Decoherence</h4>
+    <p>Interacting with an external measurement device extracts "which-way" information, causing environmental decoherence that collapses the quantum superposition into classical probability.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚛️ REAL-TIME QUANTUM WAVE SIMULATOR</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Continuous Wave Equation & Born Probability Density)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Constructive Fringes</span>
+      <span style="color:#ffbe0b;">● Intensity Envelope</span>
+      <span style="color:#f72585;">● Observer Laser Measurement</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="quantumCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(2,6,23,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(0,245,212,0.25);">
+      <div>Wavelength ($\lambda$): <span id="hudWavelength" style="color:#00f5d4; font-weight:bold;">28.0 nm</span></div>
+      <div>Slit Sep ($d$): <span id="hudDist" style="color:#ffbe0b; font-weight:bold;">150 μm</span></div>
+      <div>Detector Mode: <span id="hudMode" style="color:#00f5d4; font-weight:bold;">SUPERPOSITION (OFF)</span></div>
+      <div>State: <span id="hudState" style="color:#fff; font-weight:bold;">1/√2(|ψ₁⟩ + |ψ₂⟩)</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:16px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <button id="btnToggleObserver" class="btn btn-primary" style="padding:10px 18px; font-size:12px; border-radius:6px; cursor:pointer; background:#00f5d4; color:#020617; font-weight:bold; border:none;">
+      Turn Detector ON (Observe Slits)
+    </button>
+    <div style="flex:1; min-width:180px;">
+      <label style="display:block; font-size:12px; color:#94a3b8; margin-bottom:4px;">Slit Separation ($d$)</label>
+      <input type="range" id="sliderDist" min="60" max="220" step="5" value="140" style="width:100%;">
+    </div>
+    <div style="flex:1; min-width:180px;">
+      <label style="display:block; font-size:12px; color:#94a3b8; margin-bottom:4px;">de Broglie Wavelength ($\lambda$)</label>
+      <input type="range" id="sliderWave" min="16" max="44" step="2" value="28" style="width:100%;">
+    </div>
+  </div>
+  <p style="font-size:11px; color:#64748b; margin-top:8px;">💡 <em>Interactive Lab: Toggle the Detector button above to witness the Wavefunction Collapse in real time!</em></p>
+</div>
+
+<div class="experiment-actions" style="margin-top:32px; display:flex; gap:16px; flex-wrap:wrap;">
+  <a href="https://github.com/procanimation/science-stuff/tree/main/quantum_double_slit" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    <span>Explore Companion Source Code on GitHub</span>
+  </a>
+  <a href="https://youtube.com/@procanimation" id="btnShortsLink" target="_blank" rel="noopener" class="btn btn-secondary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    <span>Watch High-Definition Master Short</span>
+  </a>
+</div>
+
+<!-- Embedded Interactive Simulator Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const canvas = document.getElementById("quantumCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  let isObserverActive = false;
+  let slitDist = 140;
+  let wavelength = 28.0;
+
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+  }
+
+  function draw(time) {
+    ctx.fillStyle = "#020617";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const cx = canvas.width / 2;
+    const emitterY = 60;
+    const barrierY = 160;
+    const screenY = canvas.height - 80;
+    const s1x = cx - slitDist / 2;
+    const s2x = cx + slitDist / 2;
+
+    // 1. Incoming wavefronts
+    for (let i = 0; i < 5; i++) {
+      const r = ((time * 0.08 + i * wavelength) % (barrierY - emitterY));
+      const a = (1.0 - r / (barrierY - emitterY)) * 0.3;
+      ctx.strokeStyle = "rgba(0, 245, 212, " + a + ")";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, emitterY, r, 0, Math.PI);
+      ctx.stroke();
+    }
+
+    // 2. Post-slit waves or collapsed beams
+    if (!isObserverActive) {
+      const maxR = screenY - barrierY + 100;
+      for (let i = 0; i < 12; i++) {
+        const r = ((time * 0.08 + i * wavelength) % maxR);
+        const a = (1.0 - r / maxR) * 0.28;
+        ctx.strokeStyle = "rgba(0, 245, 212, " + a + ")";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(s1x, barrierY, r, 0, Math.PI);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(114, 9, 183, " + a + ")";
+        ctx.beginPath();
+        ctx.arc(s2x, barrierY, r, 0, Math.PI);
+        ctx.stroke();
+      }
+    } else {
+      ctx.fillStyle = "rgba(247, 37, 133, 0.08)";
+      ctx.beginPath();
+      ctx.moveTo(s1x - 8, barrierY); ctx.lineTo(s1x - 45, screenY); ctx.lineTo(s1x + 45, screenY); ctx.lineTo(s1x + 8, barrierY);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(s2x - 8, barrierY); ctx.lineTo(s2x - 45, screenY); ctx.lineTo(s2x + 45, screenY); ctx.lineTo(s2x + 8, barrierY);
+      ctx.fill();
+    }
+
+    // 3. Barrier
+    ctx.fillStyle = "#0f172a";
+    ctx.strokeStyle = "#334155";
+    ctx.lineWidth = 2;
+    ctx.fillRect(20, barrierY - 4, s1x - 12 - 20, 8);
+    ctx.strokeRect(20, barrierY - 4, s1x - 12 - 20, 8);
+    ctx.fillRect(s1x + 12, barrierY - 4, s2x - s1x - 24, 8);
+    ctx.strokeRect(s1x + 12, barrierY - 4, s2x - s1x - 24, 8);
+    ctx.fillRect(s2x + 12, barrierY - 4, canvas.width - (s2x + 12) - 20, 8);
+    ctx.strokeRect(s2x + 12, barrierY - 4, canvas.width - (s2x + 12) - 20, 8);
+
+    // Emitter Gun
+    ctx.fillStyle = "#1e293b";
+    ctx.strokeStyle = "#00f5d4";
+    ctx.beginPath();
+    ctx.arc(cx, emitterY, 12, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Observer laser if active
+    if (isObserverActive) {
+      ctx.fillStyle = "rgba(247, 37, 133, 0.25)";
+      ctx.strokeStyle = "#f72585";
+      ctx.beginPath();
+      ctx.arc(s1x, barrierY, 18, 0, Math.PI * 2);
+      ctx.arc(s2x, barrierY, 18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    // 4. Probability screen curve
+    ctx.fillStyle = "#070c18";
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+    ctx.fillRect(20, screenY, canvas.width - 40, 60);
+    ctx.strokeRect(20, screenY, canvas.width - 40, 60);
+
+    const k = (2 * Math.PI) / wavelength;
+    ctx.strokeStyle = isObserverActive ? "#f72585" : "#00f5d4";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let x = 20; x <= canvas.width - 20; x += 3) {
+      let val = 0;
+      if (!isObserverActive) {
+        const d1 = Math.hypot(x - s1x, screenY - barrierY);
+        const d2 = Math.hypot(x - s2x, screenY - barrierY);
+        const delta = k * (d2 - d1);
+        val = Math.pow(Math.cos(delta * 0.5), 2);
+      } else {
+        const g1 = Math.exp(-Math.pow((x - s1x) / 35, 2));
+        const g2 = Math.exp(-Math.pow((x - s2x) / 35, 2));
+        val = 0.5 * (g1 + g2);
+      }
+      const y = (screenY + 55) - val * 48;
+      if (x === 20) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    requestAnimationFrame(draw);
+  }
+
+  const btnToggle = document.getElementById("btnToggleObserver");
+  btnToggle.addEventListener("click", () => {
+    isObserverActive = !isObserverActive;
+    if (isObserverActive) {
+      btnToggle.textContent = "Turn Detector OFF (Restore Superposition)";
+      btnToggle.style.background = "#f72585";
+      btnToggle.style.color = "#fff";
+      document.getElementById("hudMode").textContent = "COLLAPSED (MEASURED)";
+      document.getElementById("hudMode").style.color = "#f72585";
+      document.getElementById("hudState").textContent = "|ψ₁⟩ OR |ψ₂⟩";
+    } else {
+      btnToggle.textContent = "Turn Detector ON (Observe Slits)";
+      btnToggle.style.background = "#00f5d4";
+      btnToggle.style.color = "#020617";
+      document.getElementById("hudMode").textContent = "SUPERPOSITION (OFF)";
+      document.getElementById("hudMode").style.color = "#00f5d4";
+      document.getElementById("hudState").textContent = "1/√2(|ψ₁⟩ + |ψ₂⟩)";
+    }
+  });
+
+  document.getElementById("sliderDist").addEventListener("input", (e) => {
+    slitDist = parseFloat(e.target.value);
+    document.getElementById("hudDist").textContent = slitDist + " μm";
+  });
+
+  document.getElementById("sliderWave").addEventListener("input", (e) => {
+    wavelength = parseFloat(e.target.value);
+    document.getElementById("hudWavelength").textContent = wavelength.toFixed(1) + " nm";
+  });
+
+  window.addEventListener("resize", resize);
+  resize();
+  requestAnimationFrame(draw);
+});
+</script>
