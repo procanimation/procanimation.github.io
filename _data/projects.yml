@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "Ant Swarm Intelligence & Stigmergy"
+  slug: "ant-swarm"
+  category: "science"
+  tag: "Swarm • ACO Algorithm"
+  tech: "p5.js / Canvas"
+  description: "Emergent decentralized intelligence, evaporating chemical pheromone routing, and shortest path discovery with 500 autonomous agents."
+  article_url: "/experiments/ant-swarm-intelligence.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/ant_swarm"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #ffbe0b 100%)"
+
 - name: "Double Pendulum & Lagrangian Chaos"
   slug: "double-pendulum"
   category: "science"
@@ -6,7 +17,7 @@
   tech: "p5.js / RK4"
   description: "Euler-Lagrange equations of motion, sensitive dependence on initial conditions (0.01° offset), and real-time Lyapunov divergence."
   article_url: "/2026/09/27/chaos-theory-double-pendulum.html"
-  repo_url: "https://github.com/procanimation/science-stuff"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/double_pendulum"
   featured: true
   gradient: "linear-gradient(135deg, #f72585 0%, #7209b7 50%, #4cc9f0 100%)"
 
