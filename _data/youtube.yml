@@ -120,6 +120,18 @@
   video_url: "https://youtube.com/@procanimation"
   article_url: "/experiments/von-karman-vortex.html"
 
+- title: "XOR Bitwise Fractals: The Infinite Geometry of Pure Binary Logic"
+  series: "Discrete Mathematics"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:56"
+  description: "Binary addition without carry, Sierpinski triangle emergence, modulo prime harmonics, Walsh-Hadamard matrices, and crystalline Moorish mandalas."
+  tags: ["DiscreteMath", "Fractals", "XOR", "Binary", "Sierpinski", "CreativeCoding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #00f5d4, #f72585, #ffbe0b)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/xor-bitwise-fractal.html"
+
+
 
 
 

@@ -149,5 +149,16 @@
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #f72585 50%, #facc15 100%)"
 
+- id: "xor-bitwise-fractal"
+  name: "XOR Bitwise Fractals"
+  tag: "Discrete Math • Binary Geometry"
+  tech: "HTML5 Canvas • Uint32 Bitwise"
+  description: "Binary addition without carry, Sierpinski triangle emergence, modulo prime harmonics, Walsh-Hadamard matrices, and crystalline Moorish mandalas."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/xor_bitwise_fractal"
+  demo_url: "/experiments/xor-bitwise-fractal.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #f72585 50%, #ffbe0b 100%)"
+
+
 
 

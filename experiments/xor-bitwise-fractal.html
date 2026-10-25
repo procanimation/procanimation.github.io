@@ -1,0 +1,166 @@
+---
+layout: article
+title: "XOR Bitwise Fractals: The Infinite Geometry of Pure Binary Logic"
+tagline: "Discrete Mathematics, Sierpinski Carpets & Walsh-Hadamard Matrices"
+description: "How the simplest logic gate in computer science—the Exclusive OR (XOR)—spawns infinite recursive self-similarity, crystalline mandalas, and Moorish tapestries."
+category: "Discrete Mathematics & Computational Art"
+permalink: /experiments/xor-bitwise-fractal.html
+---
+
+<p class="article-lead">
+  In digital electronics, the <strong>Exclusive OR (XOR)</strong> gate performs the most elemental decision: output true if and only if its inputs disagree. In binary arithmetic, XOR is addition without carry. Yet when you evaluate this tiny binary operator across a two-dimensional grid of integers, a staggering phenomenon emerges: infinite recursive self-similarity, the iconic <strong>Sierpinski Gasket</strong>, and crystalline tapestries that rival ancient sacred geometry.
+</p>
+
+<!-- The Bitwise Math Lexicon -->
+<h3>The Discrete Mathematics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Bitwise Exclusive OR ($\oplus$)</h4>
+    <p>A fundamental binary operation. In the finite field $\mathbb{F}_2$ (Galois field of two elements), $x \oplus y$ computes addition modulo 2: $0 \oplus 0 = 0$, $0 \oplus 1 = 1$, $1 \oplus 0 = 1$, and $1 \oplus 1 = 0$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Sierpinski Triangle Emergence</h4>
+    <p>Plotting all coordinate pairs $(x, y)$ satisfying $(x \ \& \ y) = 0$ or $(x \oplus y) < \text{threshold}$ produces the Sierpinski gasket, possessing a fractional Hausdorff dimension of $D = \frac{\ln 3}{\ln 2} \approx 1.585$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Modulo Bitwise Tapestries</h4>
+    <p>Applying modulo arithmetic $(x \oplus y \oplus t) \pmod m == 0$ creates crystalline periodic symmetries. Divisors like $m=3, 5, 7$ generate intricate Moorish Islamic tile stars and kaleidoscopic mandalas.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Walsh-Hadamard Transform</h4>
+    <p>XOR fractal matrices are directly isomorphic to Hadamard matrices $H_{2^k}$. Their rows form mutually orthogonal codes, used globally in CDMA mobile communications, radar, and GPS signals.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ REAL-TIME XOR BITWISE FRACTAL ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Bitwise Integer Matrix & Dynamic Modulo Harmonics)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Crystalline Nodes</span>
+      <span style="color:#f72585;">● Secondary Harmonics</span>
+      <span style="color:#ffbe0b;">● Gold Resonances</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="xorCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(2,6,23,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(0,245,212,0.25);">
+      <div>Equation: <span id="hudEq" style="color:#00f5d4; font-weight:bold;">(x ⊕ y ⊕ t) mod 3</span></div>
+      <div>Modulo ($m$): <span id="hudMod" style="color:#ffbe0b; font-weight:bold;">3</span></div>
+      <div>Zoom: <span id="hudZoom" style="color:#fff; font-weight:bold;">1.5x</span></div>
+      <div>Temporal Offset ($t$): <span id="hudTime" style="color:#f72585; font-weight:bold;">0</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:16px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <button id="btnToggleAnim" class="btn btn-primary" style="padding:10px 18px; font-size:12px; border-radius:6px; cursor:pointer; background:#00f5d4; color:#020617; font-weight:bold; border:none;">
+      Pause Animation
+    </button>
+    <div style="flex:1; min-width:180px;">
+      <label style="display:block; font-size:12px; color:#94a3b8; margin-bottom:4px;">Modulo Divisor ($m$)</label>
+      <input type="range" id="sliderMod" min="2" max="11" step="1" value="3" style="width:100%;">
+    </div>
+    <div style="flex:1; min-width:180px;">
+      <label style="display:block; font-size:12px; color:#94a3b8; margin-bottom:4px;">Zoom Scale</label>
+      <input type="range" id="sliderZoom" min="0.5" max="3.5" step="0.1" value="1.5" style="width:100%;">
+    </div>
+  </div>
+  <p style="font-size:11px; color:#64748b; margin-top:8px;">💡 <em>Interactive Lab: Drag the Modulo Divisor slider to explore different prime harmonic symmetries (m=2 gives the pure Sierpinski triangle; m=5 or 7 gives Moorish mandalas)!</em></p>
+</div>
+
+<div class="experiment-actions" style="margin-top:32px; display:flex; gap:16px; flex-wrap:wrap;">
+  <a href="https://github.com/procanimation/science-stuff/tree/main/xor_bitwise_fractal" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    <span>Explore Companion Source Code on GitHub</span>
+  </a>
+  <a href="https://youtube.com/@procanimation" id="btnShortsLink" target="_blank" rel="noopener" class="btn btn-secondary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    <span>Watch High-Definition Master Short</span>
+  </a>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('xorCanvas');
+  const ctx = canvas.getContext('2d');
+  const hudEq = document.getElementById('hudEq');
+  const hudMod = document.getElementById('hudMod');
+  const hudZoom = document.getElementById('hudZoom');
+  const hudTime = document.getElementById('hudTime');
+  const sliderMod = document.getElementById('sliderMod');
+  const sliderZoom = document.getElementById('sliderZoom');
+  const btnToggleAnim = document.getElementById('btnToggleAnim');
+
+  let animating = true;
+  btnToggleAnim.addEventListener('click', () => {
+    animating = !animating;
+    btnToggleAnim.textContent = animating ? "Pause Animation" : "Resume Animation";
+    btnToggleAnim.style.background = animating ? "#00f5d4" : "#ffbe0b";
+  });
+
+  const off = document.createElement('canvas');
+  const offCtx = off.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+    off.width = Math.floor(canvas.width / 2);
+    off.height = Math.floor(canvas.height / 2);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let t = 0;
+  function render() {
+    if (animating) t += 0.45;
+    const w = off.width;
+    const h = off.height;
+    const mod = parseInt(sliderMod.value, 10);
+    const zoom = parseFloat(sliderZoom.value);
+    const tInt = Math.floor(t);
+
+    hudEq.textContent = `(x ⊕ y ⊕ t) mod ${mod}`;
+    hudMod.textContent = mod;
+    hudZoom.textContent = `${zoom.toFixed(1)}x`;
+    hudTime.textContent = tInt;
+
+    const img = offCtx.createImageData(w, h);
+    const d32 = new Uint32Array(img.data.buffer);
+    const cx = w / 2;
+    const cy = h / 2;
+    const inv = 1.0 / zoom;
+
+    let idx = 0;
+    for (let py = 0; py < h; py++) {
+      const y = Math.floor(Math.abs((py - cy) * inv + 256));
+      for (let px = 0; px < w; px++) {
+        const x = Math.floor(Math.abs((px - cx) * inv + 256));
+        const val = (x ^ y ^ tInt);
+        const rem = val % mod;
+
+        if (rem === 0) {
+          const b = (val & 1) + ((val >> 1) & 1);
+          d32[idx] = b === 0 ? 0xFF0BBEFF : (b === 1 ? 0xFFD4F500 : 0xFF8525F7);
+        } else if (rem === 1 && mod > 2) {
+          d32[idx] = 0xFFB70972;
+        } else {
+          d32[idx] = 0xFF170602;
+        }
+        idx++;
+      }
+    }
+
+    offCtx.putImageData(img, 0, 0);
+
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(off, 0, 0, canvas.width, canvas.height);
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
