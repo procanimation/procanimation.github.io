@@ -118,3 +118,14 @@
   repo_url: "https://github.com/procanimation/antqueue"
   featured: false
   gradient: "linear-gradient(135deg, #ff9f1c 0%, #e71d36 100%)"
+
+- id: "game-of-life"
+  name: "Conway's Game of Life"
+  tag: "Cellular Automata • Complexity"
+  tech: "HTML5 Canvas • JS"
+  description: "Emergent complexity from 4 simple rules: Gosper glider guns, pulsars, and Turing-complete cellular automata."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/game_of_life"
+  demo_url: "/experiments/conways-game-of-life.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #06d6a0 50%, #ffbe0b 100%)"
+

@@ -87,6 +87,18 @@
   video_url: "https://www.youtube.com/shorts/q678Qhyd8gE"
   article_url: "/experiments/black-hole-gravitational-lensing.html"
 
+- title: "Conway's Game of Life: How 4 Rules Create Virtual Worlds"
+  series: "Cellular Automata & Complexity"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:54"
+  description: "John Conway's zero-player cellular automaton, Moore neighborhood sum, B3/S23 transition rules, Gosper glider guns, and Turing completeness."
+  tags: ["GameOfLife", "Conway", "CellularAutomata", "Algorithms", "Coding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #00f5d4, #06d6a0, #ffbe0b)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/conways-game-of-life.html"
+
+
 
 
 

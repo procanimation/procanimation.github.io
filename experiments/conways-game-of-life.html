@@ -1,0 +1,293 @@
+---
+layout: article
+title: "Conway's Game of Life: How 4 Rules Create Virtual Worlds"
+tagline: "Cellular Automata, Emergent Complexity, Gosper Glider Guns & Turing Completeness"
+description: "How John Conway's zero-player cellular automaton generates self-replicating virtual ecosystems and universal computation from 4 simple mathematical rules."
+category: "Computational Complexity & Cellular Automata"
+permalink: /experiments/conways-game-of-life.html
+---
+
+<p class="article-lead">
+  Can dead-simple deterministic rules on a two-dimensional grid give birth to living, self-replicating virtual ecosystems? In October 1970, British mathematician <strong>John Horton Conway</strong> published the Game of Life in Martin Gardner's <em>Scientific American</em> column. With zero players, no physics engine, and just four transition rules, the system exhibits unbounded emergent complexity—proving that the highest orders of life and computation can arise from the simplest axioms.
+</p>
+
+<!-- The Automata Lexicon -->
+<h3>The Cellular Automata Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Moore Neighborhood</h4>
+    <p>The 8 cells horizontally, vertically, and diagonally adjacent to any coordinate $(x,y)$. All life decisions depend solely on the sum of live neighbors: $N \in [0, 8]$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Rule B3/S23</h4>
+    <p><strong>B3</strong> (Birth): A dead cell becomes alive if exactly 3 neighbors exist. <strong>S23</strong> (Survival): A live cell survives if it has 2 or 3 neighbors; otherwise it dies of underpopulation or overpopulation.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Gosper Glider Gun</h4>
+    <p>Discovered by Bill Gosper at MIT in November 1970. A period-30 oscillator that continuously produces traveling gliders, proving finite initial patterns can yield infinite population growth.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Turing Completeness</h4>
+    <p>Because streams of gliders can collide to create logic gates (AND, OR, NOT) and memory registers, Conway's Game of Life is a universal computer capable of simulating any computable algorithm.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🧬 REAL-TIME CONWAY CELLULAR AUTOMATA ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Rule B3/S23 Moore Neighborhood)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Newborn Cell (Age 0)</span>
+      <span style="color:#06d6a0;">● Mature Cell (Age 1-20)</span>
+      <span style="color:#ffbe0b;">● Ancient Core (Age >20)</span>
+      <span style="color:#7209b7;">● Phosphor Decay Ghost</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:520px; background:#030712; border-radius:8px; overflow:hidden;">
+    <canvas id="lifeCanvas" style="width:100%; height:100%; display:block; cursor:crosshair;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(3,7,18,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(0,245,212,0.25);">
+      <div>Gen: <span id="hudGen" style="color:#00f5d4; font-weight:bold;">0</span></div>
+      <div>Live Cells: <span id="hudPop" style="color:#fff; font-weight:bold;">0</span></div>
+      <div>Density: <span id="hudDensity" style="color:#ffbe0b; font-weight:bold;">0.0%</span></div>
+      <div>Rule: <span style="color:#06d6a0; font-weight:bold;">B3/S23</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <button id="btnPlayPause" class="btn btn-primary" style="padding:8px 16px; font-size:12px; border-radius:6px; cursor:pointer;">Pause</button>
+    <button id="btnStep" class="btn btn-secondary" style="padding:8px 14px; font-size:12px; background:#1e2738; color:#f1f5f9; border:1px solid #334155; border-radius:6px; cursor:pointer;">Step +1</button>
+    <button id="btnClear" class="btn btn-secondary" style="padding:8px 14px; font-size:12px; background:#1e2738; color:#f1f5f9; border:1px solid #334155; border-radius:6px; cursor:pointer;">Clear</button>
+    <button id="btnRandom" class="btn btn-secondary" style="padding:8px 14px; font-size:12px; background:#1e2738; color:#f1f5f9; border:1px solid #334155; border-radius:6px; cursor:pointer;">Random Soup</button>
+
+    <div style="display:flex; align-items:center; gap:8px; margin-left:auto;">
+      <label style="font-size:12px; color:#94a3b8;">Preset:</label>
+      <select id="selectPreset" style="background:#1e2738; color:#f1f5f9; border:1px solid #334155; border-radius:6px; padding:6px 10px; font-size:12px;">
+        <option value="gosper">Gosper Glider Gun (MIT 1970)</option>
+        <option value="pulsar">Pulsar (Period 3)</option>
+        <option value="pentadecathlon">Pentadecathlon (Period 15)</option>
+        <option value="gliders">Glider Fleet</option>
+        <option value="acorn">Acorn (Methuselah 5206)</option>
+      </select>
+    </div>
+  </div>
+  <p style="font-size:11px; color:#64748b; margin-top:8px;">💡 <em>Interactive Lab: Click and drag anywhere on the grid to paint new living cells into existence in real time!</em></p>
+</div>
+
+<div class="experiment-actions" style="margin-top:32px; display:flex; gap:16px; flex-wrap:wrap;">
+  <a href="https://github.com/procanimation/science-stuff/tree/main/game_of_life" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    <span>Explore Companion Source Code on GitHub</span>
+  </a>
+  <a href="https://youtube.com/@procanimation" id="btnShortsLink" target="_blank" rel="noopener" class="btn btn-secondary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    <span>Watch High-Definition Master Short</span>
+  </a>
+</div>
+
+<!-- Embedded Interactive Engine Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const canvas = document.getElementById("lifeCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const CELL_SIZE = 8;
+  let cols = 0, rows = 0;
+  let grid = null, nextGrid = null, age = null, decay = null;
+  let isRunning = true;
+  let genCount = 0;
+
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+    cols = Math.floor(canvas.width / CELL_SIZE);
+    rows = Math.floor(canvas.height / CELL_SIZE);
+    grid = new Uint8Array(cols * rows);
+    nextGrid = new Uint8Array(cols * rows);
+    age = new Float32Array(cols * rows);
+    decay = new Float32Array(cols * rows);
+    loadPreset("gosper");
+  }
+
+  function idx(x, y) {
+    return ((y + rows) % rows) * cols + ((x + cols) % cols);
+  }
+
+  function setCell(x, y, v) {
+    if (x >= 0 && x < cols && y >= 0 && y < rows) {
+      grid[idx(x, y)] = v;
+      if (v) age[idx(x, y)] = 0;
+    }
+  }
+
+  function addGosper(ox, oy) {
+    const coords = [
+      [1, 5], [2, 5], [1, 6], [2, 6],
+      [11, 5], [11, 6], [11, 7], [12, 4], [12, 8], [13, 3], [13, 9], [14, 3], [14, 9],
+      [15, 6], [16, 4], [16, 8], [17, 5], [17, 6], [17, 7], [18, 6],
+      [21, 3], [21, 4], [21, 5], [22, 3], [22, 4], [22, 5], [23, 2], [23, 6],
+      [25, 1], [25, 2], [25, 6], [25, 7],
+      [35, 3], [35, 4], [36, 3], [36, 4]
+    ];
+    coords.forEach(([dx, dy]) => setCell(ox + dx, oy + dy, 1));
+  }
+
+  function addPulsar(cx, cy) {
+    for (let dx of [-4, -3, -2, 2, 3, 4]) {
+      for (let dy of [-6, -1, 1, 6]) setCell(cx + dx, cy + dy, 1);
+    }
+    for (let dy of [-4, -3, -2, 2, 3, 4]) {
+      for (let dx of [-6, -1, 1, 6]) setCell(cx + dx, cy + dy, 1);
+    }
+  }
+
+  function addGlider(x, y) {
+    [[1,0],[2,1],[0,2],[1,2],[2,2]].forEach(([dx, dy]) => setCell(x + dx, y + dy, 1));
+  }
+
+  function loadPreset(name) {
+    grid.fill(0);
+    nextGrid.fill(0);
+    age.fill(0);
+    decay.fill(0);
+    genCount = 0;
+
+    const mx = Math.floor(cols / 2);
+    const my = Math.floor(rows / 2);
+
+    if (name === "gosper") {
+      addGosper(Math.max(5, mx - 30), Math.max(5, my - 15));
+    } else if (name === "pulsar") {
+      addPulsar(mx, my);
+    } else if (name === "pentadecathlon") {
+      for (let dy = -4; dy <= 5; dy++) {
+        if (dy === -3 || dy === 2) {
+          setCell(mx - 1, my + dy, 1);
+          setCell(mx + 1, my + dy, 1);
+        } else setCell(mx, my + dy, 1);
+      }
+    } else if (name === "gliders") {
+      for (let i = 0; i < 8; i++) {
+        addGlider(5 + i * 14, 5 + i * 6);
+      }
+    } else if (name === "acorn") {
+      [[1,0],[3,1],[0,2],[1,2],[4,2],[5,2],[6,2]].forEach(([dx, dy]) => setCell(mx + dx - 3, my + dy - 1, 1));
+    }
+  }
+
+  function stepSim() {
+    genCount++;
+    for (let y = 0; y < rows; y++) {
+      const ya = (y - 1 + rows) % rows;
+      const yb = (y + 1) % rows;
+      for (let x = 0; x < cols; x++) {
+        const xl = (x - 1 + cols) % cols;
+        const xr = (x + 1) % cols;
+        const n = grid[ya * cols + xl] + grid[ya * cols + x] + grid[ya * cols + xr] +
+                  grid[y * cols + xl] + grid[y * cols + xr] +
+                  grid[yb * cols + xl] + grid[yb * cols + x] + grid[yb * cols + xr];
+        const cur = grid[y * cols + x];
+        let next = 0;
+        if (cur === 1 && (n === 2 || n === 3)) next = 1;
+        else if (cur === 0 && n === 3) next = 1;
+
+        const i = y * cols + x;
+        nextGrid[i] = next;
+        if (next === 1) {
+          age[i] = cur === 1 ? age[i] + 1 : 0;
+          decay[i] = 1.0;
+        } else {
+          if (cur === 1) decay[i] = 1.0;
+          else decay[i] = Math.max(0, decay[i] - 0.15);
+          age[i] = 0;
+        }
+      }
+    }
+    const temp = grid; grid = nextGrid; nextGrid = temp;
+  }
+
+  function draw() {
+    ctx.fillStyle = "#030712";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    let live = 0;
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const i = y * cols + x;
+        const alive = grid[i] === 1;
+        const d = decay[i];
+        const px = x * CELL_SIZE;
+        const py = y * CELL_SIZE;
+
+        if (alive) {
+          live++;
+          const a = age[i];
+          if (a === 0) ctx.fillStyle = "#ffffff";
+          else if (a < 10) ctx.fillStyle = "#00f5d4";
+          else if (a < 30) ctx.fillStyle = "#06d6a0";
+          else ctx.fillStyle = "#ffbe0b";
+          ctx.fillRect(px + 1, py + 1, CELL_SIZE - 2, CELL_SIZE - 2);
+        } else if (d > 0.05) {
+          ctx.fillStyle = "rgba(114, 9, 183, " + (d * 0.4) + ")";
+          ctx.fillRect(px + 1, py + 1, CELL_SIZE - 2, CELL_SIZE - 2);
+        }
+      }
+    }
+
+    document.getElementById("hudGen").textContent = genCount;
+    document.getElementById("hudPop").textContent = live;
+    document.getElementById("hudDensity").textContent = ((live / (cols * rows)) * 100).toFixed(1) + "%";
+  }
+
+  let lastFrame = 0;
+  function loop(time) {
+    if (isRunning && time - lastFrame > 45) {
+      stepSim();
+      lastFrame = time;
+    }
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  // Mouse interaction
+  let isDrawing = false;
+  canvas.addEventListener("mousedown", (e) => { isDrawing = true; paint(e); });
+  window.addEventListener("mouseup", () => isDrawing = false);
+  canvas.addEventListener("mousemove", (e) => { if (isDrawing) paint(e); });
+
+  function paint(e) {
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+    const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+    setCell(x, y, 1);
+  }
+
+  // Controls
+  const btnPlay = document.getElementById("btnPlayPause");
+  btnPlay.addEventListener("click", () => {
+    isRunning = !isRunning;
+    btnPlay.textContent = isRunning ? "Pause" : "Resume";
+  });
+  document.getElementById("btnStep").addEventListener("click", () => { stepSim(); draw(); });
+  document.getElementById("btnClear").addEventListener("click", () => {
+    grid.fill(0); nextGrid.fill(0); age.fill(0); decay.fill(0); genCount = 0; draw();
+  });
+  document.getElementById("btnRandom").addEventListener("click", () => {
+    for (let i = 0; i < grid.length; i++) {
+      grid[i] = Math.random() < 0.2 ? 1 : 0;
+      age[i] = 0; decay[i] = 0;
+    }
+    genCount = 0;
+  });
+  document.getElementById("selectPreset").addEventListener("change", (e) => loadPreset(e.target.value));
+
+  window.addEventListener("resize", resize);
+  resize();
+  requestAnimationFrame(loop);
+});
+</script>
