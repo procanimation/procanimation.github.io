@@ -1,0 +1,324 @@
+---
+layout: article
+title: "General Relativity: Black Hole Gravitational Lensing & Spacetime Curvature"
+tagline: "The Schwarzschild Metric, Light Geodesics & Relativistic Doppler Beaming"
+description: "How extreme spacetime curvature warps light from an accretion disk over the poles of a singularity, creating dual halos and golden Einstein rings."
+category: "Astrophysics & Relativity"
+permalink: /experiments/black-hole-gravitational-lensing.html
+---
+
+<p class="article-lead">
+  When viewing a black hole surrounded by a luminous accretion disk, one does not see a simple circular shadow. Instead, the disk appears simultaneously flat in front, arched over the top pole, and looping under the bottom pole. This is not an optical illusion—it is the literal geometry of light following curved null geodesics in four-dimensional spacetime.
+</p>
+
+<!-- The Relativity Lexicon -->
+<h3>The Relativity Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Schwarzschild Radius ($R_s$)</h4>
+    <p>The boundary where escape velocity equals the speed of light: $R_s = \frac{2GM}{c^2}$. Inside this radius, all timelike paths terminate at the singularity.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Photon Sphere ($1.5 R_s$)</h4>
+    <p>The unstable boundary where light rays are bent into exact circular orbits. Any light entering closer is pulled into the event horizon.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Relativistic Doppler Beaming</h4>
+    <p>Matter orbiting at $v \approx 0.5c$ emits radiation beamed intensely forward, making the approaching side orders of magnitude brighter and blueshifted.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Gravitational Redshift</h4>
+    <p>Time dilates near the event horizon: $f_{\text{obs}} = f_{\text{emit}}\sqrt{1 - \frac{R_s}{r}}$, shifting photons towards longer wavelengths.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌌 REAL-TIME GENERAL RELATIVITY RAYMARCHER</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Schwarzschild Geodesic Numerical Integrator)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Approaching Doppler Blueshift</span>
+      <span style="color:#ffbe0b;">● Photon Sphere Halo ($1.5 R_s$)</span>
+      <span style="color:#f72585;">● Receding Doppler Redshift</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:540px; background:#000; border-radius:8px; overflow:hidden;">
+    <canvas id="bhCanvas" style="width:100%; height:100%; display:block; cursor:grab;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(6,10,18,0.75); padding:8px 12px; border-radius:6px; border:1px solid rgba(77,226,208,0.25);">
+      <div>Mass ($M_\odot$): <span id="hudMass" style="color:#fff; font-weight:bold;">1.00</span></div>
+      <div>Event Horizon ($R_s$): <span id="hudRs" style="color:#f72585; font-weight:bold;">0.72 units</span></div>
+      <div>Photon Sphere: <span id="hudPs" style="color:#ffbe0b; font-weight:bold;">1.08 units</span></div>
+      <div>Camera Pitch: <span id="hudPitch" style="color:#00f5d4; font-weight:bold;">22.5°</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:16px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
+    <div style="flex:1; min-width:200px;">
+      <label style="display:block; font-size:12px; color:#94a3b8; margin-bottom:6px;">Black Hole Mass Scale ($R_s$)</label>
+      <input type="range" id="sliderMass" min="0.4" max="1.1" step="0.05" value="0.72" style="width:100%;">
+    </div>
+    <div style="flex:1; min-width:200px;">
+      <label style="display:block; font-size:12px; color:#94a3b8; margin-bottom:6px;">Accretion Orbit Speed</label>
+      <input type="range" id="sliderSpeed" min="0.5" max="3.0" step="0.1" value="1.5" style="width:100%;">
+    </div>
+    <div style="display:flex; align-items:flex-end; gap:8px;">
+      <button id="btnResetView" class="btn btn-secondary" style="padding:8px 14px; font-size:12px; background:#1e2738; color:#f1f5f9; border:1px solid #334155; border-radius:6px; cursor:pointer;">Reset Camera</button>
+    </div>
+  </div>
+  <p style="font-size:11px; color:#64748b; margin-top:8px;">💡 <em>Interactive: Click and drag anywhere on the canvas to rotate the camera around the black hole in 3D spacetime!</em></p>
+</div>
+
+<h3>1. Einstein’s Geodesic Equation in Curved Space</h3>
+<p>
+  In 1915, Albert Einstein published the field equations of General Relativity:
+</p>
+
+$$G_{\mu\nu} + \Lambda g_{\mu\nu} = \frac{8\pi G}{c^4} T_{\mu\nu}$$
+
+<p>
+  Where $G_{\mu\nu}$ is the Einstein tensor describing the geometry of spacetime, and $T_{\mu\nu}$ is the stress-energy tensor describing matter and energy. Months later, while serving on the Russian front in World War I, German physicist <strong>Karl Schwarzschild</strong> found the first exact, non-trivial solution representing spacetime around a static spherical mass:
+</p>
+
+$$ds^2 = -\left(1 - \frac{r_s}{r}\right) c^2 dt^2 + \left(1 - \frac{r_s}{r}\right)^{-1} dr^2 + r^2 \left(d\theta^2 + \sin^2\theta \, d\phi^2\right)$$
+
+<p>
+  Photons travel along null geodesics ($ds^2 = 0$). In classical Euclidean physics, light travels in straight lines. But in Schwarzschild geometry, radial coordinate acceleration bends light according to:
+</p>
+
+$$\frac{d^2 x^\mu}{d\lambda^2} + \Gamma^\mu_{\alpha\beta} \frac{dx^\alpha}{d\lambda} \frac{dx^\beta}{d\lambda} = 0$$
+
+<h3>2. The Interstellar Dual-Halo Effect</h3>
+<p>
+  When Kip Thorne and the VFX team at Double Negative modeled black hole Gargantua for Christopher Nolan's <em>Interstellar</em>, the simulation revealed that light from the rear plane of the accretion disk bends both <strong>above</strong> and <strong>below</strong> the black hole. The observer simultaneously sees:
+</p>
+<ol>
+  <li>The direct front section of the disk.</li>
+  <li>Light from the top of the rear disk, bent up over the north pole toward the observer.</li>
+  <li>Light from the bottom of the rear disk, bent underneath the south pole toward the observer.</li>
+</ol>
+
+<!-- Repository and Source Code Links -->
+<div class="experiment-actions" style="margin-top:32px; display:flex; gap:16px; flex-wrap:wrap;">
+  <a href="https://github.com/procanimation/science-stuff/tree/main/black_hole" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    <span>Explore Companion Source Code on GitHub</span>
+  </a>
+  <a href="https://youtube.com/@procanimation" target="_blank" rel="noopener" class="btn btn-secondary" style="display:inline-flex; align-items:center; gap:8px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    <span>Watch High-Definition Master Short</span>
+  </a>
+</div>
+
+<!-- Embedded Interactive WebGL Raymarching Engine -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const canvas = document.getElementById("bhCanvas");
+  if (!canvas) return;
+  const gl = canvas.getContext("webgl", { preserveDrawingBuffer: true, alpha: false });
+  if (!gl) return;
+
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  const vsSource = `
+    attribute vec2 a_pos;
+    void main() {
+      gl_Position = vec4(a_pos, 0.0, 1.0);
+    }
+  `;
+
+  const fsSource = `
+    precision highp float;
+    uniform vec2 u_resolution;
+    uniform float u_time;
+    uniform float u_rs;
+    uniform float u_pitch;
+    uniform float u_yaw;
+
+    #define PI 3.14159265359
+    #define MAX_STEPS 110
+    #define STEP_SIZE 0.095
+
+    float hash(vec2 p) { return fract(sin(dot(p, vec2(12.7, 314.7))) * 43758.5453); }
+    float noise(vec2 p) {
+      vec2 i = floor(p); vec2 f = fract(p);
+      f = f * f * (3.0 - 2.0 * f);
+      return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+                 mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
+    }
+    float fbm(vec2 p) {
+      float v = 0.0; float a = 0.5;
+      for (int i = 0; i < 3; i++) { v += a * noise(p); p = p * 2.1; a *= 0.5; }
+      return v;
+    }
+
+    vec3 getBackground(vec3 dir) {
+      vec2 uv = vec2(atan(dir.z, dir.x), asin(dir.y));
+      float stars = pow(hash(floor(uv * 140.0)), 30.0) * 1.5;
+      float gal = smoothstep(0.4, 0.0, abs(dir.y + 0.1 * sin(dir.x * 2.5)));
+      vec3 neb = mix(vec3(0.02, 0.03, 0.09), vec3(0.12, 0.04, 0.22), fbm(uv * 4.0));
+      return neb * (0.35 + 0.65 * gal) + vec3(stars);
+    }
+
+    void main() {
+      vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+      
+      float rs = u_rs;
+      float isco = 3.0 * rs;
+      float diskOut = 7.5 * rs;
+
+      float cy = cos(u_yaw); float sy = sin(u_yaw);
+      float cp = cos(u_pitch); float sp = sin(u_pitch);
+
+      vec3 ro = vec3(5.2 * sy * cp, 5.2 * sp, 5.2 * cy * cp);
+      vec3 ta = vec3(0.0, 0.0, 0.0);
+      vec3 ww = normalize(ta - ro);
+      vec3 uu = normalize(cross(ww, vec3(0.0, 1.0, 0.0)));
+      vec3 vv = cross(uu, ww);
+      vec3 rd = normalize(uv.x * uu + uv.y * vv + 1.8 * ww);
+
+      vec3 pos = ro; vec3 vel = rd;
+      vec3 diskColorAccum = vec3(0.0);
+      float diskAccum = 0.0;
+      bool captured = false;
+
+      for (int i = 0; i < MAX_STEPS; i++) {
+        float r = length(pos);
+        if (r <= rs) { captured = true; break; }
+        if (r > 15.0) break;
+
+        vec3 oldPos = pos;
+        float dt = STEP_SIZE * min(1.0, r * 0.7);
+        pos += vel * dt;
+
+        vec3 hVec = cross(pos, vel);
+        float h2 = dot(hVec, hVec);
+        vec3 accel = -1.5 * rs * h2 * pos / pow(r, 5.0);
+        vel = normalize(vel + accel * dt);
+
+        if (oldPos.y * pos.y < 0.0) {
+          float tIntersect = -oldPos.y / (pos.y - oldPos.y);
+          vec3 hitPos = mix(oldPos, pos, tIntersect);
+          float hitR = length(hitPos.xz);
+          if (hitR >= isco && hitR <= diskOut) {
+            float phi = atan(hitPos.z, hitPos.x);
+            float keplerSpeed = sqrt(rs / (2.0 * hitR));
+            float rotAngle = phi - u_time * (2.2 / sqrt(hitR));
+            float density = fbm(vec2(hitR * 4.0, rotAngle * 2.5));
+            float falloff = smoothstep(isco, isco + 0.4 * rs, hitR) * (1.0 - smoothstep(diskOut - 1.2 * rs, diskOut, hitR));
+            density = pow(density, 1.3) * falloff * 2.2;
+
+            vec3 vDisk = normalize(vec3(-hitPos.z, 0.0, hitPos.x)) * keplerSpeed;
+            float cosTheta = dot(normalize(vel), vDisk);
+            float gamma = 1.0 / sqrt(max(0.01, 1.0 - keplerSpeed * keplerSpeed));
+            float doppler = 1.0 / (gamma * (1.0 - cosTheta));
+            float beaming = pow(doppler, 3.2);
+
+            vec3 hue = (cosTheta > 0.08) ?
+              mix(vec3(1.0, 0.65, 0.2), vec3(0.35, 0.92, 1.0), smoothstep(0.08, 0.55, cosTheta)) :
+              mix(vec3(1.0, 0.5, 0.1), vec3(0.92, 0.16, 0.05), smoothstep(-0.08, -0.55, cosTheta));
+            hue *= sqrt(max(0.01, 1.0 - rs / hitR));
+
+            diskColorAccum += (1.0 - diskAccum) * hue * beaming * density;
+            diskAccum += (1.0 - diskAccum) * clamp(density * 0.75, 0.0, 1.0);
+            if (diskAccum >= 0.95) break;
+          }
+        }
+      }
+
+      vec3 col = captured ? diskColorAccum : (diskColorAccum + (1.0 - diskAccum) * getBackground(vel));
+      float rayMin = length(cross(ro, rd));
+      col += vec3(0.95, 0.65, 0.28) * (0.035 / (abs(rayMin - 1.5 * rs * 1.1) + 0.04)) * 0.35;
+
+      col = col / (col + vec3(1.0));
+      col = pow(col, vec3(0.85));
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  function createShader(gl, type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, createShader(gl, gl.VERTEX_SHADER, vsSource));
+  gl.attachShader(prog, createShader(gl, gl.FRAGMENT_SHADER, fsSource));
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+  const aPos = gl.getAttribLocation(prog, "a_pos");
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  const uRes = gl.getUniformLocation(prog, "u_resolution");
+  const uTime = gl.getUniformLocation(prog, "u_time");
+  const uRs = gl.getUniformLocation(prog, "u_rs");
+  const uPitch = gl.getUniformLocation(prog, "u_pitch");
+  const uYaw = gl.getUniformLocation(prog, "u_yaw");
+
+  let pitch = 0.38;
+  let yaw = 0.0;
+  let mass = 0.72;
+  let speedMult = 1.5;
+
+  let isDragging = false;
+  let lastX = 0, lastY = 0;
+
+  canvas.addEventListener("mousedown", (e) => { isDragging = true; lastX = e.clientX; lastY = e.clientY; });
+  window.addEventListener("mouseup", () => { isDragging = false; });
+  window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    let dx = e.clientX - lastX;
+    let dy = e.clientY - lastY;
+    yaw += dx * 0.008;
+    pitch = Math.max(-1.4, Math.min(1.4, pitch - dy * 0.008));
+    lastX = e.clientX; lastY = e.clientY;
+    document.getElementById("hudPitch").textContent = (pitch * 180 / Math.PI).toFixed(1) + "°";
+  });
+
+  document.getElementById("sliderMass").addEventListener("input", (e) => {
+    mass = parseFloat(e.target.value);
+    document.getElementById("hudMass").textContent = (mass / 0.72).toFixed(2);
+    document.getElementById("hudRs").textContent = mass.toFixed(2) + " units";
+    document.getElementById("hudPs").textContent = (mass * 1.5).toFixed(2) + " units";
+  });
+
+  document.getElementById("sliderSpeed").addEventListener("input", (e) => {
+    speedMult = parseFloat(e.target.value);
+  });
+
+  document.getElementById("btnResetView").addEventListener("click", () => {
+    pitch = 0.38; yaw = 0.0; mass = 0.72;
+    document.getElementById("sliderMass").value = 0.72;
+    document.getElementById("hudMass").textContent = "1.00";
+    document.getElementById("hudRs").textContent = "0.72 units";
+    document.getElementById("hudPs").textContent = "1.08 units";
+    document.getElementById("hudPitch").textContent = "22.5°";
+  });
+
+  let startTime = performance.now();
+  function renderLoop() {
+    let t = (performance.now() - startTime) * 0.001 * speedMult;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform1f(uTime, t);
+    gl.uniform1f(uRs, mass);
+    gl.uniform1f(uPitch, pitch);
+    gl.uniform1f(uYaw, yaw);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(renderLoop);
+  }
+  requestAnimationFrame(renderLoop);
+});
+</script>

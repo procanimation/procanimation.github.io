@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "Black Hole Gravitational Lensing"
+  slug: "black-hole"
+  category: "science"
+  tag: "Relativity • Schwarzschild Metric"
+  tech: "WebGL / GLSL Raymarching"
+  description: "Light geodesic curvature in four-dimensional spacetime, photon spheres (1.5 Rs), Einstein rings, and relativistic Doppler beaming."
+  article_url: "/experiments/black-hole-gravitational-lensing.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/black_hole"
+  featured: true
+  gradient: "linear-gradient(135deg, #f72585 0%, #7209b7 50%, #00f5d4 100%)"
+
 - name: "Ant Swarm Intelligence & Stigmergy"
   slug: "ant-swarm"
   category: "science"

@@ -76,5 +76,17 @@
   video_url: "https://www.youtube.com/shorts/mkORha4ej3Q"
   article_url: "/experiments/ant-swarm-intelligence.html"
 
+- title: "Black Hole Gravitational Lensing: How Spacetime Bends Light"
+  series: "General Relativity"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:53"
+  description: "Karl Schwarzschild's metric, photon spheres (1.5 Rs), Einstein rings, and relativistic Doppler beaming modeled with raymarched geodesics."
+  tags: ["BlackHole", "Relativity", "Physics", "Einstein", "WebGL"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #f72585, #7209b7, #00f5d4)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/black-hole-gravitational-lensing.html"
+
+
 
 
