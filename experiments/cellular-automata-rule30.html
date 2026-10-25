@@ -1,0 +1,234 @@
+---
+layout: article
+title: "Cellular Automata: Rule 30 Cryptographic Chaos & Rule 110 Universal Computation"
+tagline: "Elementary Cellular Automata, Aperiodic Pseudo-Randomness & Turing Completeness"
+description: "How an infinite row of 1-bit cells and simple local rules produce cryptographic chaos, self-similar fractals, and universal computing machines."
+category: "Discrete Mathematics & Computational Art"
+permalink: /experiments/cellular-automata-rule30.html
+---
+
+<p class="article-lead">
+  In 1983, theoretical physicist Stephen Wolfram systematically explored <strong>Elementary Cellular Automata (ECA)</strong>: 1D grids of binary cells whose states evolve in discrete steps based purely on their own value and their two immediate neighbors. With only $2^3 = 8$ possible input neighborhoods, exactly $2^8 = 256$ distinct elementary rules exist. Despite this simplicity, these rules span the entirety of dynamical systems: from trivial extinction to self-similar fractals, genuine cryptographic pseudo-randomness, and universal Turing-complete computation.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Cellular Automata Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Rule 30: Aperiodic Chaos ($\text{Class 3}$)</h4>
+    <p>Using the local Boolean function $p \oplus (q \lor r)$, Rule 30 generates non-repeating, deterministic chaos from a single active cell. Its central column passes rigorous statistical randomness tests and served as Mathematica's core pseudo-random number generator.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Rule 90: Bitwise Sierpinski ($\text{Class 2}$)</h4>
+    <p>Computed by $p \oplus r$ (ignoring the center cell), Rule 90 is isomorphic to Pascal's triangle modulo 2. It produces an exact recursive Sierpinski triangle with fractional Hausdorff dimension $D = \frac{\ln 3}{\ln 2} \approx 1.585$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Rule 110: Turing Completeness ($\text{Class 4}$)</h4>
+    <p>Computed by $(q \land \neg p) \lor (q \oplus r)$. Proven by Matthew Cook in 2004 to be <strong>Turing-complete</strong>. Localized periodic structures called "gliders" collide and interact, enabling universal algorithmic computation.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Rule 184: Traffic & Particle Annihilation</h4>
+    <p>A deterministic model for vehicular traffic flow and surface deposition. Particles move right if the space ahead is empty, reproducing fluid shockwaves, jam propagation, and ballistic annihilation dynamics.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ REAL-TIME 1D CELLULAR AUTOMATA ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Rule Synthesizer & Discrete Generator)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#38bdf8;">● Active Cells</span>
+      <span style="color:#f43f5e;">● Chaotic Tracers</span>
+      <span style="color:#4ade80;">● Turing Gliders</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:520px; background:#030712; border-radius:8px; overflow:hidden;">
+    <canvas id="caCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(3,7,18,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(56,189,248,0.25);">
+      <div>Active Rule: <span id="hudRule" style="color:#38bdf8; font-weight:bold;">Rule 30 (00011110₂)</span></div>
+      <div>Generation: <span id="hudGen" style="color:#4ade80; font-weight:bold;">0</span></div>
+      <div>Active Population: <span id="hudPop" style="color:#ffbe0b; font-weight:bold;">1</span></div>
+      <div>Complexity: <span id="hudClass" style="color:#f43f5e; font-weight:bold;">Class 3 (Chaos)</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <button id="btnToggleAnim" class="btn btn-primary" style="padding:8px 16px; font-size:12px; border-radius:6px; cursor:pointer; background:#38bdf8; color:#030712; font-weight:bold; border:none;">
+      ❚❚ Pause Evolution
+    </button>
+    <button id="btnReset" class="btn btn-secondary" style="padding:8px 14px; font-size:12px; border-radius:6px; cursor:pointer; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">
+      ↺ Reset Seed
+    </button>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">PRESET RULES:</label>
+      <button class="rule-btn" data-rule="30" style="padding:6px 12px; font-size:11px; background:#1e293b; color:#38bdf8; border:1px solid #38bdf8; border-radius:4px; cursor:pointer; font-weight:bold;">Rule 30</button>
+      <button class="rule-btn" data-rule="90" style="padding:6px 12px; font-size:11px; background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.15); border-radius:4px; cursor:pointer;">Rule 90</button>
+      <button class="rule-btn" data-rule="110" style="padding:6px 12px; font-size:11px; background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.15); border-radius:4px; cursor:pointer;">Rule 110</button>
+      <button class="rule-btn" data-rule="184" style="padding:6px 12px; font-size:11px; background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.15); border-radius:4px; cursor:pointer;">Rule 184</button>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">SEED:</label>
+      <select id="seedSelect" style="padding:6px 10px; font-size:11px; background:#1e293b; color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:4px; cursor:pointer;">
+        <option value="single">Single Center Pixel</option>
+        <option value="random">Random Noise (50%)</option>
+      </select>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">SPEED:</label>
+      <input type="range" id="speedSlider" min="1" max="10" value="4" style="width:80px;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('caCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let width = canvas.width = canvas.parentElement.clientWidth;
+  let height = canvas.height = canvas.parentElement.clientHeight;
+
+  const cellSize = 4;
+  let cols = Math.floor(width / cellSize);
+  let rows = Math.floor(height / cellSize);
+
+  let currentRule = 30;
+  let seedType = 'single';
+  let isRunning = true;
+  let speed = 4;
+
+  let grid = [];
+  let currentGen = 0;
+
+  function initGrid() {
+    grid = [];
+    currentGen = 0;
+    const firstRow = new Uint8Array(cols);
+    if (seedType === 'single') {
+      firstRow[Math.floor(cols / 2)] = 1;
+    } else {
+      for (let i = 0; i < cols; i++) {
+        firstRow[i] = Math.random() > 0.5 ? 1 : 0;
+      }
+    }
+    grid.push(firstRow);
+    renderAll();
+  }
+
+  function getRuleBit(rule, left, center, right) {
+    const idx = (left << 2) | (center << 1) | right;
+    return (rule >> idx) & 1;
+  }
+
+  function step() {
+    if (grid.length >= rows) {
+      grid.shift(); // scroll upwards
+    }
+    const prevRow = grid[grid.length - 1];
+    const nextRow = new Uint8Array(cols);
+    for (let x = 0; x < cols; x++) {
+      const left = x > 0 ? prevRow[x - 1] : prevRow[cols - 1];
+      const center = prevRow[x];
+      const right = x < cols - 1 ? prevRow[x + 1] : prevRow[0];
+      nextRow[x] = getRuleBit(currentRule, left, center, right);
+    }
+    grid.push(nextRow);
+    currentGen++;
+  }
+
+  function renderAll() {
+    ctx.fillStyle = '#030712';
+    ctx.fillRect(0, 0, width, height);
+
+    let activePop = 0;
+    for (let y = 0; y < grid.length; y++) {
+      const row = grid[y];
+      for (let x = 0; x < cols; x++) {
+        if (row[x] === 1) {
+          activePop++;
+          if (currentRule === 30) {
+            ctx.fillStyle = x === Math.floor(cols / 2) ? '#f43f5e' : '#38bdf8';
+          } else if (currentRule === 90) {
+            ctx.fillStyle = '#a855f7';
+          } else if (currentRule === 110) {
+            ctx.fillStyle = '#4ade80';
+          } else {
+            ctx.fillStyle = '#f59e0b';
+          }
+          ctx.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
+        }
+      }
+    }
+
+    document.getElementById('hudGen').innerText = currentGen;
+    document.getElementById('hudPop').innerText = activePop;
+  }
+
+  let stepAcc = 0;
+  function animate() {
+    if (isRunning) {
+      stepAcc += speed * 0.25;
+      while (stepAcc >= 1) {
+        step();
+        stepAcc -= 1;
+      }
+      renderAll();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  // Event handlers
+  document.getElementById('btnToggleAnim').addEventListener('click', function() {
+    isRunning = !isRunning;
+    this.innerText = isRunning ? '❚❚ Pause Evolution' : '▶ Resume Evolution';
+  });
+
+  document.getElementById('btnReset').addEventListener('click', initGrid);
+
+  document.querySelectorAll('.rule-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.rule-btn').forEach(b => {
+        b.style.borderColor = 'rgba(255,255,255,0.15)';
+        b.style.color = '#cbd5e1';
+      });
+      this.style.borderColor = '#38bdf8';
+      this.style.color = '#38bdf8';
+
+      currentRule = parseInt(this.getAttribute('data-rule'));
+      const binary = (currentRule >>> 0).toString(2).padStart(8, '0');
+      document.getElementById('hudRule').innerText = `Rule ${currentRule} (${binary}₂)`;
+
+      const classMap = { 30: 'Class 3 (Chaos)', 90: 'Class 2 (Fractal)', 110: 'Class 4 (Turing Complete)', 184: 'Class 2 (Solitons)' };
+      document.getElementById('hudClass').innerText = classMap[currentRule] || 'Class 2';
+      initGrid();
+    });
+  });
+
+  document.getElementById('seedSelect').addEventListener('change', function() {
+    seedType = this.value;
+    initGrid();
+  });
+
+  document.getElementById('speedSlider').addEventListener('input', function() {
+    speed = parseInt(this.value);
+  });
+
+  window.addEventListener('resize', function() {
+    width = canvas.width = canvas.parentElement.clientWidth;
+    height = canvas.height = canvas.parentElement.clientHeight;
+    cols = Math.floor(width / cellSize);
+    rows = Math.floor(height / cellSize);
+    initGrid();
+  });
+
+  initGrid();
+  requestAnimationFrame(animate);
+})();
+</script>

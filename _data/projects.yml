@@ -158,7 +158,13 @@
   demo_url: "/experiments/xor-bitwise-fractal.html"
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #f72585 50%, #ffbe0b 100%)"
-
-
-
+- id: "cellular-automata-rule30"
+  name: "Rule 30 & 110 Cellular Automata"
+  tag: "Cellular Automata • Discrete Chaos"
+  tech: "HTML5 Canvas • Elementary Rules"
+  description: "Wolfram elementary rules, deterministic aperiodic pseudo-randomness in Rule 30, Rule 90 Sierpinski fractals, and Cook's Turing completeness in Rule 110."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/cellular_automata_rule30"
+  demo_url: "/experiments/cellular-automata-rule30.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #4ade80 50%, #f43f5e 100%)"
 

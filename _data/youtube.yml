@@ -131,10 +131,13 @@
   video_url: "https://youtube.com/@procanimation"
   article_url: "/experiments/xor-bitwise-fractal.html"
 
-
-
-
-
-
-
-
+- title: "Rule 30 & 110 Cellular Automata: Cryptographic Chaos & Turing Completeness"
+  series: "Discrete Mathematics"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:58"
+  description: "Wolfram elementary rules, deterministic aperiodic pseudo-randomness in Rule 30, Rule 90 Sierpinski fractals, and Cook's Turing completeness in Rule 110."
+  tags: ["CellularAutomata", "Rule30", "Rule110", "TuringComplete", "ChaosTheory", "Math", "CreativeCoding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/cellular-automata-rule30.html"
