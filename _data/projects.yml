@@ -203,3 +203,23 @@
   demo_url: "/experiments/chladni-patterns.html"
   featured: true
   gradient: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #38bdf8 100%)"
+- id: "buddhabrot"
+  name: "The Buddhabrot & Nebulabrot"
+  tag: "Chaos Theory • Dual Complex Density"
+  tech: "HTML5 Canvas • Monte Carlo Trajectory"
+  description: "Melinda Green's 1993 dual complex plane orbit density fractal, escaping trajectory footprints, and multi-wavelength RGB Nebulabrot."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/buddhabrot"
+  demo_url: "/experiments/buddhabrot.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f0ff 0%, #f59e0b 50%, #a855f7 100%)"
+- id: "heighway-dragon"
+  name: "The Heighway Dragon Curve"
+  tag: "L-Systems • Paper Folding"
+  tech: "HTML5 Canvas • Recursive L-System"
+  description: "NASA physicists 1966 paper-folding fractal, dimension-two plane tiling, and 4-dragon interlocking tessellation."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/heighway_dragon"
+  demo_url: "/experiments/heighway-dragon.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #f43f5e 0%, #38bdf8 50%, #10b981 100%)"
+
+

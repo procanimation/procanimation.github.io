@@ -185,3 +185,27 @@
   gradient: "linear-gradient(135deg, #f59e0b, #fbbf24, #38bdf8)"
   video_url: "https://youtube.com/@procanimation"
   article_url: "/experiments/chladni-patterns.html"
+
+- title: "The Ghost in the Mandelbrot Set: The Buddhabrot & Nebulabrot"
+  series: "Chaos Theory & Fractals"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:52"
+  description: "Melinda Green's 1993 dual complex plane orbit density fractal, escaping trajectory footprints, and multi-wavelength RGB Nebulabrot."
+  tags: ["Buddhabrot", "Nebulabrot", "Fractals", "Mandelbrot", "ChaosTheory", "Math", "ComplexNumbers", "CreativeCoding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #00f0ff, #f59e0b, #a855f7)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/buddhabrot.html"
+
+- title: "The Paper-Folding Monster: The Heighway Dragon Curve"
+  series: "Fractals & L-Systems"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:50"
+  description: "NASA physicists 1966 paper-folding fractal, dimension-two plane tiling, and 4-dragon interlocking tessellation."
+  tags: ["HeighwayDragon", "DragonCurve", "Fractals", "LSystem", "Math", "PaperFolding", "Tessellation", "CreativeCoding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #f43f5e, #38bdf8, #10b981)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/heighway-dragon.html"
+
+
