@@ -27,8 +27,9 @@
           <p>{{ proj.description }}</p>
           <div class="project-card-actions">
             <div class="btn-action-group">
-              {% if proj.article_url %}
-              <a href="{{ proj.article_url }}" class="btn-lab-launch">
+              {% assign lab_url = proj.article_url | default: proj.demo_url %}
+              {% if lab_url %}
+              <a href="{{ lab_url }}" class="btn-lab-launch">
                 <span class="btn-glow-dot"></span>
                 <span>Interactive Sim Lab</span>
                 <span class="btn-arrow">↗</span>
