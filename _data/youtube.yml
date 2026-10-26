@@ -163,3 +163,14 @@
   gradient: "linear-gradient(135deg, #38bdf8, #f59e0b, #f43f5e)"
   video_url: "https://youtube.com/@procanimation"
   article_url: "/experiments/collatz-fractal-tree.html"
+
+- title: "The 2 Rules That Created Spontaneous Intelligence (Langton's Ant)"
+  series: "Artificial Life & Emergence"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:54"
+  description: "Christopher Langton's 1986 cellular automaton, transition from symmetry to 10,000 steps of chaos, and spontaneous crystallization of the 104-step highway."
+  tags: ["LangtonsAnt", "ArtificialLife", "Emergence", "CellularAutomata", "TuringMachine", "ChaosTheory", "Math", "CreativeCoding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/langtons-ant.html"

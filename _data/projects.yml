@@ -185,3 +185,12 @@
   demo_url: "/experiments/collatz-fractal-tree.html"
   featured: true
   gradient: "linear-gradient(135deg, #38bdf8 0%, #f59e0b 50%, #f43f5e 100%)"
+- id: "langtons-ant"
+  name: "Langton's Ant: Emergent Highway"
+  tag: "Artificial Life • Emergence"
+  tech: "HTML5 Canvas • 2D Turing Machine"
+  description: "Christopher Langton's 1986 cellular automaton, transition from symmetry to 10,000 steps of chaos, and spontaneous crystallization of the 104-step highway."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/langtons_ant"
+  demo_url: "/experiments/langtons-ant.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #4ade80 50%, #f43f5e 100%)"

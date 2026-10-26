@@ -1,0 +1,195 @@
+---
+layout: article
+title: "Langton's Ant: Emergent Computation & The 10,000-Step Highway"
+tagline: "Artificial Life, 2D Turing Machines & Spontaneous Order Out of Chaos"
+description: "How a tiny virtual ant operating on two elementary rules wanders in chaotic digital noise for 10,000 steps before spontaneously locking into an infinite recurring diagonal highway."
+category: "Discrete Mathematics & Computational Art"
+permalink: /experiments/langtons-ant.html
+---
+
+<p class="article-lead">
+  In 1986, artificial life pioneer Christopher Langton conceived a two-dimensional cellular automaton that demonstrates the profound boundary between chaos and order: <strong>Langton's Ant</strong>. Living on an infinite grid of black and white cells, the ant follows just two local rules. Despite its absolute simplicity, it passes through distinct evolutionary epochs: beginning with simple bilateral symmetry, plunging into a swirling chaotic pseudo-random walk for over $10,000$ steps, and then spontaneously organizing into an infinite <strong>104-step diagonal highway</strong>.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Emergence Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Elementary Ruleset</h4>
+    <p>On a white tile: turn $90^\circ$ clockwise (right), flip the tile's color to black, and step forward 1 cell. On a black tile: turn $90^\circ$ counter-clockwise (left), flip the tile's color to white, and step forward 1 cell.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Chaotic Epoch (Steps 200–10,000)</h4>
+    <p>For roughly $10,000$ steps, the ant generates an aperiodic, pseudo-random cloud of black and white tiles. Its trajectories exhibit statistical properties indistinguishable from random walks, erasing its initial symmetrical origin.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The 104-Step Highway Emergence</h4>
+    <p>Around step $10,400$, the ant builds a recurrent sequence of 104 steps that shifts its position by $(+2, -2)$ relative to the grid. It continues to march indefinitely along this diagonal highway, never escaping it on an empty grid.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Cohen-Kung Unbounded Theorem</h4>
+    <p>In 1993, mathematicians proved that the trajectory of Langton's ant is strictly <strong>unbounded</strong>: regardless of the initial configuration of black cells on a finite grid, the ant cannot remain trapped in a bounded region forever.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ REAL-TIME LANGTON'S ANT SIMULATOR</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Step Stepper & Fast-Forward Highway Explorer)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#f43f5e;">● Ant Head</span>
+      <span style="color:#38bdf8;">● Chaotic Smoke</span>
+      <span style="color:#4ade80;">● Emergent Highway</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:540px; background:#030712; border-radius:8px; overflow:hidden;">
+    <canvas id="antCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(3,7,18,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(56,189,248,0.25);">
+      <div>Step Count: <span id="hudStep" style="color:#38bdf8; font-weight:bold;">0</span></div>
+      <div>Phase: <span id="hudPhase" style="color:#4ade80; font-weight:bold;">Symmetry (Initial)</span></div>
+      <div>Black Cells: <span id="hudCells" style="color:#ffbe0b; font-weight:bold;">0</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <button id="btnTogglePlay" class="btn btn-primary" style="padding:8px 16px; font-size:12px; border-radius:6px; cursor:pointer; background:#38bdf8; color:#030712; font-weight:bold; border:none;">
+      ❚❚ Pause Evolution
+    </button>
+    <button id="btnResetAnt" class="btn btn-secondary" style="padding:8px 14px; font-size:12px; border-radius:6px; cursor:pointer; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">
+      ↺ Reset Origin
+    </button>
+    <button id="btnJumpHighway" style="padding:8px 14px; font-size:12px; border-radius:6px; cursor:pointer; background:#1e293b; color:#4ade80; border:1px solid #4ade80; font-weight:bold;">
+      ⏩ Fast-Forward to Highway (10,000 Steps)
+    </button>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">SPEED (STEPS/FRAME):</label>
+      <input type="range" id="speedSlider" min="1" max="250" value="40" style="width:90px;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('antCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let width = canvas.width = canvas.parentElement.clientWidth;
+  let height = canvas.height = canvas.parentElement.clientHeight;
+
+  const cellSize = 4;
+  const cols = Math.floor(width / cellSize);
+  const rows = Math.floor(height / cellSize);
+
+  let grid = new Uint8Array(cols * rows);
+  let antX = Math.floor(cols / 2);
+  let antY = Math.floor(rows / 2);
+  let antDir = 0; // 0: UP, 1: RIGHT, 2: DOWN, 3: LEFT
+  const dx = [0, 1, 0, -1];
+  const dy = [-1, 0, 1, 0];
+
+  let stepCount = 0;
+  let isRunning = true;
+  let stepsPerFrame = 40;
+
+  function reset() {
+    grid.fill(0);
+    antX = Math.floor(cols / 2);
+    antY = Math.floor(rows / 2);
+    antDir = 0;
+    stepCount = 0;
+    render();
+  }
+
+  function step() {
+    const idx = antY * cols + antX;
+    if (grid[idx] === 0) {
+      antDir = (antDir + 1) % 4; // turn right
+      grid[idx] = 1;
+    } else {
+      antDir = (antDir + 3) % 4; // turn left
+      grid[idx] = 0;
+    }
+
+    antX = (antX + dx[antDir] + cols) % cols;
+    antY = (antY + dy[antDir] + rows) % rows;
+    stepCount++;
+  }
+
+  function render() {
+    ctx.fillStyle = '#030712';
+    ctx.fillRect(0, 0, width, height);
+
+    let blackCount = 0;
+    for (let y = 0; y < rows; y++) {
+      const rowOffset = y * cols;
+      for (let x = 0; x < cols; x++) {
+        if (grid[rowOffset + x] === 1) {
+          blackCount++;
+          if (stepCount >= 10400 && (x > cols / 2 + 10 || y > rows / 2 + 10)) {
+            ctx.fillStyle = '#4ade80'; // Highway emerald
+          } else {
+            ctx.fillStyle = '#38bdf8'; // Blue smoke
+          }
+          ctx.fillRect(x * cellSize, y * cellSize, cellSize - 0.5, cellSize - 0.5);
+        }
+      }
+    }
+
+    // Draw Ant Head
+    ctx.fillStyle = '#f43f5e';
+    ctx.beginPath();
+    ctx.arc(antX * cellSize + cellSize / 2, antY * cellSize + cellSize / 2, cellSize, 0, Math.PI * 2);
+    ctx.fill();
+
+    document.getElementById('hudStep').innerText = stepCount.toLocaleString();
+    document.getElementById('hudCells').innerText = blackCount.toLocaleString();
+
+    let phase = 'Symmetry (Steps 0–450)';
+    if (stepCount > 10400) phase = '104-Step Highway (Order)';
+    else if (stepCount > 450) phase = 'Chaotic Cloud (Steps 450–10,400)';
+    document.getElementById('hudPhase').innerText = phase;
+  }
+
+  function animate() {
+    if (isRunning) {
+      for (let i = 0; i < stepsPerFrame; i++) {
+        step();
+      }
+      render();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  document.getElementById('btnTogglePlay').addEventListener('click', function() {
+    isRunning = !isRunning;
+    this.innerText = isRunning ? '❚❚ Pause Evolution' : '▶ Resume Evolution';
+  });
+
+  document.getElementById('btnResetAnt').addEventListener('click', reset);
+
+  document.getElementById('btnJumpHighway').addEventListener('click', function() {
+    while (stepCount < 10300) {
+      step();
+    }
+    render();
+  });
+
+  document.getElementById('speedSlider').addEventListener('input', function() {
+    stepsPerFrame = parseInt(this.value);
+  });
+
+  window.addEventListener('resize', function() {
+    width = canvas.width = canvas.parentElement.clientWidth;
+    height = canvas.height = canvas.parentElement.clientHeight;
+    reset();
+  });
+
+  reset();
+  requestAnimationFrame(animate);
+})();
+</script>
