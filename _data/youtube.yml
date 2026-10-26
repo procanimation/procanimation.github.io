@@ -117,7 +117,7 @@
   tags: ["FluidDynamics", "Physics", "NavierStokes", "VonKarman", "Engineering", "TacomaNarrows"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #00f5d4, #f72585, #facc15)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://youtube.com/shorts/voQD4VPnf5s"
   article_url: "/experiments/von-karman-vortex.html"
 
 - title: "XOR Bitwise Fractals: The Infinite Geometry of Pure Binary Logic"
@@ -128,7 +128,7 @@
   tags: ["DiscreteMath", "Fractals", "XOR", "Binary", "Sierpinski", "CreativeCoding"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #00f5d4, #f72585, #ffbe0b)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://youtube.com/shorts/vtOvXTFyw0k"
   article_url: "/experiments/xor-bitwise-fractal.html"
 
 - title: "Rule 30 & 110 Cellular Automata: Cryptographic Chaos & Turing Completeness"
@@ -139,7 +139,7 @@
   tags: ["CellularAutomata", "Rule30", "Rule110", "TuringComplete", "ChaosTheory", "Math", "CreativeCoding"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://youtube.com/shorts/gUbQU2DU7f0"
   article_url: "/experiments/cellular-automata-rule30.html"
 
 - title: "The Chaos Game: When Random Chance Obeys Mathematical Law (Barnsley Fern)"
@@ -150,7 +150,7 @@
   tags: ["ChaosGame", "BarnsleyFern", "Fractals", "IteratedFunctionSystems", "Math", "CreativeCoding"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #4ade80, #38bdf8, #f59e0b)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://youtube.com/shorts/SKUboRsQmkw"
   article_url: "/experiments/chaos-game-ifs.html"
 
 - title: "The Simplest Impossible Problem in Math: The Collatz Conjecture (3n + 1)"
@@ -161,7 +161,7 @@
   tags: ["CollatzConjecture", "3nPlus1", "NumberTheory", "Hailstone", "Math", "CreativeCoding", "FractalTree"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #38bdf8, #f59e0b, #f43f5e)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://youtube.com/shorts/6yjZyX9oHZ0"
   article_url: "/experiments/collatz-fractal-tree.html"
 
 - title: "The 2 Rules That Created Spontaneous Intelligence (Langton's Ant)"
@@ -172,7 +172,7 @@
   tags: ["LangtonsAnt", "ArtificialLife", "Emergence", "CellularAutomata", "TuringMachine", "ChaosTheory", "Math", "CreativeCoding"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://youtube.com/shorts/J_5nxtVoJsg"
   article_url: "/experiments/langtons-ant.html"
 
 - title: "How Sound Waves Sculpt Matter Into Sacred Geometry (Chladni Patterns)"
@@ -183,7 +183,7 @@
   tags: ["ChladniPatterns", "Cymatics", "Acoustics", "Physics", "StandingWaves", "HelmholtzEquation", "Math", "CreativeCoding"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #f59e0b, #fbbf24, #38bdf8)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://youtube.com/shorts/m81VnjuWMe4"
   article_url: "/experiments/chladni-patterns.html"
 
 - title: "The Ghost in the Mandelbrot Set: The Buddhabrot & Nebulabrot"
@@ -194,7 +194,7 @@
   tags: ["Buddhabrot", "Nebulabrot", "Fractals", "Mandelbrot", "ChaosTheory", "Math", "ComplexNumbers", "CreativeCoding"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #00f0ff, #f59e0b, #a855f7)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://youtube.com/shorts/Z4xm5k-jIdU"
   article_url: "/experiments/buddhabrot.html"
 
 - title: "The Paper-Folding Monster: The Heighway Dragon Curve"
@@ -205,7 +205,8 @@
   tags: ["HeighwayDragon", "DragonCurve", "Fractals", "LSystem", "Math", "PaperFolding", "Tessellation", "CreativeCoding"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #f43f5e, #38bdf8, #10b981)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://youtube.com/shorts/eytUDjr6_0Q"
   article_url: "/experiments/heighway-dragon.html"
+
 
 
