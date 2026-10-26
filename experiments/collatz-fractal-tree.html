@@ -1,0 +1,241 @@
+---
+layout: article
+title: "The Collatz Conjecture: Hailstone Numbers & The Inverse Fractal Tree"
+tagline: "The Simplest Impossible Problem, (4, 2, 1) Cycles & The 3n + 1 Cosmic Root Graph"
+description: "Why Paul Erdős said 'Mathematics may not be ready for such problems.' Explore forward chaotic hailstone orbits and the colossal inverse directed tree connecting all integers."
+category: "Discrete Mathematics & Number Theory"
+permalink: /experiments/collatz-fractal-tree.html
+---
+
+<p class="article-lead">
+  In 1937, German mathematician Lothar Collatz proposed an elementary arithmetic puzzle: take any natural number $n$. If $n$ is even, compute $n/2$; if $n$ is odd, compute $3n+1$. The <strong>Collatz Conjecture</strong> asserts that every positive integer eventually falls into the repeating periodic loop $4 \to 2 \to 1$. Despite verification for all integers up to $2^{68}$, the conjecture remains rigorously unproven. When mapped in reverse from the root $1$, the integers blossom into an infinite, organic <strong>fractal tree</strong>.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Number Theory Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Hailstone Phenomenon</h4>
+    <p>Sequences behave like atmospheric hailstones bounced by storm updrafts before falling to Earth. A modest seed like $n = 27$ climbs to a peak of $9,232$ across $111$ erratic steps before plunging into $1$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The (4, 2, 1) Trivial Attractor</h4>
+    <p>Once a trajectory hits $4$, it enters the closed 3-cycle: $4 \to 2 \to 1 \to 4$. The fundamental conjecture is that no non-trivial cycles or infinitely diverging trajectories exist.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Inverse Collatz Tree</h4>
+    <p>Reversing the operator yields a binary branching rule from root $1$: every node $n$ has an even ancestor $2n$, and if $(n-1) \equiv 0 \pmod 3$ with $(n-1)/3$ odd and $> 1$, an odd ancestor $(n-1)/3$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Erdős & Tao's Modern Bounds</h4>
+    <p>Paul Erdős famously cautioned: <em>"Mathematics may not be ready for such problems."</em> In 2019, Fields Medalist Terence Tao proved that almost all Collatz orbits attain values arbitrarily close to $1$.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ REAL-TIME COLLATZ ENGINE & TREE VISUALIZER</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Forward Hailstone Trajectories & Inverse Fractal Tree)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#38bdf8;">● Even Branches ($2n$)</span>
+      <span style="color:#f59e0b;">● Odd Branches ($(n-1)/3$)</span>
+      <span style="color:#4ade80;">● Root 1</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:540px; background:#030712; border-radius:8px; overflow:hidden;">
+    <canvas id="collatzCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(3,7,18,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(56,189,248,0.25);">
+      <div>View Mode: <span id="hudMode" style="color:#38bdf8; font-weight:bold;">Inverse Fractal Tree</span></div>
+      <div>Branches: <span id="hudBranches" style="color:#4ade80; font-weight:bold;">1,420</span></div>
+      <div>Depth: <span id="hudDepth" style="color:#ffbe0b; font-weight:bold;">22 Generations</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <button id="btnToggleMode" class="btn btn-primary" style="padding:8px 16px; font-size:12px; border-radius:6px; cursor:pointer; background:#38bdf8; color:#030712; font-weight:bold; border:none;">
+      ⇄ Switch to Hailstone Graph
+    </button>
+    <button id="btnRegrow" class="btn btn-secondary" style="padding:8px 14px; font-size:12px; border-radius:6px; cursor:pointer; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">
+      ↺ Regrow Tree
+    </button>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">TEST SEED (HAILSTONE):</label>
+      <input type="number" id="seedInput" value="27" min="1" max="100000" style="padding:4px 8px; width:70px; background:#1e293b; color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:4px;">
+      <button id="btnRunSeed" style="padding:6px 12px; font-size:11px; background:#1e293b; color:#38bdf8; border:1px solid #38bdf8; border-radius:4px; cursor:pointer;">Plot</button>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">TREE DEPTH:</label>
+      <input type="range" id="depthSlider" min="10" max="25" value="20" style="width:80px;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('collatzCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let width = canvas.width = canvas.parentElement.clientWidth;
+  let height = canvas.height = canvas.parentElement.clientHeight;
+
+  let mode = 'tree'; // 'tree' or 'hailstone'
+  let targetDepth = 20;
+  let customSeed = 27;
+
+  // Tree data structure
+  let branches = [];
+  function generateTree(node, depth, x, y, angle, length) {
+    if (depth > targetDepth || branches.length > 2500) return;
+
+    // Even branch: 2n
+    const nextEven = node * 2;
+    const angleEven = angle - 0.16;
+    const lenEven = length * 0.94;
+    const nx1 = x + Math.sin(angleEven) * lenEven;
+    const ny1 = y - Math.cos(angleEven) * lenEven;
+
+    branches.push({ x1: x, y1: y, x2: nx1, y2: ny1, isOdd: false, depth });
+    generateTree(nextEven, depth + 1, nx1, ny1, angleEven, lenEven);
+
+    // Odd branch: (n - 1) / 3
+    if ((node - 1) % 3 === 0) {
+      const nextOdd = (node - 1) / 3;
+      if (nextOdd > 1 && nextOdd % 2 !== 0) {
+        const angleOdd = angle + 0.30;
+        const lenOdd = length * 0.90;
+        const nx2 = x + Math.sin(angleOdd) * lenOdd;
+        const ny2 = y - Math.cos(angleOdd) * lenOdd;
+
+        branches.push({ x1: x, y1: y, x2: nx2, y2: ny2, isOdd: true, depth });
+        generateTree(nextOdd, depth + 1, nx2, ny2, angleOdd, lenOdd);
+      }
+    }
+  }
+
+  function drawTree() {
+    ctx.fillStyle = '#030712';
+    ctx.fillRect(0, 0, width, height);
+
+    branches = [];
+    const rootX = width / 2;
+    const rootY = height - 40;
+    const initialLen = Math.min(width, height) * 0.08;
+    generateTree(1, 1, rootX, rootY, 0, initialLen);
+
+    for (let i = 0; i < branches.length; i++) {
+      const b = branches[i];
+      ctx.beginPath();
+      ctx.moveTo(b.x1, b.y1);
+      ctx.lineTo(b.x2, b.y2);
+      ctx.strokeStyle = b.isOdd ? 'rgba(245, 158, 11, 0.8)' : 'rgba(56, 189, 248, 0.65)';
+      ctx.lineWidth = Math.max(0.6, 2.5 - b.depth * 0.08);
+      ctx.stroke();
+    }
+
+    // Root dot
+    ctx.fillStyle = '#4ade80';
+    ctx.beginPath();
+    ctx.arc(rootX, rootY, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    document.getElementById('hudBranches').innerText = branches.length.toLocaleString();
+    document.getElementById('hudDepth').innerText = `${targetDepth} Generations`;
+  }
+
+  function drawHailstone(n) {
+    ctx.fillStyle = '#030712';
+    ctx.fillRect(0, 0, width, height);
+
+    const seq = [n];
+    let curr = n;
+    while (curr !== 1 && seq.length < 500) {
+      if (curr % 2 === 0) curr = curr / 2;
+      else curr = 3 * curr + 1;
+      seq.push(curr);
+    }
+    seq.push(4, 2, 1);
+
+    const maxVal = Math.max(...seq);
+    const logMax = Math.log(maxVal);
+    const pad = 50;
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad, pad);
+    ctx.lineTo(pad, height - pad);
+    ctx.lineTo(width - pad, height - pad);
+    ctx.stroke();
+
+    // Plot line
+    ctx.beginPath();
+    for (let i = 0; i < seq.length; i++) {
+      const x = pad + (i / seq.length) * (width - 2 * pad);
+      const y = height - pad - (Math.log(seq[i]) / logMax) * (height - 2 * pad);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Dots
+    for (let i = 0; i < seq.length; i++) {
+      const x = pad + (i / seq.length) * (width - 2 * pad);
+      const y = height - pad - (Math.log(seq[i]) / logMax) * (height - 2 * pad);
+      ctx.fillStyle = seq[i] % 2 !== 0 ? '#f43f5e' : '#38bdf8';
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    document.getElementById('hudBranches').innerText = `Peak: ${maxVal.toLocaleString()}`;
+    document.getElementById('hudDepth').innerText = `${seq.length} Steps`;
+  }
+
+  function render() {
+    if (mode === 'tree') {
+      document.getElementById('hudMode').innerText = 'Inverse Fractal Tree';
+      drawTree();
+    } else {
+      document.getElementById('hudMode').innerText = `Hailstone Orbit (n = ${customSeed})`;
+      drawHailstone(customSeed);
+    }
+  }
+
+  document.getElementById('btnToggleMode').addEventListener('click', function() {
+    mode = mode === 'tree' ? 'hailstone' : 'tree';
+    this.innerText = mode === 'tree' ? '⇄ Switch to Hailstone Graph' : '⇄ Switch to Fractal Tree';
+    render();
+  });
+
+  document.getElementById('btnRegrow').addEventListener('click', render);
+
+  document.getElementById('btnRunSeed').addEventListener('click', function() {
+    customSeed = parseInt(document.getElementById('seedInput').value) || 27;
+    mode = 'hailstone';
+    document.getElementById('btnToggleMode').innerText = '⇄ Switch to Fractal Tree';
+    render();
+  });
+
+  document.getElementById('depthSlider').addEventListener('input', function() {
+    targetDepth = parseInt(this.value);
+    if (mode === 'tree') render();
+  });
+
+  window.addEventListener('resize', function() {
+    width = canvas.width = canvas.parentElement.clientWidth;
+    height = canvas.height = canvas.parentElement.clientHeight;
+    render();
+  });
+
+  render();
+})();
+</script>

@@ -152,3 +152,14 @@
   gradient: "linear-gradient(135deg, #4ade80, #38bdf8, #f59e0b)"
   video_url: "https://youtube.com/@procanimation"
   article_url: "/experiments/chaos-game-ifs.html"
+
+- title: "The Simplest Impossible Problem in Math: The Collatz Conjecture (3n + 1)"
+  series: "Number Theory & Chaos"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:51"
+  description: "Lothar Collatz 1937 conjecture (3n+1), chaotic hailstone trajectories, inescapable (4, 2, 1) loop attractor, and the colossal inverse directed tree connecting all integers."
+  tags: ["CollatzConjecture", "3nPlus1", "NumberTheory", "Hailstone", "Math", "CreativeCoding", "FractalTree"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #38bdf8, #f59e0b, #f43f5e)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/collatz-fractal-tree.html"

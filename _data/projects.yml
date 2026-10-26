@@ -176,3 +176,12 @@
   demo_url: "/experiments/chaos-game-ifs.html"
   featured: true
   gradient: "linear-gradient(135deg, #4ade80 0%, #38bdf8 50%, #f59e0b 100%)"
+- id: "collatz-fractal-tree"
+  name: "The Collatz Conjecture Fractal Tree"
+  tag: "Number Theory • Hailstone Chaos"
+  tech: "HTML5 Canvas • Directed Tree Graph"
+  description: "Lothar Collatz 1937 conjecture (3n+1), chaotic hailstone trajectories, inescapable (4, 2, 1) loop attractor, and the colossal inverse directed tree connecting all integers."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/collatz_fractal_tree"
+  demo_url: "/experiments/collatz-fractal-tree.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #f59e0b 50%, #f43f5e 100%)"
