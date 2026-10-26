@@ -194,3 +194,12 @@
   demo_url: "/experiments/langtons-ant.html"
   featured: true
   gradient: "linear-gradient(135deg, #38bdf8 0%, #4ade80 50%, #f43f5e 100%)"
+- id: "chladni-patterns"
+  name: "Chladni Patterns: Acoustic Cymatics"
+  tag: "Acoustics • Standing Waves"
+  tech: "HTML5 Canvas • 2D Helmholtz Wave"
+  description: "Ernst Chladni's 1787 physical acoustic standing waves, nodal curve displacement, sand particle kinetics, and harmonic frequency mandalas."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/chladni_resonances"
+  demo_url: "/experiments/chladni-patterns.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #38bdf8 100%)"

@@ -1,0 +1,232 @@
+---
+layout: article
+title: "Chladni Patterns: The Hidden Acoustic Geometry of Sound Waves"
+tagline: "2D Helmholtz Standing Waves, Nodal Line Mechanics & Cymatics"
+description: "How vibrating brass plates kick physical sand grains away from antinodes into stationary nodal lines, turning invisible audio frequencies into stunning geometric mandalas."
+category: "Acoustics & Physical Simulation"
+permalink: /experiments/chladni-patterns.html
+---
+
+<p class="article-lead">
+  In 1787, German physicist and musician Ernst Chladni published <em>Entdeckungen über die Theorie des Klanges</em> (Discoveries in the Theory of Sound), establishing the foundation of modern acoustics. By bowing a sand-covered brass plate, he revealed that vibrating 2D elastic sheets partition into high-energy vibrating antinodes and completely motionless <strong>nodal lines</strong>. Sand grains, violently thrown by the plate's vibration, naturally migrate to the quiet nodes, revealing the hidden geometric architecture of sound waves.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Cymatics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The 2D Helmholtz Wave Equation</h4>
+    <p>Standing acoustic waves on a rectangular plate with side length $L$ satisfy $\nabla^2 \psi + k^2 \psi = 0$. Linear combinations of degenerate eigenmodes yield the classical Chladni formula: $\psi(x, y) = a \sin(n \pi x / L) \sin(m \pi y / L) - b \sin(m \pi x / L) \sin(n \pi y / L) = 0$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Nodal Lines vs. Antinodes</h4>
+    <p>Antinodes are regions of maximum kinetic vibration where plate acceleration kicks particles aloft. Nodal curves ($\psi = 0$) experience zero vertical acceleration; sand grains settle here due to gravity and dissipation.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Modal Integers $(m, n)$</h4>
+    <p>The integer mode numbers count the nodal partitions along the $x$ and $y$ axes. As frequency increases, the plate undergoes transitions into higher harmonic modes, forming complex kaleidoscopic star mandalas.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Modern Applications & Chladni Figures</h4>
+    <p>Chladni's technique is used in luthiery to voice violin and cello soundboards, in aerospace engineering to detect flutter modes, and in ultrasonic particle manipulation in microfluidics.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ REAL-TIME CHLADNI ACOUSTIC ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Harmonic Mode Synthesizer & Sand Simulator)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#f59e0b;">● Golden Sand Grains</span>
+      <span style="color:#ffffff;">● Nodal Curves ($\psi = 0$)</span>
+      <span style="color:#38bdf8;">● Resonant Drive</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:540px; background:#030712; border-radius:8px; overflow:hidden;">
+    <canvas id="chladniCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(3,7,18,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(245,158,11,0.25);">
+      <div>Harmonic Mode: <span id="hudMode" style="color:#f59e0b; font-weight:bold;">(m = 3, n = 5)</span></div>
+      <div>Drive Freq: <span id="hudFreq" style="color:#38bdf8; font-weight:bold;">1,420 Hz</span></div>
+      <div>Particles: <span id="hudParts" style="color:#4ade80; font-weight:bold;">15,000 grains</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <button id="btnShake" class="btn btn-primary" style="padding:8px 16px; font-size:12px; border-radius:6px; cursor:pointer; background:#f59e0b; color:#030712; font-weight:bold; border:none;">
+      ⚡ Scatter Sand
+    </button>
+    <button id="btnToggleAnim" class="btn btn-secondary" style="padding:8px 14px; font-size:12px; border-radius:6px; cursor:pointer; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">
+      ❚❚ Pause Vibration
+    </button>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">PRESET HARMONIC:</label>
+      <button class="mode-btn" data-m="1" data-n="3" style="padding:6px 10px; font-size:11px; background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.15); border-radius:4px; cursor:pointer;">(1, 3)</button>
+      <button class="mode-btn" data-m="2" data-n="4" style="padding:6px 10px; font-size:11px; background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.15); border-radius:4px; cursor:pointer;">(2, 4)</button>
+      <button class="mode-btn" data-m="3" data-n="5" style="padding:6px 10px; font-size:11px; background:#1e293b; color:#f59e0b; border:1px solid #f59e0b; border-radius:4px; cursor:pointer; font-weight:bold;">(3, 5)</button>
+      <button class="mode-btn" data-m="5" data-n="7" style="padding:6px 10px; font-size:11px; background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.15); border-radius:4px; cursor:pointer;">(5, 7)</button>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">MODE m:</label>
+      <input type="range" id="mSlider" min="1" max="8" value="3" style="width:60px;">
+      <label style="font-size:11px; color:#94a3b8; font-family:monospace;">n:</label>
+      <input type="range" id="nSlider" min="1" max="8" value="5" style="width:60px;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('chladniCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let width = canvas.width = canvas.parentElement.clientWidth;
+  let height = canvas.height = canvas.parentElement.clientHeight;
+
+  let m = 3;
+  let n = 5;
+  let a = 1.0;
+  let b = 1.0;
+  let isRunning = true;
+
+  const numParticles = 18000;
+  const pX = new Float32Array(numParticles);
+  const pY = new Float32Array(numParticles);
+  const vX = new Float32Array(numParticles);
+  const vY = new Float32Array(numParticles);
+
+  function resetParticles() {
+    for (let i = 0; i < numParticles; i++) {
+      pX[i] = (Math.random() * 2 - 1) * 0.94;
+      pY[i] = (Math.random() * 2 - 1) * 0.94;
+      vX[i] = 0;
+      vY[i] = 0;
+    }
+  }
+
+  function chladni(u, v) {
+    const x = (u + 1) * 0.5 * Math.PI;
+    const y = (v + 1) * 0.5 * Math.PI;
+    return a * Math.sin(n * x) * Math.sin(m * y) - b * Math.sin(m * x) * Math.sin(n * y);
+  }
+
+  function updatePhysics() {
+    const eps = 0.01;
+    for (let i = 0; i < numParticles; i++) {
+      const u = pX[i];
+      const v = pY[i];
+      const val = chladni(u, v);
+      const valDx = chladni(u + eps, v);
+      const valDy = chladni(u, v + eps);
+
+      const gradX = (Math.abs(valDx) - Math.abs(val)) / eps;
+      const gradY = (Math.abs(valDy) - Math.abs(val)) / eps;
+
+      vX[i] = vX[i] * 0.70 - gradX * 0.007 + (Math.random() - 0.5) * 0.003 * Math.abs(val);
+      vY[i] = vY[i] * 0.70 - gradY * 0.007 + (Math.random() - 0.5) * 0.003 * Math.abs(val);
+
+      pX[i] = Math.max(-0.95, Math.min(0.95, pX[i] + vX[i]));
+      pY[i] = Math.max(-0.95, Math.min(0.95, pY[i] + vY[i]));
+    }
+  }
+
+  function render() {
+    ctx.fillStyle = '#030712';
+    ctx.fillRect(0, 0, width, height);
+
+    const plateSize = Math.min(width, height) * 0.88;
+    const plateX = (width - plateSize) / 2;
+    const plateY = (height - plateSize) / 2;
+
+    // Brushed metal plate
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.4)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(plateX, plateY, plateSize, plateSize, 12);
+    ctx.fill();
+    ctx.stroke();
+
+    // Center clamp
+    ctx.fillStyle = '#334155';
+    ctx.beginPath();
+    ctx.arc(plateX + plateSize / 2, plateY + plateSize / 2, 8, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Sand particles
+    const half = plateSize / 2;
+    const midX = plateX + half;
+    const midY = plateY + half;
+
+    for (let i = 0; i < numParticles; i++) {
+      const sx = midX + pX[i] * half;
+      const sy = midY + pY[i] * half;
+
+      if (i % 6 === 0) ctx.fillStyle = '#ffffff';
+      else if (i % 2 === 0) ctx.fillStyle = '#fbbf24';
+      else ctx.fillStyle = '#f59e0b';
+
+      ctx.fillRect(sx, sy, 1.2, 1.2);
+    }
+
+    document.getElementById('hudMode').innerText = `(m = ${m}, n = ${n})`;
+    document.getElementById('hudFreq').innerText = `${Math.round(80 * Math.sqrt(m*m + n*n))} Hz`;
+  }
+
+  function loop() {
+    if (isRunning) {
+      updatePhysics();
+      render();
+    }
+    requestAnimationFrame(loop);
+  }
+
+  document.getElementById('btnShake').addEventListener('click', resetParticles);
+
+  document.getElementById('btnToggleAnim').addEventListener('click', function() {
+    isRunning = !isRunning;
+    this.innerText = isRunning ? '❚❚ Pause Vibration' : '▶ Resume Vibration';
+  });
+
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.mode-btn').forEach(b => {
+        b.style.borderColor = 'rgba(255,255,255,0.15)';
+        b.style.color = '#cbd5e1';
+      });
+      this.style.borderColor = '#f59e0b';
+      this.style.color = '#f59e0b';
+
+      m = parseInt(this.getAttribute('data-m'));
+      n = parseInt(this.getAttribute('data-n'));
+      document.getElementById('mSlider').value = m;
+      document.getElementById('nSlider').value = n;
+      resetParticles();
+    });
+  });
+
+  document.getElementById('mSlider').addEventListener('input', function() {
+    m = parseInt(this.value);
+    resetParticles();
+  });
+
+  document.getElementById('nSlider').addEventListener('input', function() {
+    n = parseInt(this.value);
+    resetParticles();
+  });
+
+  window.addEventListener('resize', function() {
+    width = canvas.width = canvas.parentElement.clientWidth;
+    height = canvas.height = canvas.parentElement.clientHeight;
+    resetParticles();
+  });
+
+  resetParticles();
+  requestAnimationFrame(loop);
+})();
+</script>

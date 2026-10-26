@@ -174,3 +174,14 @@
   gradient: "linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)"
   video_url: "https://youtube.com/@procanimation"
   article_url: "/experiments/langtons-ant.html"
+
+- title: "How Sound Waves Sculpt Matter Into Sacred Geometry (Chladni Patterns)"
+  series: "Acoustics & Physics"
+  format: "Shorts (9:16 Vertical • 30 FPS)"
+  duration: "00:55"
+  description: "Ernst Chladni's 1787 physical acoustic standing waves, nodal curve displacement, sand particle kinetics, and harmonic frequency mandalas."
+  tags: ["ChladniPatterns", "Cymatics", "Acoustics", "Physics", "StandingWaves", "HelmholtzEquation", "Math", "CreativeCoding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #f59e0b, #fbbf24, #38bdf8)"
+  video_url: "https://youtube.com/@procanimation"
+  article_url: "/experiments/chladni-patterns.html"
