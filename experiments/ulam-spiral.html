@@ -1,0 +1,218 @@
+---
+layout: article
+title: "The Ulam Spiral: Prime Number Constellations & Euler's Polynomial"
+tagline: "Stanislaw Ulam's 1963 Discovery, Quadratic Prime Rays & The Sacks Polar Vortex"
+description: "How plotting integers along an outward square spiral reveals mysterious unbroken diagonal rays of prime numbers, including Euler's famous n² + n + 41 polynomial."
+category: "Mathematics & Number Theory"
+permalink: /experiments/ulam-spiral.html
+---
+
+<p class="article-lead">
+  In 1963, Polish-American mathematician Stanislaw Ulam found himself stuck in a presentation at a scientific conference. To pass the time, he began writing positive integers in an outward rectangular spiral on a sheet of scrap paper. When he circled all the prime numbers ($2, 3, 5, 7, 11, 13, \dots$), he was astonished: rather than being scattered randomly across arithmetic, the prime numbers clustered tightly along prominent, unbroken <strong>diagonal rays</strong>.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Prime Spiral Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Prime Number Theorem</h4>
+    <p>The Prime Number Theorem establishes that the density of primes near $N$ scales asymptotically as $1 / \ln(N)$, with total primes $\pi(N) \sim N / \ln(N)$. Under standard arithmetic, primes behave like pseudo-random numbers—yet geometric arrangements uncover deep, unexplained deterministic order.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Euler's Lucky Polynomial ($n^2 + n + 41$)</h4>
+    <p>In 1772, Leonhard Euler discovered that the quadratic formula $P(n) = n^2 + n + 41$ produces unbroken prime numbers for all integers from $n = 0$ to $n = 39$. On the Ulam spiral, these 40 primes map directly to a single continuous diagonal highway.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Dirichlet's Theorem & Quadratic Forms</h4>
+    <p>Diagonals in the square spiral correspond to quadratic sequences $P(n) = 4n^2 + bn + c$. Hardy and Littlewood's Conjecture F predicts that the density of primes along these quadratic rays is proportional to Dirichlet $L$-functions and modular residues.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Sacks Polar Vortex</h4>
+    <p>In 1994, engineer Robert Sacks plotted integers in continuous polar space with Archimedean coordinates $r = \theta = \sqrt{n}$. Instead of straight diagonals, primes line up along majestic curving spiral galaxies.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ REAL-TIME ULAM SPIRAL & PRIME CONSTELLATIONS</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Prime Sieve, Euler Ray & Polar Vortex Engine)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f0ff;">● Prime Numbers</span>
+      <span style="color:#f59e0b;">● Euler Ray ($n^2 + n + 41$)</span>
+      <span style="color:#475569;">● Composites</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:560px; background:#02040a; border-radius:8px; overflow:hidden;">
+    <canvas id="ulamCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    <div class="canvas-hud" style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; font-family:monospace; font-size:11px; color:#94a3b8; pointer-events:none; background:rgba(3,7,18,0.85); padding:8px 12px; border-radius:6px; border:1px solid rgba(0,240,255,0.25);">
+      <div>Range: <span id="hudRange" style="color:#00f0ff; font-weight:bold;">1 .. 25,000</span></div>
+      <div>Primes: <span id="hudPrimes" style="color:#38bdf8; font-weight:bold;">2,762</span></div>
+      <div>Mode: <span id="hudMode" style="color:#f59e0b; font-weight:bold;">Square Spiral</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-controls" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; padding:16px; background:var(--bg-surface-elevated, #101624); border-radius:8px; border:1px solid rgba(255,255,255,0.08); align-items:center;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:12px; color:var(--text-muted);">Max N:</label>
+      <input type="range" id="sliderMaxN" min="1000" max="60000" step="1000" value="25000" style="width:120px;">
+      <span id="valMaxN" style="font-family:monospace; font-size:11px; color:#00f0ff;">25,000</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label style="font-size:12px; color:var(--text-muted);">Projection:</label>
+      <select id="selProj" style="background:#0b1120; color:#e2e8f0; border:1px solid rgba(255,255,255,0.2); padding:6px 10px; border-radius:6px; font-size:12px;">
+        <option value="square" selected>Ulam Square Spiral</option>
+        <option value="polar">Sacks Polar Spiral</option>
+      </select>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <input type="checkbox" id="chkEuler" checked>
+      <label for="chkEuler" style="font-size:12px; color:#f59e0b; cursor:pointer;">Highlight Euler's Ray (n² + n + 41)</label>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('ulamCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const MAX_LIMIT = 65000;
+  const isPrime = new Uint8Array(MAX_LIMIT + 1);
+  isPrime.fill(1);
+  isPrime[0] = 0;
+  isPrime[1] = 0;
+  for (let p = 2; p * p <= MAX_LIMIT; p++) {
+    if (isPrime[p]) {
+      for (let i = p * p; i <= MAX_LIMIT; i += p) isPrime[i] = 0;
+    }
+  }
+
+  // Precompute Ulam positions
+  const uX = new Int16Array(MAX_LIMIT + 1);
+  const uY = new Int16Array(MAX_LIMIT + 1);
+  let cx = 0, cy = 0;
+  let len = 1, dir = 0, taken = 0, segs = 0;
+  const dx = [1, 0, -1, 0];
+  const dy = [0, -1, 0, 1];
+
+  for (let n = 2; n <= MAX_LIMIT; n++) {
+    cx += dx[dir];
+    cy += dy[dir];
+    uX[n] = cx;
+    uY[n] = cy;
+    taken++;
+    if (taken === len) {
+      taken = 0;
+      dir = (dir + 1) % 4;
+      segs++;
+      if (segs % 2 === 0) len++;
+    }
+  }
+
+  let curMaxN = 25000;
+  let curProj = 'square';
+  let showEuler = true;
+
+  function render() {
+    const W = canvas.width = canvas.parentElement.clientWidth;
+    const H = canvas.height = canvas.parentElement.clientHeight;
+
+    ctx.fillStyle = '#02040b';
+    ctx.fillRect(0, 0, W, H);
+
+    let primeCount = 0;
+    for (let n = 1; n <= curMaxN; n++) if (isPrime[n]) primeCount++;
+
+    document.getElementById('hudRange').textContent = `1 .. ${curMaxN.toLocaleString()}`;
+    document.getElementById('hudPrimes').textContent = primeCount.toLocaleString();
+    document.getElementById('hudMode').textContent = curProj === 'square' ? 'Ulam Square Spiral' : 'Sacks Polar Spiral';
+
+    ctx.save();
+    ctx.translate(W / 2, H / 2);
+
+    if (curProj === 'square') {
+      const maxDist = Math.max(Math.abs(uX[curMaxN]), Math.abs(uY[curMaxN])) * 2;
+      const scale = Math.min((W * 0.85) / maxDist, (H * 0.85) / maxDist);
+      ctx.scale(scale, scale);
+
+      const r = Math.max(1.2, 2.5 / Math.sqrt(scale));
+      for (let n = 1; n <= curMaxN; n++) {
+        if (isPrime[n]) {
+          ctx.fillStyle = '#00f0ff';
+          ctx.beginPath();
+          ctx.arc(uX[n], uY[n], r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      if (showEuler) {
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.85)';
+        ctx.lineWidth = 2.0 / scale;
+        ctx.beginPath();
+        let started = false;
+        for (let k = 0; k <= 40; k++) {
+          const ep = k * k + k + 41;
+          if (ep <= curMaxN && isPrime[ep]) {
+            if (!started) { ctx.moveTo(uX[ep], uY[ep]); started = true; }
+            else ctx.lineTo(uX[ep], uY[ep]);
+          }
+        }
+        ctx.stroke();
+
+        for (let k = 0; k <= 40; k++) {
+          const ep = k * k + k + 41;
+          if (ep <= curMaxN && isPrime[ep]) {
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(uX[ep], uY[ep], r * 1.6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+    } else {
+      // Polar Sacks Spiral
+      const maxR = Math.sqrt(curMaxN) * 2.0;
+      const scale = Math.min((W * 0.85) / (maxR * 2), (H * 0.85) / (maxR * 2));
+      ctx.scale(scale, scale);
+
+      const r = Math.max(1.2, 2.5 / Math.sqrt(scale));
+      for (let n = 2; n <= curMaxN; n++) {
+        if (isPrime[n]) {
+          const rad = Math.sqrt(n) * 2.0;
+          const theta = Math.sqrt(n) * Math.PI * 2;
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(rad * Math.cos(theta), rad * Math.sin(theta), r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+    ctx.restore();
+  }
+
+  document.getElementById('sliderMaxN').addEventListener('input', (e) => {
+    curMaxN = parseInt(e.target.value);
+    document.getElementById('valMaxN').textContent = curMaxN.toLocaleString();
+    render();
+  });
+
+  document.getElementById('selProj').addEventListener('change', (e) => {
+    curProj = e.target.value;
+    render();
+  });
+
+  document.getElementById('chkEuler').addEventListener('change', (e) => {
+    showEuler = e.target.checked;
+    render();
+  });
+
+  window.addEventListener('resize', render);
+  render();
+})();
+</script>

@@ -262,5 +262,18 @@
   featured: true
   gradient: "linear-gradient(135deg, #f43f5e 0%, #38bdf8 50%, #10b981 100%)"
 
+- id: "ulam-spiral"
+  slug: "ulam-spiral"
+  category: "math"
+  name: "The Ulam Spiral & Prime Constellations"
+  tag: "Number Theory • Prime Density"
+  tech: "HTML5 Canvas • Sieve of Eratosthenes"
+  description: "Stanislaw Ulam's 1963 discovery of prime number diagonals, Euler's lucky prime polynomial (n^2 + n + 41), and polar Sacks spiral projections."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/ulam_spiral"
+  article_url: "/experiments/ulam-spiral.html"
+  demo_url: "/experiments/ulam-spiral.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #ffb703 50%, #38bdf8 100%)"
+
 
 
