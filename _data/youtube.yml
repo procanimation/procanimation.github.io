@@ -1,4 +1,26 @@
 # YouTube Video Series & Educational Tracks
+- title: "The Architecture of Chaos: When Simple Rules Build the Universe"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "02:08"
+  description: "Wolfram Rule 30, the Chaos Game, the Buddhabrot, Chladni cymatics, and the plane-tiling Heighway Dragon. How minimal recursive rules build universal cosmic complexity."
+  tags: ["Chaos Theory", "Fractals", "Cymatics", "Cellular Automata", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #ffb703 100%)"
+  video_url: "https://www.youtube.com/watch?v=mLvYWNr5tNo"
+  article_url: "/experiments/rule30-cellular.html"
+
+- title: "The Spiral That Broke Randomness: The Ulam Spiral"
+  series: "Number Theory & Prime Density"
+  format: "Shorts (9:16 Vertical)"
+  duration: "00:48"
+  description: "Stanislaw Ulam's 1963 discovery of prime number diagonals, Euler's lucky prime polynomial (n² + n + 41), and polar Sacks spiral projections."
+  tags: ["Math", "Primes", "Number Theory", "Creative Coding"]
+  badge: "Master HD Short"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #ffb703 100%)"
+  video_url: "https://www.youtube.com/shorts/8YfChWI63JQ"
+  article_url: "/experiments/ulam-spiral.html"
+
 - title: "The Mandelbrot Deep Zoom: Into Mathematical Infinity"
   series: "Fractals & Chaos"
   format: "Landscape (16:9 • 60 FPS)"
