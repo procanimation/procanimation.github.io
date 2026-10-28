@@ -1,0 +1,312 @@
+---
+layout: article
+title: "The Quantum Fabric: Spooky Action at a Distance & Bell's Theorem"
+tagline: "Quantum Entanglement, CHSH Inequality & The Death of Local Realism"
+description: "How John Stewart Bell translated metaphysical philosophy into experimental physics, proving that our universe is fundamentally non-local and connected by an unbroken quantum fabric."
+category: "Quantum Physics & Foundations"
+permalink: /experiments/quantum-entanglement.html
+---
+
+<p class="article-lead">
+  In 1935, Albert Einstein, Boris Podolsky, and Nathan Rosen thought they had dealt a lethal blow to quantum mechanics. They envisioned two entangled particles flying across the cosmos. If measuring particle A on Earth immediately dictates the outcome of particle B light-years away, either instantaneous "spooky action at a distance" is real, or the particles must carry secret instructions—local hidden variables—from the moment they formed. For three decades, the debate was dismissed as unprovable philosophy. Then, in 1964, John Stewart Bell discovered a mathematical inequality that could be tested in a laboratory.
+</p>
+
+<!-- The Entanglement Lexicon -->
+<h3>The Non-Locality Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Singlet State ($|\Psi^-\rangle$)</h4>
+    <p>An entangled pair of spin-1/2 particles whose total angular momentum is zero: $|\Psi^-\rangle = \frac{1}{\sqrt{2}}(|\!\uparrow\downarrow\rangle - |\!\downarrow\uparrow\rangle)$. Neither particle possesses a definite spin until a measurement axis is chosen.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The CHSH Inequality ($|S| \le 2$)</h4>
+    <p>Formulated by Clauser, Horne, Shimony, and Holt in 1969. In any universe ruled by Local Realism (pre-existing properties + speed-of-light signaling), the correlation parameter $S$ can never exceed $2$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Tsirelson's Bound ($2\sqrt{2}$)</h4>
+    <p>Quantum mechanics violates the classical limit $2$, reaching a maximum quantum correlation of $S = 2\sqrt{2} \approx 2.8284$. The 2022 Nobel Prize (Aspect, Clauser, Zeilinger) confirmed this violation beyond any reasonable doubt.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The No-Signaling Theorem</h4>
+    <p>Even though wavefunction collapse is instantaneous across cosmic distances, the outcome of any individual measurement is fundamentally random. Without a classical speed-of-light phone call to compare notes, no faster-than-light signal can ever be sent.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE BELL INEQUALITY & CHSH CORRELATION LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Detector Angles & Tsirelson Bound)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#f72585;">● Alice's Angles ($a, a'$)</span>
+      <span style="color:#38bdf8;">● Bob's Angles ($b, b'$)</span>
+      <span style="color:#00f5d4;">● CHSH Parameter $S$</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="height:480px; position:relative; background:#02040a; border-radius:12px; overflow:hidden;">
+    <canvas id="bellCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <!-- Real-time HUD -->
+    <div style="position:absolute; top:16px; left:20px; background:rgba(2, 4, 10, 0.88); backdrop-filter:blur(8px); padding:12px 18px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); font-family:var(--font-mono, monospace); font-size:0.85rem; color:#f8fafc; pointer-events:none;">
+      <div style="color:#38bdf8; font-weight:700; margin-bottom:4px;">CHSH CORRELATION TELEMETRY</div>
+      <div>CHSH Parameter $S$: <span id="sVal" style="color:#00f5d4; font-weight:bold;">2.828</span> | Classical Bound: <span style="color:#ef4444;">2.000</span></div>
+      <div style="margin-top:4px; font-size:0.75rem; color:#94a3b8;">Local Realism Status: <span id="realismStatus" style="color:#00f5d4; font-weight:bold;">VIOLATED (QUANTUM NON-LOCAL)</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-toolbar" style="margin-top:14px; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+    <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Alice Angle $a$:
+        <input type="range" id="sliderA" min="0" max="180" value="0" style="accent-color:#f72585;">
+        <span id="dispA">0°</span>
+      </label>
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Bob Angle $b$:
+        <input type="range" id="sliderB" min="0" max="180" value="45" style="accent-color:#38bdf8;">
+        <span id="dispB">45°</span>
+      </label>
+    </div>
+    <div class="sim-btn-group" style="display:flex; gap:8px;">
+      <button id="btnOptimal" class="sim-btn primary" style="background:#00f5d4; border-color:#00f5d4; color:#02040a; font-weight:bold;">⚡ Set Optimal Bell Angles (S = 2.828)</button>
+      <button id="btnClassical" class="sim-btn">Reset to Classical Angles (S ≤ 2)</button>
+    </div>
+  </div>
+</div>
+
+<div class="article-section" style="margin-top:36px;">
+  <h2>Why Bell's Inequality Changed Reality</h2>
+  <p>
+    When Alice and Bob measure their particles along axes $a$ and $b$, quantum mechanics predicts an angular correlation:
+  </p>
+  <div style="background:rgba(255,255,255,0.03); border-left:3px solid #00f5d4; padding:16px 20px; border-radius:0 8px 8px 0; margin:16px 0; font-family:var(--font-mono, monospace);">
+    $$E(a, b) = -\cos(a - b)$$
+  </div>
+  <p>
+    Notice how curved the cosine function is. Classical probability models based on hidden variables can only generate linear correlation slopes. Under optimal test angles ($a = 0^\circ, a' = 90^\circ, b = 45^\circ, b' = 135^\circ$), the difference between adjacent angles is always $45^\circ$, where $-\cos(45^\circ) = -\frac{\sqrt{2}}{2} \approx -0.7071$. Summing the four terms gives:
+  </p>
+  <div style="background:rgba(255,255,255,0.03); border-left:3px solid #f72585; padding:16px 20px; border-radius:0 8px 8px 0; margin:16px 0; font-family:var(--font-mono, monospace);">
+    $$S = |E(a, b) - E(a, b') + E(a', b) + E(a', b')| = \left| -\frac{\sqrt{2}}{2} - \frac{\sqrt{2}}{2} - \frac{\sqrt{2}}{2} - \frac{\sqrt{2}}{2} \right| = 2\sqrt{2} \approx 2.8284$$
+  </div>
+  <p>
+    Because $2.8284$ strictly exceeds the classical upper bound of $2$, local realism is mathematically refuted. The universe does not permit local hidden variables.
+  </p>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">The Quantum Fabric: Spooky Action at a Distance & Bell's Theorem</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Explore the EPR paradox, John Bell's mathematical inequality, the 2022 Nobel Prize experimental tests (Clauser, Aspect, Zeilinger), quantum teleportation protocols, and the ER=EPR wormhole connection.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 04:13</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master</span>
+      </div>
+      <a id="docYoutubeBtn" href="https://www.youtube.com/watch?v=HAAOUW6ZJwQ" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#02040a; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('bellCanvas');
+  const ctx = canvas.getContext('2d');
+  const sVal = document.getElementById('sVal');
+  const realismStatus = document.getElementById('realismStatus');
+  const sliderA = document.getElementById('sliderA');
+  const sliderB = document.getElementById('sliderB');
+  const dispA = document.getElementById('dispA');
+  const dispB = document.getElementById('dispB');
+  const btnOptimal = document.getElementById('btnOptimal');
+  const btnClassical = document.getElementById('btnClassical');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = canvas.parentElement.clientWidth;
+    H = canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let angleA = 0;
+  let angleB = 45;
+
+  function E(theta1, theta2) {
+    const diff = (theta1 - theta2) * Math.PI / 180;
+    return -Math.cos(diff);
+  }
+
+  function computeCHSH() {
+    const a = angleA;
+    const a_prime = angleA + 90;
+    const b = angleB;
+    const b_prime = angleB + 90;
+
+    const E_ab = E(a, b);
+    const E_ab_prime = E(a, b_prime);
+    const E_a_prime_b = E(a_prime, b);
+    const E_a_prime_b_prime = E(a_prime, b_prime);
+
+    const S = Math.abs(E_ab - E_ab_prime + E_a_prime_b + E_a_prime_b_prime);
+
+    sVal.textContent = S.toFixed(3);
+    dispA.textContent = angleA + '°';
+    dispB.textContent = angleB + '°';
+
+    if (S > 2.001) {
+      realismStatus.textContent = 'VIOLATED (QUANTUM NON-LOCAL)';
+      realismStatus.style.color = '#00f5d4';
+    } else {
+      realismStatus.textContent = 'OBEYS CLASSICAL LOCAL REALISM';
+      realismStatus.style.color = '#ef4444';
+    }
+    return { S, E_ab, E_ab_prime, E_a_prime_b, E_a_prime_b_prime };
+  }
+
+  sliderA.addEventListener('input', (e) => {
+    angleA = parseFloat(e.target.value);
+    computeCHSH();
+  });
+
+  sliderB.addEventListener('input', (e) => {
+    angleB = parseFloat(e.target.value);
+    computeCHSH();
+  });
+
+  btnOptimal.addEventListener('click', () => {
+    angleA = 0;
+    angleB = 45;
+    sliderA.value = 0;
+    sliderB.value = 45;
+    computeCHSH();
+  });
+
+  btnClassical.addEventListener('click', () => {
+    angleA = 0;
+    angleB = 90;
+    sliderA.value = 0;
+    sliderB.value = 90;
+    computeCHSH();
+  });
+
+  computeCHSH();
+
+  let pulse = 0;
+  function render() {
+    pulse += 0.05;
+    ctx.fillStyle = '#02040a';
+    ctx.fillRect(0, 0, W, H);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 40) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 40) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    const { S } = computeCHSH();
+    const cy = H / 2;
+
+    // Left: Alice Detector Dial
+    const aDialX = W * 0.25;
+    ctx.strokeStyle = '#f72585';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(aDialX, cy, 75, 0, Math.PI * 2);
+    ctx.stroke();
+
+    const radA = (angleA * Math.PI) / 180;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(aDialX - Math.cos(radA) * 65, cy - Math.sin(radA) * 65);
+    ctx.lineTo(aDialX + Math.cos(radA) * 65, cy + Math.sin(radA) * 65);
+    ctx.stroke();
+
+    ctx.fillStyle = '#f72585';
+    ctx.font = 'bold 16px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(`ALICE DIAL a = ${angleA}°`, aDialX, cy + 115);
+
+    // Right: Bob Detector Dial
+    const bDialX = W * 0.75;
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(bDialX, cy, 75, 0, Math.PI * 2);
+    ctx.stroke();
+
+    const radB = (angleB * Math.PI) / 180;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(bDialX - Math.cos(radB) * 65, cy - Math.sin(radB) * 65);
+    ctx.lineTo(bDialX + Math.cos(radB) * 65, cy + Math.sin(radB) * 65);
+    ctx.stroke();
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 16px monospace';
+    ctx.fillText(`BOB DIAL b = ${angleB}°`, bDialX, cy + 115);
+
+    // Center: Quantum Correlation Meter
+    const midX = W * 0.50;
+    const barH = 180;
+    const barW = 40;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.fillRect(midX - barW/2, cy - barH/2, barW, barH);
+
+    // Classical Limit Line at S = 2.0
+    // S range 0 to 3.0
+    const sNorm = Math.min(1.0, S / 3.0);
+    const fillH = barH * sNorm;
+    ctx.fillStyle = (S > 2.0) ? '#00f5d4' : '#ef4444';
+    ctx.fillRect(midX - barW/2, cy + barH/2 - fillH, barW, fillH);
+
+    // S = 2.0 tick mark
+    const tickY = cy + barH/2 - barH * (2.0 / 3.0);
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(midX - barW/2 - 15, tickY);
+    ctx.lineTo(midX + barW/2 + 15, tickY);
+    ctx.stroke();
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('CLASSICAL BOUND (S=2.0)', midX + barW/2 + 25, tickY + 4);
+
+    // S = 2.828 tick mark
+    const tsirelsonY = cy + barH/2 - barH * (2.828 / 3.0);
+    ctx.strokeStyle = '#00f5d4';
+    ctx.beginPath();
+    ctx.moveTo(midX - barW/2 - 15, tsirelsonY);
+    ctx.lineTo(midX + barW/2 + 15, tsirelsonY);
+    ctx.stroke();
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.fillText('TSIRELSON BOUND (2√2)', midX + barW/2 + 25, tsirelsonY + 4);
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 22px monospace';
+    ctx.fillText(`S = ${S.toFixed(3)}`, midX, cy - barH/2 - 20);
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>

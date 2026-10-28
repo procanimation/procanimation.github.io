@@ -1,0 +1,302 @@
+---
+layout: article
+title: "Quantum Tunneling: Defying the Walls of Reality"
+tagline: "Wavefunction Penetration, Alpha Decay & The Stellar Fusion Engine"
+description: "How subatomic particles penetrate classically forbidden energy barriers via evanescent wave decay, powering solar nucleosynthesis, nuclear alpha decay, and atomic-scale microscopy."
+category: "Quantum Physics & Foundations"
+permalink: /experiments/quantum-tunneling.html
+---
+
+<p class="article-lead">
+  In classical physics, an object without sufficient kinetic energy can never scale a potential hill: roll a marble up a ramp, and if it lacks energy, it halts and reflects every single time. But in the quantum realm, particles are not hard billiard balls; they are complex probability wavepackets $\Psi(x, t)$ governed by the Schrödinger equation. When a quantum wavepacket collides with a barrier taller than its own energy, the wave does not abruptly terminate. An evanescent wave penetrates into the barrier, decaying exponentially. If the barrier is thin enough, a non-zero portion emerges on the other side. This is <strong>Quantum Tunneling</strong>: matter walking straight through impenetrable walls.
+</p>
+
+<!-- The Quantum Tunneling Lexicon -->
+<h3>The Quantum Tunneling Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Transmission Coefficient ($T$)</h4>
+    <p>For a rectangular barrier of width $L$ and potential $V_0 > E$, the probability of tunneling decays exponentially: $T \approx 16\frac{E}{V_0}\left(1 - \frac{E}{V_0}\right) e^{-2\kappa L}$, where $\kappa = \frac{\sqrt{2m(V_0 - E)}}{\hbar}$ is the attenuation constant.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Gamow's Miracle (Alpha Decay)</h4>
+    <p>In 1928, George Gamow explained nuclear alpha decay. Trapped behind the nuclear Coulomb barrier, an alpha particle collides $10^{21}$ times per second against the wall, each bounce carrying a minuscule tunneling probability. This explains why nuclear half-lives span from microseconds to billions of years.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Solar Core Paradox</h4>
+    <p>Protons inside the Sun's core at 15 million Kelvin have an average thermal energy of only $\approx 1\,\text{keV}$, yet the Coulomb repulsion barrier is $\approx 1000\,\text{keV}$. Without quantum tunneling, protons would never fuse, the Sun would remain cold and dark, and life on Earth could not exist.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Scanning Tunneling Microscope (STM)</h4>
+    <p>Invented at IBM in 1981 by Binnig and Rohrer (Nobel Prize 1986). A metallic needle ground to a single atom scans across a surface. Electrons tunnel across the vacuum gap. Because $I \propto e^{-2\kappa d}$, a distance change of just $0.1\,\text{nm}$ alters current by an entire order of magnitude.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE QUANTUM BARRIER TUNNELING LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Wave Packet & Exponential Decay)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Incident Wavepacket</span>
+      <span style="color:#ef4444;">■ Potential Barrier ($V_0$)</span>
+      <span style="color:#f59e0b;">● Evanescent Penetration</span>
+      <span style="color:#38bdf8;">● Transmitted Wave</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="height:480px; position:relative; background:#020617; border-radius:12px; overflow:hidden;">
+    <canvas id="tunnelCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <!-- Real-time HUD -->
+    <div style="position:absolute; top:16px; left:20px; background:rgba(2, 6, 23, 0.88); backdrop-filter:blur(8px); padding:12px 18px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); font-family:var(--font-mono, monospace); font-size:0.85rem; color:#f8fafc; pointer-events:none;">
+      <div style="color:#38bdf8; font-weight:700; margin-bottom:4px;">TUNNELING TRANSMISSION PROBABILITY</div>
+      <div>Transmission $T$: <span id="transVal" style="color:#00f5d4; font-weight:bold;">12.4%</span> | Attenuation $\kappa$: <span id="kappaVal">1.82 nm⁻¹</span></div>
+      <div style="margin-top:4px; font-size:0.75rem; color:#94a3b8;">Particle Energy $E$: <span id="eVal">0.72</span> eV | Barrier $V_0$: <span id="v0Val">1.00</span> eV</div>
+    </div>
+  </div>
+
+  <div class="simulation-toolbar" style="margin-top:14px; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+    <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Barrier Width $L$:
+        <input type="range" id="sliderWidth" min="20" max="120" value="50" style="accent-color:#00f5d4;">
+        <span id="widthDisp">50 nm</span>
+      </label>
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Particle Energy $E/V_0$:
+        <input type="range" id="sliderEnergy" min="20" max="95" value="70" style="accent-color:#f72585;">
+        <span id="energyDisp">0.70</span>
+      </label>
+    </div>
+    <div class="sim-btn-group" style="display:flex; gap:8px;">
+      <button id="btnFirePacket" class="sim-btn primary" style="background:#00f5d4; border-color:#00f5d4; color:#020617; font-weight:bold;">🚀 Fire Wavepacket</button>
+      <button id="btnPause" class="sim-btn">⏸ Pause</button>
+      <button id="btnReset" class="sim-btn">🔄 Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="article-section" style="margin-top:36px;">
+  <h2>The Mathematics of Penetration</h2>
+  <p>
+    Inside a classically forbidden barrier where potential energy $V_0$ exceeds total kinetic energy $E$, the time-independent Schrödinger equation takes the form:
+  </p>
+  <div style="background:rgba(255,255,255,0.03); border-left:3px solid #00f5d4; padding:16px 20px; border-radius:0 8px 8px 0; margin:16px 0; font-family:var(--font-mono, monospace);">
+    $$\frac{d^2 \psi(x)}{dx^2} = \kappa^2 \psi(x), \quad \text{where} \quad \kappa = \frac{\sqrt{2m(V_0 - E)}}{\hbar}$$
+  </div>
+  <p>
+    Unlike oscillating sinusoidal solutions $e^{ikx}$ in free space, the solution inside the barrier is a real exponential decay:
+  </p>
+  <div style="background:rgba(255,255,255,0.03); border-left:3px solid #f72585; padding:16px 20px; border-radius:0 8px 8px 0; margin:16px 0; font-family:var(--font-mono, monospace);">
+    $$\psi_{\text{barrier}}(x) = A e^{-\kappa x} + B e^{\kappa x}$$
+  </div>
+  <p>
+    Because $e^{-\kappa x}$ never reaches absolute zero over a finite thickness $L$, the wavefunction retains a small non-zero amplitude at the far boundary $x = L$. It couples back into a freely propagating sinusoidal wave, carrying real momentum and probability out into the universe.
+  </p>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">Quantum Tunneling: Defying the Walls of Reality</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Discover how the evanescent decay of quantum matter waves breaks classical boundaries, powering solar hydrogen fusion, radioactive alpha decay, scanning tunneling microscopy, and superconducting qubits.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 04:38</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master</span>
+      </div>
+      <a id="docYoutubeBtn" href="https://www.youtube.com/watch?v=3RXshPfWtrw" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#020617; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('tunnelCanvas');
+  const ctx = canvas.getContext('2d');
+  const transVal = document.getElementById('transVal');
+  const kappaVal = document.getElementById('kappaVal');
+  const eVal = document.getElementById('eVal');
+  const v0Val = document.getElementById('v0Val');
+  const sliderWidth = document.getElementById('sliderWidth');
+  const sliderEnergy = document.getElementById('sliderEnergy');
+  const widthDisp = document.getElementById('widthDisp');
+  const energyDisp = document.getElementById('energyDisp');
+  const btnFirePacket = document.getElementById('btnFirePacket');
+  const btnPause = document.getElementById('btnPause');
+  const btnReset = document.getElementById('btnReset');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = canvas.parentElement.clientWidth;
+    H = canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let paused = false;
+  let packetX = 80;
+  let barrierW = 60;
+  let energyRatio = 0.70; // E / V0
+
+  function computePhysics() {
+    const V0 = 1.0;
+    const E = energyRatio * V0;
+    const L = barrierW / 40.0; // scaled width
+    const kappa = Math.sqrt(Math.max(0.01, V0 - E)) * 2.2;
+    const trans = Math.min(1.0, 16 * (E/V0) * (1 - E/V0) * Math.exp(-2 * kappa * L));
+    
+    transVal.textContent = (trans * 100).toFixed(1) + '%';
+    kappaVal.textContent = kappa.toFixed(2) + ' nm⁻¹';
+    eVal.textContent = E.toFixed(2);
+    v0Val.textContent = V0.toFixed(2);
+    widthDisp.textContent = barrierW + ' nm';
+    energyDisp.textContent = energyRatio.toFixed(2);
+    return { V0, E, kappa, trans };
+  }
+
+  sliderWidth.addEventListener('input', (e) => {
+    barrierW = parseFloat(e.target.value);
+    computePhysics();
+  });
+
+  sliderEnergy.addEventListener('input', (e) => {
+    energyRatio = parseFloat(e.target.value) / 100.0;
+    computePhysics();
+  });
+
+  btnFirePacket.addEventListener('click', () => {
+    packetX = 80;
+    paused = false;
+  });
+
+  btnPause.addEventListener('click', () => {
+    paused = !paused;
+    btnPause.textContent = paused ? '▶ Resume' : '⏸ Pause';
+  });
+
+  btnReset.addEventListener('click', () => {
+    packetX = 80;
+    paused = false;
+    computePhysics();
+  });
+
+  computePhysics();
+
+  let phase = 0;
+  function animate() {
+    if (!paused) {
+      packetX += 2.2;
+      phase += 0.12;
+      if (packetX > W + 200) {
+        packetX = 80;
+      }
+    }
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, W, H);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 40) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 40) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    const midY = H * 0.55;
+    const barX = W * 0.52;
+    const barW_px = barrierW * 2.0;
+    const phys = computePhysics();
+
+    // Draw Potential Barrier
+    const barH = 220;
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.18)';
+    ctx.fillRect(barX, midY - barH, barW_px, barH);
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2.5;
+    ctx.strokeRect(barX, midY - barH, barW_px, barH);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '12px monospace';
+    ctx.fillText('POTENTIAL BARRIER V₀', barX + 8, midY - barH + 20);
+
+    // Draw energy line E
+    const energyY = midY - barH * energyRatio;
+    ctx.strokeStyle = 'rgba(247, 37, 133, 0.6)';
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(50, energyY);
+    ctx.lineTo(barX, energyY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#f72585';
+    ctx.fillText(`Energy Level E = ${(energyRatio).toFixed(2)} V₀`, 60, energyY - 6);
+
+    // Baseline
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, midY);
+    ctx.lineTo(W, midY);
+    ctx.stroke();
+
+    // Wavepacket Drawing
+    ctx.lineWidth = 3;
+    const k = 0.08;
+    const sigma = 90;
+
+    // Region 1: Before barrier
+    ctx.beginPath();
+    ctx.strokeStyle = '#00f5d4';
+    for (let x = 40; x < barX; x += 3) {
+      const env = Math.exp(-Math.pow((x - packetX) / sigma, 2));
+      const refEnv = (packetX > barX - 100) ? Math.exp(-Math.pow((x - (2 * barX - packetX)) / sigma, 2)) * 0.6 : 0;
+      const y = midY - Math.sin(k * x - phase) * env * 70 + Math.sin(k * x + phase) * refEnv * 70;
+      if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Region 2: Inside barrier (Evanescent decay)
+    if (packetX > barX - 120) {
+      ctx.beginPath();
+      ctx.strokeStyle = '#f59e0b';
+      for (let x = barX; x <= barX + barW_px; x += 3) {
+        const d = (x - barX) / barW_px;
+        const decay = Math.exp(-d * phys.kappa * 2.5);
+        const y = midY - Math.sin(phase) * decay * 55;
+        if (x === barX) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    // Region 3: After barrier (Transmitted wave)
+    if (packetX > barX) {
+      ctx.beginPath();
+      ctx.strokeStyle = '#38bdf8';
+      const transAmp = Math.sqrt(phys.trans) * 70;
+      const packetTransX = packetX;
+      for (let x = barX + barW_px; x < W - 40; x += 3) {
+        const env = Math.exp(-Math.pow((x - packetTransX) / sigma, 2));
+        const y = midY - Math.sin(k * x - phase) * env * transAmp;
+        if (x === barX + barW_px) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+})();
+</script>

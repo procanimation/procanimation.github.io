@@ -76,6 +76,50 @@
   video_url: "https://www.youtube.com/watch?v=GjL8bOBPv1o"
   article_url: "/experiments/quantum-observer.html"
 
+- title: "Quantum Tunneling: Defying the Walls of Reality"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:38"
+  description: "Wavefunction barrier penetration, evanescent decay, George Gamow's nuclear alpha decay miracle, the solar core proton fusion engine, and Scanning Tunneling Microscopy."
+  tags: ["Quantum Tunneling", "Alpha Decay", "Gamow Miracle", "Solar Fusion", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=3RXshPfWtrw"
+  article_url: "/experiments/quantum-tunneling.html"
+
+- title: "The Infinite Continuum: Cantor's Transfinite Revolution"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:51"
+  description: "Hilbert's Grand Hotel, Cantor's diagonal slash, uncountability of the real continuum, the ternary dust of measure zero, and the undecidability of the Continuum Hypothesis."
+  tags: ["Infinities", "Cantors Theorem", "Hilberts Hotel", "Transfinite", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=dLDk9Sh8t-U"
+  article_url: "/experiments/cantors-infinity.html"
+
+- title: "The Quantum Fabric: Spooky Action at a Distance & Bell's Theorem"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:13"
+  description: "The EPR paradox, John Stewart Bell's inequality, the 2022 Nobel Prize experimental verification, quantum teleportation protocols, and the ER=EPR wormhole connection."
+  tags: ["Quantum Entanglement", "Bells Theorem", "CHSH Inequality", "Quantum Teleportation", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=HAAOUW6ZJwQ"
+  article_url: "/experiments/quantum-entanglement.html"
+
+- title: "The Ripples of Spacetime: Gravitational Waves & Warped Geometry"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "03:52"
+  description: "General Relativity, binary black hole orbital decay, LIGO 4-km laser interferometry, GW150914 cosmic collision, and multi-messenger astronomy with kilonova nucleosynthesis."
+  tags: ["Gravitational Waves", "General Relativity", "LIGO", "Black Hole Merger", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=AuaWbIELFkQ"
+  article_url: "/experiments/gravitational-waves.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"

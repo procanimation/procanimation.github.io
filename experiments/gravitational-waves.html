@@ -1,0 +1,264 @@
+---
+layout: article
+title: "The Ripples of Spacetime: Gravitational Waves & Warped Geometry"
+tagline: "General Relativity, Binary Black Hole Mergers & LIGO Laser Interferometry"
+description: "How accelerated celestial masses radiate geometric ripples across the four-dimensional fabric of spacetime, and how 4-kilometer laser interferometers measure sub-proton strain."
+category: "Astrophysics & Relativity"
+permalink: /experiments/gravitational-waves.html
+---
+
+<p class="article-lead">
+  In 1915, Albert Einstein completed General Relativity, revealing that space and time are not an inert theatrical backdrop, but a dynamic, flexible four-dimensional geometry. When two cosmic giants—such as stellar-mass black holes or neutron stars—spiral toward each other at relativistic speeds, they churn the metric of spacetime like spoons in water. They cast off traveling ripples that propagate across the cosmos at the speed of light. For a century, physicists believed these waves would remain forever unmeasurable. On September 14, 2015, humanity heard the universe speak for the first time.
+</p>
+
+<!-- The Gravitational Wave Lexicon -->
+<h3>The Gravitational Radiation Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Einstein Quadrupole Formula</h4>
+    <p>Unlike electromagnetism (where dipole radiation dominates), mass conservation forbids gravitational dipole radiation. The power radiated in gravitational waves depends on the third time derivative of the mass quadrupole moment: $P = -\frac{32}{5}\frac{G^4}{c^5}\frac{m_1^2 m_2^2(m_1 + m_2)}{r^5}$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Gravitational Strain ($h$)</h4>
+    <p>A dimensionless measure of spacetime stretching and squeezing: $h = \frac{\Delta L}{L}$. When ripples from a billion light-years away reach Earth, the strain is $h \approx 10^{-21}$, changing a 4-kilometer laser arm by $\Delta L \approx 4 \times 10^{-18}\,\text{m}$ (less than $1/1000\text{th}$ of a proton diameter).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Chirp Waveform</h4>
+    <p>As gravitational radiation bleeds orbital energy away, the black holes draw closer, causing orbital velocity and frequency to accelerate dramatically: $f_{\text{GW}}(t) \propto (t_{\text{merger}} - t)^{-3/8}$. The resulting audio crescendo sweeps upwards in pitch and volume into the signature "Chirp."</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Multi-Messenger Astronomy</h4>
+    <p>In 2017, the GW170817 neutron star merger was observed simultaneously in gravitational waves and across the electromagnetic spectrum (gamma, X-ray, optical, radio). It confirmed that gravity travels at the speed of light ($|v_{\text{GW}} - c|/c < 10^{-15}$) and discovered the origin of the universe's gold and platinum.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE BINARY BLACK HOLE INSPIRAL & CHIRP LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Orbital Decay & Quadrupole Metric Distortion)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#f72585;">● Primary Black Hole ($m_1$)</span>
+      <span style="color:#00f5d4;">● Secondary Black Hole ($m_2$)</span>
+      <span style="color:#38bdf8;">● Transverse Strain Ripples</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="height:480px; position:relative; background:#020208; border-radius:12px; overflow:hidden;">
+    <canvas id="gwCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <!-- Real-time HUD -->
+    <div style="position:absolute; top:16px; left:20px; background:rgba(2, 2, 8, 0.88); backdrop-filter:blur(8px); padding:12px 18px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); font-family:var(--font-mono, monospace); font-size:0.85rem; color:#f8fafc; pointer-events:none;">
+      <div style="color:#38bdf8; font-weight:700; margin-bottom:4px;">INSPIRAL TELEMETRY & STRAIN</div>
+      <div>GW Frequency: <span id="freqVal" style="color:#00f5d4; font-weight:bold;">142 Hz</span> | Orbital Separation: <span id="distVal">120 km</span></div>
+      <div style="margin-top:4px; font-size:0.75rem; color:#94a3b8;">Radiated Power: <span id="powerVal">2.8 × 10⁴⁹ W</span> | Chirp Mass $\mathcal{M}$: <span id="chirpVal">28.1 M_☉</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-toolbar" style="margin-top:14px; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+    <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Mass $m_1$ ($M_\odot$):
+        <input type="range" id="sliderM1" min="10" max="60" value="36" style="accent-color:#f72585;">
+        <span id="dispM1">36 M_☉</span>
+      </label>
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Mass $m_2$ ($M_\odot$):
+        <input type="range" id="sliderM2" min="10" max="60" value="29" style="accent-color:#00f5d4;">
+        <span id="dispM2">29 M_☉</span>
+      </label>
+    </div>
+    <div class="sim-btn-group" style="display:flex; gap:8px;">
+      <button id="btnTriggerMerger" class="sim-btn primary" style="background:#00f5d4; border-color:#00f5d4; color:#020208; font-weight:bold;">💥 Trigger Final Merger & Ringdown</button>
+      <button id="btnResetInspiral" class="sim-btn">🔄 Reset Orbit</button>
+    </div>
+  </div>
+</div>
+
+<div class="article-section" style="margin-top:36px;">
+  <h2>The Geometry of Metric Strain</h2>
+  <p>
+    When a gravitational wave passes perpendicular to a ring of test particles, it does not exert a traditional pulling force. Instead, it alters the distance metric between them. Under the "plus" polarization ($h_+$), the space stretches along the vertical axis while compressing along the horizontal axis, before alternating half a cycle later:
+  </p>
+  <div style="background:rgba(255,255,255,0.03); border-left:3px solid #00f5d4; padding:16px 20px; border-radius:0 8px 8px 0; margin:16px 0; font-family:var(--font-mono, monospace);">
+    $$h_{ij}(t) = \begin{pmatrix} h_+ & h_\times & 0 \\ h_\times & -h_+ & 0 \\ 0 & 0 & 0 \end{pmatrix} \cos(\omega t - kz)$$
+  </div>
+  <p>
+    LIGO exploits this quadrupole symmetry. When the X-arm of the 4-kilometer interferometer stretches by $\Delta L$, the perpendicular Y-arm compresses by $-\Delta L$. The differential change in path length alters the optical interference condition, turning destructive dark fringes into measurable laser pulses.
+  </p>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">The Ripples of Spacetime: Gravitational Waves & Warped Geometry</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Explore Einstein's dynamic spacetime metric, binary black hole orbital decay, LIGO 4-kilometer optical interferometry, the historic GW150914 collision, and the future of multi-messenger astronomy with LISA and pulsar timing arrays.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 03:52</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master</span>
+      </div>
+      <a id="docYoutubeBtn" href="https://www.youtube.com/watch?v=AuaWbIELFkQ" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#020208; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('gwCanvas');
+  const ctx = canvas.getContext('2d');
+  const freqVal = document.getElementById('freqVal');
+  const distVal = document.getElementById('distVal');
+  const powerVal = document.getElementById('powerVal');
+  const chirpVal = document.getElementById('chirpVal');
+  const sliderM1 = document.getElementById('sliderM1');
+  const sliderM2 = document.getElementById('sliderM2');
+  const dispM1 = document.getElementById('dispM1');
+  const dispM2 = document.getElementById('dispM2');
+  const btnTriggerMerger = document.getElementById('btnTriggerMerger');
+  const btnResetInspiral = document.getElementById('btnResetInspiral');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = canvas.parentElement.clientWidth;
+    H = canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let m1 = 36;
+  let m2 = 29;
+  let orbitRadius = 160;
+  let isMerged = false;
+  let mergeTime = 0;
+
+  function computeAstrophysics() {
+    const M_chirp = Math.pow(m1 * m2, 3/5) / Math.pow(m1 + m2, 1/5);
+    const r_km = orbitRadius * 1.5;
+    const freq = Math.min(350, Math.floor(18000 / Math.pow(Math.max(30, r_km), 1.5)));
+    
+    dispM1.textContent = m1 + ' M_☉';
+    dispM2.textContent = m2 + ' M_☉';
+    freqVal.textContent = isMerged ? '250 Hz (Ringdown)' : freq + ' Hz';
+    distVal.textContent = isMerged ? '0 km (Merged)' : r_km.toFixed(0) + ' km';
+    chirpVal.textContent = M_chirp.toFixed(1) + ' M_☉';
+    powerVal.textContent = isMerged ? '3.6 × 10⁴⁹ W' : (Math.pow(freq / 50, 4) * 0.1).toFixed(2) + ' × 10⁴⁹ W';
+  }
+
+  sliderM1.addEventListener('input', (e) => {
+    m1 = parseFloat(e.target.value);
+    computeAstrophysics();
+  });
+
+  sliderM2.addEventListener('input', (e) => {
+    m2 = parseFloat(e.target.value);
+    computeAstrophysics();
+  });
+
+  btnTriggerMerger.addEventListener('click', () => {
+    isMerged = true;
+    mergeTime = performance.now();
+    computeAstrophysics();
+  });
+
+  btnResetInspiral.addEventListener('click', () => {
+    isMerged = false;
+    orbitRadius = 160;
+    computeAstrophysics();
+  });
+
+  computeAstrophysics();
+
+  let theta = 0;
+  function render() {
+    const now = performance.now();
+    ctx.fillStyle = '#020208';
+    ctx.fillRect(0, 0, W, H);
+
+    const cx = W / 2, cy = H / 2;
+
+    if (!isMerged) {
+      orbitRadius = Math.max(30, orbitRadius - 0.08);
+      const omega = 18.0 / Math.sqrt(orbitRadius);
+      theta += omega * 0.03;
+      computeAstrophysics();
+    }
+
+    // Ripple concentric ellipses
+    const ringCount = 8;
+    for (let i = 0; i < ringCount; i++) {
+      const r = ((now * 0.08 + i * 50) % 360) + 40;
+      const alpha = Math.max(0, 1.0 - r / 360);
+      ctx.strokeStyle = `rgba(0, 245, 212, ${alpha * 0.4})`;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, r, r * 0.65, 0.2, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    if (!isMerged) {
+      // Black Hole 1
+      const bh1X = cx + Math.cos(theta) * orbitRadius;
+      const bh1Y = cy + Math.sin(theta) * orbitRadius * 0.65;
+      const r1 = Math.sqrt(m1) * 3;
+      ctx.fillStyle = '#000000';
+      ctx.beginPath();
+      ctx.arc(bh1X, bh1Y, r1, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#f72585';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#f72585';
+      ctx.shadowBlur = 25;
+      ctx.stroke();
+
+      // Black Hole 2
+      const bh2X = cx - Math.cos(theta) * orbitRadius;
+      const bh2Y = cy - Math.sin(theta) * orbitRadius * 0.65;
+      const r2 = Math.sqrt(m2) * 3;
+      ctx.beginPath();
+      ctx.arc(bh2X, bh2Y, r2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#00f5d4';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#00f5d4';
+      ctx.shadowBlur = 25;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    } else {
+      // Merged Single Remnant with Ringdown Glow
+      const elapsed = (now - mergeTime) / 1000;
+      const ringdown = Math.exp(-elapsed * 1.5) * Math.sin(elapsed * 25) * 8;
+      const remR = Math.sqrt(m1 + m2 - 3) * 3.2 + ringdown;
+
+      ctx.fillStyle = '#000000';
+      ctx.beginPath();
+      ctx.arc(cx, cy, Math.max(10, remR), 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = '#fee440';
+      ctx.lineWidth = 5;
+      ctx.shadowColor = '#fee440';
+      ctx.shadowBlur = 40;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = '#fee440';
+      ctx.font = 'bold 16px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(`REMNANT BLACK HOLE (${(m1 + m2 - 3).toFixed(0)} M_☉)`, cx, cy + remR + 30);
+      ctx.textAlign = 'left';
+    }
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>

@@ -1,4 +1,48 @@
 # Public Creative Coding Showcase Projects
+- name: "The Ripples of Spacetime & Gravitational Waves"
+  slug: "gravitational-waves"
+  category: "science"
+  tag: "Astrophysics • General Relativity"
+  tech: "HTML5 Canvas / Spacetime Metric Engine"
+  description: "Binary black hole inspiral decay, quadrupole radiation, LIGO 4-km laser interferometry, and the GW150914 cosmic collision."
+  article_url: "/experiments/gravitational-waves.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/gravitational_waves"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
+- name: "The Quantum Fabric & Bell's Theorem"
+  slug: "quantum-entanglement"
+  category: "science"
+  tag: "Quantum Physics • Non-Locality"
+  tech: "HTML5 Canvas / Bell State Engine"
+  description: "The EPR paradox, John Stewart Bell's CHSH inequality violation, quantum teleportation protocols, and the ER=EPR wormhole connection."
+  article_url: "/experiments/quantum-entanglement.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/quantum_entanglement"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
+- name: "The Infinite Continuum & Cantor's Dust"
+  slug: "cantors-infinity"
+  category: "math"
+  tag: "Transfinite Math • Fractal Sets"
+  tech: "HTML5 Canvas / Recursive Engine"
+  description: "Hilbert's infinite hotel, Cantor's diagonal slash, uncountability of the real continuum, and the fractal ternary set of measure zero."
+  article_url: "/experiments/cantors-infinity.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/cantors_infinity"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
+- name: "Quantum Tunneling & Barrier Penetration"
+  slug: "quantum-tunneling"
+  category: "science"
+  tag: "Quantum Physics • Evanescent Waves"
+  tech: "HTML5 Canvas / Quantum Engine"
+  description: "Wavefunction barrier penetration, exponential evanescent decay, Gamow's nuclear alpha decay formula, and the solar core hydrogen fusion engine."
+  article_url: "/experiments/quantum-tunneling.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/quantum_tunneling"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
 - name: "The Quantum Observer & Wavefunction Collapse"
   slug: "quantum-observer"
   category: "science"
