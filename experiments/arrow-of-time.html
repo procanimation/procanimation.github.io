@@ -1,0 +1,293 @@
+---
+layout: article
+title: "The Arrow of Time: Entropy, Loschmidt's Paradox & The Fate of the Cosmos"
+tagline: "Boltzmann's Statistical Mechanics, Poincaré Recurrence & The Reversibility Paradox"
+description: "Why microscopic laws of physics are completely time-reversible, yet the macroscopic cosmos marches inexorably toward maximum entropy and heat death."
+category: "Thermodynamics & Statistical Mechanics"
+permalink: /experiments/arrow-of-time.html
+---
+
+<p class="article-lead">
+  Every fundamental equation in classical mechanics, quantum mechanics, and general relativity possesses <strong>time-reversal symmetry ($T$-symmetry)</strong>: if you film the collision of two billiard balls or the trajectory of an electron and play it backward, the reverse trajectory satisfies Newton's and Schrödinger's equations with mathematical perfection. Yet in everyday life, shattered coffee mugs never reassemble, dropped eggs never leap back into whole shells, and melted ice never un-melts. The physical world possesses an undeniable, one-way <strong>Arrow of Time</strong>. Why does the macroscopic universe run in one direction when the microscopic laws don't care about the difference between past and future?
+</p>
+
+<!-- The Arrow of Time Lexicon -->
+<h3>The Statistical Mechanics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Boltzmann Entropy ($S = k_B \ln \Omega$)</h4>
+    <p>Entropy is not mysterious disorder; it is counting. $\Omega$ is the number of distinct microstates (atomic arrangements) that produce the identical macroscopic state. High entropy states simply outnumber low entropy states by trillions to one.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Loschmidt's Reversibility Paradox</h4>
+    <p>In 1876, Josef Loschmidt challenged Ludwig Boltzmann: if every particle collision is time-reversible, then instantly inverting every particle's velocity vector ($\vec{v} \to -\vec{v}$) must cause entropy to decrease. Boltzmann replied: <em>"Then go ahead and invert them!"</em></p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Poincaré Recurrence Theorem</h4>
+    <p>Henri Poincaré proved in 1890 that any closed system with finite energy will eventually return arbitrarily close to its initial configuration—but for a cup of coffee, the recurrence time exceeds $10^{10^{26}}$ universe lifespans.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Past Hypothesis</h4>
+    <p>The Second Law of Thermodynamics holds today solely because our universe began in an extraordinarily low-entropy state 13.8 billion years ago at the Big Bang, providing the fuel that drives all stars, life, and computation.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE BOLTZMANN GAS & ENTROPY INTEGRATOR</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Phase-Space & Loschmidt Reversal)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Gas Particles</span>
+      <span style="color:#f72585;">● High-Speed Collisions</span>
+      <span style="color:#fee440;">● Partition Boundary</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="height:480px; position:relative; background:#020617; border-radius:12px; overflow:hidden;">
+    <canvas id="entropyCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <!-- Real-time Entropy HUD Overlay -->
+    <div style="position:absolute; top:16px; left:20px; background:rgba(2, 6, 23, 0.85); backdrop-filter:blur(8px); padding:12px 18px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); font-family:var(--font-mono, monospace); font-size:0.85rem; color:#f8fafc; pointer-events:none;">
+      <div style="color:#38bdf8; font-weight:700; margin-bottom:4px;">THERMODYNAMIC PHASE STATE</div>
+      <div>Entropy $S(t)$: <span id="entropyValue" style="color:#00f5d4; font-weight:bold;">0.12</span> / 1.00 <span id="entropyStateTag" style="font-size:0.75rem; padding:2px 6px; border-radius:4px; background:#0284c7; margin-left:6px;">LOW ENTROPY</span></div>
+      <div style="margin-top:4px; font-size:0.75rem; color:#94a3b8;">Boltzmann Microstates: $\Omega \approx 10^{<span id="microstateExp">18</span>}$</div>
+      <div style="margin-top:6px; width:180px; height:6px; background:#1e293b; border-radius:3px; overflow:hidden;">
+        <div id="entropyBar" style="width:12%; height:100%; background:linear-gradient(90deg, #00f5d4, #f72585); transition:width 0.1s linear;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="simulation-toolbar" style="margin-top:14px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;">
+    <div class="sim-btn-group" style="display:flex; flex-wrap:wrap; gap:8px;">
+      <button id="btnReverseTime" class="sim-btn primary" style="background:#f72585; border-color:#f72585; color:#fff; font-weight:700;">🔄 Loschmidt Reversal ($\vec{v} \to -\vec{v}$)</button>
+      <button id="btnResetLow" class="sim-btn">⏮ Reset Low Entropy</button>
+      <button id="btnTogglePartition" class="sim-btn">🚪 Toggle Partition</button>
+      <button id="btnPause" class="sim-btn">⏸ Pause</button>
+    </div>
+    <div style="font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono, monospace);">
+      Active Particles: <span id="particleCount">300</span> | Elastic Collisions: Elastic Hard-Sphere
+    </div>
+  </div>
+</div>
+
+<div class="article-section" style="margin-top:36px;">
+  <h2>Why Loschmidt's Reversal Works (Temporarily)</h2>
+  <p>
+    When you click the <strong>Loschmidt Reversal</strong> button above, the simulation multiplies every particle's velocity vector by $-1$. For a few seconds, an astonishment occurs: particles that had spread out across the chamber magically re-trace their exact scattering trajectories, re-colliding and compacting back into the initial corner!
+  </p>
+  <p>
+    However, because deterministic collisions are <em>chaotic</em> (characterized by positive Lyapunov exponents $\lambda > 0$), any minuscule floating-point error, rounding perturbation, or thermal fluctuation in the 53rd bit of precision causes the trajectories to rapidly diverge from the theoretical reversal. Within seconds, entropy resumes its inevitable ascent toward maximum disorder. As Sir Arthur Eddington famously wrote in 1928:
+  </p>
+  <blockquote style="border-left:4px solid #f72585; padding-left:18px; margin:20px 0; font-style:italic; color:#cbd5e1;">
+    "The law that entropy always increases holds, I think, the supreme position among the laws of Nature. If someone points out to you that your pet theory of the universe is in disagreement with Maxwell's equations—then so much the worse for Maxwell's equations. If it is found to be contradicted by observation—well, these experimentalists do bungle things sometimes. But if your theory is found to be against the Second Law of Thermodynamics, I can give you no hope; there is nothing for it but to collapse in deepest humiliation."
+  </blockquote>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('entropyCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  let animationId = null;
+  let isRunning = true;
+  let partitionClosed = false;
+  
+  const entropyValEl = document.getElementById('entropyValue');
+  const entropyTagEl = document.getElementById('entropyStateTag');
+  const microstateExpEl = document.getElementById('microstateExp');
+  const entropyBarEl = document.getElementById('entropyBar');
+  const btnReverse = document.getElementById('btnReverseTime');
+  const btnReset = document.getElementById('btnResetLow');
+  const btnPartition = document.getElementById('btnTogglePartition');
+  const btnPause = document.getElementById('btnPause');
+
+  let width = 0, height = 0;
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    width = rect.width;
+    height = rect.height;
+    canvas.width = width * window.devicePixelRatio;
+    canvas.height = height * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const NUM_PARTICLES = 300;
+  let particles = [];
+
+  function initParticles(clusterCorner = true) {
+    particles = [];
+    for (let i = 0; i < NUM_PARTICLES; i++) {
+      let x, y;
+      if (clusterCorner) {
+        x = 30 + Math.random() * (width * 0.28);
+        y = 30 + Math.random() * (height * 0.38);
+      } else {
+        x = 30 + Math.random() * (width - 60);
+        y = 30 + Math.random() * (height - 60);
+      }
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 1.8 + Math.random() * 2.4;
+      particles.push({
+        x: x,
+        y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        radius: 3.2,
+        color: i % 3 === 0 ? '#00f5d4' : (i % 3 === 1 ? '#38bdf8' : '#f72585')
+      });
+    }
+  }
+
+  initParticles(true);
+
+  function calculateEntropy() {
+    // 4x4 spatial grid binning to estimate coarse-grained spatial entropy
+    const gridCols = 8;
+    const gridRows = 5;
+    const totalBins = gridCols * gridRows;
+    const counts = new Array(totalBins).fill(0);
+
+    for (let p of particles) {
+      const col = Math.min(gridCols - 1, Math.max(0, Math.floor((p.x / width) * gridCols)));
+      const row = Math.min(gridRows - 1, Math.max(0, Math.floor((p.y / height) * gridRows)));
+      counts[row * gridCols + col]++;
+    }
+
+    // Shannon/Boltzmann entropy: S = - sum(p_i * ln p_i) normalized
+    let S = 0;
+    for (let count of counts) {
+      if (count > 0) {
+        const prob = count / NUM_PARTICLES;
+        S -= prob * Math.log(prob);
+      }
+    }
+    const maxS = Math.log(totalBins);
+    const normalizedS = Math.min(1.0, Math.max(0.0, S / maxS));
+    return normalizedS;
+  }
+
+  function update() {
+    const left = 15, right = width - 15;
+    const top = 15, bottom = height - 15;
+    const partitionX = width * 0.45;
+
+    for (let p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Outer boundary reflection
+      if (p.x - p.radius < left) { p.x = left + p.radius; p.vx *= -1; }
+      if (p.x + p.radius > right) { p.x = right - p.radius; p.vx *= -1; }
+      if (p.y - p.radius < top) { p.y = top + p.radius; p.vy *= -1; }
+      if (p.y + p.radius > bottom) { p.y = bottom - p.radius; p.vy *= -1; }
+
+      // Partition wall reflection if partition is active
+      if (partitionClosed) {
+        if (Math.abs(p.x - partitionX) < p.radius + 2) {
+          if (p.vx > 0 && p.x < partitionX) { p.x = partitionX - p.radius - 2; p.vx *= -1; }
+          else if (p.vx < 0 && p.x > partitionX) { p.x = partitionX + p.radius + 2; p.vx *= -1; }
+        }
+      }
+    }
+  }
+
+  function draw() {
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, width, height);
+
+    // Chamber Border
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(15, 15, width - 30, height - 30);
+
+    // Partition Wall
+    const partitionX = width * 0.45;
+    if (partitionClosed) {
+      ctx.strokeStyle = '#fee440';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(partitionX, 15);
+      ctx.lineTo(partitionX, height - 15);
+      ctx.stroke();
+    } else {
+      ctx.strokeStyle = 'rgba(254, 228, 64, 0.2)';
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.moveTo(partitionX, 15);
+      ctx.lineTo(partitionX, height - 15);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Draw Particles with soft glow
+    for (let p of particles) {
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Update HUD Stats
+    const ent = calculateEntropy();
+    if (entropyValEl) entropyValEl.textContent = ent.toFixed(2);
+    if (entropyBarEl) entropyBarEl.style.width = (ent * 100) + '%';
+    if (microstateExpEl) microstateExpEl.textContent = Math.round(18 + ent * 82);
+
+    if (entropyTagEl) {
+      if (ent < 0.45) {
+        entropyTagEl.textContent = 'LOW ENTROPY';
+        entropyTagEl.style.background = '#0284c7';
+      } else if (ent < 0.85) {
+        entropyTagEl.textContent = 'EXPANDING';
+        entropyTagEl.style.background = '#d97706';
+      } else {
+        entropyTagEl.textContent = 'MAX ENTROPY (EQUILIBRIUM)';
+        entropyTagEl.style.background = '#dc2626';
+      }
+    }
+  }
+
+  function loop() {
+    if (isRunning) {
+      update();
+      draw();
+    }
+    animationId = requestAnimationFrame(loop);
+  }
+
+  // Loschmidt Reversal
+  btnReverse.addEventListener('click', () => {
+    for (let p of particles) {
+      p.vx = -p.vx;
+      p.vy = -p.vy;
+    }
+    btnReverse.style.transform = 'scale(0.95)';
+    setTimeout(() => { btnReverse.style.transform = 'scale(1)'; }, 150);
+  });
+
+  // Reset Low Entropy
+  btnReset.addEventListener('click', () => {
+    initParticles(true);
+  });
+
+  // Toggle Partition
+  btnPartition.addEventListener('click', () => {
+    partitionClosed = !partitionClosed;
+    btnPartition.textContent = partitionClosed ? '🚪 Open Partition' : '🚪 Close Partition';
+  });
+
+  // Pause
+  btnPause.addEventListener('click', () => {
+    isRunning = !isRunning;
+    btnPause.textContent = isRunning ? '⏸ Pause' : '▶ Resume';
+  });
+
+  loop();
+})();
+</script>

@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "The Arrow of Time & Statistical Entropy"
+  slug: "arrow-of-time"
+  category: "science"
+  tag: "Thermodynamics • Boltzmann Entropy"
+  tech: "HTML5 Canvas / Phase-Space"
+  description: "Ludwig Boltzmann's statistical microstates, Loschmidt's velocity-inversion paradox, and why microscopic reversible laws create an irreversible macroscopic cosmic timeline."
+  article_url: "/experiments/arrow-of-time.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/arrow_of_time"
+  featured: true
+  gradient: "linear-gradient(135deg, #ff0055 0%, #ff5500 50%, #00f5d4 100%)"
+
 - name: "Black Hole Gravitational Lensing"
   slug: "black-hole"
   category: "science"

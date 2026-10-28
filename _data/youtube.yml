@@ -8,7 +8,62 @@
   badge: "Featured Documentary"
   gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #ffb703 100%)"
   video_url: "https://www.youtube.com/watch?v=mLvYWNr5tNo"
-  article_url: "/experiments/rule30-cellular.html"
+  article_url: "/experiments/cellular-automata-rule30.html"
+
+- title: "The Music of the Cosmos: How the Fourier Transform Explains Reality"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "02:51"
+  description: "How Joseph Fourier's mathematical breakthrough decomposes light, planetary orbits, quantum wavefunctions, and the Cosmic Microwave Background into pure harmonics."
+  tags: ["Fourier Transform", "Cosmology", "Harmonics", "Astrophysics", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=J0Vgf_xLiZo"
+  article_url: "/experiments/fourier-series.html"
+
+- title: "The Gravitational Ballet: Chaos in Celestial Mechanics"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "02:58"
+  description: "Henri Poincaré's discovery of gravitational non-integrability, chaotic N-body choreographies, Lagrange points, and why the solar system cannot be solved in closed form."
+  tags: ["Celestial Mechanics", "Three-Body Problem", "Chaos Theory", "Astrophysics", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #0077b6 0%, #00f5d4 50%, #fee440 100%)"
+  video_url: "https://www.youtube.com/watch?v=pPXzhInf4xA"
+  article_url: "/experiments/three-body-problem.html"
+
+- title: "The Geometry of Life: How Physics Builds Living Order"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "03:28"
+  description: "Alan Turing's activator-inhibitor reaction-diffusion morphogenesis, Ilya Prigogine's dissipative structures, and how spontaneous spatial order self-organizes far from equilibrium."
+  tags: ["Turing Morphogenesis", "Reaction-Diffusion", "Complexity", "Biophysics", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #ec4899 100%)"
+  video_url: "https://www.youtube.com/watch?v=YdSTRGYKb68"
+  article_url: "/experiments/turing-morphogenesis.html"
+
+- title: "The Holographic Universe: Are We Living on the Edge of Spacetime?"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "03:37"
+  description: "Bekenstein-Hawking black hole entropy (S = k_B A / 4l_p^2), the Information Paradox, AdS/CFT duality, and the radical proposal that our 3D reality is a boundary hologram."
+  tags: ["Holographic Principle", "Black Holes", "Quantum Gravity", "String Theory", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #7209b7 0%, #f72585 50%, #00f5d4 100%)"
+  video_url: "https://www.youtube.com/watch?v=dEanJ_qEqns"
+  article_url: "/experiments/black-hole-gravitational-lensing.html"
+
+- title: "The Arrow of Time: Why Yesterday Can Never Be Undone"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:21"
+  description: "Ludwig Boltzmann's statistical entropy (S = k_B ln Ω), Loschmidt's reversibility paradox, Poincaré recurrence, and why microscopic reversible laws create an irreversible macroscopic arrow of time."
+  tags: ["Thermodynamics", "Entropy", "Arrow of Time", "Statistical Mechanics", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #ff0055 0%, #ff5500 50%, #00f5d4 100%)"
+  video_url: "https://www.youtube.com/watch?v=O-0rUbsY_Lo"
+  article_url: "/experiments/arrow-of-time.html"
 
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
