@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "The Quantum Observer & Wavefunction Collapse"
+  slug: "quantum-observer"
+  category: "science"
+  tag: "Quantum Physics • Measurement Problem"
+  tech: "HTML5 Canvas / Wavefunction Simulation"
+  description: "Why observation collapses quantum probability waves, Schrödinger's cat superposition paradox, environmental decoherence, and the Quantum Zeno Effect."
+  article_url: "/experiments/quantum-observer.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/quantum_observer"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
 - name: "The Arrow of Time & Statistical Entropy"
   slug: "arrow-of-time"
   category: "science"

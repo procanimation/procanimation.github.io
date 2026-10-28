@@ -65,6 +65,17 @@
   video_url: "https://www.youtube.com/watch?v=O-0rUbsY_Lo"
   article_url: "/experiments/arrow-of-time.html"
 
+- title: "The Quantum Observer: Does Reality Exist When Nobody is Looking?"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:25"
+  description: "The double-slit enigma, Schrödinger's cat superposition paradox, environmental decoherence and the density matrix, Hugh Everett's Many-Worlds multiverse, and freezing time via the Quantum Zeno Effect."
+  tags: ["Quantum Physics", "Schrodingers Cat", "Measurement Problem", "Many Worlds", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=FRdmkApxokI"
+  article_url: "/experiments/quantum-observer.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"
