@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "The P vs NP Enigma & Complexity"
+  slug: "p-vs-np-enigma"
+  category: "cs"
+  tag: "Complexity Theory • Millennium Prize"
+  tech: "HTML5 Canvas / 3-SAT Complexity Engine"
+  description: "Stephen Cook & Leonid Levin's 1971 3-SAT theorem, Richard Karp's 21 foundational reductions, the 4.26 phase transition, and the three meta-mathematical proof barriers."
+  article_url: "/experiments/p-vs-np-enigma.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/p_vs_np_enigma"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
+
 - name: "Cosmic Inflation & The Multiverse"
   slug: "cosmic-inflation-multiverse"
   category: "science"

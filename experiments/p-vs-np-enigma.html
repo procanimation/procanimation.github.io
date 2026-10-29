@@ -1,0 +1,289 @@
+---
+layout: article
+title: "The P vs NP Enigma: The Limits of Computation & Complexity"
+tagline: "Computational Complexity, Cook-Levin 3-SAT, Karp's Reductions & Proof Barriers"
+description: "Is finding a creative mathematical proof fundamentally harder than verifying one? How Cook, Levin, and Karp mapped the limits of computational reality."
+category: "Theoretical Computer Science & Complexity Theory"
+permalink: /experiments/p-vs-np-enigma.html
+---
+
+<p class="article-lead">
+  If someone hands you a solved jigsaw puzzle with a million pieces, you can verify in minutes that every edge interlocks without gaps. Yet assembling that same puzzle from a chaotic heap might take you a lifetime. This intuitive asymmetry—that checking a solution is vastly easier than finding one—is the defining mystery of theoretical computer science: the P versus NP problem. First formulated as a Millennium Prize Problem by the Clay Mathematics Institute with a one-million-dollar bounty, it asks whether every problem whose solution can be verified quickly by a computer can also be solved quickly.
+</p>
+
+<!-- The Complexity Lexicon -->
+<h3>The Computational Complexity Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Class P (Polynomial Time)</h4>
+    <p>The set of decision problems solvable by a deterministic Turing machine in polynomial time $\mathcal{O}(n^k)$. Problems in P are computationally tractable: sorting, shortest path, linear programming, and primality testing (AKS algorithm).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Class NP (Nondeterministic Poly)</h4>
+    <p>The set of decision problems where a candidate solution (certificate) can be verified in polynomial time. Every problem in P is trivially in NP ($P \subseteq NP$). Whether $P = NP$ remains the supreme open question.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Cook-Levin Theorem & 3-SAT</h4>
+    <p>In 1971, Stephen Cook and Leonid Levin proved that Boolean Satisfiability (SAT) is NP-complete. In 3-SAT, when the clause-to-variable ratio $\alpha = m/n$ crosses the critical threshold $\alpha_c \approx 4.26$, satisfiability exhibits a sharp first-order phase transition and difficulty spikes exponentially.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Three Meta-Proof Barriers</h4>
+    <p>Why has P vs NP resisted resolution? Three mathematical barriers block conventional attacks: the Relativization Barrier (Baker-Gill-Solovay 1975), the Natural Proofs Barrier (Razborov-Rudich 1994), and the Algebrization Barrier (Aaronson-Wigderson 2008).</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE 3-SAT PHASE TRANSITION & COMPLEXITY ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Clause Ratio Tuning, Boolean Clause Energy & Search Landscape)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnSetCritical" class="sim-btn primary">Jump to Critical α = 4.26</button>
+      <button id="btnSolveInstance" class="sim-btn secondary">Run DPLL Solver</button>
+      <button id="btnToggleComplexity" class="sim-btn secondary">Toggle: Complexity Zoo</button>
+      <button id="btnResetLab" class="sim-btn">Reset</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="pnpCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Clause Ratio α:</span> <span id="dispAlpha">4.26</span> &bull; 
+      <span style="color:#fee440;">P(SAT):</span> <span id="dispPSat">50.0% (Phase Boundary)</span> &bull; 
+      <span style="color:#f72585;">Search Cost:</span> <span id="dispCost">O(2ⁿ) Maximum</span> &bull; 
+      <span style="color:#38bdf8;">Regime:</span> <span id="dispRegime">Critically Constrained</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      Drag Slider / Click Canvas to Probe Clause Density
+    </div>
+  </div>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">The P vs NP Enigma: The Limits of Computation & The Intrinsic Hardness of Reality</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Explore verification vs discovery, the Cook-Levin 3-SAT theorem, Richard Karp's 21 foundational reductions, the cryptographic consequences if P = NP, and the three meta-mathematical proof barriers.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 04:16</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master</span>
+      </div>
+      <a id="docYoutubeBtn" href="https://www.youtube.com/watch?v=oSJD2UT2b5Y" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#020617; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('pnpCanvas');
+  const ctx = canvas.getContext('2d');
+  const btnCrit = document.getElementById('btnSetCritical');
+  const btnSolve = document.getElementById('btnSolveInstance');
+  const btnToggle = document.getElementById('btnToggleComplexity');
+  const btnReset = document.getElementById('btnResetLab');
+
+  const dispAlpha = document.getElementById('dispAlpha');
+  const dispPSat = document.getElementById('dispPSat');
+  const dispCost = document.getElementById('dispCost');
+  const dispRegime = document.getElementById('dispRegime');
+
+  let alpha = 4.26;
+  let viewMode = 'phase'; // 'phase' or 'zoo'
+  let solving = false;
+  let solveStep = 0;
+
+  btnCrit.addEventListener('click', () => {
+    alpha = 4.26;
+    updateLabels();
+  });
+
+  btnSolve.addEventListener('click', () => {
+    solving = true;
+    solveStep = 0;
+  });
+
+  btnToggle.addEventListener('click', () => {
+    viewMode = viewMode === 'phase' ? 'zoo' : 'phase';
+    btnToggle.textContent = `Toggle: ${viewMode === 'phase' ? 'Complexity Zoo' : '3-SAT Phase'}`;
+  });
+
+  btnReset.addEventListener('click', () => {
+    alpha = 2.5;
+    solving = false;
+    solveStep = 0;
+    updateLabels();
+  });
+
+  canvas.addEventListener('mousemove', (e) => {
+    if (viewMode !== 'phase') return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    if (mx >= 80 && mx <= 820) {
+      alpha = 1.0 + ((mx - 80) / 740) * 6.0;
+      updateLabels();
+    }
+  });
+
+  function updateLabels() {
+    dispAlpha.textContent = alpha.toFixed(2);
+    const pSat = 1.0 / (1.0 + Math.exp((alpha - 4.26) * 12.0));
+    dispPSat.textContent = `${(pSat * 100).toFixed(1)}%`;
+    if (alpha < 3.8) {
+      dispRegime.textContent = 'Under-Constrained (Easily SAT)';
+      dispCost.textContent = 'O(n) Linear';
+    } else if (alpha > 4.7) {
+      dispRegime.textContent = 'Over-Constrained (Easily UNSAT)';
+      dispCost.textContent = 'O(n) Quick Contradiction';
+    } else {
+      dispRegime.textContent = 'Critical Phase Transition!';
+      dispCost.textContent = 'O(2ⁿ) Exponential Explosion';
+    }
+  }
+
+  let time = 0;
+  function animate() {
+    time += 0.02;
+
+    ctx.clearRect(0, 0, 900, 520);
+
+    // Deep space gradient
+    const grad = ctx.createRadialGradient(450, 260, 20, 450, 260, 500);
+    grad.addColorStop(0, '#040d24');
+    grad.addColorStop(0.5, '#020713');
+    grad.addColorStop(1, '#010206');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 900, 520);
+
+    if (viewMode === 'phase') {
+      // 3-SAT Phase Transition Graph
+      const gX = 80, gY = 80, gW = 740, gH = 340;
+      ctx.fillStyle = 'rgba(2, 6, 23, 0.85)';
+      ctx.strokeStyle = 'rgba(0, 245, 212, 0.3)';
+      ctx.strokeRect(gX, gY, gW, gH);
+      ctx.fillRect(gX, gY, gW, gH);
+
+      // Axes
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(gX + 50, gY + gH - 40); ctx.lineTo(gX + gW - 30, gY + gH - 40);
+      ctx.moveTo(gX + 50, gY + 30); ctx.lineTo(gX + 50, gY + gH - 40);
+      ctx.stroke();
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '13px monospace';
+      ctx.fillText("Clause Ratio α = m / n", gX + gW / 2 - 80, gY + gH - 12);
+      ctx.save();
+      ctx.translate(gX + 22, gY + gH / 2 + 40);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText("P(Satisfiable)", 0, 0);
+      ctx.restore();
+
+      // Draw Curve
+      ctx.beginPath();
+      for (let px = 0; px <= gW - 80; px++) {
+        const a = 1.0 + (px / (gW - 80)) * 6.0;
+        const p = 1.0 / (1.0 + Math.exp((a - 4.26) * 12.0));
+        const py = (gY + gH - 40) - p * (gH - 80);
+        if (px === 0) ctx.moveTo(gX + 50 + px, py);
+        else ctx.lineTo(gX + 50 + px, py);
+      }
+      ctx.strokeStyle = '#00f5d4';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Critical line
+      const critX = gX + 50 + ((4.26 - 1.0) / 6.0) * (gW - 80);
+      ctx.strokeStyle = 'rgba(247, 37, 133, 0.7)';
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.moveTo(critX, gY + 30); ctx.lineTo(critX, gY + gH - 40);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#f72585';
+      ctx.font = 'bold 12px monospace';
+      ctx.fillText("α_c ≈ 4.26", critX + 8, gY + 50);
+
+      // Current alpha cursor
+      const curX = gX + 50 + ((alpha - 1.0) / 6.0) * (gW - 80);
+      const curP = 1.0 / (1.0 + Math.exp((alpha - 4.26) * 12.0));
+      const curY = (gY + gH - 40) - curP * (gH - 80);
+
+      ctx.fillStyle = '#fee440';
+      ctx.shadowColor = '#fee440';
+      ctx.shadowBlur = 15;
+      ctx.beginPath();
+      ctx.arc(curX, curY, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Draw difficulty / median runtime spike in background
+      ctx.beginPath();
+      for (let px = 0; px <= gW - 80; px++) {
+        const a = 1.0 + (px / (gW - 80)) * 6.0;
+        // Peak difficulty at 4.26
+        const diff = Math.exp(-Math.pow((a - 4.26) / 0.55, 2));
+        const dy = (gY + gH - 40) - diff * (gH - 120);
+        if (px === 0) ctx.moveTo(gX + 50 + px, dy);
+        else ctx.lineTo(gX + 50 + px, dy);
+      }
+      ctx.strokeStyle = 'rgba(254, 228, 64, 0.35)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#fee440';
+      ctx.font = '12px monospace';
+      ctx.fillText("Median Solve Cost Spike →", critX - 180, gY + 120);
+
+    } else {
+      // Complexity Zoo Diagram
+      const cx = 450, cy = 250;
+      
+      // PSPACE
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.05)';
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.ellipse(cx, cy, 340, 190, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 14px monospace';
+      ctx.fillText("PSPACE", cx - 25, cy - 150);
+
+      // NP
+      ctx.fillStyle = 'rgba(254, 228, 64, 0.08)';
+      ctx.strokeStyle = 'rgba(254, 228, 64, 0.4)';
+      ctx.beginPath(); ctx.ellipse(cx, cy, 240, 130, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#fee440';
+      ctx.fillText("CLASS NP", cx - 35, cy - 90);
+
+      // P
+      ctx.fillStyle = 'rgba(0, 245, 212, 0.15)';
+      ctx.strokeStyle = '#00f5d4';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.ellipse(cx, cy + 30, 130, 70, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#00f5d4';
+      ctx.font = 'bold 16px monospace';
+      ctx.fillText("CLASS P", cx - 35, cy + 35);
+
+      // NP-Complete
+      ctx.fillStyle = '#f72585';
+      ctx.font = 'bold 13px monospace';
+      ctx.fillText("★ NP-COMPLETE (3-SAT, TSP, CLIQUE)", cx - 130, cy - 40);
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
