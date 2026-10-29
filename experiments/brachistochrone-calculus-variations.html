@@ -1,0 +1,382 @@
+---
+layout: article
+title: "The Brachistochrone: The Geometry of Light & The Calculus of Variations"
+tagline: "Johann Bernoulli's 1696 Challenge, Fermat's Principle, Cycloids & The Principle of Least Action"
+description: "Why is the shortest path between two points NOT the fastest? Explore the 1696 challenge that founded the calculus of variations, Euler-Lagrange equations, and Hamilton's principle."
+category: "Classical Mechanics & Mathematical Physics"
+permalink: /experiments/brachistochrone-calculus-variations.html
+---
+
+<p class="article-lead">
+  In June 1696, Swiss mathematician Johann Bernoulli posed an innocent-sounding problem to the world: given two points in a vertical plane, along what path does a marble sliding frictionlessly under gravity travel between them in the least possible time? The intuitive guess—a straight line—is fundamentally incorrect. By dipping steeply at the start, a particle sacrifices distance to harvest kinetic velocity early, overtaking the straight line with ease. Bernoulli's revolutionary insight was to treat falling matter as refracted light, proving via Snell's Law and Fermat's Principle that the curve of quickest descent is a <strong>cycloid</strong>. This breakthrough gave birth to the <strong>Calculus of Variations</strong> and the <strong>Principle of Least Action</strong>, the cornerstone of modern classical, relativistic, and quantum mechanics.
+</p>
+
+<!-- The Lexicon -->
+<h3>The Brachistochrone & Variational Mechanics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Brachistochrone (1696)</h4>
+    <p>From the Greek <em>brachistos</em> (shortest) and <em>chronos</em> (time). Solved by Johann Bernoulli, Isaac Newton, Gottfried Leibniz, and Jakob Bernoulli. Newton famously solved it in a single overnight sitting after working a 12-hour day at the Royal Mint ("I recognize the lion by his claw").</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Fermat's Optical Equivalence</h4>
+    <p>A falling particle has velocity $v = \sqrt{2gy}$, identical to a light ray in a stratified medium with refractive index $n(y) \propto 1/\sqrt{2gy}$. By Fermat's Principle of Least Time and Snell's Law $\frac{\sin \theta}{v} = \text{const}$, the ray traces $y[1 + (y')^2] = 2R$—the exact differential equation of a cycloid.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Huygens' Tautochrone Miracle (1659)</h4>
+    <p>Discovered decades before Bernoulli by Christiaan Huygens: the cycloid is also a <em>Tautochrone</em> (equal time). Marbles released simultaneously from any height along a cycloidal track all reach the bottom at the exact same millisecond ($T = \pi \sqrt{R/g}$), forming the basis of isochronous pendulum clocks.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Euler-Lagrange Equation (1744)</h4>
+    <p>Euler and Lagrange generalized Bernoulli's problem to infinite-dimensional functional spaces. To extremize the action functional $S[y] = \int L(x, y, y') dx$, the curve must satisfy $\frac{\partial L}{\partial y} - \frac{d}{dx}\left(\frac{\partial L}{\partial y'}\right) = 0$. In physics, Hamilton's Principle $\delta \int (T - V) dt = 0$ governs all classical, relativistic, and quantum paths.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE BRACHISTOCHRONE 4-TRACK RACE & TAUTOCHRONE ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Physics Simulation, Snell's Law Optics & Real-Time Bead Telemetry)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnStartRace" class="sim-btn primary">Start 4-Track Race</button>
+      <button id="btnToggleOptics" class="sim-btn secondary">Toggle: Snell's Law Optics</button>
+      <button id="btnToggleTautochrone" class="sim-btn secondary">Toggle: Tautochrone Bowl</button>
+      <button id="btnResetLab" class="sim-btn">Reset</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="brachistoCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">1. Cycloid:</span> <span id="dispCyc">0.00s</span> &bull; 
+      <span style="color:#10b981;">2. Circle:</span> <span id="dispCirc">0.00s</span> &bull; 
+      <span style="color:#f59e0b;">3. Parabola:</span> <span id="dispPara">0.00s</span> &bull; 
+      <span style="color:#38bdf8;">4. Straight:</span> <span id="dispLine">0.00s</span> &bull; 
+      <span style="color:#fee440;">Status:</span> <span id="dispStatus">Ready to Race</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      Click 'Start 4-Track Race' to release the marbles
+    </div>
+  </div>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">The Brachistochrone: The Geometry of Light & The Calculus of Variations</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Explore Johann Bernoulli's 1696 challenge, Isaac Newton's overnight solution, Fermat's optical refraction analogy, Huygens' tautochrone isochronism, and Hamilton's Principle of Least Action.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 04:45</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master (p5.js)</span>
+      </div>
+      <a id="docYoutubeBtn" href="https://www.youtube.com/watch?v=BGQ0ZRWK8Jg" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#020617; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('brachistoCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const btnStart = document.getElementById('btnStartRace');
+  const btnOptics = document.getElementById('btnToggleOptics');
+  const btnTautochrone = document.getElementById('btnToggleTautochrone');
+  const btnReset = document.getElementById('btnResetLab');
+
+  const dispCyc = document.getElementById('dispCyc');
+  const dispCirc = document.getElementById('dispCirc');
+  const dispPara = document.getElementById('dispPara');
+  const dispLine = document.getElementById('dispLine');
+  const dispStatus = document.getElementById('dispStatus');
+
+  let mode = 'race'; // 'race', 'optics', 'tautochrone'
+  let isRacing = false;
+  let raceStartTime = 0;
+  let simTime = 0;
+
+  // Scaled coordinates for 900x520 canvas
+  const P0 = { x: 100, y: 100 };
+  const P1 = { x: 800, y: 440 };
+  const DX = P1.x - P0.x; // 700
+  const DY = P1.y - P0.y; // 340
+
+  const SAMPLES = 200;
+  const LINE_PTS = [];
+  const PARA_PTS = [];
+  const CIRC_PTS = [];
+  const CYC_PTS = [];
+
+  const THETA_END = 3.68;
+  const R_CYC = 160;
+
+  for (let i = 0; i <= SAMPLES; i++) {
+    const u = i / SAMPLES;
+    LINE_PTS.push({ x: P0.x + u * DX, y: P0.y + u * DY });
+    PARA_PTS.push({ x: P0.x + u * DX, y: P0.y + Math.pow(u, 0.58) * DY });
+
+    const circAngle = -Math.PI / 2 + u * 1.05;
+    CIRC_PTS.push({
+      x: P0.x + (Math.sin(circAngle) - Math.sin(-Math.PI/2)) / (Math.sin(-Math.PI/2 + 1.05) - Math.sin(-Math.PI/2)) * DX,
+      y: P0.y + (1 - Math.cos(circAngle)) / (1 - Math.cos(-Math.PI/2 + 1.05)) * DY
+    });
+
+    const th = u * THETA_END;
+    const rawX = R_CYC * (th - Math.sin(th));
+    const rawY = R_CYC * (1 - Math.cos(th));
+    const maxRawX = R_CYC * (THETA_END - Math.sin(THETA_END));
+    const maxRawY = R_CYC * (1 - Math.cos(THETA_END));
+    CYC_PTS.push({
+      x: P0.x + (rawX / maxRawX) * DX,
+      y: P0.y + (rawY / maxRawY) * DY
+    });
+  }
+
+  function computePhysics(pts) {
+    const g = 800; // px / s^2
+    const times = [0];
+    let totalT = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const pA = pts[i - 1];
+      const pB = pts[i];
+      const ds = Math.hypot(pB.x - pA.x, pB.y - pA.y);
+      const yAvg = Math.max(2, ((pA.y + pB.y) / 2) - P0.y);
+      const v = Math.sqrt(2 * g * yAvg);
+      totalT += ds / v;
+      times.push(totalT);
+    }
+    return { totalT, times };
+  }
+
+  const CYC_PHYS = computePhysics(CYC_PTS);
+  const CIRC_PHYS = computePhysics(CIRC_PTS);
+  const PARA_PHYS = computePhysics(PARA_PTS);
+  const LINE_PHYS = computePhysics(LINE_PTS);
+
+  btnStart.addEventListener('click', () => {
+    mode = 'race';
+    isRacing = true;
+    simTime = 0;
+    dispStatus.textContent = "Racing!";
+  });
+
+  btnOptics.addEventListener('click', () => {
+    mode = 'optics';
+    isRacing = false;
+    dispStatus.textContent = "Snell's Law Optical Refraction";
+  });
+
+  btnTautochrone.addEventListener('click', () => {
+    mode = 'tautochrone';
+    isRacing = false;
+    dispStatus.textContent = "Huygens' Tautochrone Isochronism";
+  });
+
+  btnReset.addEventListener('click', () => {
+    isRacing = false;
+    simTime = 0;
+    dispStatus.textContent = "Ready to Race";
+  });
+
+  function getBead(pts, phys, t) {
+    if (t >= phys.totalT) return pts[pts.length - 1];
+    const tArr = phys.times;
+    let low = 0, high = tArr.length - 1;
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      if (tArr[mid] < t) low = mid + 1;
+      else high = mid - 1;
+    }
+    const idx = Math.max(0, Math.min(pts.length - 2, low - 1));
+    const frac = (t - tArr[idx]) / (tArr[idx + 1] - tArr[idx] + 0.0001);
+    return {
+      x: pts[idx].x + frac * (pts[idx + 1].x - pts[idx].x),
+      y: pts[idx].y + frac * (pts[idx + 1].y - pts[idx].y)
+    };
+  }
+
+  function loop() {
+    if (isRacing) {
+      simTime += 0.018;
+      if (simTime > LINE_PHYS.totalT + 1.2) {
+        simTime = 0; // repeat race
+      }
+    }
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (mode === 'race') {
+      renderRace();
+    } else if (mode === 'optics') {
+      renderOptics();
+    } else {
+      renderTautochrone();
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  function drawPath(pts, color, width, glow) {
+    ctx.save();
+    if (glow) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width * 2.5;
+      ctx.globalAlpha = 0.25;
+      ctx.beginPath();
+      for (let i = 0; i < pts.length; i++) {
+        if (i === 0) ctx.moveTo(pts[i].x, pts[i].y);
+        else ctx.lineTo(pts[i].x, pts[i].y);
+      }
+      ctx.stroke();
+      ctx.globalAlpha = 1.0;
+    }
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.beginPath();
+    for (let i = 0; i < pts.length; i++) {
+      if (i === 0) ctx.moveTo(pts[i].x, pts[i].y);
+      else ctx.lineTo(pts[i].x, pts[i].y);
+    }
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function renderRace() {
+    drawPath(LINE_PTS, '#38bdf8', 2);
+    drawPath(PARA_PTS, '#f59e0b', 2);
+    drawPath(CIRC_PTS, '#10b981', 2);
+    drawPath(CYC_PTS, '#00f5d4', 4, true);
+
+    // Endpoint nodes
+    drawNode(P0.x, P0.y, "A", "#00f5d4");
+    drawNode(P1.x, P1.y, "B", "#fee440");
+
+    // Beads
+    const pLine = getBead(LINE_PTS, LINE_PHYS, simTime);
+    const pPara = getBead(PARA_PTS, PARA_PHYS, simTime);
+    const pCirc = getBead(CIRC_PTS, CIRC_PHYS, simTime);
+    const pCyc  = getBead(CYC_PTS, CYC_PHYS, simTime);
+
+    drawBead(pLine.x, pLine.y, '#38bdf8', 'Straight Line', 8);
+    drawBead(pPara.x, pPara.y, '#f59e0b', 'Parabola', 8);
+    drawBead(pCirc.x, pCirc.y, '#10b981', 'Circle', 8);
+    drawBead(pCyc.x, pCyc.y, '#00f5d4', 'Cycloid (Fastest!)', 11, true);
+
+    dispCyc.textContent = `${Math.min(CYC_PHYS.totalT, simTime).toFixed(2)}s / ${CYC_PHYS.totalT.toFixed(2)}s`;
+    dispCirc.textContent = `${Math.min(CIRC_PHYS.totalT, simTime).toFixed(2)}s`;
+    dispPara.textContent = `${Math.min(PARA_PHYS.totalT, simTime).toFixed(2)}s`;
+    dispLine.textContent = `${Math.min(LINE_PHYS.totalT, simTime).toFixed(2)}s`;
+  }
+
+  function drawNode(x, y, label, col) {
+    ctx.fillStyle = col;
+    ctx.beginPath();
+    ctx.arc(x, y, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, y - 10);
+  }
+
+  function drawBead(x, y, col, label, r, isWinner) {
+    if (isWinner) {
+      ctx.fillStyle = col;
+      ctx.globalAlpha = 0.3;
+      ctx.beginPath();
+      ctx.arc(x, y, r * 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+    }
+    ctx.fillStyle = col;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '10px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(label, x + r + 5, y + 3);
+  }
+
+  function renderOptics() {
+    // Stratified optical layers
+    const layerH = 45;
+    for (let y = P0.y; y <= P1.y; y += layerH) {
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(80, y);
+      ctx.lineTo(820, y);
+      ctx.stroke();
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = '9px monospace';
+      ctx.fillText(`n(y) ∝ 1/√(2gy)`, 85, y + 16);
+    }
+    drawPath(CYC_PTS, '#00f5d4', 3, true);
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = 'bold 14px sans-serif';
+    ctx.fillText("FERMAT'S PRINCIPLE: LIGHT TAKES THE MINIMAL TIME PATH", 100, 60);
+    ctx.font = '11px monospace';
+    ctx.fillStyle = '#fee440';
+    ctx.fillText("Snell's Law: sin(θ) / v = Constant C  ==>  y [1 + (y')²] = 2R (Cycloid)", 100, 80);
+  }
+
+  function renderTautochrone() {
+    const cx = canvas.width / 2;
+    const cy = 360;
+    const r = 110;
+
+    // Cycloidal half-pipe
+    const pipe = [];
+    for (let th = -Math.PI; th <= Math.PI; th += 0.05) {
+      pipe.push({
+        x: cx + r * (th + Math.sin(th)),
+        y: cy + r * (1 - Math.cos(th))
+      });
+    }
+    drawPath(pipe, '#00f5d4', 3, true);
+
+    // 4 Marbles released from different elevations
+    const period = 2.0;
+    const tOsc = (Date.now() / 1000) % period;
+    const phase = (tOsc / period) * Math.PI * 2;
+    const amps = [1.0, 0.75, 0.50, 0.25];
+    const cols = ['#f43f5e', '#f59e0b', '#10b981', '#38bdf8'];
+
+    for (let i = 0; i < 4; i++) {
+      const curTh = -Math.PI * amps[i] * Math.cos(phase);
+      const mx = cx + r * (curTh + Math.sin(curTh));
+      const my = cy + r * (1 - Math.cos(curTh));
+      drawBead(mx, my, cols[i], `H${i+1} (${(amps[i]*100).toFixed(0)}%)`, 8);
+    }
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = 'bold 14px sans-serif';
+    ctx.fillText("CHRISTIAAN HUYGENS' TAUTOCHRONE: EQUAL OSCILLATION PERIOD", 100, 60);
+    ctx.font = '11px monospace';
+    ctx.fillStyle = '#fee440';
+    ctx.fillText("T = π √(R/g)  •  Arrival time is completely independent of release height!", 100, 80);
+  }
+
+  loop();
+})();
+</script>

@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "The Brachistochrone & Variational Calculus"
+  slug: "brachistochrone-calculus-variations"
+  category: "math"
+  tag: "Classical Mechanics • Calculus of Variations"
+  tech: "p5.js / 4-Track Physics & Optics Engine"
+  description: "Johann Bernoulli's 1696 challenge, Fermat's optical refraction analogy, Snell's law, Christiaan Huygens' tautochrone isochronism, and Hamilton's Principle of Least Action."
+  article_url: "/experiments/brachistochrone-calculus-variations.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/brachistochrone_calculus_variations"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
+
 - name: "The Yang-Mills Mass Gap & Confinement"
   slug: "yang-mills-mass-gap"
   category: "science"

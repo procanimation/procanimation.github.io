@@ -230,6 +230,17 @@
   video_url: "https://www.youtube.com/watch?v=bEziNRa2nWA"
   article_url: "/experiments/yang-mills-mass-gap.html"
 
+- title: "The Brachistochrone: The Geometry of Light & The Calculus of Variations"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master • p5.js)"
+  duration: "04:53"
+  description: "Johann Bernoulli's 1696 challenge, Fermat's optical refraction analogy, Snell's law, Huygens' tautochrone isochronism, and Hamilton's Principle of Least Action."
+  tags: ["Brachistochrone", "Calculus of Variations", "Classical Mechanics", "Cycloid", "p5.js", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
+  video_url: "https://www.youtube.com/watch?v=BGQ0ZRWK8Jg"
+  article_url: "/experiments/brachistochrone-calculus-variations.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"
