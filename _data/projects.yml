@@ -1,4 +1,26 @@
 # Public Creative Coding Showcase Projects
+- name: "Cosmic Inflation & The Multiverse"
+  slug: "cosmic-inflation-multiverse"
+  category: "science"
+  tag: "Theoretical Cosmology • Inflaton Dynamics"
+  tech: "HTML5 Canvas / Multiverse Inflation Engine"
+  description: "Alan Guth's exponential superluminal expansion, Heisenberg vacuum fluctuations frozen as cosmic seeds, Planck CMB acoustic peaks, and eternal bubble multiverse."
+  article_url: "/experiments/cosmic-inflation-multiverse.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/cosmic_inflation_multiverse"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+
+- name: "The Topology of Reality & Poincaré Conjecture"
+  slug: "poincare-conjecture-ricci"
+  category: "math"
+  tag: "Differential Geometry • Topology"
+  tech: "HTML5 Canvas / 3D Ricci Flow Engine"
+  description: "Henri Poincaré's 1904 three-sphere conjecture, simple connectivity loop tests, Richard Hamilton's Ricci flow heat diffusion, and Grigori Perelman's singularity surgeries."
+  article_url: "/experiments/poincare-conjecture-ricci.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/poincare_conjecture_ricci"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
+
 - name: "The Navier-Stokes Enigma & Turbulence"
   slug: "navier-stokes-turbulence"
   category: "science"

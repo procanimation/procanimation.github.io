@@ -1,0 +1,289 @@
+---
+layout: article
+title: "The Topology of Reality: Poincaré Conjecture & Perelman's Ricci Flow"
+tagline: "Differential Geometry, Ricci Flow with Surgery & Thurston's Geometrization"
+description: "How Henri Poincaré's 1904 question on the shape of 3D space was solved by Richard Hamilton's geometric heat diffusion and Grigori Perelman's singularity surgeries."
+category: "Differential Geometry & Topology"
+permalink: /experiments/poincare-conjecture-ricci.html
+---
+
+<p class="article-lead">
+  In 1904, French polymath Henri Poincaré posed a deceptively simple question that became the holy grail of modern mathematics: if an unknown three-dimensional cosmos has no edges, and every closed loop of string can be shrunk to a single point, is that universe guaranteed to be a hypersphere? For a century, all attempts to prove the Poincaré Conjecture failed. The solution required bridging pure topology with non-linear physics: Richard Hamilton's Ricci flow—treating geometry like diffusing heat—and Grigori Perelman's revolutionary singular surgeries.
+</p>
+
+<!-- The Mathematical Lexicon -->
+<h3>The Topological & Geometric Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The 3-Sphere ($S^3$)</h4>
+    <p>A 3-sphere is the three-dimensional surface of a four-dimensional ball: $x_1^2 + x_2^2 + x_3^2 + x_4^2 = R^2$. It is compact, closed, boundaryless, and finite in volume, yet unbounded in travel.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Simple Connectivity ($\pi_1(M) = 0$)</h4>
+    <p>A manifold is simply connected if its fundamental group is trivial. Any continuous closed loop drawn anywhere on the manifold can be continuously contracted to an infinitesimal point without tearing or leaving the space.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Hamilton's Ricci Flow ($\partial_t g_{ij} = -2R_{ij}$)</h4>
+    <p>Introduced in 1982 by Richard Hamilton. The Riemannian metric tensor $g_{ij}$ evolves proportionally to negative twice the Ricci curvature tensor $R_{ij}$. Like heat diffusion equalizing temperature, Ricci flow smooths geometric bumps.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Perelman's Surgery & Thurston Geometrization</h4>
+    <p>In 2002-2003, Grigori Perelman conquered neck-pinch singularities using a quantum-inspired $\mathcal{W}$-entropy functional, cutting singular necks and capping them with smooth hemispheres to prove both Poincaré and Thurston's 8 Geometries.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE RICCI FLOW & TOPOLOGICAL SURGERY LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive 3D Manifold Deformation & Loop Contraction Engine)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnToggleTopology" class="sim-btn secondary">Topology: Sphere (S³)</button>
+      <button id="btnTriggerRicci" class="sim-btn primary">Run Ricci Flow</button>
+      <button id="btnSurgery" class="sim-btn secondary" style="border-color:#f72585; color:#f72585;">Topological Surgery</button>
+      <button id="btnResetManifold" class="sim-btn">Reset</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="topoCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">π₁(M):</span> <span id="dispPi1">0 (Simply Connected)</span> &bull; 
+      <span style="color:#fee440;">Loop State:</span> <span id="dispLoop">Contractible → Point</span> &bull; 
+      <span style="color:#38bdf8;">Curvature R:</span> <span id="dispR">Uniform Positive (+1.00)</span> &bull; 
+      <span style="color:#f72585;">Surgeries:</span> <span id="dispSurgeries">0</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      Click & Drag to Rotate 3D Manifold
+    </div>
+  </div>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">The Topology of Reality: Poincaré Conjecture & Perelman's Ricci Flow</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Explore Henri Poincaré's 1904 question on cosmic geometry, simple connectivity, Richard Hamilton's non-linear metric diffusion $\partial_t g_{ij} = -2R_{ij}$, Grigori Perelman's surgery, and Thurston's eight canonical geometries.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 04:00</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master</span>
+      </div>
+      <a id="docYoutubeBtn" href="#" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#020617; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('topoCanvas');
+  const ctx = canvas.getContext('2d');
+  const btnToggle = document.getElementById('btnToggleTopology');
+  const btnRicci = document.getElementById('btnTriggerRicci');
+  const btnSurgery = document.getElementById('btnSurgery');
+  const btnReset = document.getElementById('btnResetManifold');
+
+  const dispPi1 = document.getElementById('dispPi1');
+  const dispLoop = document.getElementById('dispLoop');
+  const dispR = document.getElementById('dispR');
+  const dispSurgeries = document.getElementById('dispSurgeries');
+
+  let mode = 'sphere'; // 'sphere' or 'torus'
+  let ricciActive = false;
+  let ricciProgress = 0;
+  let surgeryCount = 0;
+  let rotX = 0.35, rotY = 0.5;
+  let isDragging = false, lastMouseX = 0, lastMouseY = 0;
+
+  canvas.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+  });
+  window.addEventListener('mouseup', () => isDragging = false);
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - lastMouseX;
+    const dy = e.clientY - lastMouseY;
+    rotY += dx * 0.008;
+    rotX += dy * 0.008;
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+  });
+
+  btnToggle.addEventListener('click', () => {
+    mode = mode === 'sphere' ? 'torus' : 'sphere';
+    btnToggle.textContent = `Topology: ${mode === 'sphere' ? 'Sphere (S³)' : 'Torus (T³)'}`;
+    if (mode === 'sphere') {
+      dispPi1.textContent = '0 (Simply Connected)';
+      dispLoop.textContent = 'Contractible → Point';
+    } else {
+      dispPi1.textContent = 'ℤ × ℤ × ℤ (Non-Trivial)';
+      dispLoop.textContent = 'Trapped in Central Hole!';
+    }
+  });
+
+  btnRicci.addEventListener('click', () => {
+    ricciActive = true;
+    ricciProgress = 0;
+  });
+
+  btnSurgery.addEventListener('click', () => {
+    surgeryCount++;
+    dispSurgeries.textContent = surgeryCount;
+    ricciProgress = Math.max(0.6, ricciProgress);
+  });
+
+  btnReset.addEventListener('click', () => {
+    ricciActive = false;
+    ricciProgress = 0;
+    surgeryCount = 0;
+    dispSurgeries.textContent = '0';
+  });
+
+  function project(x, y, z, cx = 450, cy = 260) {
+    const fov = 650;
+    const scale = fov / (fov + z);
+    return { x: cx + x * scale, y: cy + y * scale, scale: scale };
+  }
+
+  function rotate(x, y, z) {
+    // rotX
+    let y1 = y * Math.cos(rotX) - z * Math.sin(rotX);
+    let z1 = y * Math.sin(rotX) + z * Math.cos(rotX);
+    // rotY
+    let x2 = x * Math.cos(rotY) + z1 * Math.sin(rotY);
+    let z2 = -x * Math.sin(rotY) + z1 * Math.cos(rotY);
+    return { x: x2, y: y1, z: z2 };
+  }
+
+  let time = 0;
+  function animate() {
+    time += 0.02;
+    if (ricciActive && ricciProgress < 1.0) {
+      ricciProgress += 0.004;
+      dispR.textContent = `Smoothing (${(ricciProgress * 100).toFixed(0)}%)`;
+    }
+
+    ctx.clearRect(0, 0, 900, 520);
+
+    // Subtle background grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < 900; x += 40) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 520); ctx.stroke();
+    }
+    for (let y = 0; y < 520; y += 40) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(900, y); ctx.stroke();
+    }
+
+    if (mode === 'sphere') {
+      const rings = 22, pts = 36;
+      const baseR = 150;
+
+      // Draw bumpy or smoothed manifold
+      for (let i = 0; i <= rings; i++) {
+        const theta = (i / rings) * Math.PI;
+        ctx.beginPath();
+        for (let j = 0; j <= pts; j++) {
+          const phi = (j / pts) * Math.PI * 2;
+          const bump = Math.sin(theta * 6 + time) * Math.cos(phi * 4) * 22 * (1 - ricciProgress);
+          const r = baseR + bump;
+
+          const x = r * Math.sin(theta) * Math.cos(phi);
+          const y = r * Math.cos(theta);
+          const z = r * Math.sin(theta) * Math.sin(phi);
+
+          const rot = rotate(x, y, z);
+          const p = project(rot.x, rot.y, rot.z);
+          if (j === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        }
+        ctx.strokeStyle = `rgba(0, 245, 212, ${0.25 + 0.15 * Math.sin(i * 0.3)})`;
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+      }
+
+      // Elastic loop contracting to a point
+      const loopPhase = (time * 0.6) % 3.0;
+      const loopRatio = Math.max(0.01, 1.0 - (loopPhase / 3.0));
+      const loopR = baseR * Math.sin(loopRatio * Math.PI * 0.45);
+      const loopY = baseR * Math.cos(loopRatio * Math.PI * 0.45);
+
+      ctx.beginPath();
+      for (let j = 0; j <= 40; j++) {
+        const phi = (j / 40) * Math.PI * 2;
+        const lx = loopR * Math.cos(phi);
+        const ly = loopY;
+        const lz = loopR * Math.sin(phi);
+
+        const lrot = rotate(lx, ly, lz);
+        const lp = project(lrot.x, lrot.y, lrot.z);
+        if (j === 0) ctx.moveTo(lp.x, lp.y);
+        else ctx.lineTo(lp.x, lp.y);
+      }
+      ctx.strokeStyle = '#fee440';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#fee440';
+      ctx.shadowBlur = 12;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+    } else {
+      // Torus
+      const R_torus = 130, r_tube = 55;
+      for (let i = 0; i < 18; i++) {
+        const u = (i / 18) * Math.PI * 2;
+        ctx.beginPath();
+        for (let j = 0; j <= 28; j++) {
+          const v = (j / 28) * Math.PI * 2;
+          const x = (R_torus + r_tube * Math.cos(v)) * Math.cos(u);
+          const y = r_tube * Math.sin(v);
+          const z = (R_torus + r_tube * Math.cos(v)) * Math.sin(u);
+
+          const rot = rotate(x, y, z);
+          const p = project(rot.x, rot.y, rot.z);
+          if (j === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        }
+        ctx.strokeStyle = 'rgba(247, 37, 133, 0.3)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+      }
+
+      // Trapped loop threaded through hole
+      ctx.beginPath();
+      for (let j = 0; j <= 50; j++) {
+        const v = (j / 50) * Math.PI * 2;
+        const lx = (R_torus + r_tube) * Math.cos(v) * 0.65;
+        const ly = r_tube * Math.sin(v) * 1.1;
+        const lz = 0;
+
+        const lrot = rotate(lx, ly, lz);
+        const lp = project(lrot.x, lrot.y, lrot.z);
+        if (j === 0) ctx.moveTo(lp.x, lp.y);
+        else ctx.lineTo(lp.x, lp.y);
+      }
+      ctx.strokeStyle = '#f72585';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#f72585';
+      ctx.shadowBlur = 14;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
