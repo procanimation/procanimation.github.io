@@ -164,6 +164,17 @@
   video_url: "https://www.youtube.com/watch?v=tNblesFu3J0"
   article_url: "/experiments/self-organized-criticality.html"
 
+- title: "The Quantum Computer: Shor's Algorithm, Superposition & The Death of RSA"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:06"
+  description: "Continuous linear superposition on the Bloch sphere, an exponential 2^n state space, Peter Shor's 1994 quantum Fourier transform algorithm, and the cryptographic transition."
+  tags: ["Quantum Computing", "Shor Algorithm", "Bloch Sphere", "Superposition", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=K1nqF-wM5gU"
+  article_url: "/experiments/quantum-computing-shor.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"

@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "The Quantum Computer & Shor's Algorithm"
+  slug: "quantum-computing-shor"
+  category: "cs"
+  tag: "Quantum Computing • Complexity Theory"
+  tech: "HTML5 Canvas / Bloch Sphere Engine"
+  description: "Continuous linear superposition on the Bloch sphere, an exponential 2^n state space, Peter Shor's 1994 quantum Fourier transform algorithm, and the cryptographic transition."
+  article_url: "/experiments/quantum-computing-shor.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/quantum_computing_shor"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
+
 - name: "Self-Organized Criticality & The Sandpile Model"
   slug: "self-organized-criticality"
   category: "science"

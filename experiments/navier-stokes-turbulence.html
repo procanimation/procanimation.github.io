@@ -1,0 +1,262 @@
+---
+layout: article
+title: "The Navier-Stokes Enigma: Turbulence, Vortex Cascades & The Millennium Singularity"
+tagline: "Fluid Dynamics, Non-Linear Convective Acceleration, Kolmogorov 5/3 Law & Clay Prize"
+description: "Why the non-linear term (u · ∇)u shatters laminar order into chaotic turbulent cascades, and why mathematicians still cannot prove whether physical fluids form finite-time singularities."
+category: "Fluid Dynamics & Mathematical Physics"
+permalink: /experiments/navier-stokes-turbulence.html
+---
+
+<p class="article-lead">
+  Pour cream into coffee, watch clouds billow over mountain peaks, or observe the colossal Great Red Spot of Jupiter. All fluid flow across the universe is governed by the Navier-Stokes equations, formulated by Claude-Louis Navier in 1822 and George Gabriel Stokes in 1845. Two centuries later, this master differential equation remains classical physics' greatest enigma: we cannot mathematically prove whether smooth initial flows can spontaneously explode into infinite velocity singularities.
+</p>
+
+<!-- The Navier-Stokes Lexicon -->
+<h3>The Fluid Dynamics & Turbulence Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Master Equation</h4>
+    <p>Newton's second law applied to continuous fluids: $\rho\left(\frac{\partial \vec{u}}{\partial t} + (\vec{u}\cdot\nabla)\vec{u}\right) = -\nabla p + \mu \nabla^2\vec{u} + \vec{f}$. Density times the material derivative of velocity equals the pressure gradient, plus viscous diffusion, plus body forces.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Non-Linear Convective Demon</h4>
+    <p>The convective acceleration $(\vec{u}\cdot\nabla)\vec{u}$ causes velocity to transport itself. This non-linearity creates multi-scale feedback loops. When inertial forces overpower viscous damping (high Reynolds number $Re = \frac{\rho U L}{\mu}$), laminar flow destabilizes into turbulence.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Kolmogorov's Energy Cascade (K41)</h4>
+    <p>Large eddies break into medium vortices, which fragment into smaller eddies, transferring energy across an inertial subrange without loss. Andrey Kolmogorov proved in 1941 that the energy spectrum follows a universal power law: $E(k) = C_K \varepsilon^{2/3} k^{-5/3}$, until viscous scales dissipate motion as heat.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Millennium Singularity ($1,000,000)</h4>
+    <p>In three dimensions, vortex stretching $(\vec{\omega}\cdot\nabla)\vec{u}$ intensifies vorticity. The Clay Millennium Prize asks: can a smooth initial velocity field with finite energy blow up to infinite vorticity in finite time? The Beale-Kato-Majda theorem proves a singularity occurs if and only if $\int_0^{T^*} \|\vec{\omega}(\cdot,t)\|_\infty dt = \infty$.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE NAVIER-STOKES VORTICITY & ENERGY CASCADE LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Fluid Stirring, Vorticity Curl & Kolmogorov Spectrum)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Positive Vorticity (Counter-Clockwise)</span>
+      <span style="color:#f72585;">● Negative Vorticity (Clockwise)</span>
+      <span style="color:#fee440;">● High-Speed Shear Core</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="height:520px; position:relative; background:#020617; border-radius:12px; overflow:hidden;">
+    <canvas id="fluidCanvas" style="width:100%; height:100%; display:block; cursor:crosshair;"></canvas>
+    
+    <!-- Real-time HUD -->
+    <div style="position:absolute; top:16px; left:20px; background:rgba(2, 6, 23, 0.88); backdrop-filter:blur(8px); padding:12px 18px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); font-family:var(--font-mono, monospace); font-size:0.85rem; color:#f8fafc; pointer-events:none;">
+      <div style="color:#38bdf8; font-weight:700; margin-bottom:4px;">NAVIER-STOKES TELEMETRY</div>
+      <div>Reynolds Number: <span id="reVal" style="color:#00f5d4; font-weight:bold;">Re ≈ 2.5 × 10⁶</span> | Enstrophy: <span id="ensVal" style="color:#fee440;">342 s⁻²</span></div>
+      <div style="margin-top:4px; font-size:0.75rem; color:#94a3b8;">Kolmogorov Spectrum: <span id="kSlopeVal" style="color:#00f5d4;">E(k) ∝ k^{-5/3}</span> | Singularity: <span id="singVal" style="color:#00f5d4;">Smooth Flow</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-toolbar" style="margin-top:14px; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+    <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Fluid Viscosity $\mu$:
+        <input type="range" id="sliderViscosity" min="1" max="100" value="12" style="accent-color:#00f5d4;">
+        <span id="dispViscosity">Low (Turbulent)</span>
+      </label>
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Display Mode:
+        <select id="selectMode" style="background:#0f172a; color:#00f5d4; border:1px solid #334155; padding:6px 12px; border-radius:6px; font-family:var(--font-mono, monospace);">
+          <option value="vorticity">Vorticity Heatmap (ω = ∇ × u)</option>
+          <option value="particles">Tracer Particles & Streamlines</option>
+          <option value="vectors">Velocity Vector Field</option>
+        </select>
+      </label>
+    </div>
+    <div class="sim-btn-group" style="display:flex; gap:8px;">
+      <button id="btnShearLayer" class="sim-btn primary" style="background:#00f5d4; border-color:#00f5d4; color:#020617; font-weight:bold;">⚡ Trigger Kelvin-Helmholtz Shear</button>
+      <button id="btnClearFluid" class="sim-btn">🔄 Reset Flow</button>
+    </div>
+  </div>
+</div>
+
+<div class="article-section" style="margin-top:36px;">
+  <h2>The Geometry of Vortex Stretching & The Clay Prize</h2>
+  <p>
+    Why is fluid mechanics fundamentally harder in three dimensions than in two?
+  </p>
+  <ul>
+    <li><strong>In Two Dimensions:</strong> Vortex stretching cannot occur because the vortex vector must remain perpendicular to the plane. Vorticity is conserved along streamlines, strictly prohibiting finite-time singularities.</li>
+    <li><strong>In Three Dimensions:</strong> The vortex stretching term $(\vec{\omega}\cdot\nabla)\vec{u}$ allows surrounding velocity gradients to pull and squeeze vortex tubes. By conservation of angular momentum, as a vortex tube thins, its rotational speed skyrockets, potentially driving velocity gradients toward infinity in finite time.</li>
+  </ul>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">The Navier-Stokes Enigma: Turbulence, Vortex Cascades & The Millennium Singularity</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Explore Claude Navier and George Stokes' 1845 momentum equation, the non-linear convective demon $(u \cdot \nabla)u$, Andrey Kolmogorov's universal $k^{-5/3}$ cascade, vortex stretching, and the Clay Millennium $1,000,000 prize.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 03:50</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master</span>
+      </div>
+      <a id="docYoutubeBtn" href="#" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#020617; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('fluidCanvas');
+  const ctx = canvas.getContext('2d');
+  const reVal = document.getElementById('reVal');
+  const ensVal = document.getElementById('ensVal');
+  const sliderViscosity = document.getElementById('sliderViscosity');
+  const dispViscosity = document.getElementById('dispViscosity');
+  const selectMode = document.getElementById('selectMode');
+  const btnShearLayer = document.getElementById('btnShearLayer');
+  const btnClearFluid = document.getElementById('btnClearFluid');
+
+  let mode = 'vorticity';
+  let viscosity = 12;
+
+  function resizeCanvas() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  // Vortices
+  let vortices = [
+    { x: 250, y: 220, gamma: 140, r: 80 },
+    { x: 550, y: 280, gamma: -160, r: 90 },
+    { x: 380, y: 400, gamma: 120, r: 75 }
+  ];
+
+  // Particles
+  const numP = 220;
+  const particles = [];
+  for (let i = 0; i < numP; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      age: Math.random() * 150
+    });
+  }
+
+  function render() {
+    const W = canvas.width, H = canvas.height;
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, W, H);
+
+    // Vortices orbit and slowly damp based on viscosity
+    const damp = 1.0 - (viscosity / 2000);
+    for (let v of vortices) {
+      v.x += Math.sin(Date.now() * 0.001 + v.gamma) * 0.8;
+      v.y += Math.cos(Date.now() * 0.001 + v.gamma) * 0.8;
+      v.gamma *= damp;
+
+      if (mode === 'vorticity') {
+        const isPos = v.gamma > 0;
+        const col = isPos ? 'rgba(0, 245, 212, ' : 'rgba(247, 37, 133, ';
+        for (let r = 15; r <= v.r; r += 15) {
+          const alpha = (1 - r / v.r) * 0.35;
+          ctx.strokeStyle = col + alpha + ')';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(v.x, v.y, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = isPos ? '#00f5d4' : '#f72585';
+        ctx.beginPath();
+        ctx.arc(v.x, v.y, 6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Tracer Particles
+    for (let p of particles) {
+      let u = 0.5, v = 0.0;
+      for (let vort of vortices) {
+        const dx = p.x - vort.x;
+        const dy = p.y - vort.y;
+        const dSq = dx * dx + dy * dy + 400;
+        const f = vort.gamma / (2 * Math.PI * dSq);
+        u += -f * dy;
+        v += f * dx;
+      }
+
+      p.x += u * 4.0;
+      p.y += v * 4.0;
+      p.age++;
+
+      if (p.x < 0 || p.x > W || p.y < 0 || p.y > H || p.age > 180) {
+        p.x = Math.random() * W;
+        p.y = Math.random() * H;
+        p.age = 0;
+      }
+
+      if (mode === 'particles' || mode === 'vorticity') {
+        const spd = Math.hypot(u, v);
+        ctx.fillStyle = spd > 2.5 ? '#fee440' : (u > 0 ? '#38bdf8' : '#00f5d4');
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, Math.min(3.5, spd + 1), 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
+  sliderViscosity.addEventListener('input', (e) => {
+    viscosity = parseInt(e.target.value);
+    dispViscosity.textContent = viscosity < 25 ? "Low (Turbulent)" : (viscosity < 60 ? "Medium (Shear Flow)" : "High (Laminar)");
+    const re = Math.round(10000000 / viscosity);
+    reVal.textContent = `Re ≈ ${re.toLocaleString()}`;
+  });
+
+  selectMode.addEventListener('change', (e) => {
+    mode = e.target.value;
+  });
+
+  btnShearLayer.addEventListener('click', () => {
+    vortices = [
+      { x: canvas.width * 0.3, y: canvas.height * 0.4, gamma: 200, r: 100 },
+      { x: canvas.width * 0.5, y: canvas.height * 0.6, gamma: -220, r: 110 },
+      { x: canvas.width * 0.7, y: canvas.height * 0.4, gamma: 190, r: 95 }
+    ];
+  });
+
+  btnClearFluid.addEventListener('click', () => {
+    vortices = [];
+  });
+
+  // Click / drag to add vortex
+  let isDown = false;
+  canvas.addEventListener('mousedown', () => { isDown = true; });
+  window.addEventListener('mouseup', () => { isDown = false; });
+  canvas.addEventListener('mousemove', (e) => {
+    if (isDown) {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      vortices.push({
+        x, y,
+        gamma: (Math.random() - 0.5) * 300,
+        r: Math.random() * 50 + 50
+      });
+      if (vortices.length > 15) vortices.shift();
+    }
+  });
+})();
+</script>
