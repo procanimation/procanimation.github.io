@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "The Navier-Stokes Enigma & Turbulence"
+  slug: "navier-stokes-turbulence"
+  category: "science"
+  tag: "Fluid Dynamics • Millennium Problem"
+  tech: "HTML5 Canvas / Stable Fluids Navier-Stokes Engine"
+  description: "Claude Navier & George Stokes' 1845 momentum equation, the convective demon (u · ∇)u, Kolmogorov's k^-5/3 energy cascade, vortex stretching, and the Clay Millennium singularity prize."
+  article_url: "/experiments/navier-stokes-turbulence.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/navier_stokes_turbulence"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
 - name: "The Quantum Computer & Shor's Algorithm"
   slug: "quantum-computing-shor"
   category: "cs"

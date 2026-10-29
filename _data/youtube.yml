@@ -175,6 +175,17 @@
   video_url: "https://www.youtube.com/watch?v=K1nqF-wM5gU"
   article_url: "/experiments/quantum-computing-shor.html"
 
+- title: "The Navier-Stokes Enigma: Turbulence, Vortex Cascades & The Millennium Singularity"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:23"
+  description: "Claude Navier & George Stokes' 1845 momentum equation, the convective demon (u · ∇)u, Kolmogorov's k^-5/3 energy cascade, vortex stretching, and the Clay Millennium singularity prize."
+  tags: ["Fluid Dynamics", "Navier Stokes", "Turbulence", "Chaos", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=4f2a1NrDba8"
+  article_url: "/experiments/navier-stokes-turbulence.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"
