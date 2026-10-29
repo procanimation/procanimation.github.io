@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "The Yang-Mills Mass Gap & Confinement"
+  slug: "yang-mills-mass-gap"
+  category: "science"
+  tag: "Quantum Chromodynamics • Millennium Prize"
+  tech: "HTML5 Canvas / Flux Tube & Lattice QCD Engine"
+  description: "Non-Abelian SU(3) gauge theory, why 99% of visible mass is pure energy, Gross-Wilczek-Politzer asymptotic freedom, 14-ton relativistic flux tubes, and the positive mass gap Delta > 0."
+  article_url: "/experiments/yang-mills-mass-gap.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/yang_mills_mass_gap"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
+
 - name: "The P vs NP Enigma & Complexity"
   slug: "p-vs-np-enigma"
   category: "cs"

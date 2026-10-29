@@ -219,6 +219,17 @@
   video_url: "https://www.youtube.com/watch?v=oSJD2UT2b5Y"
   article_url: "/experiments/p-vs-np-enigma.html"
 
+- title: "The Yang-Mills Mass Gap: Quark Confinement & The Origin of Mass"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:43"
+  description: "Why 99% of visible mass is pure energy. Non-Abelian gauge invariance, SU(3) color symmetries, asymptotic freedom, the 14-ton flux tube, and the positive spectral mass gap."
+  tags: ["Yang-Mills", "Mass Gap", "Quantum Chromodynamics", "Quark Confinement", "Millennium Prize", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
+  video_url: "https://www.youtube.com/watch?v=bEziNRa2nWA"
+  article_url: "/experiments/yang-mills-mass-gap.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"

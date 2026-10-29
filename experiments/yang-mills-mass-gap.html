@@ -1,0 +1,333 @@
+---
+layout: article
+title: "The Yang-Mills Mass Gap: Quark Confinement & The Origin of Mass"
+tagline: "Quantum Chromodynamics, SU(3) Gauge Symmetry, Flux Tubes & The Millennium Bounty"
+description: "Why does 99% of visible mass come from pure energy? Explore non-Abelian gauge theory, gluon self-interaction, the linear Cornell potential, and the Clay Millennium Mass Gap."
+category: "Theoretical High-Energy Physics & Mathematical Physics"
+permalink: /experiments/yang-mills-mass-gap.html
+---
+
+<p class="article-lead">
+  Ask any physicist where mass comes from, and they will likely invoke the Higgs boson. Yet the Higgs mechanism accounts for barely one percent of the visible mass in our universe—giving mass only to bare fundamental quarks and leptons. The remaining ninety-nine percent of the mass of every proton, neutron, planet, and person is pure confined kinetic and field energy, dynamically frozen into substance by Einstein's $E = mc^2$. Governed by non-Abelian Yang-Mills gauge theory and $SU(3)$ color symmetry, quantum chromodynamics traps quarks inside narrow flux tubes. Even though classical gluons are strictly massless, the quantum vacuum exhibits a positive mass gap $\Delta > 0$—one of the seven unsolved Millennium Prize Problems designated by the Clay Mathematics Institute.
+</p>
+
+<!-- The Yang-Mills Lexicon -->
+<h3>The Yang-Mills & Quantum Chromodynamics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Non-Abelian Gauge Symmetry $SU(3)$</h4>
+    <p>Unlike photons in QED which carry no electric charge and do not scatter off each other, gluons in QCD carry color charge itself ($r, g, b$). The non-commutative Lie algebra $[T^a, T^b] = i f^{abc} T^c$ produces cubic and quartic gluon self-couplings that render the quantum vacuum violently nonlinear.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Asymptotic Freedom vs Infrared Slavery</h4>
+    <p>Discovered by Gross, Wilczek, and Politzer (Nobel Prize 2004), the negative beta function $\beta(g) < 0$ causes the strong coupling $\alpha_s(Q^2)$ to vanish at ultra-high energies (short distances), allowing quarks to move freely. At low energies (large distances), anti-screening causes coupling to diverge, permanently locking quarks inside hadrons.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Linear Cornell Flux Tube</h4>
+    <p>Because gluon lines attract rather than spread out, the interquark potential follows $V(r) = -\frac{4}{3}\frac{\alpha_s}{r} + \sigma r$. The string tension $\sigma \approx 1\text{ GeV/fm}$ acts like a 14-ton relativistic rubber band. Stretching the string exceeds $2m_q c^2$, snapping the tube to create a new quark-antiquark meson pair.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Clay Millennium Mass Gap ($\Delta > 0$)</h4>
+    <p>In May 2000, the Clay Mathematics Institute offered a $\$1,000,000$ prize to prove that four-dimensional quantum Yang-Mills theory exists under rigorous Wightman or Osterwalder-Schrader axioms, and that its Hamiltonian spectrum has a positive gap $\Delta > 0$ above the vacuum state $|0\rangle$.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE YANG-MILLS FLUX TUBE & MASS GAP ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Quark Separation, String Tension & Lattice Plaquettes)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnPullQuarks" class="sim-btn primary">Pull Quarks Apart</button>
+      <button id="btnSnapTube" class="sim-btn secondary">Trigger String Snap</button>
+      <button id="btnToggleLattice" class="sim-btn secondary">Toggle: Lattice QCD</button>
+      <button id="btnResetLab" class="sim-btn">Reset Vacuum</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="ymCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Separation r:</span> <span id="dispR">0.60 fm</span> &bull; 
+      <span style="color:#fee440;">Potential V(r):</span> <span id="dispV">0.60 GeV</span> &bull; 
+      <span style="color:#f43f5e;">Tension Force:</span> <span id="dispForce">14.2 Tons</span> &bull; 
+      <span style="color:#38bdf8;">Regime:</span> <span id="dispRegime">Confinement Flux Tube</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      Drag Quarks on Canvas or Use Buttons to Test Tension
+    </div>
+  </div>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">The Yang-Mills Mass Gap: Quark Confinement & The Origin of Mass</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Explore non-Abelian gauge invariance, gluon self-couplings, asymptotic freedom, the relativistic 14-ton flux tube, and why four-dimensional quantum Yang-Mills theory contains a non-zero spectral mass gap.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 04:43</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master</span>
+      </div>
+      <a id="docYoutubeBtn" href="https://www.youtube.com/watch?v=bEziNRa2nWA" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#020617; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('ymCanvas');
+  const ctx = canvas.getContext('2d');
+  const btnPull = document.getElementById('btnPullQuarks');
+  const btnSnap = document.getElementById('btnSnapTube');
+  const btnToggle = document.getElementById('btnToggleLattice');
+  const btnReset = document.getElementById('btnResetLab');
+
+  const dispR = document.getElementById('dispR');
+  const dispV = document.getElementById('dispV');
+  const dispForce = document.getElementById('dispForce');
+  const dispRegime = document.getElementById('dispRegime');
+
+  let mode = 'fluxtube'; // 'fluxtube' or 'lattice'
+  let separation = 160;
+  let targetSeparation = 160;
+  let isSnapped = false;
+  let snapTime = 0;
+  let animTime = 0;
+
+  function updateHUD() {
+    const r_fm = (separation / 200).toFixed(2);
+    dispR.textContent = `${r_fm} fm`;
+    
+    if (isSnapped) {
+      dispV.textContent = "Snapped into Meson Pair (2x M_meson)";
+      dispForce.textContent = "0.0 Tons (Singlets Restored)";
+      dispRegime.textContent = "Pair Production Singlet Formation";
+    } else {
+      const v_gev = (0.9 * Number(r_fm)).toFixed(2);
+      dispV.textContent = `${v_gev} GeV`;
+      dispForce.textContent = "14.2 Tons (σ = 1 GeV/fm)";
+      dispRegime.textContent = Number(r_fm) < 0.2 ? "Asymptotic Freedom" : "Linear Confinement String";
+    }
+  }
+
+  btnPull.addEventListener('click', () => {
+    isSnapped = false;
+    targetSeparation = Math.min(680, targetSeparation + 140);
+    if (targetSeparation >= 600) {
+      setTimeout(() => { isSnapped = true; snapTime = animTime; }, 400);
+    }
+  });
+
+  btnSnap.addEventListener('click', () => {
+    isSnapped = true;
+    snapTime = animTime;
+    targetSeparation = 560;
+  });
+
+  btnToggle.addEventListener('click', () => {
+    mode = mode === 'fluxtube' ? 'lattice' : 'fluxtube';
+    btnToggle.textContent = mode === 'lattice' ? 'Toggle: Flux Tube' : 'Toggle: Lattice QCD';
+  });
+
+  btnReset.addEventListener('click', () => {
+    separation = 160;
+    targetSeparation = 160;
+    isSnapped = false;
+  });
+
+  // Mouse interaction for canvas dragging
+  let isDragging = false;
+  canvas.addEventListener('mousedown', (e) => {
+    isDragging = true;
+  });
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+  canvas.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const distFromCenter = Math.abs(mouseX - canvas.width / 2);
+      targetSeparation = Math.max(80, Math.min(740, distFromCenter * 2));
+      if (targetSeparation > 620 && !isSnapped) {
+        isSnapped = true;
+        snapTime = animTime;
+      }
+    }
+  });
+
+  function render() {
+    animTime += 0.03;
+    separation += (targetSeparation - separation) * 0.12;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (mode === 'lattice') {
+      renderLattice();
+    } else {
+      renderFluxTube();
+    }
+
+    updateHUD();
+    requestAnimationFrame(render);
+  }
+
+  function renderFluxTube() {
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+
+    if (!isSnapped) {
+      const x1 = cx - separation / 2;
+      const x2 = cx + separation / 2;
+
+      // Collimated gluon flux string
+      ctx.save();
+      const grad = ctx.createLinearGradient(x1, cy, x2, cy);
+      grad.addColorStop(0, '#f43f5e');
+      grad.addColorStop(0.5, '#f59e0b');
+      grad.addColorStop(1, '#38bdf8');
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = Math.max(4, 20 - (separation / 700) * 12);
+      ctx.shadowColor = '#f59e0b';
+      ctx.shadowBlur = 25;
+      ctx.beginPath();
+      ctx.moveTo(x1, cy);
+      ctx.lineTo(x2, cy);
+      ctx.stroke();
+
+      // Energy sparks along string
+      ctx.fillStyle = '#ffffff';
+      for (let i = 0; i < 8; i++) {
+        const sx = x1 + (i / 8) * (x2 - x1) + Math.sin(animTime * 12 + i) * 10;
+        const sy = cy + Math.cos(animTime * 12 + i) * 6;
+        ctx.beginPath();
+        ctx.arc(sx, sy, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Quarks
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#f43f5e';
+      ctx.beginPath();
+      ctx.arc(x1, cy, 26, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath();
+      ctx.arc(x2, cy, 26, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Quark (R)', x1, cy + 4);
+      ctx.fillText('Antiquark (B̄)', x2, cy + 4);
+
+      ctx.font = '12px monospace';
+      ctx.fillStyle = '#fee440';
+      ctx.fillText(`String Tension Potential: V(r) = ${(separation * 0.0045).toFixed(2)} GeV`, cx, cy - 35);
+      ctx.restore();
+    } else {
+      // Snapped into 2 Mesons
+      const offset = 220;
+      drawMeson(cx - offset, cy, '#f43f5e', '#10b981', 'Meson 1 (q₁ q̄₁)');
+      drawMeson(cx + offset, cy, '#10b981', '#38bdf8', 'Meson 2 (q₂ q̄₂)');
+
+      // Central vacuum pair creation flare
+      ctx.save();
+      ctx.strokeStyle = '#00f5d4';
+      ctx.lineWidth = 2.5;
+      ctx.shadowColor = '#00f5d4';
+      ctx.shadowBlur = 30;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 32 + 10 * Math.sin(animTime * 10), 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.fillStyle = '#00f5d4';
+      ctx.font = 'bold 14px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('⚡ VACUUM PAIR CREATION', cx, cy - 50);
+      ctx.font = '11px sans-serif';
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillText('String energy exceeded 2m_q c² • Quarks cannot be isolated!', cx, cy + 60);
+      ctx.restore();
+    }
+  }
+
+  function drawMeson(x, y, c1, c2, title) {
+    ctx.save();
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 7;
+    ctx.beginPath();
+    ctx.moveTo(x - 45, y);
+    ctx.lineTo(x + 45, y);
+    ctx.stroke();
+
+    ctx.fillStyle = c1;
+    ctx.beginPath();
+    ctx.arc(x - 45, y, 20, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = c2;
+    ctx.beginPath();
+    ctx.arc(x + 45, y, 20, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(title, x, y + 42);
+    ctx.restore();
+  }
+
+  function renderLattice() {
+    ctx.save();
+    const step = 40;
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+    ctx.lineWidth = 1;
+
+    for (let x = 60; x < canvas.width - 60; x += step) {
+      ctx.beginPath();
+      ctx.moveTo(x, 60);
+      ctx.lineTo(x, canvas.height - 60);
+      ctx.stroke();
+    }
+    for (let y = 60; y < canvas.height - 60; y += step) {
+      ctx.beginPath();
+      ctx.moveTo(60, y);
+      ctx.lineTo(canvas.width - 60, y);
+      ctx.stroke();
+    }
+
+    // Wilson plaquette active gauge loops
+    for (let x = 60; x < canvas.width - 60; x += step) {
+      for (let y = 60; y < canvas.height - 60; y += step) {
+        const val = Math.sin((x + y) * 0.04 + animTime * 3);
+        if (val > 0.5) {
+          ctx.fillStyle = 'rgba(0, 245, 212, 0.35)';
+          ctx.fillRect(x + 2, y + 2, step - 4, step - 4);
+        }
+      }
+    }
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText('DISCRETE 4D LATTICE QCD • WILSON PLAQUETTES S[U]', 70, 42);
+    ctx.restore();
+  }
+
+  render();
+})();
+</script>
