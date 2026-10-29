@@ -1,0 +1,315 @@
+---
+layout: article
+title: "Lissajous Figures & Coupled Resonators"
+tagline: "Harmonic Geometry, Energy Beats, Normal Modes & The Harmonograph"
+description: "How does sound transform into living geometry? Explore Jules Antoine Lissajous' 1857 optical discovery, spring-coupled pendulums, energy beats, and Chebyshev polynomials."
+category: "Classical Mechanics & Acoustic Geometry"
+permalink: /experiments/lissajous-coupled-resonators.html
+---
+
+<p class="article-lead">
+  In 1857, French physicist Jules Antoine Lissajous made acoustic vibrations visible to the human eye by reflecting a narrow beam of light between mirrors affixed to two perpendicular vibrating tuning forks. The resulting curves—glowing ribbons that twisted, breathed, and knotted in real time—revealed the pure geometric nature of musical harmony. These <strong>Lissajous Figures</strong> are the universal geometric projection of orthogonal harmonic motion, governing everything from spring-coupled resonators and energy beats to Victorian multi-pendulum harmonographs, cathode-ray oscilloscopes, and quantum harmonic wells.
+</p>
+
+<!-- The Lexicon -->
+<h3>The Resonance & Harmonic Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Orthogonal Harmonic Superposition</h4>
+    <p>A point particle driven along perpendicular axes by harmonic forces traces $x(t) = A\sin(\omega_x t + \delta)$ and $y(t) = B\sin(\omega_y t)$. When the ratio $\omega_x : \omega_y$ is rational $n : m$, the trajectory closes into a stable periodic knot.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Chebyshev Polynomials</h4>
+    <p>When the phase difference $\delta = 0$, the Lissajous curve directly traces Chebyshev polynomials of the first kind: $y = B \cdot T_n(x / A)$, where $T_n(\cos\theta) = \cos(n\theta)$. The number of tangent lobes directly counts the harmonic frequency ratio.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Coupled Resonators & Normal Modes</h4>
+    <p>Two pendulums coupled by a spring exchange energy rhythmically: one oscillator comes to a dead standstill while the second reaches maximum amplitude, only for energy to slosh back at beat frequency $\omega_{\text{beat}} = (\omega_2 - \omega_1)/2$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Blackburn Harmonograph (1844)</h4>
+    <p>Victorian harmonographs use multiple interconnected pendulums driving an ink pen over paper. Air resistance introduces exponential damping $e^{-\gamma t}$, causing closed Lissajous loops to spiral inward into infinitely dense geometric tapestries.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE LISSAJOUS SYNTHESIS & COUPLED RESONATOR ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Frequency Ratios, Phase Offsets, Energy Beats & Damping)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnRatio11" class="sim-btn secondary">1:1 Unison</button>
+      <button id="btnRatio12" class="sim-btn secondary">1:2 Octave</button>
+      <button id="btnRatio32" class="sim-btn primary">3:2 Fifth</button>
+      <button id="btnRatio34" class="sim-btn secondary">3:4 Fourth</button>
+      <button id="btnHarmonograph" class="sim-btn secondary">Damped Harmonograph</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="lissajousCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Frequency Ratio:</span> <span id="dispRatio">3 : 2</span> &bull; 
+      <span style="color:#fee440;">Phase δ:</span> <span id="dispPhase">0.00 rad</span> &bull; 
+      <span style="color:#f43f5e;">Energy E₁:</span> <span id="dispE1">50%</span> &bull; 
+      <span style="color:#38bdf8;">Energy E₂:</span> <span id="dispE2">50%</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span>Chebyshev Polynomial: y = B·T_n(x/A)</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('lissajousCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let width = canvas.width = canvas.parentElement.clientWidth || 900;
+  let height = canvas.height = 520;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = canvas.parentElement.clientWidth || 900;
+    height = canvas.height = 520;
+  });
+
+  let nx = 3;
+  let ny = 2;
+  let isHarmonograph = false;
+  let simTime = 0;
+
+  document.getElementById('btnRatio11').onclick = () => { nx = 1; ny = 1; isHarmonograph = false; updateDisplay(); };
+  document.getElementById('btnRatio12').onclick = () => { nx = 1; ny = 2; isHarmonograph = false; updateDisplay(); };
+  document.getElementById('btnRatio32').onclick = () => { nx = 3; ny = 2; isHarmonograph = false; updateDisplay(); };
+  document.getElementById('btnRatio34').onclick = () => { nx = 3; ny = 4; isHarmonograph = false; updateDisplay(); };
+  document.getElementById('btnHarmonograph').onclick = () => { nx = 3; ny = 2; isHarmonograph = !isHarmonograph; updateDisplay(); };
+
+  function updateDisplay() {
+    document.getElementById('dispRatio').textContent = `${nx} : ${ny}${isHarmonograph ? ' (Damped)' : ''}`;
+  }
+
+  function render() {
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, width, height);
+
+    let dt = 0.035;
+    simTime += dt;
+
+    let leftW = width * 0.44;
+    let rightX = width * 0.48;
+    let rightW = width * 0.48;
+
+    // 1. LEFT PANEL: Coupled Resonators & Energy Beats
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(16, 20, leftW, height - 40, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText('COUPLED RESONATORS & ENERGY BEATS', 32, 45);
+
+    let w0 = 2.4;
+    let wBeat = 0.28;
+    let x1 = 45 * Math.cos(wBeat * simTime) * Math.cos(w0 * simTime);
+    let x2 = 45 * Math.sin(wBeat * simTime) * Math.sin(w0 * simTime);
+
+    let piv1X = 16 + leftW * 0.35;
+    let piv2X = 16 + leftW * 0.65;
+    let pivY = 110;
+    let armLen = 140;
+
+    let b1X = piv1X + x1;
+    let b1Y = pivY + Math.sqrt(armLen * armLen - x1 * x1);
+    let b2X = piv2X + x2;
+    let b2Y = pivY + Math.sqrt(armLen * armLen - x2 * x2);
+
+    // Support & Pivots
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(piv1X - 30, pivY);
+    ctx.lineTo(piv2X + 30, pivY);
+    ctx.stroke();
+
+    // Rods
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(piv1X, pivY); ctx.lineTo(b1X, b1Y);
+    ctx.moveTo(piv2X, pivY); ctx.lineTo(b2X, b2Y);
+    ctx.stroke();
+
+    // Spring
+    let sp1X = piv1X + x1 * 0.55;
+    let sp1Y = pivY + armLen * 0.55;
+    let sp2X = piv2X + x2 * 0.55;
+    let sp2Y = pivY + armLen * 0.55;
+
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i <= 10; i++) {
+      let f = i / 10;
+      let sx = sp1X + (sp2X - sp1X) * f;
+      let sy = sp1Y + (i % 2 === 1 ? -6 : 6);
+      if (i === 0) ctx.moveTo(sx, sy);
+      else ctx.lineTo(sx, sy);
+    }
+    ctx.stroke();
+
+    // Bobs
+    ctx.fillStyle = '#00f5d4';
+    ctx.beginPath();
+    ctx.arc(b1X, b1Y, 11, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#f43f5e';
+    ctx.beginPath();
+    ctx.arc(b2X, b2Y, 11, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Energy Bars
+    let e1 = Math.pow(Math.cos(wBeat * simTime), 2);
+    let e2 = Math.pow(Math.sin(wBeat * simTime), 2);
+    document.getElementById('dispE1').textContent = `${(e1 * 100).toFixed(0)}%`;
+    document.getElementById('dispE2').textContent = `${(e2 * 100).toFixed(0)}%`;
+
+    let barY = 320;
+    let barW = leftW * 0.35;
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(piv1X - barW/2, barY, barW, 10);
+    ctx.fillStyle = '#00f5d4';
+    ctx.fillRect(piv1X - barW/2, barY, barW * e1, 10);
+
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(piv2X - barW/2, barY, barW, 10);
+    ctx.fillStyle = '#f43f5e';
+    ctx.fillRect(piv2X - barW/2, barY, barW * e2, 10);
+
+    // 2. RIGHT PANEL: Lissajous Synthesis CRT Screen
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(rightX, 20, rightW, height - 40, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#fee440';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText('2D LISSAJOUS SYNTHESIS & HARMONOGRAPH', rightX + 16, 45);
+
+    let scopeCX = rightX + rightW / 2;
+    let scopeCY = height / 2 + 10;
+    let scopeR = Math.min(rightW * 0.38, 170);
+
+    // CRT Screen
+    ctx.fillStyle = '#021019';
+    ctx.strokeStyle = '#0e7490';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(scopeCX, scopeCY, scopeR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Phosphor Grid
+    ctx.strokeStyle = 'rgba(14, 116, 144, 0.3)';
+    ctx.lineWidth = 1;
+    for (let x = scopeCX - scopeR; x <= scopeCX + scopeR; x += 35) {
+      ctx.beginPath(); ctx.moveTo(x, scopeCY - scopeR); ctx.lineTo(x, scopeCY + scopeR); ctx.stroke();
+    }
+    for (let y = scopeCY - scopeR; y <= scopeCY + scopeR; y += 35) {
+      ctx.beginPath(); ctx.moveTo(scopeCX - scopeR, y); ctx.lineTo(scopeCX + scopeR, y); ctx.stroke();
+    }
+
+    // Lissajous curve
+    let phase = simTime * 0.5;
+    document.getElementById('dispPhase').textContent = `${(phase % (Math.PI * 2)).toFixed(2)} rad`;
+
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    let steps = isHarmonograph ? 600 : 280;
+    let damping = isHarmonograph ? 0.003 : 0.0;
+    let totalRot = isHarmonograph ? Math.PI * 2 * 8 : Math.PI * 2;
+
+    for (let i = 0; i < steps; i++) {
+      let tau = (i / steps) * totalRot;
+      let amp = (scopeR - 25) * Math.exp(-damping * tau);
+      let lx = scopeCX + amp * Math.sin(nx * tau + phase);
+      let ly = scopeCY - amp * Math.sin(ny * tau);
+      if (i === 0) ctx.moveTo(lx, ly);
+      else ctx.lineTo(lx, ly);
+    }
+    ctx.stroke();
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
+
+<!-- The Mathematical Exposition -->
+<h3>The Mathematics of Orthogonal Harmonic Oscillators</h3>
+<p>
+  Consider two independent, uncoupled harmonic oscillators along perpendicular Cartesian coordinates:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#00f5d4; font-family:var(--font-mono, monospace);">
+  $$x(t) = A \sin(\omega_x t + \delta), \qquad y(t) = B \sin(\omega_y t)$$
+</p>
+<p>
+  When the frequency ratio $\frac{\omega_x}{\omega_y} = \frac{n}{m}$ is rational, the curve is strictly periodic with period $T = \frac{2\pi \cdot \text{LCM}(n, m)}{\omega_0}$. When the phase shift $\delta = 0$ or $\pi$, the curve collapses to a single-valued function:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#fee440; font-family:var(--font-mono, monospace);">
+  $$y = B \cdot T_{n/m}\left(\frac{x}{A}\right)$$
+</p>
+<p>
+  where $T_n(u) = \cos(n \arccos u)$ is the $n$-th Chebyshev polynomial of the first kind.
+</p>
+
+<h3>Coupled Resonators & Normal Modes</h3>
+<p>
+  When two identical masses $m$ with natural frequency $\omega_0^2 = k/m$ are connected by a coupling spring $k_c$, the coupled equations of motion are:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#38bdf8; font-family:var(--font-mono, monospace);">
+  $$m \ddot{x}_1 + k x_1 + k_c (x_1 - x_2) = 0, \qquad m \ddot{x}_2 + k x_2 + k_c (x_2 - x_1) = 0$$
+</p>
+<p>
+  Transforming to normal coordinates $q_1 = \frac{x_1 + x_2}{\sqrt{2}}$ and $q_2 = \frac{x_1 - x_2}{\sqrt{2}}$ uncouples the system into two independent normal modes:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#34d399; font-family:var(--font-mono, monospace);">
+  $$\ddot{q}_1 + \omega_1^2 q_1 = 0 \quad \left(\omega_1 = \sqrt{\frac{k}{m}}\right), \qquad \ddot{q}_2 + \omega_2^2 q_2 = 0 \quad \left(\omega_2 = \sqrt{\frac{k + 2k_c}{m}}\right)$$
+</p>
+<p>
+  Releasing one oscillator at $t=0$ yields solutions $x_1(t) = A_0 \cos(\omega_{\text{beat}} t) \cos(\bar{\omega} t)$ and $x_2(t) = A_0 \sin(\omega_{\text{beat}} t) \sin(\bar{\omega} t)$, creating the periodic energy beats and tracing dynamic Lissajous figures in configuration space $(x_1, x_2)$.
+</p>
+
+<!-- Full Master Documentary Video Feature -->
+<h3>Master Video Documentary</h3>
+<div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; margin:2rem 0; box-shadow:0 12px 36px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.1);">
+  <iframe 
+    src="https://www.youtube.com/embed/q-zJXcQ6ezc" 
+    title="Lissajous Figures & Coupled Resonators Documentary" 
+    style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+<!-- Source Code & Creative Engineering -->
+<h3>Source Code & Open Creative Engineering</h3>
+<p>
+  All procedural simulations, normal mode integrators, and WebGL/p5.js engines for this documentary are open source under the MIT license on GitHub:
+</p>
+<p>
+  👉 <a href="https://github.com/procanimation/science-stuff" target="_blank" rel="noopener"><strong>github.com/procanimation/science-stuff</strong></a>
+</p>

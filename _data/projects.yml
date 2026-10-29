@@ -1,4 +1,26 @@
 # Public Creative Coding Showcase Projects
+- name: "Lissajous Figures & Coupled Resonators"
+  slug: "lissajous-coupled-resonators"
+  category: "physics"
+  tag: "Classical Mechanics • Harmonic Geometry"
+  tech: "p5.js / CRT Oscilloscope & Coupled Resonators"
+  description: "Jules Antoine Lissajous' 1857 optical acoustic discovery, spring-coupled pendulums, energy beats, normal modes, Victorian harmonographs, and Chebyshev polynomials."
+  article_url: "/experiments/lissajous-coupled-resonators.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/lissajous_coupled_resonators"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
+
+- name: "Foucault's Pendulum & The Coriolis Effect"
+  slug: "foucault-pendulum-coriolis"
+  category: "physics"
+  tag: "Classical Mechanics • Differential Geometry"
+  tech: "p5.js / Panthéon Rosette & S² Holonomy Engine"
+  description: "Jean Bernard Léon Foucault's 1851 Panthéon experiment, non-inertial reference frames, the Sine of Latitude law, and parallel transport holonomy on the 2-sphere."
+  article_url: "/experiments/foucault-pendulum-coriolis.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/foucault_pendulum_coriolis"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #f43f5e 100%)"
+
 - name: "Hamiltonian Mechanics & Phase Space"
   slug: "hamiltonian-phase-space"
   category: "math"

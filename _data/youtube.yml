@@ -1,4 +1,26 @@
 # YouTube Video Series & Educational Tracks
+- title: "Lissajous Figures & Coupled Resonators: Harmonic Geometry & Energy Beats"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "05:30"
+  description: "Jules Antoine Lissajous' 1857 optical acoustic discovery, spring-coupled pendulums, energy beats, normal modes, Victorian harmonographs, and Chebyshev polynomials."
+  tags: ["Lissajous Figures", "Coupled Oscillators", "Harmonic Motion", "Resonance", "Normal Modes", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
+  video_url: "https://www.youtube.com/watch?v=q-zJXcQ6ezc"
+  article_url: "/experiments/lissajous-coupled-resonators.html"
+
+- title: "Foucault's Pendulum & The Coriolis Effect: Earth's Rotation & Holonomy on S²"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "05:13"
+  description: "Jean Bernard Léon Foucault's 1851 Panthéon experiment, non-inertial reference frames, the Sine of Latitude law, and parallel transport holonomy on the 2-sphere."
+  tags: ["Foucault Pendulum", "Coriolis Effect", "Earth Rotation", "Classical Mechanics", "Holonomy", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #f43f5e 100%)"
+  video_url: "https://www.youtube.com/watch?v=3o8GQWaFcU0"
+  article_url: "/experiments/foucault-pendulum-coriolis.html"
+
 - title: "Hamiltonian Mechanics & The Geometry of Phase Space: Liouville's Law & Chaos"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"

@@ -1,0 +1,300 @@
+---
+layout: article
+title: "Foucault's Pendulum & The Coriolis Effect"
+tagline: "Earth's Rotation, Non-Inertial Reference Frames & Geometric Holonomy on S²"
+description: "How can you watch the Earth rotate beneath your feet without looking at the sky? Explore Foucault's 1851 Panthéon experiment, the Coriolis effect, the Sine of Latitude law, and holonomy."
+category: "Classical Mechanics & Differential Geometry"
+permalink: /experiments/foucault-pendulum-coriolis.html
+---
+
+<p class="article-lead">
+  In March 1851, beneath the vaulted dome of the Panthéon in Paris, French physicist Jean Bernard Léon Foucault suspended a 28-kilogram brass sphere from a 67-meter steel wire. At its base, a stylus skimmed a bed of wet sand spread across the marble floor. As the crowd watched in silence, each pass of the pendulum scored a new line slightly to the right of the last, tracing a steady clockwise precession. For the first time in history, humanity could directly witness the rotation of the Earth beneath its feet without celestial reference. The phenomenon is governed by non-inertial Coriolis forces, the <strong>Sine of Latitude Law</strong>, and differential geometry: the pendulum executes parallel transport on the curved surface of a sphere, demonstrating <strong>Geometric Holonomy</strong>.
+</p>
+
+<!-- The Lexicon -->
+<h3>The Non-Inertial & Geometric Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Coriolis Force (1835)</h4>
+    <p>In a reference frame rotating with Earth's angular velocity $\boldsymbol{\Omega}$, any moving body experiences an apparent sideways acceleration: $\mathbf{a}_{\text{coriolis}} = -2(\boldsymbol{\Omega} \times \mathbf{v})$. In the Northern Hemisphere, this force continuously deflects moving objects to their right.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Sine of Latitude Law</h4>
+    <p>Only the component of Earth's rotation perpendicular to the local ground, $\Omega_z = \Omega_{\text{earth}} \sin(\lambda)$, drives the horizontal precession. The period of a complete $360^\circ$ rotation is $T = \frac{24\text{ hours}}{\sin\lambda}$. At the North Pole $T = 24\text{h}$; in Paris $T = 31.8\text{h}$; at the Equator $T = \infty$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Precessing Rosette Ground Tracks</h4>
+    <p>Because the Coriolis force slightly curves each individual swing into an extremely elongated narrow ellipse, the tip of the pendulum bob sweeps out an intricate, non-repeating multi-petaled rosette pattern across the floor over successive hours.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Holonomy & Gauss-Bonnet on $S^2$</h4>
+    <p>The pendulum's oscillation plane undergoes parallel transport along a circle of constant latitude on the two-sphere $S^2$. The angle deficit after one full terrestrial day equals the solid angle subtended by the latitude circle: $\Delta \alpha = 2\pi(1 - \sin\lambda)$.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE FOUCAULT PENDULUM & CORIOLIS ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Latitude Control, Precessing Rosette & Solid Angle Holonomy)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnParis" class="sim-btn primary">Paris (48.8° N)</button>
+      <button id="btnPole" class="sim-btn secondary">North Pole (90° N)</button>
+      <button id="btnEquator" class="sim-btn secondary">Equator (0°)</button>
+      <button id="btnSydney" class="sim-btn secondary">Sydney (-33.8° S)</button>
+      <button id="btnClearTrack" class="sim-btn">Clear Track</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="foucaultCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Latitude λ:</span> <span id="dispLat">48.8° N</span> &bull; 
+      <span style="color:#fee440;">Precession Period:</span> <span id="dispPeriod">31.8 hrs</span> &bull; 
+      <span style="color:#38bdf8;">Precession Direction:</span> <span id="dispDir">Clockwise</span> &bull; 
+      <span style="color:#f43f5e;">Daily Deficit:</span> <span id="dispDeficit">90.2° / day</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span>Precession rate: ω = Ω_earth · sin(λ)</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('foucaultCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let width = canvas.width = canvas.parentElement.clientWidth || 900;
+  let height = canvas.height = 520;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = canvas.parentElement.clientWidth || 900;
+    height = canvas.height = 520;
+  });
+
+  let latDeg = 48.83; // Paris
+  let simTime = 0;
+  let rosette = [];
+  const maxRosette = 700;
+
+  function updateTelemetry() {
+    let latRad = latDeg * Math.PI / 180;
+    let sinLat = Math.sin(latRad);
+    document.getElementById('dispLat').textContent = `${Math.abs(latDeg).toFixed(1)}° ${latDeg >= 0 ? 'N' : 'S'}`;
+    
+    if (Math.abs(sinLat) < 0.01) {
+      document.getElementById('dispPeriod').textContent = '∞ (No Precession)';
+      document.getElementById('dispDir').textContent = 'None';
+      document.getElementById('dispDeficit').textContent = '0° / day';
+    } else {
+      let periodHrs = Math.abs(24 / sinLat);
+      document.getElementById('dispPeriod').textContent = `${periodHrs.toFixed(1)} hrs`;
+      document.getElementById('dispDir').textContent = latDeg > 0 ? 'Clockwise' : 'Counter-Clockwise';
+      let dailyDeficit = Math.abs(360 * (1 - Math.sin(Math.abs(latRad))));
+      document.getElementById('dispDeficit').textContent = `${dailyDeficit.toFixed(1)}° / day`;
+    }
+  }
+
+  document.getElementById('btnParis').onclick = () => { latDeg = 48.83; rosette = []; updateTelemetry(); };
+  document.getElementById('btnPole').onclick = () => { latDeg = 90.0; rosette = []; updateTelemetry(); };
+  document.getElementById('btnEquator').onclick = () => { latDeg = 0.0; rosette = []; updateTelemetry(); };
+  document.getElementById('btnSydney').onclick = () => { latDeg = -33.86; rosette = []; updateTelemetry(); };
+  document.getElementById('btnClearTrack').onclick = () => { rosette = []; };
+
+  updateTelemetry();
+
+  function render() {
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, width, height);
+
+    let dt = 0.035;
+    simTime += dt;
+
+    let leftW = width * 0.48;
+    let rightX = width * 0.52;
+    let rightW = width * 0.44;
+
+    // 1. LEFT PANEL: Panthéon Sand Dial & Rosette
+    let dialCX = 16 + leftW / 2;
+    let dialCY = height / 2;
+    let dialR = Math.min(leftW * 0.42, height * 0.4);
+
+    // Rim
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(dialCX, dialCY, dialR, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Cardinals
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('N', dialCX, dialCY - dialR + 14);
+    ctx.fillText('S', dialCX, dialCY + dialR - 6);
+    ctx.fillText('E', dialCX + dialR - 12, dialCY + 4);
+    ctx.fillText('W', dialCX - dialR + 12, dialCY + 4);
+
+    // Dynamic Physics
+    let latRad = latDeg * Math.PI / 180;
+    let precRate = 0.12 * Math.sin(latRad); // accelerated for live view
+    let precAngle = simTime * precRate;
+    let swingAmp = dialR * 0.82;
+    let swingPhase = simTime * 2.4;
+    let rSwing = swingAmp * Math.sin(swingPhase);
+    let coriolisSideways = 14 * Math.sin(swingPhase * 2) * Math.sin(latRad);
+
+    let bobX = dialCX + rSwing * Math.cos(precAngle) - coriolisSideways * Math.sin(precAngle);
+    let bobY = dialCY + rSwing * Math.sin(precAngle) + coriolisSideways * Math.cos(precAngle);
+
+    rosette.push({ x: bobX, y: bobY });
+    if (rosette.length > maxRosette) rosette.shift();
+
+    // Rosette Track
+    ctx.lineWidth = 1.5;
+    for (let i = 0; i < rosette.length - 1; i++) {
+      let a = (i / rosette.length);
+      ctx.strokeStyle = `rgba(0, 245, 212, ${a * 0.8})`;
+      ctx.beginPath();
+      ctx.moveTo(rosette[i].x, rosette[i].y);
+      ctx.lineTo(rosette[i+1].x, rosette[i+1].y);
+      ctx.stroke();
+    }
+
+    // Active Axis
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(dialCX - dialR * Math.cos(precAngle), dialCY - dialR * Math.sin(precAngle));
+    ctx.lineTo(dialCX + dialR * Math.cos(precAngle), dialCY + dialR * Math.sin(precAngle));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Bob
+    ctx.fillStyle = '#00f5d4';
+    ctx.beginPath();
+    ctx.arc(bobX, bobY, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 2. RIGHT PANEL: Rotating Earth & Holonomy
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(rightX, 20, rightW, height - 40, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#a855f7';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText('DIFFERENTIAL GEOMETRY ON S²: PARALLEL TRANSPORT', rightX + 16, 45);
+
+    let globeCX = rightX + rightW / 2;
+    let globeCY = height / 2 + 10;
+    let globeR = Math.min(rightW * 0.36, 150);
+
+    // Globe
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(globeCX, globeCY, globeR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Axis
+    ctx.strokeStyle = '#f43f5e';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(globeCX, globeCY - globeR - 25);
+    ctx.lineTo(globeCX, globeCY + globeR + 25);
+    ctx.stroke();
+
+    // Equator
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.ellipse(globeCX, globeCY, globeR, globeR * 0.25, 0, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Latitude circle
+    let cLatY = globeCY - globeR * Math.sin(latRad) * 0.8;
+    let cLatR = globeR * Math.cos(latRad);
+    if (cLatR > 2) {
+      ctx.strokeStyle = '#00f5d4';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(globeCX, cLatY, cLatR, cLatR * 0.25, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Shaded cap
+      if (latDeg > 0) {
+        ctx.fillStyle = 'rgba(168, 85, 247, 0.25)';
+        ctx.beginPath();
+        ctx.ellipse(globeCX, cLatY, cLatR, cLatR * 0.25, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
+
+<!-- The Mathematical Exposition -->
+<h3>The Non-Inertial Reference Frame Derivation</h3>
+<p>
+  Consider a coordinate frame $(x, y, z)$ affixed to the Earth at latitude $\lambda$, where $\mathbf{e}_x$ points East, $\mathbf{e}_y$ points North, and $\mathbf{e}_z$ points vertically upward along the local zenith. The angular velocity vector of the Earth in this local frame is:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#00f5d4; font-family:var(--font-mono, monospace);">
+  $$\boldsymbol{\Omega} = (0, \, \Omega \cos\lambda, \, \Omega \sin\lambda)$$
+</p>
+<p>
+  The Coriolis acceleration experienced by a pendulum bob moving with velocity $\mathbf{v} = (\dot{x}, \dot{y}, \dot{z})$ is $\mathbf{a}_c = -2(\boldsymbol{\Omega} \times \mathbf{v})$. For small oscillations in the horizontal plane ($\dot{z} \approx 0$):
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#38bdf8; font-family:var(--font-mono, monospace);">
+  $$\mathbf{a}_c = 2\Omega (\dot{y}\sin\lambda \, \mathbf{e}_x - \dot{x}\sin\lambda \, \mathbf{e}_y + \dot{x}\cos\lambda \, \mathbf{e}_z)$$
+</p>
+<p>
+  The horizontal equations of motion for a pendulum of length $L$ become:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#fee440; font-family:var(--font-mono, monospace);">
+  $$\ddot{x} + \frac{g}{L}x = 2\Omega \sin\lambda \, \dot{y}, \qquad \ddot{y} + \frac{g}{L}y = -2\Omega \sin\lambda \, \dot{x}$$
+</p>
+<p>
+  Introducing the complex coordinate $\xi = x + i y$, the coupled equations collapse into:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#34d399; font-family:var(--font-mono, monospace);">
+  $$\ddot{\xi} + 2i\Omega\sin\lambda \, \dot{\xi} + \frac{g}{L}\xi = 0$$
+</p>
+<p>
+  Transforming to a coordinate frame rotating with angular frequency $\omega = -\Omega \sin\lambda$ completely eliminates the Coriolis cross-terms. The pendulum swings as a simple harmonic oscillator in the rotating frame, confirming that its plane of oscillation precesses clockwise at the exact rate $\omega_{\text{prec}} = \Omega \sin\lambda$.
+</p>
+
+<!-- Full Master Documentary Video Feature -->
+<h3>Master Video Documentary</h3>
+<div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; margin:2rem 0; box-shadow:0 12px 36px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.1);">
+  <iframe 
+    src="https://www.youtube.com/embed/3o8GQWaFcU0" 
+    title="Foucault's Pendulum & The Coriolis Effect Documentary" 
+    style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+<!-- Source Code & Creative Engineering -->
+<h3>Source Code & Open Creative Engineering</h3>
+<p>
+  All procedural simulations, rotating frame integrators, and WebGL/p5.js engines for this documentary are open source under the MIT license on GitHub:
+</p>
+<p>
+  👉 <a href="https://github.com/procanimation/science-stuff" target="_blank" rel="noopener"><strong>github.com/procanimation/science-stuff</strong></a>
+</p>
