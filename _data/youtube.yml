@@ -197,6 +197,17 @@
   video_url: "https://www.youtube.com/watch?v=S4ZbFUKeQgo"
   article_url: "/experiments/poincare-conjecture-ricci.html"
 
+- title: "Cosmic Inflation & The Multiverse: Inflaton Dynamics & The Cosmic Seeds"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:03"
+  description: "Alan Guth's exponential superluminal expansion, Heisenberg quantum vacuum fluctuations frozen as cosmic seeds, Planck CMB acoustic peaks, and the eternal bubble multiverse."
+  tags: ["Cosmology", "Cosmic Inflation", "Multiverse", "Astrophysics", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+  video_url: "https://www.youtube.com/watch?v=q7ADNAIZUq8"
+  article_url: "/experiments/cosmic-inflation-multiverse.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"
