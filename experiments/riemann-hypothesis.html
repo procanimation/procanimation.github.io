@@ -1,0 +1,252 @@
+---
+layout: article
+title: "The Riemann Hypothesis: The Cosmic Music of the Primes"
+tagline: "The Zeta Function, The Critical Line & Quantum Chaos"
+description: "Why the distribution of prime numbers is governed by the zeros of the Riemann Zeta Function, and how harmonic interference constructs the building blocks of arithmetic."
+category: "Visual Mathematics & Number Theory"
+permalink: /experiments/riemann-hypothesis.html
+---
+
+<p class="article-lead">
+  Prime numbers are the atoms of arithmetic: every natural number is formed from a unique crystalline product of primes. Yet across thousands of years, their occurrences along the number line have defied every attempt at simple prediction. In 1859, German mathematician Bernhard Riemann made an astonishing discovery: the primes are not scattered at random. Their exact locations are tuned by the roots of a complex wave function—the Riemann Zeta function $\zeta(s)$. When you superimpose the musical frequencies of these zeros, their harmonic interference snaps into the exact staircase of prime numbers.
+</p>
+
+<!-- The Riemann Lexicon -->
+<h3>The Riemann Foundations Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Euler's Golden Product</h4>
+    <p>In 1737, Leonhard Euler proved the fundamental identity linking primes to all integers: $\zeta(s) = \sum_{n=1}^\infty \frac{1}{n^s} = \prod_p \frac{1}{1 - p^{-s}}$. Calculus and discrete prime numbers are two sides of the same coin.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Critical Line ($\text{Re}(s) = 1/2$)</h4>
+    <p>Riemann extended $\zeta(s)$ into the complex plane $\sigma + it$. Trivial zeros sit at negative even integers $-2, -4, -6\dots$. The Riemann Hypothesis asserts that <strong>all non-trivial zeros</strong> possess real coordinate exactly $\sigma = 1/2$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Riemann's Explicit Formula</h4>
+    <p>The prime counting step function $\pi(x)$ is constructed by an acoustic harmonic sum: $\pi(x) \approx \text{Li}(x) - \sum_\rho \text{Li}(x^\rho)$. Each zero $\rho = 1/2 + i\gamma$ acts as a pure mathematical soundwave.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Montgomery-Dyson Law</h4>
+    <p>In 1972, Hugh Montgomery and Freeman Dyson discovered that the spacing between consecutive Zeta zeros matches the Gaussian Unitary Ensemble (GUE) describing the quantum energy levels of heavy atomic nuclei.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE RIEMANN-SIEGEL CRITICAL LINE LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Zero Detection & Harmonic Superposition)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Critical Line $\sigma = 1/2$</span>
+      <span style="color:#fee440;">● Non-Trivial Zeros ($\gamma_n$)</span>
+      <span style="color:#f72585;">● Prime Staircase $\pi(x)$</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="height:480px; position:relative; background:#03040c; border-radius:12px; overflow:hidden;">
+    <canvas id="riemannCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <!-- Real-time HUD -->
+    <div style="position:absolute; top:16px; left:20px; background:rgba(3, 4, 12, 0.88); backdrop-filter:blur(8px); padding:12px 18px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); font-family:var(--font-mono, monospace); font-size:0.85rem; color:#f8fafc; pointer-events:none;">
+      <div style="color:#38bdf8; font-weight:700; margin-bottom:4px;">RIEMANN-SIEGEL TELEMETRY</div>
+      <div>Current Zero Window: <span id="windowVal" style="color:#00f5d4; font-weight:bold;">γ₁ ≈ 14.135</span> | Verified Zeros: <span style="color:#fee440;">10 Trillion</span></div>
+      <div style="margin-top:4px; font-size:0.75rem; color:#94a3b8;">Harmonic Superposition Mode: <span id="harmonicVal" style="color:#00f5d4;">Active</span> | Status: <span style="color:#00f5d4;">100% on Re(s)=1/2</span></div>
+    </div>
+  </div>
+
+  <div class="simulation-toolbar" style="margin-top:14px; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+    <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Imaginary Height $t$:
+        <input type="range" id="sliderT" min="10" max="65" value="14" style="accent-color:#00f5d4;">
+        <span id="dispT">t = 14</span>
+      </label>
+      <label style="font-size:0.85rem; color:#94a3b8; font-family:var(--font-mono, monospace); display:flex; align-items:center; gap:8px;">
+        Harmonics Count:
+        <input type="range" id="sliderHarmonics" min="1" max="15" value="6" style="accent-color:#f72585;">
+        <span id="dispHarmonics">6 waves</span>
+      </label>
+    </div>
+    <div class="sim-btn-group" style="display:flex; gap:8px;">
+      <button id="btnNextZero" class="sim-btn primary" style="background:#00f5d4; border-color:#00f5d4; color:#03040c; font-weight:bold;">🎯 Jump to Next Zero</button>
+      <button id="btnToggleMode" class="sim-btn">🔄 Toggle Prime Staircase Mode</button>
+    </div>
+  </div>
+</div>
+
+<div class="article-section" style="margin-top:36px;">
+  <h2>Why Every Zero Matters</h2>
+  <p>
+    If the Riemann Hypothesis is true, the error term in the Prime Number Theorem is as small as theoretically possible:
+  </p>
+  <div style="background:rgba(255,255,255,0.03); border-left:3px solid #00f5d4; padding:16px 20px; border-radius:0 8px 8px 0; margin:16px 0; font-family:var(--font-mono, monospace);">
+    $$|\pi(x) - \text{Li}(x)| \le \frac{1}{8\pi} \sqrt{x} \ln x \quad \text{for all } x \ge 2657$$
+  </div>
+  <p>
+    The exponent $1/2$ on $\sqrt{x} = x^{1/2}$ is directly set by the real part $\sigma = 1/2$ of the zeros. If even a single non-trivial zero were discovered at $\sigma = 0.75$, the primes would fluctuate with violent, unpredictable swings of order $x^{0.75}$, shattering hundreds of theorems in modern cryptography, analytic number theory, and quantum physics.
+  </p>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">The Riemann Hypothesis: The Cosmic Music of the Primes</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Explore Euler's product formula, analytic continuation across the critical strip, Riemann's explicit formula translating zeros into primes, and the astonishing quantum chaos connection with Montgomery and Dyson.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 04:03</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master</span>
+      </div>
+      <a id="docYoutubeBtn" href="https://www.youtube.com/watch?v=SWjjEUnevdU" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#03040c; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('riemannCanvas');
+  const ctx = canvas.getContext('2d');
+  const windowVal = document.getElementById('windowVal');
+  const sliderT = document.getElementById('sliderT');
+  const sliderHarmonics = document.getElementById('sliderHarmonics');
+  const dispT = document.getElementById('dispT');
+  const dispHarmonics = document.getElementById('dispHarmonics');
+  const btnNextZero = document.getElementById('btnNextZero');
+  const btnToggleMode = document.getElementById('btnToggleMode');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = canvas.parentElement.clientWidth;
+    H = canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const ZEROS = [
+    14.1347, 21.0220, 25.0108, 30.4248, 32.9350,
+    37.5861, 40.9187, 43.3270, 48.0051, 49.7738,
+    52.9703, 56.4462, 59.3470, 60.8317, 65.1125
+  ];
+
+  let currentT = 14;
+  let harmonicsCount = 6;
+  let showStaircase = false;
+
+  function updateDisplay() {
+    dispT.textContent = 't = ' + currentT.toFixed(1);
+    dispHarmonics.textContent = harmonicsCount + ' waves';
+    sliderT.value = currentT;
+    sliderHarmonics.value = harmonicsCount;
+    windowVal.textContent = 'γ ≈ ' + currentT.toFixed(3);
+  }
+
+  sliderT.addEventListener('input', (e) => {
+    currentT = parseFloat(e.target.value);
+    updateDisplay();
+  });
+
+  sliderHarmonics.addEventListener('input', (e) => {
+    harmonicsCount = parseInt(e.target.value);
+    updateDisplay();
+  });
+
+  let zeroIdx = 0;
+  btnNextZero.addEventListener('click', () => {
+    zeroIdx = (zeroIdx + 1) % ZEROS.length;
+    currentT = ZEROS[zeroIdx];
+    updateDisplay();
+  });
+
+  btnToggleMode.addEventListener('click', () => {
+    showStaircase = !showStaircase;
+    btnToggleMode.textContent = showStaircase ? '📈 Switch to Zeta Z(t) Mode' : '🔄 Toggle Prime Staircase Mode';
+  });
+
+  updateDisplay();
+
+  function render() {
+    ctx.fillStyle = '#03040c';
+    ctx.fillRect(0, 0, W, H);
+
+    const midY = H / 2;
+
+    if (!showStaircase) {
+      // Riemann-Siegel Z(t) function visualizer
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(40, midY);
+      ctx.lineTo(W - 40, midY);
+      ctx.stroke();
+
+      const span = 25.0;
+      const tStart = Math.max(10, currentT - span / 2);
+      const tEnd = tStart + span;
+
+      ctx.strokeStyle = '#00f5d4';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let px = 40; px < W - 40; px += 3) {
+        const simT = tStart + ((px - 40) / (W - 80)) * span;
+        const theta_t = (simT / 2) * Math.log(simT / (2 * Math.PI)) - simT / 2 - Math.PI / 8;
+        const val = 2 * Math.cos(theta_t) + 2 * Math.cos(theta_t - Math.log(2) * simT) / Math.sqrt(2);
+        const py = midY - val * 65;
+        if (px === 40) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+
+      // Highlight zeros in window
+      for (let z of ZEROS) {
+        if (z >= tStart && z <= tEnd) {
+          const zx = 40 + ((z - tStart) / span) * (W - 80);
+          ctx.fillStyle = '#fee440';
+          ctx.beginPath();
+          ctx.arc(zx, midY, 8, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#fee440';
+          ctx.font = '12px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(`γ = ${z.toFixed(2)}`, zx, midY + 24);
+        }
+      }
+      ctx.textAlign = 'left';
+    } else {
+      // Prime staircase vs explicit harmonics
+      const maxX = 50;
+      const scaleX = (W - 80) / maxX;
+      const baseZeroY = H - 60;
+
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let x = 2; x <= maxX; x += 0.5) {
+        let lix = x / Math.log(x);
+        let correction = 0;
+        for (let k = 0; k < harmonicsCount; k++) {
+          const gamma = ZEROS[k];
+          correction -= (2 * Math.sqrt(x) / gamma) * Math.sin(gamma * Math.log(x));
+        }
+        const py = baseZeroY - (lix + correction) * 14;
+        const px = 40 + x * scaleX;
+        if (x === 2) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>

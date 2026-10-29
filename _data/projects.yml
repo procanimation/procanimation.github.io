@@ -1,4 +1,48 @@
 # Public Creative Coding Showcase Projects
+- name: "Self-Organized Criticality & The Sandpile Model"
+  slug: "self-organized-criticality"
+  category: "science"
+  tag: "Statistical Physics • Complex Systems"
+  tech: "HTML5 Canvas / Abelian Sandpile Engine"
+  description: "The Abelian Sandpile model, scale-invariant power laws, 1/f pink noise cosmic spectrum, and the critical brain hypothesis."
+  article_url: "/experiments/self-organized-criticality.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/self_organized_criticality"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+
+- name: "The Einstein-Rosen Bridge & Traversable Wormholes"
+  slug: "wormholes-exotic-matter"
+  category: "science"
+  tag: "Astrophysics • General Relativity"
+  tech: "HTML5 Canvas / Morris-Thorne Metric Engine"
+  description: "The Einstein-Rosen Bridge, Morris-Thorne metric, Casimir negative energy density, ER=EPR quantum entanglement, and Chronology Protection."
+  article_url: "/experiments/wormholes-exotic-matter.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/wormholes_exotic_matter"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
+- name: "The Computational Cosmos & Turing Completeness"
+  slug: "game-of-life-turing"
+  category: "cs"
+  tag: "Cellular Automata • Computer Science"
+  tech: "HTML5 Canvas / B3-S23 Simulation Engine"
+  description: "Conway's Game of Life, Gosper glider guns, logic gate synthesis, Paul Rendell's Universal Turing Machine, and the recursive Metapixel."
+  article_url: "/experiments/game-of-life-turing.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/game_of_life_turing"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+
+- name: "The Riemann Hypothesis & Cosmic Music of Primes"
+  slug: "riemann-hypothesis"
+  category: "math"
+  tag: "Number Theory • Complex Analysis"
+  tech: "HTML5 Canvas / Riemann-Siegel Engine"
+  description: "The Zeta Function, the critical line Re(s)=1/2, Riemann's explicit prime formula, and the Montgomery-Dyson quantum chaos connection."
+  article_url: "/experiments/riemann-hypothesis.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/riemann_hypothesis"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
 - name: "The Ripples of Spacetime & Gravitational Waves"
   slug: "gravitational-waves"
   category: "science"

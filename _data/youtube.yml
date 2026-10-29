@@ -120,6 +120,39 @@
   video_url: "https://www.youtube.com/watch?v=AuaWbIELFkQ"
   article_url: "/experiments/gravitational-waves.html"
 
+- title: "The Riemann Hypothesis: The Cosmic Music of the Primes"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:03"
+  description: "Euler's golden product, the critical line Re(s)=1/2, Riemann's explicit prime formula, Montgomery-Dyson quantum chaos connection, and the million-dollar Millennium mystery."
+  tags: ["Riemann Hypothesis", "Prime Numbers", "Complex Analysis", "Quantum Chaos", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=SWjjEUnevdU"
+  article_url: "/experiments/riemann-hypothesis.html"
+
+- title: "The Computational Cosmos: Turing Completeness in Conway's Game of Life"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:10"
+  description: "Conway's B3/S23 elementary rules, Gosper glider gun, logic gate synthesis, Paul Rendell's Universal Turing Machine, and the mind-bending self-simulating Metapixel."
+  tags: ["Game of Life", "Cellular Automata", "Turing Complete", "Computer Science", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+  video_url: "https://www.youtube.com/watch?v=t1eeSNWcto0"
+  article_url: "/experiments/game-of-life-turing.html"
+
+- title: "The Einstein-Rosen Bridge: Traversable Wormholes & Exotic Matter"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "03:39"
+  description: "The 1935 Schwarzschild coordinate bridge, Kip Thorne's 1988 traversability conditions, Casimir vacuum negative energy density, ER=EPR quantum entanglement, and Chronology Protection."
+  tags: ["Wormholes", "General Relativity", "Einstein Rosen Bridge", "Exotic Matter", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=p1bOnMH6yfg"
+  article_url: "/experiments/wormholes-exotic-matter.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"
