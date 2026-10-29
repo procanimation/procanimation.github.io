@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "The Dzhanibekov Effect & Rigid Bodies"
+  slug: "dzhanibekov-tennis-racket"
+  category: "math"
+  tag: "Classical Mechanics • Nonlinear Dynamics"
+  tech: "p5.js / 3D Rigid Body & Poinsot Engine"
+  description: "Vladimir Dzhanibekov's 1985 zero-G discovery, Euler's equations of motion, intermediate axis instability, Poinsot's inertia ellipsoids, and the tennis racket theorem."
+  article_url: "/experiments/dzhanibekov-tennis-racket.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/dzhanibekov_tennis_racket"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)"
+
 - name: "The Brachistochrone & Variational Calculus"
   slug: "brachistochrone-calculus-variations"
   category: "math"

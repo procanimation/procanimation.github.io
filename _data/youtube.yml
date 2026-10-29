@@ -241,6 +241,17 @@
   video_url: "https://www.youtube.com/watch?v=BGQ0ZRWK8Jg"
   article_url: "/experiments/brachistochrone-calculus-variations.html"
 
+- title: "The Dzhanibekov Effect & The Tennis Racket Theorem: Euler's Rigid Body Chaos"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master • p5.js)"
+  duration: "04:55"
+  description: "Why spinning objects spontaneously flip 180° in zero gravity. Euler's equations of motion, intermediate axis instability, Poinsot's inertia ellipsoids, and the hyperbolic saddle separatrix."
+  tags: ["Dzhanibekov Effect", "Tennis Racket Theorem", "Euler Equations", "Classical Mechanics", "p5.js", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)"
+  video_url: "https://www.youtube.com/watch?v=LDX4p3W8lmA"
+  article_url: "/experiments/dzhanibekov-tennis-racket.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"

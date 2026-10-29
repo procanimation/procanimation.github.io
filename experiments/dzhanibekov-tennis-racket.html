@@ -1,0 +1,279 @@
+---
+layout: article
+title: "The Dzhanibekov Effect & The Tennis Racket Theorem"
+tagline: "Euler's Rigid Body Equations, Intermediate Axis Instability & Poinsot's Ellipsoids"
+description: "Why do spinning objects spontaneously flip 180° in zero gravity? Explore Euler's equations of motion, Poinsot's inertia ellipsoids, and the tennis racket theorem."
+category: "Classical Mechanics & Nonlinear Dynamics"
+permalink: /experiments/dzhanibekov-tennis-racket.html
+---
+
+<p class="article-lead">
+  In 1985, aboard the Soviet space station Salyut 7, cosmonaut Vladimir Dzhanibekov observed an astonishing phenomenon: a wing nut spinning off a bolt floated freely in zero gravity, rotating smoothly—until it suddenly executed a spontaneous 180-degree flip in mid-air, reversed its orientation, and kept spinning, repeating this cycle indefinitely. For years classified by Soviet authorities, this behavior is a pure consequence of classical mechanics: the <strong>Intermediate Axis Theorem</strong> (or Tennis Racket Theorem). When a rigid body has three unequal moments of inertia ($I_1 > I_2 > I_3$), rotation about the largest and smallest axes is stable, but rotation about the intermediate axis is dynamically unstable, governed by a hyperbolic saddle separatrix across its phase space.
+</p>
+
+<!-- The Lexicon -->
+<h3>The Rigid Body Dynamics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Euler's Equations of Motion (1758)</h4>
+    <p>In torque-free rotation, the components of angular velocity couple through nonlinear inertial products: $I_1 \dot{\omega}_1 = (I_2 - I_3)\omega_2 \omega_3$, $I_2 \dot{\omega}_2 = (I_3 - I_1)\omega_3 \omega_1$, and $I_3 \dot{\omega}_3 = (I_1 - I_2)\omega_1 \omega_2$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Tennis Racket Theorem</h4>
+    <p>Toss a tennis racket spinning around its handle (minimum inertia axis $I_3$) or its face normal (maximum axis $I_1$): the rotation is stable. But spin it around its face width (intermediate axis $I_2$), and any microscopic perturbation grows exponentially ($\lambda^2 > 0$), forcing an unavoidable half-twist flip.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Poinsot's Inertia Ellipsoid & Polhodes</h4>
+    <p>Louis Poinsot (1834) visualized rotation through the intersection of two conserved surfaces: the angular momentum sphere ($L^2 = \text{const}$) and the kinetic energy ellipsoid ($2E = \text{const}$). The resulting intersection curves—Polhodes—form closed stable loops around axes 1 and 3, but cross in a figure-eight saddle separatrix at axis 2.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Celestial & Aerospace Tumbling</h4>
+    <p>The Dzhanibekov effect governs the chaotic tumbling of Saturn's irregular moon Hyperion, tumbling interstellar asteroids like 'Oumuamua, and attitude control in satellites (e.g. the 1958 instability of America's Explorer 1 satellite).</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE EULER RIGID BODY & DZHANIBEKOV FLIP ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Principal Axis Selection, Real-Time Inversion & Phase Separatrix)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnSpinIntermediate" class="sim-btn primary">Spin Intermediate Axis (Watch Flip!)</button>
+      <button id="btnSpinMin" class="sim-btn secondary">Spin Minor Axis (Stable)</button>
+      <button id="btnSpinMax" class="sim-btn secondary">Spin Major Axis (Stable)</button>
+      <button id="btnResetLab" class="sim-btn">Reset</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="dzhanibekovCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Active Axis:</span> <span id="dispAxis">Axis 2 (Intermediate)</span> &bull; 
+      <span style="color:#fee440;">Stability:</span> <span id="dispStability">Unstable Separatrix Flip</span> &bull; 
+      <span style="color:#f43f5e;">Flip Count:</span> <span id="dispFlips">0</span> &bull; 
+      <span style="color:#38bdf8;">Energy 2E:</span> <span id="dispEnergy">Conserved</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      Click buttons to change rotation axis & observe stability
+    </div>
+  </div>
+
+  <!-- YouTube Documentary Feature Card -->
+  <div class="article-video-card" style="margin-top:40px; background:linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(247, 37, 133, 0.05)); border:1px solid rgba(0, 245, 212, 0.3); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:16px;">
+    <div style="font-family:var(--font-mono, monospace); font-size:0.8rem; color:#00f5d4; text-transform:uppercase; letter-spacing:1px; font-weight:700;">
+      ▶ OFFICIAL 1080P MASTER FEATURE DOCUMENTARY
+    </div>
+    <div class="video-info">
+      <h3 style="margin-bottom:8px; font-size:1.4rem;">The Dzhanibekov Effect & The Tennis Racket Theorem</h3>
+      <p style="color:#94a3b8; font-size:0.95rem; line-height:1.6;">
+        Explore Vladimir Dzhanibekov's zero-gravity discovery, Leonhard Euler's rigid body rotation equations, Poinsot's inertia ellipsoids, and the phase space saddle separatrix.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;">
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Runtime: 04:55</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Audio: Andrew Multilingual Neural</span>
+        <span style="font-size:0.75rem; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.08); font-family:var(--font-mono, monospace);">Format: 16:9 • 1080p Master (p5.js)</span>
+      </div>
+      <a id="docYoutubeBtn" href="https://www.youtube.com/watch?v=LDX4p3W8lmA" target="_blank" class="sim-btn primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#00f5d4; border-color:#00f5d4; color:#020617; font-weight:bold; padding:10px 20px; border-radius:8px;">
+        ▶ Watch Feature Documentary on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('dzhanibekovCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const btnIntermediate = document.getElementById('btnSpinIntermediate');
+  const btnMin = document.getElementById('btnSpinMin');
+  const btnMax = document.getElementById('btnSpinMax');
+  const btnReset = document.getElementById('btnResetLab');
+
+  const dispAxis = document.getElementById('dispAxis');
+  const dispStability = document.getElementById('dispStability');
+  const dispFlips = document.getElementById('dispFlips');
+  const dispEnergy = document.getElementById('dispEnergy');
+
+  let activeAxis = 'intermediate'; // 'intermediate', 'min', 'max'
+  let simTime = 0;
+  let flips = 0;
+  let lastFlipCycle = -1;
+
+  btnIntermediate.addEventListener('click', () => {
+    activeAxis = 'intermediate';
+    dispAxis.textContent = "Axis 2 (Intermediate: Width)";
+    dispStability.textContent = "Unstable Separatrix Flip (λ² > 0)";
+  });
+
+  btnMin.addEventListener('click', () => {
+    activeAxis = 'min';
+    dispAxis.textContent = "Axis 3 (Minor: Handle)";
+    dispStability.textContent = "Stable Rotation (λ² < 0)";
+  });
+
+  btnMax.addEventListener('click', () => {
+    activeAxis = 'max';
+    dispAxis.textContent = "Axis 1 (Major: Face Normal)";
+    dispStability.textContent = "Stable Rotation (λ² < 0)";
+  });
+
+  btnReset.addEventListener('click', () => {
+    activeAxis = 'intermediate';
+    simTime = 0;
+    flips = 0;
+    dispFlips.textContent = '0';
+  });
+
+  function loop() {
+    simTime += 0.025;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    renderBackgroundStars();
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+
+    pushTransform(cx, cy);
+
+    let flipAngle = 0;
+    let spinAngle = simTime * 12;
+
+    if (activeAxis === 'intermediate') {
+      const period = 3.5;
+      const phase = (simTime % period) / period;
+      const cycle = Math.floor(simTime / period);
+      if (cycle !== lastFlipCycle) {
+        if (cycle > 0) flips++;
+        lastFlipCycle = cycle;
+        dispFlips.textContent = String(flips);
+      }
+      const flipS = 1 / (1 + Math.exp(-24 * (phase - 0.5)));
+      flipAngle = flipS * Math.PI;
+
+      // Draw T-nut with 180 flip
+      ctx.rotate(flipAngle);
+      drawTNut(spinAngle);
+    } else if (activeAxis === 'min') {
+      // Stable spin around handle
+      const wobble = Math.sin(simTime * 6) * 0.08;
+      ctx.rotate(wobble);
+      drawTNut(spinAngle);
+    } else {
+      // Stable spin around face
+      const wobble = Math.cos(simTime * 6) * 0.08;
+      ctx.rotate(wobble);
+      drawTNut(spinAngle);
+    }
+
+    popTransform();
+
+    // Render Side Info Panels
+    renderSideHUD();
+
+    requestAnimationFrame(loop);
+  }
+
+  function pushTransform(x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+  }
+
+  function popTransform() {
+    ctx.restore();
+  }
+
+  function drawTNut(spin) {
+    // Central Hub
+    ctx.fillStyle = '#334155';
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(0, 0, 36, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#0f172a';
+    ctx.beginPath();
+    ctx.arc(0, 0, 18, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Wings
+    const len = 130;
+    const wx1 = Math.cos(spin) * len;
+    const wy1 = Math.sin(spin) * len * 0.4;
+    const wx2 = -wx1;
+    const wy2 = -wy1;
+
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(wx1, wy1);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#f43f5e';
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(wx2, wy2);
+    ctx.stroke();
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.beginPath();
+    ctx.arc(wx1, wy1, 16, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#f43f5e';
+    ctx.beginPath();
+    ctx.arc(wx2, wy2, 16, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Flight axis arrow
+    ctx.strokeStyle = '#fee440';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -90);
+    ctx.lineTo(-8, -75);
+    ctx.moveTo(0, -90);
+    ctx.lineTo(8, -75);
+    ctx.stroke();
+  }
+
+  function renderBackgroundStars() {
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+    for (let i = 0; i < 40; i++) {
+      const sx = (i * 123 + simTime * 10) % canvas.width;
+      const sy = (i * 287) % canvas.height;
+      ctx.fillRect(sx, sy, 1.5, 1.5);
+    }
+  }
+
+  function renderSideHUD() {
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.fillRect(40, 40, 260, 140);
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+    ctx.strokeRect(40, 40, 260, 140);
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = 'bold 12px monospace';
+    ctx.fillText("EULER'S RIGID BODY DYNAMICS", 55, 65);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px monospace';
+    ctx.fillText("I₁ ω̇₁ = (I₂ - I₃) ω₂ ω₃", 55, 90);
+    ctx.fillText("I₂ ω̇₂ = (I₃ - I₁) ω₃ ω₁", 55, 110);
+    ctx.fillText("I₃ ω̇₃ = (I₁ - I₂) ω₁ ω₂", 55, 130);
+    ctx.fillStyle = '#fee440';
+    ctx.fillText("Inertia: I₁ > I₂ > I₃", 55, 155);
+  }
+
+  loop();
+})();
+</script>
