@@ -186,6 +186,17 @@
   video_url: "https://www.youtube.com/watch?v=4f2a1NrDba8"
   article_url: "/experiments/navier-stokes-turbulence.html"
 
+- title: "The Topology of Reality: Poincaré Conjecture & Perelman's Ricci Flow"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:00"
+  description: "Henri Poincaré's 1904 question on the 3-sphere, simple connectivity, Richard Hamilton's Ricci flow metric diffusion, and Grigori Perelman's singularity surgeries."
+  tags: ["Topology", "Poincare Conjecture", "Ricci Flow", "Perelman", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=S4ZbFUKeQgo"
+  article_url: "/experiments/poincare-conjecture-ricci.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"
