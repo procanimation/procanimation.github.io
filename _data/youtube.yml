@@ -153,6 +153,17 @@
   video_url: "https://www.youtube.com/watch?v=p1bOnMH6yfg"
   article_url: "/experiments/wormholes-exotic-matter.html"
 
+- title: "Self-Organized Criticality: The Sandpile Model & The 1/f Cosmic Pulse"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "03:45"
+  description: "Per Bak's 1987 Abelian Sandpile model, scale-invariant power laws, 1/f pink noise cosmic acoustics, earthquakes, financial crashes, and the critical brain hypothesis."
+  tags: ["Self-Organized Criticality", "Sandpile Model", "Pink Noise", "Power Laws", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+  video_url: "https://www.youtube.com/watch?v=tNblesFu3J0"
+  article_url: "/experiments/self-organized-criticality.html"
+
 - title: "The Spiral That Broke Randomness: The Ulam Spiral"
   series: "Number Theory & Prime Density"
   format: "Shorts (9:16 Vertical)"
