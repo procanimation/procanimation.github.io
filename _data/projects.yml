@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "Hamiltonian Mechanics & Phase Space"
+  slug: "hamiltonian-phase-space"
+  category: "math"
+  tag: "Classical Mechanics • Symplectic Geometry"
+  tech: "p5.js / Dual-Panel Symplectic Integrator"
+  description: "William Rowan Hamilton's 1833 formulation, canonical equations, Liouville's incompressible phase fluid, the separatrix, and the KAM theorem transition to chaos."
+  article_url: "/experiments/hamiltonian-phase-space.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/hamiltonian_phase_space"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
+
 - name: "The Dzhanibekov Effect & Rigid Bodies"
   slug: "dzhanibekov-tennis-racket"
   category: "math"

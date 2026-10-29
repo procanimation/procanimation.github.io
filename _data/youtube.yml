@@ -1,4 +1,15 @@
 # YouTube Video Series & Educational Tracks
+- title: "Hamiltonian Mechanics & The Geometry of Phase Space: Liouville's Law & Chaos"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "05:34"
+  description: "William Rowan Hamilton's 1833 formulation, canonical equations, Liouville's incompressible phase fluid, the separatrix, and the KAM theorem transition to chaos."
+  tags: ["Hamiltonian Mechanics", "Phase Space", "Classical Mechanics", "Liouville Theorem", "Symplectic Geometry", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
+  video_url: "https://www.youtube.com/watch?v=ZwvFWbBMvoQ"
+  article_url: "/experiments/hamiltonian-phase-space.html"
+
 - title: "The Architecture of Chaos: When Simple Rules Build the Universe"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"

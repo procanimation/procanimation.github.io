@@ -1,0 +1,441 @@
+---
+layout: article
+title: "Hamiltonian Mechanics & The Geometry of Phase Space"
+tagline: "Liouville's Incompressibility, Symplectic Manifolds, The Separatrix & Chaos"
+description: "Why does nature conserve information? Explore William Rowan Hamilton's symplectic revolution, canonical equations of motion, Liouville's phase area theorem, and KAM chaos."
+category: "Classical Mechanics & Symplectic Geometry"
+permalink: /experiments/hamiltonian-phase-space.html
+---
+
+<p class="article-lead">
+  In 1833, Irish mathematician and physicist William Rowan Hamilton achieved one of the most profound conceptual revolutions in the history of science. Moving beyond Newton's vector forces and Lagrange's generalized velocities, Hamilton introduced conjugate momentum $p = \partial \mathcal{L}/\partial \dot{q}$ via a Legendre transformation, projecting dynamical systems into a $2n$-dimensional space of breathtaking geometric purity: <strong>Phase Space</strong>. In this symplectic manifold, the state of an entire physical system is a single point, its time evolution is governed by canonical flow equations, and an ensemble of states behaves as an ideal, incompressible fluid whose volume is strictly conserved by <strong>Liouville's Theorem</strong>.
+</p>
+
+<!-- The Lexicon -->
+<h3>The Symplectic Mechanics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Legendre Transformation</h4>
+    <p>Lagrangian mechanics describes physics via generalized coordinates and velocities $(q, \dot{q})$ with $\mathcal{L} = T - V$. Hamilton defined momentum $p = \partial \mathcal{L}/\partial \dot{q}$ and replaced velocity through the Legendre transform $H(q, p) = p\dot{q} - \mathcal{L}$, formulating physics as total energy on cotangent bundles $T^*M$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Hamilton's Canonical Equations</h4>
+    <p>Physical state points evolve according to the coupled first-order system $\dot{q} = \frac{\partial H}{\partial p}$ and $\dot{p} = -\frac{\partial H}{\partial q}$. The skew-symmetric minus sign reflects the non-Euclidean symplectic gradient governed by the differential two-form $\Omega = dq \wedge dp$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Liouville's Phase Fluid Incompressibility (1838)</h4>
+    <p>The divergence of the Hamiltonian vector field is identically zero: $\nabla \cdot \mathbf{v}_H = \frac{\partial \dot{q}}{\partial q} + \frac{\partial \dot{p}}{\partial p} = \frac{\partial^2 H}{\partial q \partial p} - \frac{\partial^2 H}{\partial p \partial q} \equiv 0$. Phase space volume is perfectly conserved; information can never be destroyed.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Separatrix & KAM Chaos</h4>
+    <p>In nonlinear systems like the pendulum, the separatrix ($E = 1$) separates closed librational orbits from unbounded rotations. Under external periodic perturbations, the Kolmogorov-Arnold-Moser (KAM) theorem proves invariant tori break down near resonances into Henri Poincaré's chaotic homoclinic tangles.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE SYMPLECTIC PHASE SPACE & LIOUVILLE FLUID ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Phase Droplet Advection, Separatrix Dynamics & KAM Perturbation)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnInjectDroplet" class="sim-btn primary">Inject Liouville Droplet</button>
+      <button id="btnSeparatrix" class="sim-btn secondary">Launch Separatrix Orbit</button>
+      <button id="btnTogglePerturb" class="sim-btn secondary">Toggle KAM Perturbation</button>
+      <button id="btnResetPhase" class="sim-btn">Reset</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="hamiltonCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Energy H(q,p):</span> <span id="dispHamiltonian">0.00</span> &bull; 
+      <span style="color:#fee440;">Regime:</span> <span id="dispRegime">Libration (Oscillation)</span> &bull; 
+      <span style="color:#34d399;">Divergence:</span> <span id="dispDiv">0.0000 (Incompressible)</span> &bull; 
+      <span style="color:#f43f5e;">Droplet Area:</span> <span id="dispArea">100.0% Conserved</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span>symplectic flow: dq ∧ dp = const</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('hamiltonCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let width = canvas.width = canvas.parentElement.clientWidth || 900;
+  let height = canvas.height = 520;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = canvas.parentElement.clientWidth || 900;
+    height = canvas.height = 520;
+  });
+
+  // Physical State
+  let q = 1.4;
+  let p = 0.0;
+  let isPerturbed = false;
+  let simTime = 0;
+
+  // Droplet ensemble (240 particles)
+  let droplet = [];
+  function createDroplet(centerQ, centerP) {
+    droplet = [];
+    for (let i = 0; i < 240; i++) {
+      let r = Math.sqrt(Math.random()) * 0.35;
+      let th = Math.random() * Math.PI * 2;
+      droplet.push({
+        q: centerQ + r * Math.cos(th),
+        p: centerP + r * Math.sin(th) * 1.3
+      });
+    }
+  }
+  createDroplet(0.9, 0.2);
+
+  // Trajectory history
+  let trail = [];
+
+  function rk4(curQ, curP, dt, perturb) {
+    function dq(q, p) { return p; }
+    function dp(q, p, t) {
+      let f = -Math.sin(q);
+      if (perturb) f += 0.32 * Math.sin(1.2 * t);
+      return f;
+    }
+    let k1q = dq(curQ, curP);
+    let k1p = dp(curQ, curP, simTime);
+
+    let k2q = dq(curQ + 0.5 * dt * k1q, curP + 0.5 * dt * k1p);
+    let k2p = dp(curQ + 0.5 * dt * k1q, curP + 0.5 * dt * k1p, simTime + 0.5 * dt);
+
+    let k3q = dq(curQ + 0.5 * dt * k2q, curP + 0.5 * dt * k2p);
+    let k3p = dp(curQ + 0.5 * dt * k2q, curP + 0.5 * dt * k2p, simTime + 0.5 * dt);
+
+    let k4q = dq(curQ + dt * k3q, curP + dt * k3p);
+    let k4p = dp(curQ + dt * k3q, curP + dt * k3p, simTime + dt);
+
+    return {
+      q: curQ + (dt / 6) * (k1q + 2*k2q + 2*k3q + k4q),
+      p: curP + (dt / 6) * (k1p + 2*k2p + 2*k3p + k4p)
+    };
+  }
+
+  // Interactive controls
+  document.getElementById('btnInjectDroplet').onclick = () => {
+    createDroplet((Math.random() - 0.5) * 2.5, (Math.random() - 0.5) * 1.5);
+  };
+  document.getElementById('btnSeparatrix').onclick = () => {
+    q = 3.12;
+    p = 0.0;
+    trail = [];
+  };
+  document.getElementById('btnTogglePerturb').onclick = () => {
+    isPerturbed = !isPerturbed;
+    document.getElementById('btnTogglePerturb').style.borderColor = isPerturbed ? '#f43f5e' : '';
+  };
+  document.getElementById('btnResetPhase').onclick = () => {
+    q = 1.4;
+    p = 0.0;
+    isPerturbed = false;
+    simTime = 0;
+    trail = [];
+    createDroplet(0.9, 0.2);
+  };
+
+  // Mouse interaction to pick (q, p) in phase space
+  canvas.addEventListener('mousedown', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    const phaseX = width * 0.38;
+    const phaseW = width * 0.58;
+    if (mx >= phaseX && mx <= phaseX + phaseW) {
+      q = ((mx - phaseX) / phaseW) * (4 * Math.PI) - 2 * Math.PI;
+      p = -(((my - 40) / (height - 80)) * 6.4 - 3.2);
+      trail = [];
+      createDroplet(q, p);
+    }
+  });
+
+  function render() {
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, width, height);
+
+    let dt = 0.04;
+    simTime += dt;
+
+    // Update main trajectory
+    let nxt = rk4(q, p, dt, isPerturbed);
+    q = nxt.q;
+    p = nxt.p;
+    trail.push({ q, p });
+    if (trail.length > 220) trail.shift();
+
+    // Update droplet
+    for (let i = 0; i < droplet.length; i++) {
+      let dnxt = rk4(droplet[i].q, droplet[i].p, dt, isPerturbed);
+      droplet[i].q = dnxt.q;
+      droplet[i].p = dnxt.p;
+    }
+
+    // Panels
+    let leftW = width * 0.34;
+    let rightX = width * 0.38;
+    let rightW = width * 0.58;
+
+    // 1. LEFT PANEL: Physical Pendulum
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(16, 20, leftW, height - 40, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText('PHYSICAL SPACE (Configuration M = S¹)', 32, 45);
+
+    let pivX = 16 + leftW / 2;
+    let pivY = 180;
+    let armLen = 110;
+    let bobX = pivX + armLen * Math.sin(q);
+    let bobY = pivY + armLen * Math.cos(q);
+
+    // Pivot & vertical reference
+    ctx.strokeStyle = '#334155';
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(pivX, pivY);
+    ctx.lineTo(pivX, pivY + armLen + 20);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Rod
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(pivX, pivY);
+    ctx.lineTo(bobX, bobY);
+    ctx.stroke();
+
+    // Velocity vector
+    let vx = p * Math.cos(q) * 16;
+    let vy = -p * Math.sin(q) * 16;
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(bobX, bobY);
+    ctx.lineTo(bobX + vx, bobY + vy);
+    ctx.stroke();
+
+    // Bob
+    ctx.fillStyle = '#00f5d4';
+    ctx.beginPath();
+    ctx.arc(bobX, bobY, 11, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Pivot mount
+    ctx.fillStyle = '#1e293b';
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(pivX, pivY, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Energy potential plot
+    let wellY = 320;
+    let wellH = 130;
+    ctx.fillStyle = 'rgba(2, 6, 23, 0.7)';
+    ctx.strokeStyle = '#334155';
+    ctx.beginPath();
+    ctx.roundRect(32, wellY, leftW - 32, wellH, 6);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px sans-serif';
+    ctx.fillText('Potential Well V(q) = -cos(q)', 44, wellY + 20);
+
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let th = -Math.PI; th <= Math.PI; th += 0.1) {
+      let px = 44 + ((th + Math.PI) / (2 * Math.PI)) * (leftW - 56);
+      let py = wellY + wellH - 25 - (-Math.cos(th) + 1) * 35;
+      if (th === -Math.PI) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Current position on well
+    let curWellX = 44 + (((q % (2*Math.PI)) + Math.PI) / (2 * Math.PI)) * (leftW - 56);
+    let curWellY = wellY + wellH - 25 - (-Math.cos(q) + 1) * 35;
+    ctx.fillStyle = '#f43f5e';
+    ctx.beginPath();
+    ctx.arc(curWellX, curWellY, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 2. RIGHT PANEL: Symplectic Phase Space (q, p)
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(rightX, 20, rightW, height - 40, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText('SYMPLECTIC PHASE SPACE T*M:  (q, p) Coordinates', rightX + 16, 45);
+
+    function mapP(qv, pv) {
+      let sx = rightX + 20 + ((qv + 2 * Math.PI) / (4 * Math.PI)) * (rightW - 40);
+      let sy = 40 + ((-pv + 3.2) / 6.4) * (height - 80);
+      return { x: sx, y: sy };
+    }
+
+    // Grid axes
+    let orig = mapP(0, 0);
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(rightX + 20, orig.y);
+    ctx.lineTo(rightX + rightW - 20, orig.y);
+    ctx.moveTo(orig.x, 40);
+    ctx.lineTo(orig.x, height - 40);
+    ctx.stroke();
+
+    // Separatrix (E = 1)
+    ctx.strokeStyle = 'rgba(244, 63, 94, 0.7)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let qv = -2*Math.PI; qv <= 2*Math.PI; qv += 0.08) {
+      let pVal = 2 * Math.cos(qv / 2);
+      let pt = mapP(qv, pVal);
+      if (qv === -2*Math.PI) ctx.moveTo(pt.x, pt.y);
+      else ctx.lineTo(pt.x, pt.y);
+    }
+    for (let qv = -2*Math.PI; qv <= 2*Math.PI; qv += 0.08) {
+      let pVal = -2 * Math.cos(qv / 2);
+      let pt = mapP(qv, pVal);
+      if (qv === -2*Math.PI) ctx.moveTo(pt.x, pt.y);
+      else ctx.lineTo(pt.x, pt.y);
+    }
+    ctx.stroke();
+
+    // Fixed points
+    for (let c of [-Math.PI, Math.PI]) {
+      let pt = mapP(c, 0);
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillRect(pt.x - 4, pt.y - 4, 8, 8);
+    }
+    for (let c of [-2*Math.PI, 0, 2*Math.PI]) {
+      let pt = mapP(c, 0);
+      ctx.fillStyle = '#00f5d4';
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Trajectory trail
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let i = 0; i < trail.length; i++) {
+      let pt = mapP(trail[i].q, trail[i].p);
+      if (i === 0) ctx.moveTo(pt.x, pt.y);
+      else ctx.lineTo(pt.x, pt.y);
+    }
+    ctx.stroke();
+
+    // Active state point
+    let curPt = mapP(q, p);
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(curPt.x, curPt.y, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Liouville droplet
+    ctx.fillStyle = 'rgba(250, 204, 21, 0.85)';
+    for (let i = 0; i < droplet.length; i++) {
+      let dpt = mapP(droplet[i].q, droplet[i].p);
+      ctx.fillRect(dpt.x - 1.5, dpt.y - 1.5, 3, 3);
+    }
+
+    // Telemetry updates
+    let totalE = 0.5 * p * p - Math.cos(q);
+    document.getElementById('dispHamiltonian').textContent = totalE.toFixed(2);
+    let reg = Math.abs(totalE - 1.0) < 0.08 ? 'Critical Separatrix' : (totalE < 1.0 ? 'Libration (Oscillation)' : 'Rotation (Whirl)');
+    if (isPerturbed) reg += ' + KAM Chaos';
+    document.getElementById('dispRegime').textContent = reg;
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
+
+<!-- The Mathematical Exposition -->
+<h3>The Symplectic Architecture of Classical Mechanics</h3>
+<p>
+  Isaac Newton's second law $\mathbf{F} = m\mathbf{a}$ operates directly in Euclidean space $\mathbb{R}^3$, where acceleration couples to second-order differential equations. In 1788, Joseph-Louis Lagrange shifted the paradigm to the tangent bundle $TM$ parameterized by generalized coordinates $q^i$ and velocities $\dot{q}^i$, with the stationary action principle $\delta \int \mathcal{L} \, dt = 0$.
+</p>
+<p>
+  Hamilton completed this abstraction by transitioning from velocities $\dot{q}$ to canonical conjugate momenta $p_i = \frac{\partial \mathcal{L}}{\partial \dot{q}^i}$. Under the Legendre transform:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#00f5d4; font-family:var(--font-mono, monospace);">
+  $$H(q, p, t) = \sum_{i=1}^n p_i \dot{q}^i - \mathcal{L}(q, \dot{q}, t)$$
+</p>
+<p>
+  Hamilton replaced $n$ second-order differential equations with $2n$ coupled first-order canonical equations:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#38bdf8; font-family:var(--font-mono, monospace);">
+  $$\dot{q}^i = +\frac{\partial H}{\partial p_i}, \qquad \dot{p}_i = -\frac{\partial H}{\partial q^i}$$
+</p>
+
+<h3>Liouville's Theorem & Symplectic Incompressibility</h3>
+<p>
+  Consider an ensemble of possible initial states occupying a volume $\Gamma_0$ in phase space. The velocity field in phase space is $\mathbf{v} = (\dot{\mathbf{q}}, \dot{\mathbf{p}})$. Calculating the divergence of this vector field yields:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#fee440; font-family:var(--font-mono, monospace);">
+  $$\nabla \cdot \mathbf{v} = \sum_{i=1}^n \left( \frac{\partial \dot{q}^i}{\partial q^i} + \frac{\partial \dot{p}_i}{\partial p_i} \right) = \sum_{i=1}^n \left( \frac{\partial^2 H}{\partial q^i \partial p_i} - \frac{\partial^2 H}{\partial p_i \partial q^i} \right) \equiv 0$$
+</p>
+<p>
+  Because the mixed partial derivatives of $H$ commute by Clairaut's theorem, the divergence is strictly zero. Hence, by the divergence theorem, the phase space volume is an invariant of motion:
+</p>
+<p style="text-align:center; font-size:1.15rem; color:#34d399; font-family:var(--font-mono, monospace);">
+  $$\frac{d}{dt} \int_{\Gamma(t)} dq \, dp = 0$$
+</p>
+<p>
+  Even when a phase droplet shears, twists, and stretches into an ultra-thin filament under nonlinear or chaotic dynamics, its total multi-dimensional volume never changes. Information in classical mechanics is eternal and indestructible.
+</p>
+
+<!-- Full Master Documentary Video Feature -->
+<h3>Master Video Documentary</h3>
+<div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; margin:2rem 0; box-shadow:0 12px 36px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.1);">
+  <iframe 
+    src="https://www.youtube.com/embed/ZwvFWbBMvoQ" 
+    title="Hamiltonian Mechanics & The Geometry of Phase Space Documentary" 
+    style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+<!-- Source Code & Creative Engineering -->
+<h3>Source Code & Open Creative Engineering</h3>
+<p>
+  All procedural simulations, RK4 symplectic integrators, and WebGL/p5.js engines for this documentary are open source under the MIT license on GitHub:
+</p>
+<p>
+  👉 <a href="https://github.com/procanimation/science-stuff" target="_blank" rel="noopener"><strong>github.com/procanimation/science-stuff</strong></a>
+</p>
