@@ -180,6 +180,22 @@
           box-shadow: 0 0 8px $accent-pink;
         }
       }
+
+      .legend-c {
+        color: $accent-yellow;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #fee440;
+          box-shadow: 0 0 8px #fee440;
+        }
+      }
     }
   }
 
