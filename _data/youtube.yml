@@ -1,4 +1,48 @@
 # YouTube Video Series & Educational Tracks
+- title: "The Ising Model & Phase Transitions: Spontaneous Magnetism & Criticality"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "05:15"
+  description: "Pierre Curie's discovery, the microscopic spin lattice Hamiltonian, the Metropolis-Hastings Monte Carlo algorithm, Lars Onsager's 1944 exact analytical solution, fractal cluster scale invariance, and Hopfield neural networks."
+  tags: ["Ising Model", "Phase Transitions", "Statistical Mechanics", "Monte Carlo", "Metropolis Algorithm", "Spontaneous Magnetism", "Lars Onsager", "Critical Phenomena", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=3_lUs6Mzut8"
+  article_url: "/experiments/ising-model-magnetism.html"
+
+- title: "The Hopf Fibration: Visualizing 4D Space & The Quantum Spin Sphere"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "05:04"
+  description: "Heinz Hopf's 1931 topological breakthrough, stereographic projection of interlocking Villarceau circles, nested coaxial tori, the Bloch sphere of qubits, and Dirac magnetic monopoles."
+  tags: ["Hopf Fibration", "4D Visualization", "Topology", "Differential Geometry", "Quantum Computing", "Bloch Sphere", "Qubit", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)"
+  video_url: "https://www.youtube.com/watch?v=ZUJKVoE-kaU"
+  article_url: "/experiments/hopf-fibration-4d.html"
+
+- title: "The Dirac Equation: Antimatter, Spin & Relativistic Quantum Mechanics"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:57"
+  description: "Paul Dirac's 1928 breakthrough, 4x4 gamma matrices, the relativistic origin of electron spin, the Dirac Sea, Carl Anderson's 1932 cloud chamber positron discovery, and matter-antimatter annihilation in QED."
+  tags: ["Dirac Equation", "Antimatter", "Positron", "Paul Dirac", "Quantum Mechanics", "Special Relativity", "Spinors", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=X-41tOHU91s"
+  article_url: "/experiments/dirac-equation-antimatter.html"
+
+- title: "Noether's Theorem: The Hidden Symmetries That Rule the Universe"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:48"
+  description: "The 1915 crisis in General Relativity, David Hilbert's challenge, the Principle of Stationary Action, Emmy Noether's First Theorem, continuous Lie symmetry groups, the Trinity of spacetime conservations, and gauge theory in the Standard Model."
+  tags: ["Noethers Theorem", "Emmy Noether", "Symmetry", "Conservation Laws", "Theoretical Physics", "Lagrangian Mechanics", "General Relativity", "Standard Model", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #fee440 100%)"
+  video_url: "https://www.youtube.com/watch?v=aRzTXuSnWz4"
+  article_url: "/experiments/noethers-theorem.html"
+
 - title: "The Quantum Harmonic Oscillator & Zero-Point Energy: Coherent States & Quantum Vacuum Fluctuations"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"

@@ -1,0 +1,360 @@
+---
+layout: article
+title: "The Hopf Fibration: Visualizing 4D Space & The Quantum Spin Sphere"
+tagline: "Topological Great Circles, Villarceau Toroidal Foliations & The Geometry of Qubits"
+description: "How Heinz Hopf decomposed the 4D hypersphere S³ into an infinite family of interlocking circles mapped onto the ordinary 2-sphere S²."
+category: "Topology & Quantum Information"
+permalink: /experiments/hopf-fibration-4d.html
+---
+
+<p class="article-lead">
+  How can the human mind visualize a four-dimensional sphere? In 1931, German mathematician <strong>Heinz Hopf</strong> discovered an extraordinary topological phenomenon: the three-dimensional hypersphere $S^3 \subset \mathbb{R}^4$ can be seamlessly foliated by an infinite, continuous family of interlocking, non-intersecting great circles ($S^1$). Mapped smoothly onto the ordinary two-sphere ($S^2$), the <strong>Hopf Fibration</strong> forms the foundational geometry of quantum spin states (the Bloch sphere of qubits), Dirac magnetic monopoles, and gauge theory fiber bundles.
+</p>
+
+<!-- The Hopf Lexicon Grid -->
+<h3>The Topological Architecture of the Hopf Fibration</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Hopf Map ($h: S^3 \to S^2$)</h4>
+    <p>Using complex coordinates $(\xi_1, \xi_2) \in \mathbb{C}^2$ on $S^3$, the map takes the complex ratio $z = \xi_1 / \xi_2$ and projects it onto the Riemann sphere. Every single point on $S^2$ corresponds to an unbroken circular fiber $S^1$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Topological Linking Number ($\text{Lk} = 1$)</h4>
+    <p>When stereographically projected into three-dimensional space $\mathbb{R}^3$, every pair of circular fibers is topologically linked: they pass directly through each other's centers with linking number exactly 1.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Nested Coaxial Tori & Villarceau Circles</h4>
+    <p>Fibers corresponding to circles of constant latitude on the base sphere sweep out nested, concentric two-dimensional tori. On each torus, the fibers form beautiful diagonal Villarceau circles winding in both directions.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Quantum Qubits & The Bloch Sphere</h4>
+    <p>A normalized two-level quantum state $|\psi\rangle = \alpha |0\rangle + \beta |1\rangle$ lives in $S^3$. Modding out the unobservable global phase $e^{i\gamma}$ collapses the circular fiber, yielding the physical Bloch 2-sphere.</p>
+  </div>
+</div>
+
+<!-- Interactive Hopf Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE 4D HOPF FIBRATION & QUANTUM SPIN ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Villarceau Circles, Coaxial Tori Foliation & Bloch Qubit States)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnModeTori" class="sim-btn primary">Nested Coaxial Tori</button>
+      <button id="btnModeFibers" class="sim-btn secondary">Interlocking Fiber Circles</button>
+      <button id="btnModeBloch" class="sim-btn secondary">Bloch Qubit Sphere</button>
+      <button id="btnModeMap" class="sim-btn secondary">Hopf Projection h: S³⟶S²</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="hopfCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Fibration:</span> <span id="dispHopf">S¹ ⟶ S³ ⟶ S²</span> &bull; 
+      <span style="color:#fee440;">Linking Number:</span> <span>Lk = 1</span> &bull; 
+      <span style="color:#f72585;">Fiber:</span> <span>Villarceau Circle</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="hopfBadge">Heinz Hopf (1931)  |  S³ / U(1) ≅ S²</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('hopfCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let mode = 'tori'; // 'tori', 'fibers', 'bloch', 'map'
+  let time = 0;
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function project3D(x, y, z, rotY, rotX, scale, cx, cy) {
+    let x1 = x * Math.cos(rotY) + z * Math.sin(rotY);
+    let y1 = y;
+    let z1 = -x * Math.sin(rotY) + z * Math.cos(rotY);
+
+    let x2 = x1;
+    let y2 = y1 * Math.cos(rotX) - z1 * Math.sin(rotX);
+    let z2 = y1 * Math.sin(rotX) + z1 * Math.cos(rotX);
+
+    let fov = 700;
+    let dist = fov / (fov + z2);
+    return {
+      px: cx + x2 * dist * scale,
+      py: cy + y2 * dist * scale
+    };
+  }
+
+  function draw() {
+    requestAnimationFrame(draw);
+    time += 0.035;
+
+    const rect = canvas.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    const cx = w / 2;
+    const cy = h / 2 + 10;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, w, h);
+
+    const rotY = time * 0.45;
+    const rotX = 0.4;
+
+    if (mode === 'tori') {
+      // Coaxial Nested Tori with Villarceau Circles
+      const tori = [
+        { R: 110, r: 40, num: 10, col: '#00f5d4' },
+        { R: 180, r: 70, num: 14, col: '#38bdf8' },
+        { R: 250, r: 100, num: 18, col: '#a855f7' }
+      ];
+
+      for (let t of tori) {
+        ctx.strokeStyle = t.col;
+        ctx.lineWidth = 1.3;
+        for (let i = 0; i < t.num; i++) {
+          let phi0 = (i / t.num) * Math.PI * 2;
+          ctx.beginPath();
+          for (let step = 0; step <= 48; step++) {
+            let u = (step / 48) * Math.PI * 2;
+            let v = u + phi0 + time * 0.3;
+            let x = (t.R + t.r * Math.cos(v)) * Math.cos(u);
+            let y = t.r * Math.sin(v);
+            let z = (t.R + t.r * Math.cos(v)) * Math.sin(u);
+
+            let pt = project3D(x, y, z, rotY, rotX, 1.0, cx, cy);
+            if (step === 0) ctx.moveTo(pt.px, pt.py);
+            else ctx.lineTo(pt.px, pt.py);
+          }
+          ctx.stroke();
+        }
+      }
+
+      // Core degenerate ring
+      ctx.strokeStyle = '#fee440';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let a = 0; a <= Math.PI * 2 + 0.1; a += Math.PI / 16) {
+        let x = 110 * Math.cos(a);
+        let z = 110 * Math.sin(a);
+        let pt = project3D(x, 0, z, rotY, rotX, 1.0, cx, cy);
+        if (a === 0) ctx.moveTo(pt.px, pt.py);
+        else ctx.lineTo(pt.px, pt.py);
+      }
+      ctx.stroke();
+
+    } else if (mode === 'fibers') {
+      // Direct Interlocking Villarceau Great Circles (Highlighting Lk = 1)
+      const numFibers = 16;
+      const R = 150;
+      const r = 60;
+
+      for (let i = 0; i < numFibers; i++) {
+        let phi0 = (i / numFibers) * Math.PI * 2;
+        ctx.strokeStyle = i % 2 === 0 ? '#00f5d4' : '#f72585';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let step = 0; step <= 64; step++) {
+          let u = (step / 64) * Math.PI * 2;
+          let v = u + phi0;
+          let x = (R + r * Math.cos(v)) * Math.cos(u);
+          let y = r * Math.sin(v);
+          let z = (R + r * Math.cos(v)) * Math.sin(u);
+
+          let pt = project3D(x, y, z, rotY, rotX, 1.2, cx, cy);
+          if (step === 0) ctx.moveTo(pt.px, pt.py);
+          else ctx.lineTo(pt.px, pt.py);
+        }
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = '#fee440';
+      ctx.font = '13px monospace';
+      ctx.fillText('All Fiber Pairs are Interlocked: Linking Number = 1', cx - 180, cy + 180);
+
+    } else if (mode === 'bloch') {
+      // Bloch Sphere of Quantum Qubits
+      const bRad = 130;
+      ctx.strokeStyle = 'rgba(0, 245, 212, 0.4)';
+      ctx.lineWidth = 1.2;
+
+      for (let lat = -Math.PI/2 + 0.3; lat <= Math.PI/2 - 0.3; lat += Math.PI / 5) {
+        let latY = -bRad * Math.sin(lat);
+        let rR = bRad * Math.cos(lat);
+        ctx.beginPath();
+        for (let lon = 0; lon <= Math.PI * 2 + 0.1; lon += Math.PI / 16) {
+          let x = rR * Math.cos(lon);
+          let z = rR * Math.sin(lon);
+          let pt = project3D(x, latY, z, rotY, rotX, 1.0, cx, cy);
+          if (lon === 0) ctx.moveTo(pt.px, pt.py);
+          else ctx.lineTo(pt.px, pt.py);
+        }
+        ctx.stroke();
+      }
+
+      // State vector |ψ⟩
+      let thetaQ = Math.PI / 3 + Math.sin(time * 1.5) * 0.3;
+      let phiQ = time * 1.8;
+      let qx = bRad * Math.sin(thetaQ) * Math.cos(phiQ);
+      let qy = -bRad * Math.cos(thetaQ);
+      let qz = bRad * Math.sin(thetaQ) * Math.sin(phiQ);
+
+      let orgP = project3D(0, 0, 0, rotY, rotX, 1.0, cx, cy);
+      let qP = project3D(qx, qy, qz, rotY, rotX, 1.0, cx, cy);
+
+      ctx.strokeStyle = '#fee440';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(orgP.px, orgP.py);
+      ctx.lineTo(qP.px, qP.py);
+      ctx.stroke();
+
+      ctx.fillStyle = '#fee440';
+      ctx.beginPath();
+      ctx.arc(qP.px, qP.py, 7, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '13px monospace';
+      ctx.fillText('|ψ⟩ = cos(θ/2)|0⟩ + e^{iϕ}sin(θ/2)|1⟩', cx - 140, cy + 180);
+
+    } else if (mode === 'map') {
+      // Hopf Projection Diagram
+      ctx.fillStyle = '#00f5d4';
+      ctx.font = '14px monospace';
+      ctx.fillText('Hypersphere S³ ⊂ ℂ²', cx - 260, cy - 80);
+      ctx.fillText('Base Sphere S² (Riemann)', cx + 100, cy - 80);
+
+      // S3 circle
+      ctx.strokeStyle = '#00f5d4';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx - 180, cy + 20, 70, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // S2 circle
+      ctx.strokeStyle = '#f72585';
+      ctx.beginPath();
+      ctx.arc(cx + 180, cy + 20, 70, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Arrow
+      ctx.strokeStyle = '#fee440';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(cx - 80, cy + 20);
+      ctx.lineTo(cx + 80, cy + 20);
+      ctx.stroke();
+
+      ctx.fillStyle = '#fee440';
+      ctx.beginPath();
+      ctx.moveTo(cx + 80, cy + 20);
+      ctx.lineTo(cx + 68, cy + 14);
+      ctx.lineTo(cx + 68, cy + 26);
+      ctx.fill();
+
+      ctx.font = '13px monospace';
+      ctx.fillText('h(ξ₁, ξ₂) = ξ₁ / ξ₂', cx - 65, cy - 5);
+      ctx.fillText('Fiber = S¹ (U(1) Phase)', cx - 80, cy + 50);
+    }
+  }
+
+  const setBtn = (btnId, mName, badgeText) => {
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      btn.addEventListener('click', () => {
+        mode = mName;
+        document.querySelectorAll('.sim-controls .sim-btn').forEach(b => {
+          b.classList.remove('primary');
+          b.classList.add('secondary');
+        });
+        btn.classList.remove('secondary');
+        btn.classList.add('primary');
+        const b = document.getElementById('hopfBadge');
+        if (b) b.textContent = badgeText;
+      });
+    }
+  };
+
+  setBtn('btnModeTori', 'tori', 'Heinz Hopf (1931)  |  Nested Coaxial Tori');
+  setBtn('btnModeFibers', 'fibers', 'Topological Linking Number Lk = 1');
+  setBtn('btnModeBloch', 'bloch', 'Qubit Quantum State Space S³ / U(1) ≅ S²');
+  setBtn('btnModeMap', 'map', 'The Hopf Map  |  z = ξ₁ / ξ₂ ∈ ℂ̂');
+
+  draw();
+})();
+</script>
+
+<h2>1. The Geometry of the 3-Sphere Hypersphere</h2>
+<p>
+  In four-dimensional Euclidean space $\mathbb{R}^4$, the unit hypersphere $S^3$ is defined as the locus of points satisfying:
+</p>
+
+<div class="math-derivation-box">
+  <div class="math-title">The 3-Sphere Equation</div>
+  $$x^2 + y^2 + z^2 + w^2 = 1$$
+</div>
+
+<p>
+  Pairing coordinates into two complex numbers $\xi_1 = x + iy$ and $\xi_2 = z + iw$, the hypersphere condition simplifies to $|\xi_1|^2 + |\xi_2|^2 = 1$. The <strong>Hopf Map</strong> $h: S^3 \to S^2$ projects any point on $S^3$ onto the extended complex plane $\hat{\mathbb{C}} \cong S^2$ via the ratio:
+</p>
+
+$$z = h(\xi_1, \xi_2) = \frac{\xi_1}{\xi_2}$$
+
+<p>
+  Under this projection, every single point $z$ on the Riemann sphere corresponds to an entire circle fiber $S^1$ parameterized by an overall phase $e^{i\psi}$.
+</p>
+
+<h2>2. Villarceau Circles and Quantum Information</h2>
+<p>
+  When stereographically projected into three-dimensional space $\mathbb{R}^3$, the circular fibers corresponding to circles of constant latitude sweep out nested coaxial tori. On each torus, the fibers are <strong>Villarceau circles</strong>.
+</p>
+<p>
+  In quantum computing, any pure two-level quantum state (qubit) is a normalized vector:
+</p>
+
+$$|\psi\rangle = \alpha |0\rangle + \beta |1\rangle, \quad |\alpha|^2 + |\beta|^2 = 1$$
+
+<p>
+  Because the overall quantum phase $e^{i\gamma}$ is physically unobservable, the true space of distinct physical states is the quotient $S^3 / U(1) \cong S^2$, famously known as the <strong>Bloch Sphere</strong>.
+</p>
+
+<h2>3. 4K Ultra HD Procedural Video Showcase</h2>
+<p>
+  Watch the master 1080p documentary feature produced by <strong>Procanimation World Studio</strong>:
+</p>
+
+<div class="video-showcase-card">
+  <div class="video-badge">
+    <span>▶ 1080P MASTER • FULL DOCUMENTARY FEATURE</span>
+  </div>
+  <div class="video-info">
+    <h3>The Hopf Fibration: Visualizing 4D Space & The Quantum Spin Sphere</h3>
+    <p>Heinz Hopf's 1931 topological breakthrough, stereographic projection of interlocking Villarceau circles, nested coaxial tori, the Bloch sphere of qubits, and Dirac magnetic monopoles.</p>
+    <div class="video-meta-tags">
+      <span class="meta-tag">Code: p5.js / Canvas</span>
+      <span class="meta-tag">16:9 Landscape Master</span>
+      <span class="meta-tag">Audio: 48kHz Neural Stereo</span>
+      <span class="meta-tag">Duration: 05:04</span>
+    </div>
+    <div id="videoContainer" style="margin-top:16px;">
+      <a id="ytLinkHopf" href="https://www.youtube.com/watch?v=ZUJKVoE-kaU" target="_blank" class="btn btn-youtube" style="display:inline-flex; align-items:center; gap:8px;">
+        ▶ Watch on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+

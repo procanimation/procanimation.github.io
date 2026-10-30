@@ -1,0 +1,321 @@
+---
+layout: article
+title: "The Ising Model & Phase Transitions: Spontaneous Magnetism & Criticality"
+tagline: "Metropolis Monte Carlo, Lars Onsager's 1944 Solution & Scale-Invariant Fractal Clusters"
+description: "How simple pairwise binary interactions generate spontaneous macroscopic order, phase transitions, and scale-invariant fractal universality."
+category: "Statistical Mechanics & Complex Systems"
+permalink: /experiments/ising-model-magnetism.html
+---
+
+<p class="article-lead">
+  Why does a block of ordinary iron suddenly become a permanent magnet when cooled below a precise threshold, yet completely lose all magnetic order when heated? In 1920, Wilhelm Lenz proposed that ferromagnetism could be modeled as a lattice of interacting binary spins ($s_i = \pm 1$). Solved exactly in two dimensions by <strong>Lars Onsager</strong> in 1944, the <strong>Ising Model</strong> proved from first principles that microscopic pairwise interactions can spontaneously break symmetry, giving birth to the modern theory of phase transitions, the Renormalization Group, and Hopfield neural networks.
+</p>
+
+<!-- The Ising Architecture Grid -->
+<h3>The Architecture of Phase Transitions</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Ising Hamiltonian</h4>
+    <p>$$H = -J \sum_{\langle i, j \rangle} s_i s_j - h \sum_i s_i$$. Neighboring spins lower their energy by aligning parallel ($J > 0$), while thermal fluctuations constantly inject entropic disorder.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Metropolis Monte Carlo Algorithm</h4>
+    <p>States are sampled with transition probability $P = \min(1, e^{-\Delta E / k_B T})$. Satisfying detailed balance, it enables exact computational exploration of thermodynamic equilibrium.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Lars Onsager's 1944 Miracle ($T_c \approx 2.269$)</h4>
+    <p>Onsager proved that the 2D square lattice undergoes an exact spontaneous transition at $k_B T_c / J = \frac{2}{\ln(1 + \sqrt{2})} \approx 2.269$, with spontaneous magnetization $M(T) \sim (T_c - T)^{1/8}$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Scale Invariance & Universality</h4>
+    <p>Right at $T = T_c$, the correlation length diverges to infinity ($\xi \to \infty$). Clusters of aligned spins form scale-invariant fractals spanning all length scales simultaneously.</p>
+  </div>
+</div>
+
+<!-- Interactive Ising Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE METROPOLIS MONTE CARLO ISING ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Real-Time Spin Flips, Thermalization, Domain Coalescence & Telemetry)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnLowT" class="sim-btn secondary">Low T (T = 1.0 < T_c)</button>
+      <button id="btnCritT" class="sim-btn primary">Critical Point (T = 2.27 ≈ T_c)</button>
+      <button id="btnHighT" class="sim-btn secondary">High T (T = 4.0 > T_c)</button>
+      <button id="btnResetSpins" class="sim-btn secondary">Randomize Spins</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="isingCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Temp T:</span> <span id="dispTemp">2.27 (Critical)</span> &bull; 
+      <span style="color:#fee440;">Magnetization |M|:</span> <span id="dispMag">0.42</span> &bull; 
+      <span style="color:#f72585;">Energy/Spin:</span> <span id="dispEnergy">-1.41 J</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="isingBadge">T_c = 2 / ln(1+√2) ≈ 2.269 J/k_B</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('isingCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const N = 60; // 60x60 spin lattice
+  let spins = new Int8Array(N * N);
+  let temperature = 2.27;
+
+  function initSpins() {
+    for (let i = 0; i < N * N; i++) {
+      spins[i] = Math.random() < 0.5 ? 1 : -1;
+    }
+  }
+  initSpins();
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function stepMetropolis(steps) {
+    for (let k = 0; k < steps; k++) {
+      let x = Math.floor(Math.random() * N);
+      let y = Math.floor(Math.random() * N);
+      let idx = y * N + x;
+
+      let s = spins[idx];
+      let top = spins[((y - 1 + N) % N) * N + x];
+      let bot = spins[((y + 1) % N) * N + x];
+      let left = spins[y * N + ((x - 1 + N) % N)];
+      let right = spins[y * N + ((x + 1) % N)];
+
+      let dE = 2 * s * (top + bot + left + right);
+      if (dE <= 0 || Math.random() < Math.exp(-dE / temperature)) {
+        spins[idx] = -s;
+      }
+    }
+  }
+
+  function draw() {
+    requestAnimationFrame(draw);
+    stepMetropolis(1200); // 1200 updates per frame
+
+    const rect = canvas.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    const cx = w / 2;
+    const cy = h / 2;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, w, h);
+
+    // Render Lattice
+    const cellSize = Math.min((h - 80) / N, (w * 0.5) / N);
+    const startX = cx - (N * cellSize) / 2 - 140;
+    const startY = (h - N * cellSize) / 2;
+
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        let s = spins[y * N + x];
+        ctx.fillStyle = s === 1 ? '#00f5d4' : '#0f172a';
+        ctx.fillRect(startX + x * cellSize, startY + y * cellSize, cellSize - 0.4, cellSize - 0.4);
+      }
+    }
+
+    // Border around lattice
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(startX - 2, startY - 2, N * cellSize + 4, N * cellSize + 4);
+
+    // Compute Telemetry
+    let totalSpin = 0;
+    let totalEnergy = 0;
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        let s = spins[y * N + x];
+        totalSpin += s;
+        let right = spins[y * N + ((x + 1) % N)];
+        let bot = spins[((y + 1) % N) * N + x];
+        totalEnergy -= s * (right + bot);
+      }
+    }
+    let mag = Math.abs(totalSpin) / (N * N);
+    let energyPerSpin = totalEnergy / (N * N);
+
+    const magEl = document.getElementById('dispMag');
+    if (magEl) magEl.textContent = mag.toFixed(3);
+    const enEl = document.getElementById('dispEnergy');
+    if (enEl) enEl.textContent = energyPerSpin.toFixed(2) + ' J';
+
+    // Right Side: Onsager Analytical Magnetization Curve
+    const graphX = cx + 110;
+    const graphY = cy + 120;
+    const graphW = 280;
+    const graphH = 180;
+
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(graphX, graphY);
+    ctx.lineTo(graphX + graphW, graphY);
+    ctx.moveTo(graphX, graphY);
+    ctx.lineTo(graphX, graphY - graphH);
+    ctx.stroke();
+
+    ctx.fillStyle = '#64748b';
+    ctx.font = '11px monospace';
+    ctx.fillText('Temperature T', graphX + graphW - 80, graphY + 18);
+    ctx.fillText('Order M(T)', graphX - 10, graphY - graphH - 10);
+
+    // Critical line T_c = 2.269
+    let tcx = graphX + (2.269 / 4.5) * graphW;
+    ctx.strokeStyle = 'rgba(244, 63, 94, 0.6)';
+    ctx.beginPath();
+    ctx.moveTo(tcx, graphY);
+    ctx.lineTo(tcx, graphY - graphH);
+    ctx.stroke();
+    ctx.fillStyle = '#f43f5e';
+    ctx.fillText('T_c', tcx - 8, graphY + 16);
+
+    // Plot Onsager M(T) curve
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let px = 0; px <= (2.269 / 4.5) * graphW; px += 2) {
+      let tVal = (px / graphW) * 4.5;
+      if (tVal <= 0.05) tVal = 0.05;
+      let sTerm = Math.sinh(2.0 / tVal);
+      let m = 0;
+      if (sTerm > 1.0) {
+        let inn = 1.0 - Math.pow(sTerm, -4);
+        if (inn > 0) m = Math.pow(inn, 0.125);
+      }
+      let py = graphY - m * (graphH - 20);
+      if (px === 0) ctx.moveTo(graphX + px, py);
+      else ctx.lineTo(graphX + px, py);
+    }
+    ctx.lineTo(tcx, graphY);
+    ctx.lineTo(graphX + graphW, graphY);
+    ctx.stroke();
+
+    // Current operating point on curve
+    let curPx = graphX + Math.min(graphW, (temperature / 4.5) * graphW);
+    let curPy = graphY - (temperature < 2.269 ? Math.pow(1 - Math.pow(Math.sinh(2.0 / temperature), -4), 0.125) * (graphH - 20) : 0);
+    ctx.fillStyle = '#fee440';
+    ctx.beginPath();
+    ctx.arc(curPx, curPy, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '12px monospace';
+    ctx.fillText('Current Operating Point', graphX + 20, graphY - graphH + 20);
+    ctx.fillStyle = '#fee440';
+    ctx.fillText('T = ' + temperature.toFixed(2) + '  •  M = ' + mag.toFixed(2), graphX + 20, graphY - graphH + 40);
+  }
+
+  const setBtn = (btnId, tVal, badgeText, tempLabel) => {
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      btn.addEventListener('click', () => {
+        temperature = tVal;
+        document.querySelectorAll('.sim-controls .sim-btn').forEach(b => {
+          if (b.id !== 'btnResetSpins') {
+            b.classList.remove('primary');
+            b.classList.add('secondary');
+          }
+        });
+        btn.classList.remove('secondary');
+        btn.classList.add('primary');
+        const b = document.getElementById('isingBadge');
+        if (b) b.textContent = badgeText;
+        const tDisp = document.getElementById('dispTemp');
+        if (tDisp) tDisp.textContent = tempLabel;
+      });
+    }
+  };
+
+  setBtn('btnLowT', 1.0, 'Low Temp T=1.0  |  Spontaneous Ferromagnetic Order (M ≈ 1)', '1.00 (Ordered)');
+  setBtn('btnCritT', 2.27, 'Critical Point T ≈ 2.269  |  Scale-Invariant Fractal Clusters', '2.27 (Critical)');
+  setBtn('btnHighT', 4.0, 'High Temp T=4.0  |  Thermal Chaos & Paramagnetism (M ≈ 0)', '4.00 (Disordered)');
+
+  const resetBtn = document.getElementById('btnResetSpins');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      initSpins();
+    });
+  }
+
+  draw();
+})();
+</script>
+
+<h2>1. The Microscopic Spin Lattice and Detailed Balance</h2>
+<p>
+  The two-dimensional Ising model is defined on a square lattice with periodic boundary conditions. Each site has a discrete spin $s_i \in \{-1, +1\}$. In the absence of an external magnetic field ($h = 0$), the Hamiltonian is:
+</p>
+
+<div class="math-derivation-box">
+  <div class="math-title">The 2D Ising Hamiltonian</div>
+  $$H(\mathbf{s}) = -J \sum_{\langle i, j \rangle} s_i s_j$$
+</div>
+
+<p>
+  The probability of finding the system in configuration $\mathbf{s}$ is given by the Boltzmann distribution $P(\mathbf{s}) = \frac{1}{Z} e^{-\beta H(\mathbf{s})}$, where $\beta = \frac{1}{k_B T}$ is the inverse temperature and $Z = \sum_{\mathbf{s}} e^{-\beta H(\mathbf{s})}$ is the partition function.
+</p>
+<p>
+  The Metropolis-Hastings algorithm satisfies <strong>detailed balance</strong>:
+</p>
+
+$$P(\mathbf{s}) W(\mathbf{s} \to \mathbf{s}') = P(\mathbf{s}') W(\mathbf{s}' \to \mathbf{s}) \implies \frac{W(\mathbf{s} \to \mathbf{s}')}{W(\mathbf{s}' \to \mathbf{s})} = e^{-\beta \Delta E}$$
+
+<h2>2. Lars Onsager's 1944 Analytical Solution</h2>
+<p>
+  In 1944, Lars Onsager achieved one of the greatest analytical feats in mathematical physics by solving the 2D Ising model exactly using transfer matrices and Lie algebra representations. He derived the exact critical temperature:
+</p>
+
+$$\sinh\left(\frac{2J}{k_B T_c}\right) = 1 \implies \frac{k_B T_c}{J} = \frac{2}{\ln(1 + \sqrt{2})} \approx 2.269185\dots$$
+
+<p>
+  Below $T_c$, the spontaneous magnetization is non-zero and governed by the critical exponent $\beta = 1/8$:
+</p>
+
+$$M(T) = \left[ 1 - \sinh^{-4}\left(\frac{2J}{k_B T}\right) \right]^{1/8}$$
+
+<h2>3. 4K Ultra HD Procedural Video Showcase</h2>
+<p>
+  Watch the master 1080p documentary feature produced by <strong>Procanimation World Studio</strong>:
+</p>
+
+<div class="video-showcase-card">
+  <div class="video-badge">
+    <span>▶ 1080P MASTER • FULL DOCUMENTARY FEATURE</span>
+  </div>
+  <div class="video-info">
+    <h3>The Ising Model & Phase Transitions: Spontaneous Magnetism & Criticality</h3>
+    <p>Pierre Curie's discovery, the microscopic spin lattice Hamiltonian, the Metropolis-Hastings Monte Carlo algorithm, Lars Onsager's 1944 exact analytical solution, fractal cluster scale invariance, and Hopfield neural networks.</p>
+    <div class="video-meta-tags">
+      <span class="meta-tag">Code: p5.js / Canvas</span>
+      <span class="meta-tag">16:9 Landscape Master</span>
+      <span class="meta-tag">Audio: 48kHz Neural Stereo</span>
+      <span class="meta-tag">Duration: 05:15</span>
+    </div>
+    <div id="videoContainer" style="margin-top:16px;">
+      <a id="ytLinkIsing" href="https://www.youtube.com/watch?v=3_lUs6Mzut8" target="_blank" class="btn btn-youtube" style="display:inline-flex; align-items:center; gap:8px;">
+        ▶ Watch on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+

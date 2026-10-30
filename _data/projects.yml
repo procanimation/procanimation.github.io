@@ -1,4 +1,48 @@
 # Public Creative Coding Showcase Projects
+- name: "The Ising Model & Spontaneous Magnetism"
+  slug: "ising-model-magnetism"
+  category: "physics"
+  tag: "Statistical Mechanics • Phase Transitions"
+  tech: "p5.js / Metropolis Monte Carlo & Onsager Criticality"
+  description: "Pierre Curie's discovery, nearest-neighbor spin lattice Hamiltonian, Metropolis Monte Carlo detailed balance, Lars Onsager's 1944 exact analytical solution, scale-invariant fractal clusters, and Hopfield associative memory."
+  article_url: "/experiments/ising-model-magnetism.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/ising_model_magnetism"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)"
+
+- name: "The Hopf Fibration: Visualizing 4D Space"
+  slug: "hopf-fibration-4d"
+  category: "mathematics"
+  tag: "Topology • Differential Geometry"
+  tech: "p5.js / 3D Stereographic Villarceau Toroidal Engine"
+  description: "Heinz Hopf's 1931 topological discovery, 4D hypersphere foliation into interlocking great circles, coaxial nested tori, the Bloch sphere of qubits, and Dirac magnetic monopoles."
+  article_url: "/experiments/hopf-fibration-4d.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/hopf_fibration_4d"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)"
+
+- name: "The Dirac Equation & Antimatter"
+  slug: "dirac-equation-antimatter"
+  category: "physics"
+  tag: "Quantum Mechanics • Relativistic Spinors"
+  tech: "p5.js / 4-Component Spinor, Dirac Sea & Cloud Tracks"
+  description: "Paul Dirac's 1928 breakthrough, 4x4 gamma matrices, the relativistic origin of electron spin, the Dirac Sea, and Carl Anderson's 1932 cloud chamber discovery of the positron."
+  article_url: "/experiments/dirac-equation-antimatter.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/dirac_equation_antimatter"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
+- name: "Noether's Theorem & Symmetries"
+  slug: "noethers-theorem"
+  category: "physics"
+  tag: "Theoretical Physics • Continuous Symmetries"
+  tech: "p5.js / Lie Shifts, Action Paths & Conserved Currents"
+  description: "The 1915 crisis in General Relativity, Principle of Stationary Action, continuous Lie symmetries, the spacetime conservation trinity, and gauge theory."
+  article_url: "/experiments/noethers-theorem.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/noethers_theorem"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #fee440 100%)"
+
 - name: "Maxwell's Equations & Electrodynamics"
   slug: "maxwell-electrodynamics"
   category: "physics"
