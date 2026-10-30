@@ -1,4 +1,37 @@
 # YouTube Video Series & Educational Tracks
+- title: "The Quantum Harmonic Oscillator & Zero-Point Energy: Coherent States & Quantum Vacuum Fluctuations"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "06:20"
+  description: "Max Planck's 1900 blackbody resonators, Hermite polynomial bound states, Dirac ladder operators, irreducible zero-point vacuum energy, Glauber coherent states, and second quantization."
+  tags: ["Quantum Harmonic Oscillator", "Zero Point Energy", "Quantum Mechanics", "Quantum Field Theory", "Ladder Operators", "Hermite Polynomials", "Coherent States", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #a855f7 0%, #00f5d4 50%, #fee440 100%)"
+  video_url: "https://www.youtube.com/watch?v=DznV1u24Dg0"
+  article_url: "/experiments/quantum-harmonic-oscillator.html"
+
+- title: "Maxwell's Equations & Electrodynamics: Light, Gauge Invariance & The Speed of Reality"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "06:29"
+  description: "James Clerk Maxwell's 1865 field theory, Gauss's divergence symmetries, Faraday's vortex rings, the displacement current, 3D transverse wave propagation, and relativistic U(1) gauge covariance."
+  tags: ["Maxwell Equations", "Electrodynamics", "Light Speed", "Faraday Law", "Gauss Law", "Ampere Maxwell Law", "Special Relativity", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
+  video_url: "https://www.youtube.com/watch?v=pH-zCFPHygs"
+  article_url: "/experiments/maxwell-electrodynamics.html"
+
+- title: "Solitons & The Korteweg–de Vries Equation: Non-Linear Waves That Refuse to Die"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "06:47"
+  description: "John Scott Russell's 1834 Union Canal discovery, non-linear steepening vs third-order dispersion, Zabusky and Kruskal's 1965 collision transparency, the FPU recurrence, and Lax pairs."
+  tags: ["Solitons", "KdV Equation", "Nonlinear Dynamics", "FPU Recurrence", "Inverse Scattering", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
+  video_url: "https://www.youtube.com/watch?v=jl27lx1xcks"
+  article_url: "/experiments/solitons-kdv-equation.html"
+
 - title: "Lissajous Figures & Coupled Resonators: Harmonic Geometry & Energy Beats"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"
@@ -392,7 +425,7 @@
   tags: ["GameOfLife", "Conway", "CellularAutomata", "Algorithms", "Coding"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #00f5d4, #06d6a0, #ffbe0b)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://www.youtube.com/watch?v=k1gCvbj1PAA"
   article_url: "/experiments/conways-game-of-life.html"
 
 - title: "The Quantum Double Slit Experiment: Reality Changes When You Look"
@@ -403,7 +436,7 @@
   tags: ["Quantum", "Physics", "DoubleSlit", "Schrodinger", "WaveParticle"]
   badge: "Master HD Short"
   gradient: "linear-gradient(135deg, #00f5d4, #7209b7, #f72585)"
-  video_url: "https://youtube.com/@procanimation"
+  video_url: "https://www.youtube.com/watch?v=0W6v_AxhsXg"
   article_url: "/experiments/quantum-double-slit.html"
 
 - title: "Von Kármán Vortex Streets: The Hidden Rhythm of Fluid Turbulence"

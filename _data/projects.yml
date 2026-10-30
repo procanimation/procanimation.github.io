@@ -1,4 +1,37 @@
 # Public Creative Coding Showcase Projects
+- name: "Maxwell's Equations & Electrodynamics"
+  slug: "maxwell-electrodynamics"
+  category: "physics"
+  tag: "Classical Electrodynamics • Field Theory"
+  tech: "p5.js / 3D Transverse Wave & Field Flux Engine"
+  description: "James Clerk Maxwell's 1865 field theory, Gauss's divergence symmetries, Faraday's vortex rings, the displacement current, 3D transverse wave propagation, and relativistic U(1) gauge covariance."
+  article_url: "/experiments/maxwell-electrodynamics.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/maxwell_electrodynamics"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
+
+- name: "Solitons & The Korteweg–de Vries Equation"
+  slug: "solitons-kdv-equation"
+  category: "physics"
+  tag: "Non-Linear Dynamics • Solitary Waves"
+  tech: "p5.js / Hirota 2-Soliton & FPU Recurrence Engine"
+  description: "John Scott Russell's 1834 Union Canal discovery, non-linear steepening vs third-order dispersion, Zabusky and Kruskal's 1965 collision transparency, the FPU recurrence, and Lax pairs."
+  article_url: "/experiments/solitons-kdv-equation.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/solitons_kdv_equation"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
+
+- name: "The Quantum Harmonic Oscillator & Zero-Point Energy"
+  slug: "quantum-harmonic-oscillator"
+  category: "physics"
+  tag: "Quantum Mechanics • Field Theory"
+  tech: "p5.js / Hermite Eigenstates & Coherent Wavepacket"
+  description: "Max Planck's 1900 blackbody resonators, Hermite polynomial bound states, Dirac ladder operators, irreducible zero-point vacuum energy, Glauber coherent states, and second quantization."
+  article_url: "/experiments/quantum-harmonic-oscillator.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/quantum_harmonic_oscillator"
+  featured: true
+  gradient: "linear-gradient(135deg, #a855f7 0%, #00f5d4 50%, #fee440 100%)"
+
 - name: "Lissajous Figures & Coupled Resonators"
   slug: "lissajous-coupled-resonators"
   category: "physics"

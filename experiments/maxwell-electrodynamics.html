@@ -1,0 +1,322 @@
+---
+layout: article
+title: "Maxwell's Equations & Electrodynamics: Light, Gauge Invariance & The Speed of Reality"
+tagline: "Vector Calculus, Field Symmetries, Displacement Currents & The Electromagnetic Spectrum"
+description: "How four lines of vector calculus unified electricity, magnetism, and optics, proving light is an electromagnetic wave and laying the foundations of modern physics."
+category: "Classical Electrodynamics & Field Theory"
+permalink: /experiments/maxwell-electrodynamics.html
+---
+
+<p class="article-lead">
+  In 1865, Scottish mathematical physicist <strong>James Clerk Maxwell</strong> published a monumental treatise that forever reshaped our comprehension of the physical cosmos: <em>A Dynamical Theory of the Electromagnetic Field</em>. Prior to Maxwell, static electricity, lodestone magnetism, and optical light were cataloged as isolated phenomena of nature. Maxwell synthesized them into four vector differential equations, introduced the displacement current to preserve charge conservation, and derived that light is a self-sustaining transverse electromagnetic disturbance propagating at $c = 1/\sqrt{\mu_0 \varepsilon_0}$.
+</p>
+
+<!-- The Electromagnetic Lexicon -->
+<h3>The Electrodynamic Architecture</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Gauss's Law for Electricity</h4>
+    <p>$\nabla \cdot \mathbf{E} = \rho / \varepsilon_0$. Electric charges act as physical sources and sinks. The net flux through any closed Gaussian surface measures the enclosed charge.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Gauss's Law for Magnetism</h4>
+    <p>$\nabla \cdot \mathbf{B} = 0$. Magnetic field lines form continuous unbroken loops. In classical physics, isolated magnetic monopoles do not exist.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Faraday's Law of Induction</h4>
+    <p>$\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}$. A time-varying magnetic field induces curling electric vortex rings. The negative sign (Lenz's Law) enforces conservation of energy.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Ampère-Maxwell Law</h4>
+    <p>$\nabla \times \mathbf{B} = \mu_0 \mathbf{J} + \mu_0 \varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}$. Changing electric fields generate circulating magnetic fields across vacuum, bridging the continuity gap.</p>
+  </div>
+</div>
+
+<!-- Interactive Electrodynamic Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE MAXWELL FIELD & 3D WAVE SIMULATION</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Vector Field Integration & Transverse Wave Dynamics)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnModeWave" class="sim-btn primary">3D Transverse Wave</button>
+      <button id="btnModeGauss" class="sim-btn secondary">Gauss's Flux Spheres</button>
+      <button id="btnModeFaraday" class="sim-btn secondary">Faraday Induction</button>
+      <button id="btnModeCapacitor" class="sim-btn secondary">Displacement Current</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="maxwellCanvas" width="900" height="520" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Electric Field E:</span> <span id="dispE">Cyan Vectors</span> &bull; 
+      <span style="color:#f72585;">Magnetic Field B:</span> <span id="dispB">Magenta Depth</span> &bull; 
+      <span style="color:#fee440;">Speed c:</span> <span>299,792,458 m/s</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="equationBadge">c = 1 / √(μ₀ ε₀)</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('maxwellCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let mode = 'wave'; // 'wave', 'gauss', 'faraday', 'capacitor'
+  let time = 0;
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function draw() {
+    requestAnimationFrame(draw);
+    time += 0.035;
+
+    const rect = canvas.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    const cx = w / 2;
+    const cy = h / 2;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, w, h);
+
+    if (mode === 'wave') {
+      // 3D Transverse Wave
+      const waveStartX = 60;
+      const waveEndX = w - 60;
+      const k = 0.022;
+      const omega = 3.2;
+      const E0 = 65;
+      const B0 = 45;
+
+      // Axis
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.3)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(waveStartX, cy);
+      ctx.lineTo(waveEndX, cy);
+      ctx.stroke();
+
+      for (let x = waveStartX; x <= waveEndX; x += 14) {
+        let phase = k * (x - waveStartX) - omega * time;
+        let eVal = E0 * Math.sin(phase);
+        let bVal = B0 * Math.sin(phase);
+
+        // Electric vector (Vertical, Cyan)
+        ctx.strokeStyle = 'rgba(0, 245, 212, 0.8)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x, cy);
+        ctx.lineTo(x, cy - eVal);
+        ctx.stroke();
+        ctx.fillStyle = '#00f5d4';
+        ctx.beginPath();
+        ctx.arc(x, cy - eVal, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Magnetic vector (Perspective tilt, Magenta)
+        let bx = x + bVal * 0.7;
+        let by = cy + bVal * 0.45;
+        ctx.strokeStyle = 'rgba(247, 37, 133, 0.8)';
+        ctx.beginPath();
+        ctx.moveTo(x, cy);
+        ctx.lineTo(bx, by);
+        ctx.stroke();
+        ctx.fillStyle = '#f72585';
+        ctx.beginPath();
+        ctx.arc(bx, by, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '12px monospace';
+      ctx.fillText('Direction of Wave Propagation (+x) ➔', waveEndX - 240, cy + 24);
+    } else if (mode === 'gauss') {
+      // Gauss charges & flux
+      const r = 90 + 10 * Math.sin(time * 2);
+      ctx.strokeStyle = 'rgba(0, 245, 212, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      for (let a = 0; a < Math.PI * 2; a += Math.PI / 8) {
+        let x1 = cx + Math.cos(a) * 25;
+        let y1 = cy + Math.sin(a) * 25;
+        let x2 = cx + Math.cos(a) * (r + 30);
+        let y2 = cy + Math.sin(a) * (r + 30);
+        ctx.strokeStyle = '#00f5d4';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+
+        ctx.fillStyle = '#fee440';
+        ctx.beginPath();
+        ctx.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = '#00f5d4';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 24, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#020617';
+      ctx.font = 'bold 16px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('+Q', cx, cy);
+    } else if (mode === 'faraday') {
+      // Faraday Induction
+      const magnetY = cy + Math.sin(time * 3) * 50;
+      // Magnet
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(cx - 20, magnetY - 40, 40, 40);
+      ctx.fillStyle = '#3b82f6';
+      ctx.fillRect(cx - 20, magnetY, 40, 40);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('N', cx, magnetY - 18);
+      ctx.fillText('S', cx, magnetY + 22);
+
+      // Induced swirling loops
+      ctx.strokeStyle = '#00f5d4';
+      ctx.lineWidth = 3;
+      for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) {
+        let ang = a + time * 3;
+        let px = cx + Math.cos(ang) * 140;
+        let py = cy + Math.sin(ang) * 50;
+        ctx.beginPath();
+        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    } else if (mode === 'capacitor') {
+      // Displacement current gap
+      const pDist = 120;
+      ctx.fillStyle = '#64748b';
+      ctx.fillRect(cx - pDist / 2 - 8, cy - 80, 16, 160);
+      ctx.fillRect(cx + pDist / 2 - 8, cy - 80, 16, 160);
+
+      // Changing E field
+      const field = (Math.sin(time * 3) + 1) * 0.5;
+      ctx.strokeStyle = `rgba(0, 245, 212, ${0.3 + field * 0.7})`;
+      ctx.lineWidth = 2;
+      for (let y = cy - 60; y <= cy + 60; y += 20) {
+        ctx.beginPath();
+        ctx.moveTo(cx - pDist / 2 + 8, y);
+        ctx.lineTo(cx + pDist / 2 - 8, y);
+        ctx.stroke();
+      }
+
+      // Induced magnetic rings
+      ctx.strokeStyle = '#f72585';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, 35, 75, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+
+  // Button handlers
+  const setBtn = (btnId, mName, badgeText) => {
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      btn.addEventListener('click', () => {
+        mode = mName;
+        document.querySelectorAll('.sim-controls .sim-btn').forEach(b => {
+          b.classList.remove('primary');
+          b.classList.add('secondary');
+        });
+        btn.classList.remove('secondary');
+        btn.classList.add('primary');
+        const badge = document.getElementById('equationBadge');
+        if (badge) badge.textContent = badgeText;
+      });
+    }
+  };
+
+  setBtn('btnModeWave', 'wave', 'c = 1 / √(μ₀ ε₀)');
+  setBtn('btnModeGauss', 'gauss', '∇ · E = ρ / ε₀  |  ∇ · B = 0');
+  setBtn('btnModeFaraday', 'faraday', '∇ × E = - ∂B / ∂t');
+  setBtn('btnModeCapacitor', 'capacitor', '∇ × B = μ₀ J + μ₀ ε₀ ∂E / ∂t');
+
+  draw();
+})();
+</script>
+
+<h2>1. The Four Classical Equations of Electrodynamics</h2>
+<p>
+  In microscopic form (Heaviside-Lorentz vector representation), Maxwell’s equations govern the evolution of the electric field $\mathbf{E}(\mathbf{r}, t)$ and magnetic field $\mathbf{B}(\mathbf{r}, t)$:
+</p>
+
+<div class="math-derivation-box">
+  <div class="math-title">Maxwell's Microscopic Differential Equations</div>
+  $$\begin{aligned}
+  \nabla \cdot \mathbf{E} &= \frac{\rho}{\varepsilon_0} && \text{(Gauss's Law)} \\
+  \nabla \cdot \mathbf{B} &= 0 && \text{(Gauss's Law for Magnetism)} \\
+  \nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} && \text{(Faraday's Law of Induction)} \\
+  \nabla \times \mathbf{B} &= \mu_0 \mathbf{J} + \mu_0 \varepsilon_0 \frac{\partial \mathbf{E}}{\partial t} && \text{(Ampère-Maxwell Law)}
+  \end{aligned}$$
+</div>
+
+<h2>2. Derivation of the Electromagnetic Wave Equation</h2>
+<p>
+  In free space (charge density $\rho = 0$, current density $\mathbf{J} = \mathbf{0}$), taking the curl of Faraday's Law and applying the vector calculus identity $\nabla \times (\nabla \times \mathbf{E}) = \nabla(\nabla \cdot \mathbf{E}) - \nabla^2 \mathbf{E}$:
+</p>
+
+$$\nabla \times (\nabla \times \mathbf{E}) = -\frac{\partial}{\partial t}(\nabla \times \mathbf{B})$$
+
+<p>
+  Substituting $\nabla \cdot \mathbf{E} = 0$ and the vacuum Ampère-Maxwell Law $\nabla \times \mathbf{B} = \mu_0 \varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}$:
+</p>
+
+$$-\nabla^2 \mathbf{E} = -\mu_0 \varepsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2} \implies \nabla^2 \mathbf{E} = \frac{1}{c^2}\frac{\partial^2 \mathbf{E}}{\partial t^2}$$
+
+<p>
+  where the wave propagation velocity is identically:
+</p>
+
+$$c = \frac{1}{\sqrt{\mu_0 \varepsilon_0}} \approx 2.99792458 \times 10^8 \text{ m/s}$$
+
+<h2>3. 4K Ultra HD Procedural Video Showcase</h2>
+<p>
+  Watch the master 1080p documentary feature produced by <strong>Procanimation World Studio</strong>:
+</p>
+
+<div class="video-showcase-card">
+  <div class="video-badge">
+    <span>▶ 1080P MASTER • FULL DOCUMENTARY FEATURE</span>
+  </div>
+  <div class="video-info">
+    <h3>Maxwell's Equations & Electrodynamics: Light, Gauge Invariance & The Speed of Reality</h3>
+    <p>James Clerk Maxwell's 1865 field theory, Gauss's divergence symmetries, Faraday's vortex rings, the displacement current, 3D transverse wave propagation, and relativistic U(1) gauge covariance.</p>
+    <div class="video-meta-tags">
+      <span class="meta-tag">Code: p5.js / Canvas</span>
+      <span class="meta-tag">16:9 Landscape Master</span>
+      <span class="meta-tag">Audio: 48kHz Neural Stereo</span>
+      <span class="meta-tag">Duration: 06:29</span>
+    </div>
+    <div id="videoContainer" style="margin-top:16px;">
+      <a id="ytLink" href="https://www.youtube.com/watch?v=pH-zCFPHygs" target="_blank" class="btn btn-youtube" style="display:inline-flex; align-items:center; gap:8px;">
+        ▶ Watch on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
