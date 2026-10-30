@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "1D Motion & The Calculus of Kinematics"
+  slug: "1d-motion-kinematics"
+  category: "physics"
+  tag: "Classical Mechanics • Kinematics"
+  tech: "p5.js / Tangent Slope Derivatives & Triple Graph Engine"
+  description: "Position, displacement vectors, instantaneous velocity tangents, acceleration as curve concavity, Galileo's uniform acceleration laws, terminal velocity under drag, and phase space determinism."
+  article_url: "/experiments/1d-motion-kinematics.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/1d_motion_kinematics"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+
 - name: "The Ising Model & Spontaneous Magnetism"
   slug: "ising-model-magnetism"
   category: "physics"

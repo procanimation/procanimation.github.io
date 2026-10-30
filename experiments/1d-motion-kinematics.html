@@ -1,0 +1,326 @@
+---
+layout: article
+title: "1D Motion & The Calculus of Kinematics"
+tagline: "Displacement, Instantaneous Velocity Tangents, Concavity & Galileo's Laws"
+description: "Master the exact mathematical foundation of motion in one dimension through derivatives, integrals, and interactive kinematic physics."
+category: "Classical Mechanics & Kinematics"
+permalink: /experiments/1d-motion-kinematics.html
+---
+
+<p class="article-lead">
+  Everything in the universe moves, from galaxies hurtling through deep cosmic voids to harmonic crystal vibrations. Before we can explain <em>why</em> bodies move through forces and energy, we must first master the exact language of motion itself: <strong>kinematics</strong>. Formulated geometrically by Galileo Galilei and unified with calculus by Isaac Newton and Gottfried Wilhelm Leibniz, one-dimensional kinematics describes the position $x(t)$, instantaneous velocity $v(t) = \frac{dx}{dt}$, and acceleration $a(t) = \frac{dv}{dt}$ of an object along a spatial line.
+</p>
+
+<!-- The Kinematics Architecture Grid -->
+<h3>The Architectural Trinity of Kinematics</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>1. Displacement vs Distance</h4>
+    <p>$$\Delta x = x(t_2) - x(t_1)$$. Displacement is a vector describing net change in position, while distance $$s = \int |v(t)| \, dt$$ is the scalar accumulated path length.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>2. The Geometric Derivative ($v = \frac{dx}{dt}$)</h4>
+    <p>Average velocity $$\frac{\Delta x}{\Delta t}$$ is the secant slope. In the limit $$\Delta t \to 0$$, it becomes the tangent line: $$v(t) = \lim_{\Delta t \to 0} \frac{x(t+\Delta t) - x(t)}{\Delta t}$$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>3. Acceleration as Curvature ($a = \frac{dv}{dt}$)</h4>
+    <p>Acceleration is the concavity of the position curve: $$a(t) = \frac{d^2 x}{dt^2}$$. When $$v$$ and $$a$$ share the same sign, speed increases; when opposing, the body decelerates.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>4. Galileo's Uniform Acceleration Laws</h4>
+    <p>Under constant acceleration, area under $$v(t)$$ yields $$\Delta x = v_0 t + \frac{1}{2}a t^2$$. Starting from rest, distances in equal time intervals follow the ratio $$1 : 3 : 5 : 7 : 9$$.</p>
+  </div>
+</div>
+
+<!-- Interactive Kinematics Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE 1D KINEMATICS & DERIVATIVE ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Track, Instantaneous Tangent Slope & Triple Synchronized Graphs)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnUniform" class="sim-btn primary">Uniform Acceleration</button>
+      <button id="btnHarmonic" class="sim-btn secondary">Harmonic Oscillation</button>
+      <button id="btnFreeFall" class="sim-btn secondary">Free Fall + Drag</button>
+      <button id="btnReset" class="sim-btn secondary">Reset Motion</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="kinematicsCanvas" width="900" height="540" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Position x:</span> <span id="dispX">0.00 m</span> &bull; 
+      <span style="color:#38bdf8;">Velocity v:</span> <span id="dispV">0.00 m/s</span> &bull; 
+      <span style="color:#fee440;">Acceleration a:</span> <span id="dispA">0.00 m/s²</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="kinematicsBadge">v(t) = dx/dt • a(t) = dv/dt</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('kinematicsCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let mode = 'uniform'; // 'uniform', 'harmonic', 'freefall'
+  let simTime = 0;
+  let isRunning = true;
+
+  const btnUniform = document.getElementById('btnUniform');
+  const btnHarmonic = document.getElementById('btnHarmonic');
+  const btnFreeFall = document.getElementById('btnFreeFall');
+  const btnReset = document.getElementById('btnReset');
+
+  const dispX = document.getElementById('dispX');
+  const dispV = document.getElementById('dispV');
+  const dispA = document.getElementById('dispA');
+  const badge = document.getElementById('kinematicsBadge');
+
+  function setMode(m) {
+    mode = m;
+    simTime = 0;
+    btnUniform.className = (m === 'uniform') ? 'sim-btn primary' : 'sim-btn secondary';
+    btnHarmonic.className = (m === 'harmonic') ? 'sim-btn primary' : 'sim-btn secondary';
+    btnFreeFall.className = (m === 'freefall') ? 'sim-btn primary' : 'sim-btn secondary';
+
+    if (m === 'uniform') badge.innerText = "Δx = v₀t + ½at² • a = const";
+    else if (m === 'harmonic') badge.innerText = "x(t) = A cos(ωt) • a(t) = -ω²x";
+    else badge.innerText = "Free Fall with Quadratic Drag • F_drag = -½ρCdAv²";
+  }
+
+  btnUniform.addEventListener('click', () => setMode('uniform'));
+  btnHarmonic.addEventListener('click', () => setMode('harmonic'));
+  btnFreeFall.addEventListener('click', () => setMode('freefall'));
+  btnReset.addEventListener('click', () => { simTime = 0; });
+
+  function getPhysics(t) {
+    if (mode === 'uniform') {
+      let a = 1.5;
+      let v0 = -4.5;
+      let v = v0 + a * t;
+      let x = v0 * t + 0.5 * a * t * t;
+      return { x, v, a };
+    } else if (mode === 'harmonic') {
+      let A = 6.0;
+      let omega = 1.2;
+      let x = A * Math.cos(omega * t);
+      let v = -A * omega * Math.sin(omega * t);
+      let a = -A * omega * omega * Math.cos(omega * t);
+      return { x, v, a };
+    } else {
+      let g = 9.8;
+      let vTerm = 7.0;
+      let v = vTerm * Math.tanh(g * t / vTerm);
+      let a = g * (1 - Math.pow(Math.tanh(g * t / vTerm), 2));
+      let x = (vTerm * vTerm / g) * Math.log(Math.cosh(g * t / vTerm));
+      return { x, v, a };
+    }
+  }
+
+  function render() {
+    simTime += 0.016;
+    if (mode === 'uniform' && simTime > 8.0) simTime = 0;
+    if (mode === 'freefall' && simTime > 6.0) simTime = 0;
+
+    const w = canvas.width;
+    const h = canvas.height;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, w, h);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < w; x += 40) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    }
+    for (let y = 0; y < h; y += 40) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    }
+
+    const phys = getPhysics(simTime);
+
+    // 1D Physical Track at Top
+    const trackY = 90;
+    const trackLeft = 60;
+    const trackRight = w - 60;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(trackLeft, trackY);
+    ctx.lineTo(trackRight, trackY);
+    ctx.stroke();
+
+    // Scale mapping for track
+    const xMin = -8, xMax = 8;
+    const trackPX = (val) => trackLeft + ((val - xMin) / (xMax - xMin)) * (trackRight - trackLeft);
+
+    for (let mVal = xMin; mVal <= xMax; mVal += 2) {
+      let tx = trackPX(mVal);
+      ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+      ctx.beginPath(); ctx.moveTo(tx, trackY - 8); ctx.lineTo(tx, trackY + 8); ctx.stroke();
+      ctx.fillStyle = '#64748b';
+      ctx.font = '11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(mVal + 'm', tx, trackY + 22);
+    }
+
+    // Particle Body
+    let partX = trackPX(Math.max(xMin, Math.min(xMax, phys.x)));
+    ctx.fillStyle = 'rgba(0, 245, 212, 0.3)';
+    ctx.beginPath(); ctx.arc(partX, trackY, 20, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#00f5d4';
+    ctx.beginPath(); ctx.arc(partX, trackY, 10, 0, Math.PI * 2); ctx.fill();
+
+    // Live Velocity Vector Arrow
+    let vArrowLen = phys.v * 12;
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(partX, trackY - 24);
+    ctx.lineTo(partX + vArrowLen, trackY - 24);
+    ctx.stroke();
+    ctx.fillStyle = '#38bdf8';
+    let dir = vArrowLen >= 0 ? 1 : -1;
+    ctx.beginPath();
+    ctx.moveTo(partX + vArrowLen, trackY - 24);
+    ctx.lineTo(partX + vArrowLen - dir * 6, trackY - 28);
+    ctx.lineTo(partX + vArrowLen - dir * 6, trackY - 20);
+    ctx.fill();
+
+    // Bottom Triple Graphs: x(t) [Left], v(t) [Middle], a(t) [Right]
+    const gTop = 170;
+    const gH = 310;
+    const gW = (w - 120) / 3;
+
+    drawGraph(ctx, 40, gTop, gW, gH, 'x(t) [Position]', '#00f5d4', (t) => getPhysics(t).x, phys.x, -8, 8);
+    drawGraph(ctx, 40 + gW + 20, gTop, gW, gH, 'v(t) = dx/dt [Velocity]', '#38bdf8', (t) => getPhysics(t).v, phys.v, -10, 10);
+    drawGraph(ctx, 40 + (gW + 20) * 2, gTop, gW, gH, 'a(t) = dv/dt [Acceleration]', '#fee440', (t) => getPhysics(t).a, phys.a, -10, 10);
+
+    // Update Telemetry
+    dispX.innerText = phys.x.toFixed(2) + ' m';
+    dispV.innerText = phys.v.toFixed(2) + ' m/s';
+    dispA.innerText = phys.a.toFixed(2) + ' m/s²';
+
+    requestAnimationFrame(render);
+  }
+
+  function drawGraph(ctx, gx, gy, gw, gh, title, col, evalFn, curVal, yMin, yMax) {
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(gx, gy, gw, gh);
+    ctx.strokeRect(gx, gy, gw, gh);
+
+    // Midline
+    let midY = gy + gh / 2;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.beginPath(); ctx.moveTo(gx, midY); ctx.lineTo(gx + gw, midY); ctx.stroke();
+
+    ctx.fillStyle = col;
+    ctx.font = '12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(title, gx + 12, gy + 22);
+
+    // Plot historical curve up to current simTime
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    let maxT = (mode === 'uniform') ? 8.0 : (mode === 'freefall') ? 6.0 : 10.0;
+    let started = false;
+    for (let t = 0; t <= Math.min(simTime, maxT); t += 0.05) {
+      let px = gx + 15 + (t / maxT) * (gw - 30);
+      let val = evalFn(t);
+      let py = midY - ((val) / (yMax - yMin)) * (gh - 50);
+      if (!started) { ctx.moveTo(px, py); started = true; }
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Current Value Dot
+    let curX = gx + 15 + (Math.min(simTime, maxT) / maxT) * (gw - 30);
+    let curY = midY - ((curVal) / (yMax - yMin)) * (gh - 50);
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath(); ctx.arc(curX, curY, 5, 0, Math.PI * 2); ctx.fill();
+  }
+
+  requestAnimationFrame(render);
+})();
+</script>
+
+<h2>1. The Foundations of 1D Kinematics</h2>
+<p>
+  In classical physics, motion is described without reference to the forces causing it. Given a particle moving along the real line $\mathbb{R}$, its position is specified by the real-valued function $x(t)$.
+</p>
+
+<div class="math-card">
+  <div class="math-title">The Velocity Tangent</div>
+  $$v(t) = \frac{dx}{dt} = \lim_{\Delta t \to 0} \frac{x(t + \Delta t) - x(t)}{\Delta t}$$
+</div>
+
+<p>
+  Geometrically, the average velocity $\bar{v} = \frac{\Delta x}{\Delta t}$ is the slope of the secant line intersecting two points on the position curve. As $\Delta t \to 0$, the secant collapses into the unique tangent line at time $t$.
+</p>
+
+<h2>2. Acceleration & The Second Derivative</h2>
+<p>
+  Acceleration is the instantaneous rate of change of velocity:
+</p>
+
+$$a(t) = \frac{dv}{dt} = \frac{d^2 x}{dt^2}$$
+
+<p>
+  On a position-time graph, acceleration represents <strong>curvature</strong>:
+</p>
+<ul>
+  <li>$\frac{d^2 x}{dt^2} > 0$: The curve is concave upward. If $v > 0$, the body is speeding up; if $v < 0$, it is decelerating.</li>
+  <li>$\frac{d^2 x}{dt^2} < 0$: The curve is concave downward.</li>
+  <li>$\frac{d^2 x}{dt^2} = 0$: Inflection point where acceleration vanishes and velocity achieves a local extreme value.</li>
+</ul>
+
+<h2>3. Galileo's Kinematic Laws of Uniform Acceleration</h2>
+<p>
+  When acceleration is constant ($a = \text{const}$), integration yields the classic kinematic equations:
+</p>
+
+$$v(t) = v_0 + a t$$
+$$\Delta x = v_0 t + \frac{1}{2} a t^2$$
+$$v^2 = v_0^2 + 2 a \Delta x$$
+
+<p>
+  Under free fall from rest ($v_0 = 0$), Galileo discovered that the distance traversed in successive equal time intervals obeys the ratio of odd integers:
+</p>
+
+$$\Delta x_1 : \Delta x_2 : \Delta x_3 : \Delta x_4 = 1 : 3 : 5 : 7$$
+
+<h2>4. 1080p Master Documentary Feature</h2>
+<p>
+  Watch the master 1080p documentary feature produced by <strong>Procanimation World Studio</strong>:
+</p>
+
+<div class="video-showcase-card">
+  <div class="video-badge">
+    <span>▶ 1080P MASTER • FULL DOCUMENTARY FEATURE</span>
+  </div>
+  <div class="video-info">
+    <h3>1D Motion & The Calculus of Kinematics</h3>
+    <p>Displacement vectors, instantaneous velocity tangents, concavity & the second derivative, Galileo's uniform acceleration laws, aerodynamic terminal velocity, and phase space determinism.</p>
+    <div class="video-meta-tags">
+      <span class="meta-tag">Code: p5.js / Canvas</span>
+      <span class="meta-tag">16:9 Landscape Master</span>
+      <span class="meta-tag">Audio: 48kHz Neural Stereo</span>
+      <span class="meta-tag">Duration: 05:15</span>
+    </div>
+    <div id="videoContainer" style="margin-top:16px;">
+      <a id="ytLink1D" href="https://www.youtube.com/watch?v=eXH3xWs5REM" target="_blank" class="btn btn-youtube" style="display:inline-flex; align-items:center; gap:8px;">
+        ▶ Watch on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>

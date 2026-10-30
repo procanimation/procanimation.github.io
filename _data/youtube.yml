@@ -1,4 +1,15 @@
 # YouTube Video Series & Educational Tracks
+- title: "1D Motion & The Calculus of Kinematics: Derivatives, Concavity & Galileo's Laws"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "05:15"
+  description: "Position, displacement vectors, instantaneous velocity tangents, acceleration as curve concavity, Galileo's uniform acceleration laws, terminal velocity under aerodynamic drag, and phase space determinism."
+  tags: ["1D Motion", "Kinematics", "Classical Mechanics", "Calculus of Motion", "Instantaneous Velocity", "Acceleration", "Galileo Galilei", "Kinematic Equations", "Free Fall", "Terminal Velocity", "Phase Space", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+  video_url: "https://www.youtube.com/watch?v=eXH3xWs5REM"
+  article_url: "/experiments/1d-motion-kinematics.html"
+
 - title: "The Ising Model & Phase Transitions: Spontaneous Magnetism & Criticality"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"
