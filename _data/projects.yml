@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "Rotational Motion & Angular Momentum: Gyroscopes & Torque"
+  slug: "rotational-motion-angular-momentum"
+  category: "physics"
+  tag: "Classical Mechanics • Rotational Dynamics"
+  tech: "p5.js / Moment of Inertia & Precession Engine"
+  description: "Rotational dynamics, moment of inertia, the rolling race down inclined ramps, the figure skater spin paradox, and anti-gravity gyroscopic precession."
+  article_url: "/experiments/rotational-motion-angular-momentum.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/rotational_motion_angular_momentum"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #a855f7 100%)"
+
 - name: "Newton's 3 Laws of Motion: The Visual Intuition Guide"
   slug: "newtons-laws-of-motion"
   category: "physics"

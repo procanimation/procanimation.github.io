@@ -1,0 +1,380 @@
+---
+layout: article
+title: "Rotational Motion & Angular Momentum: Gyroscopes, Precession & The Figure Skater Spin"
+tagline: "The Spinning Mirror of Reality: Moments of Inertia, Rolling Races & Gravitational Precession"
+description: "Master rotational dynamics, the moment of inertia, rolling races down ramps, the figure skater spin paradox, and anti-gravity gyroscopic precession through an interactive physics lab."
+category: "Classical Mechanics & Dynamics"
+permalink: /experiments/rotational-motion-angular-momentum.html
+---
+
+<p class="article-lead">
+  For every law governing linear motion in a straight line, our universe holds a breathtaking rotational mirror. Mass becomes the <strong>Moment of Inertia</strong> ($$I = \sum m r^2$$), force becomes <strong>Torque</strong> ($$\boldsymbol{\tau} = \mathbf{r} \times \mathbf{F}$$), and momentum becomes the invariant vector of <strong>Angular Momentum</strong> ($$\mathbf{L} = I \boldsymbol{\omega}$$). In this master feature, explore why mass distribution decides rolling races, why figure skaters accelerate when tucking their arms, and how spinning wheels defy gravity through gyroscopic precession.
+</p>
+
+<!-- Rotational Laws Hierarchy Grid -->
+<h3>The Rotational Mechanics Architecture</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Moment of Inertia (Rotational Mass)</h4>
+    <p>$$I = \int r^2 \, dm$$. Unlike linear mass, rotational resistance depends dramatically on <em>where</em> mass is distributed relative to the axis. Mass located twice as far resists spinning four times as much ($$r^2$$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Torque & The Lever Arm</h4>
+    <p>$$\boldsymbol{\tau} = \mathbf{r} \times \mathbf{F} = I \boldsymbol{\alpha}$$. Torque is rotational force. Pushing directly at a pivot produces zero torque; applying force through a perpendicular lever arm multiplies rotational acceleration.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Conservation of Angular Momentum</h4>
+    <p>$$\mathbf{L} = I \boldsymbol{\omega} = \text{constant}$$. In the absence of external torque, angular momentum cannot change. If an object contracts its radius, its moment of inertia plummets and its spin velocity skyrockets.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Gyroscopic Precession</h4>
+    <p>$$\boldsymbol{\tau} = \frac{d\mathbf{L}}{dt} \implies \Omega_p = \frac{M g r}{I \omega}$$. A spinning wheel possesses horizontal angular momentum $$\mathbf{L}$$. Downward gravity produces a horizontal torque that pivots the spin vector sideways instead of down.</p>
+  </div>
+</div>
+
+<!-- Interactive Rotational Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌀 LIVE ROTATIONAL DYNAMICS & GYROSCOPIC ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Rolling Race, Figure Skater Arm Extension & Precession HUD)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabRace" class="sim-btn primary">1. Rolling Race</button>
+      <button id="btnTabSkater" class="sim-btn secondary">2. Figure Skater Spin</button>
+      <button id="btnTabGyro" class="sim-btn secondary">3. Gyroscope Precession</button>
+      <button id="btnResetRot" class="sim-btn secondary">Reset State</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="rotCanvas" width="900" height="540" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#fee440;">Moment of Inertia I:</span> <span id="dispI">1.00 I₀</span> &bull; 
+      <span style="color:#00f5d4;">Angular Velocity ω:</span> <span id="dispOmega">1.00 rad/s</span> &bull; 
+      <span style="color:#38bdf8;">Angular Momentum L:</span> <span id="dispL">100% Invariant</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="rotStatusBadge">Rolling Race: Solid Sphere vs Cylinder vs Hoop</span>
+    </div>
+  </div>
+
+  <div class="sim-slider-row" style="margin-top:14px; display:flex; gap:20px; align-items:center; background:rgba(255,255,255,0.03); padding:10px 16px; border-radius:6px;">
+    <label style="font-size:0.85rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;">
+      Arm / Mass Radius $$R$$:
+      <input type="range" id="sliderRadius" min="0.2" max="1.0" value="0.8" step="0.05" style="cursor:pointer;">
+      <span id="valRadius" style="color:#fee440; font-family:var(--font-mono); font-weight:bold;">0.80 m</span>
+    </label>
+    <label style="font-size:0.85rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;">
+      Wheel Spin Speed $$\omega$$:
+      <input type="range" id="sliderSpin" min="5" max="50" value="20" step="1" style="cursor:pointer;">
+      <span id="valSpin" style="color:#00f5d4; font-family:var(--font-mono); font-weight:bold;">20 rad/s</span>
+    </label>
+  </div>
+</div>
+
+<h3>Why Does the Solid Sphere Win the Rolling Race?</h3>
+<p>
+  When an object slides down a frictionless slope, all potential energy transforms strictly into linear kinetic energy ($$mgh = \frac{1}{2}mv^2$$), meaning all shapes accelerate identically. But when rolling without slipping, static friction enforces a rolling constraint:
+  $$v = \omega R$$
+  Total mechanical energy must now be shared between linear motion and rotational spin:
+  $$E = \frac{1}{2} m v^2 + \frac{1}{2} I \omega^2 = \frac{1}{2} m v^2 \left(1 + \frac{I}{m R^2}\right)$$
+  The linear acceleration down a slope of angle $$\theta$$ becomes:
+  $$a = \frac{g \sin\theta}{1 + \frac{I}{m R^2}}$$
+  * <strong>Solid Sphere</strong>: $$I = \frac{2}{5} m R^2 \implies a = \frac{5}{7} g \sin\theta \approx 0.714 \, g \sin\theta$$ (1st Place!)
+  * <strong>Solid Cylinder / Disc</strong>: $$I = \frac{1}{2} m R^2 \implies a = \frac{2}{3} g \sin\theta \approx 0.667 \, g \sin\theta$$ (2nd Place)
+  * <strong>Thin Hollow Hoop</strong>: $$I = 1.0 \, m R^2 \implies a = \frac{1}{2} g \sin\theta = 0.500 \, g \sin\theta$$ (3rd Place)
+  The hoop carries its entire mass at the maximum distance $$R$$, so it hoards half of its energy into spinning, leaving less kinetic energy for forward velocity!
+</p>
+
+<h3>The Anti-Gravity Paradox of the Gyroscope</h3>
+<p>
+  A heavy spinning bicycle wheel suspended by a rope at one end of its axle appears to violate gravity by remaining horizontal and precessing in a slow circle. This is explained by the fundamental vector relationship:
+  $$\boldsymbol{\tau} = \frac{d\mathbf{L}}{dt}$$
+  The spinning wheel possesses a large angular momentum vector $$\mathbf{L}$$ pointing horizontally along its axle. Downward gravitational force exerts a torque $$\boldsymbol{\tau} = \mathbf{r} \times \mathbf{F}_g$$ that points horizontally perpendicular to $$\mathbf{L}$$. In a small time interval $$dt$$, the change in angular momentum $$d\mathbf{L} = \boldsymbol{\tau} \, dt$$ is added perpendicular to $$\mathbf{L}$$. The torque does not change the magnitude of spin; it merely nudges the vector sideways, causing the entire axle to precess at angular frequency:
+  $$\Omega_p = \frac{\tau}{L} = \frac{M g r}{I \omega}$$
+  Spinning the wheel faster increases $$L$$, which actually causes the wheel to precess <em>slower</em> and resist external disturbances with extreme rigidity.
+</p>
+
+<script>
+(function() {
+  const canvas = document.getElementById('rotCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let mode = 'race'; // 'race', 'skater', 'gyro'
+  let armRadius = 0.8;
+  let spinSpeed = 20;
+  let raceT = 0;
+
+  const btnRace = document.getElementById('btnTabRace');
+  const btnSkater = document.getElementById('btnTabSkater');
+  const btnGyro = document.getElementById('btnTabGyro');
+  const btnReset = document.getElementById('btnResetRot');
+
+  const sliderRadius = document.getElementById('sliderRadius');
+  const valRadius = document.getElementById('valRadius');
+  const sliderSpin = document.getElementById('sliderSpin');
+  const valSpin = document.getElementById('valSpin');
+
+  const dispI = document.getElementById('dispI');
+  const dispOmega = document.getElementById('dispOmega');
+  const dispL = document.getElementById('dispL');
+  const badge = document.getElementById('rotStatusBadge');
+
+  if (sliderRadius) {
+    sliderRadius.addEventListener('input', (e) => {
+      armRadius = parseFloat(e.target.value);
+      valRadius.textContent = `${armRadius.toFixed(2)} m`;
+    });
+  }
+
+  if (sliderSpin) {
+    sliderSpin.addEventListener('input', (e) => {
+      spinSpeed = parseFloat(e.target.value);
+      valSpin.textContent = `${spinSpeed.toFixed(0)} rad/s`;
+    });
+  }
+
+  function setMode(m) {
+    mode = m;
+    btnRace.classList.toggle('primary', m === 'race');
+    btnRace.classList.toggle('secondary', m !== 'race');
+    btnSkater.classList.toggle('primary', m === 'skater');
+    btnSkater.classList.toggle('secondary', m !== 'skater');
+    btnGyro.classList.toggle('primary', m === 'gyro');
+    btnGyro.classList.toggle('secondary', m !== 'gyro');
+
+    if (m === 'race') {
+      badge.textContent = 'Rolling Race: Solid Sphere vs Cylinder vs Hoop';
+      raceT = 0;
+    } else if (m === 'skater') {
+      badge.textContent = 'Figure Skater Paradox: L = I · ω = Constant';
+    } else {
+      badge.textContent = 'Gyroscope Precession: τ = dL/dt Defies Gravity';
+    }
+  }
+
+  btnRace.addEventListener('click', () => setMode('race'));
+  btnSkater.addEventListener('click', () => setMode('skater'));
+  btnGyro.addEventListener('click', () => setMode('gyro'));
+  btnReset.addEventListener('click', () => { raceT = 0; });
+
+  let lastTime = performance.now();
+  let simTime = 0;
+
+  function loop(now) {
+    let dt = (now - lastTime) / 1000.0;
+    lastTime = now;
+    if (dt > 0.1) dt = 0.1;
+    simTime += dt;
+
+    draw(dt);
+    requestAnimationFrame(loop);
+  }
+
+  function draw(dt) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Coordinate Grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 50) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 50) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    if (mode === 'race') {
+      drawRace(dt);
+    } else if (mode === 'skater') {
+      drawSkater();
+    } else {
+      drawGyro();
+    }
+  }
+
+  function drawRace(dt) {
+    raceT = (raceT + dt * 0.7) % 4.0;
+    let t = Math.min(3.2, raceT);
+
+    // Ramp profile
+    let rx1 = 80, ry1 = 120, rx2 = 700, ry2 = 420;
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 3.5;
+    ctx.beginPath();
+    ctx.moveTo(rx1, ry1);
+    ctx.lineTo(rx2, ry2);
+    ctx.stroke();
+
+    let rampLen = Math.hypot(rx2 - rx1, ry2 - ry1);
+    let angle = Math.atan2(ry2 - ry1, rx2 - rx1);
+
+    let racers = [
+      { name: "Sphere (0.40)", I: 0.40, col: "#fee440", yOff: -30 },
+      { name: "Cylinder (0.50)", I: 0.50, col: "#00f5d4", yOff: 0 },
+      { name: "Hoop (1.00)", I: 1.00, col: "#f43f5e", yOff: 30 }
+    ];
+
+    for (let i = 0; i < racers.length; i++) {
+      let rc = racers[i];
+      let aNorm = 1.0 / (1.0 + rc.I);
+      let s = Math.min(rampLen - 40, 0.5 * aNorm * (t * t) * 120);
+
+      let bx = rx1 + Math.cos(angle) * s + Math.sin(angle) * rc.yOff;
+      let by = ry1 + Math.sin(angle) * s - Math.cos(angle) * rc.yOff;
+
+      ctx.save();
+      ctx.translate(bx, by - 16);
+      ctx.rotate(s / 16.0);
+
+      ctx.fillStyle = rc.col;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(0, 0, 16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.strokeStyle = '#020617';
+      ctx.beginPath();
+      ctx.moveTo(-16, 0); ctx.lineTo(16, 0);
+      ctx.moveTo(0, -16); ctx.lineTo(0, 16);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.fillStyle = rc.col;
+      ctx.font = 'bold 12px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(rc.name, bx + 22, by - 16);
+    }
+
+    // Telemetry
+    if (dispI) dispI.textContent = "Sphere: 0.40 | Hoop: 1.00";
+    if (dispOmega) dispOmega.textContent = "Rolling constraint v = ω·R";
+    if (dispL) dispL.textContent = "E_tot = ½mv² + ½Iω²";
+  }
+
+  function drawSkater() {
+    let cx = 450, cy = 260;
+    let I_val = Math.pow(armRadius, 2); // I proportional to R^2
+    let L_const = 1.0;
+    let omega_val = L_const / I_val; // ω = L / I
+
+    let spinAng = (simTime * omega_val * 3.5) % (Math.PI * 2);
+
+    // Ice Pedestal
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 120, 180, 30, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Skater Figure
+    ctx.save();
+    ctx.translate(cx, cy);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(0, -50, 20, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.roundRect(-16, -25, 32, 60, 6);
+    ctx.fill();
+    ctx.stroke();
+
+    // Outstretched / Tucked Arms
+    ctx.rotate(spinAng);
+    let armPix = armRadius * 120;
+    ctx.strokeStyle = '#fee440';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(-armPix, 0);
+    ctx.lineTo(armPix, 0);
+    ctx.stroke();
+
+    ctx.fillStyle = '#fee440';
+    ctx.beginPath();
+    ctx.arc(-armPix, 0, 10, 0, Math.PI * 2);
+    ctx.arc(armPix, 0, 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+
+    // Live Readouts
+    if (dispI) dispI.textContent = `${I_val.toFixed(2)} kg·m² (${(I_val * 100).toFixed(0)}%)`;
+    if (dispOmega) dispOmega.textContent = `${omega_val.toFixed(2)} rad/s (${(omega_val * 9.5).toFixed(0)} RPM)`;
+    if (dispL) dispL.textContent = "100% Invariant (L = I·ω = const)";
+  }
+
+  function drawGyro() {
+    let px = 380, py = 220;
+    let axleLen = 160;
+
+    let L_val = spinSpeed * 0.1;
+    let precFreq = 2.5 / (L_val + 0.1);
+    let precAngle = simTime * precFreq;
+
+    let wx = px + Math.cos(precAngle) * axleLen;
+    let wy = py + Math.sin(precAngle) * 45;
+
+    // Hanging Rope
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(px, 80);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+
+    ctx.fillStyle = '#fee440';
+    ctx.beginPath();
+    ctx.arc(px, py, 8, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Axle
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(px, py);
+    ctx.lineTo(wx, wy);
+    ctx.stroke();
+
+    // Precessing Orbit
+    ctx.strokeStyle = 'rgba(254, 228, 64, 0.3)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.ellipse(px, py, axleLen, 45, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Spinning Wheel
+    ctx.save();
+    ctx.translate(wx, wy);
+    ctx.rotate(precAngle);
+
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 8;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 30, 90, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+
+    if (dispI) dispI.textContent = `Wheel L = ${(L_val).toFixed(2)} kg·m²/s`;
+    if (dispOmega) dispOmega.textContent = `Spin ω = ${spinSpeed.toFixed(0)} rad/s`;
+    if (dispL) dispL.textContent = `Precession Ω_p = ${precFreq.toFixed(2)} rad/s`;
+  }
+
+  lastTime = performance.now();
+  requestAnimationFrame(loop);
+})();
+</script>
