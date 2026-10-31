@@ -1,4 +1,15 @@
 # YouTube Video Series & Educational Tracks
+- title: "Newton's 3 Laws of Motion: The Visual Intuition Guide"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:00"
+  description: "Master Isaac Newton's three foundational laws of motion through pure visual intuition: the frictionless ice puck, force as the accelerator pedal (F = ma), directional acceleration, and action-reaction recoil symmetry."
+  tags: ["Newtons Laws", "Newtons Laws of Motion", "Classical Mechanics", "Inertia", "Force", "Acceleration", "F equals ma", "Action and Reaction", "Isaac Newton", "Physics Animation", "Intuitive Physics", "STEM", "p5.js"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
+  video_url: "https://www.youtube.com/watch?v=JmGX7d8gWmA"
+  article_url: "/experiments/newtons-laws-of-motion.html"
+
 - title: "Momentum, Collisions & The Center of Mass: The Invariant Laws of Impact"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"
