@@ -1,4 +1,15 @@
 # YouTube Video Series & Educational Tracks
+- title: "Work, Kinetic Energy & The Rollercoaster of Physics"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "03:41"
+  description: "Explore the conservation of mechanical energy as potential height pours like water into kinetic speed: work integrals (W = ∫ F · dr), quadratic velocity scaling (K = ½ m v²), clothoid teardrop loops, and eddy current magnetic brakes."
+  tags: ["Work and Energy", "Kinetic Energy", "Potential Energy", "Rollercoaster Physics", "Conservation of Energy", "Clothoid Loop", "Eddy Current Brakes", "Classical Mechanics", "Physics Animation", "STEM Education", "p5.js", "Procanimation"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #facc15 50%, #f43f5e 100%)"
+  video_url: "https://www.youtube.com/watch?v=n4yfwllP93c"
+  article_url: "/experiments/work-energy-rollercoaster.html"
+
 - title: "Newton's 3 Laws of Motion: The Visual Intuition Guide"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"
