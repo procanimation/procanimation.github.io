@@ -1,0 +1,463 @@
+---
+layout: article
+title: "The Aharonov-Bohm Effect: Quantum Non-Locality & The Reality of Potentials"
+tagline: "Action Without Force: How Electromagnetic Potentials Alter Reality Where Fields Never Exist"
+description: "Explore the profound quantum effect where electrons experience phase shifts in regions of strictly zero magnetic and electric fields through interactive simulations of solenoids, vector potentials, and electron holography."
+category: "Quantum Mechanics & Gauge Theory"
+permalink: /experiments/aharonov-bohm-effect.html
+---
+
+<p class="article-lead">
+  In classical physics, electromagnetic potentials $$\mathbf{A}$$ and $$V$$ were treated as mathematical conveniences—pure bookkeeping with no physical reality of their own. Only local electric and magnetic fields $$\mathbf{E}$$ and $$\mathbf{B}$$ were believed to exert physical influence via the Lorentz force $$\mathbf{F} = q(\mathbf{E} + \mathbf{v} \times \mathbf{B})$$. But in 1959, Yakir Aharonov and David Bohm demonstrated that quantum mechanics shatters this classical doctrine: an electron travelling entirely through empty space where $$\mathbf{B} = 0$$ and $$\mathbf{E} = 0$$ undergoes an observable phase shift governed exclusively by the enclosed magnetic vector potential $$\mathbf{A}$$.
+</p>
+
+<!-- Aharonov-Bohm Lexicon Hierarchy Grid -->
+<h3>The Theoretical Architecture</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Classical Field Illusion</h4>
+    <p>$$\mathbf{F} = q(\mathbf{E} + \mathbf{v} \times \mathbf{B}) \implies \mathbf{F} \equiv 0 \text{ when } \mathbf{B} = 0$$. Classical particles can never feel an influence from a perfectly shielded solenoid because no magnetic field line ever leaks outside the shielding.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Quantum Phase Shift</h4>
+    <p>$$\Delta \phi = \frac{q}{\hbar} \oint \mathbf{A} \cdot d\mathbf{l} = \frac{q}{\hbar} \Phi_B$$. In quantum mechanics, the wavefunction accumulates a phase along each trajectory. Even when $$\mathbf{B} = 0$$, the vector potential $$\mathbf{A} = \frac{\Phi_B}{2\pi r}\hat{\boldsymbol{\theta}}$$ circulates through space, creating a topological phase difference.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Tonomura's Niobium Shield</h4>
+    <p>In 1986, Akira Tonomura at Hitachi settled decades of debate using electron holography on a microscopic permalloy toroid coated with superconducting niobium. The Meissner effect guaranteed zero magnetic leakage ($$\mathbf{B}=0$$ to $$< 10^{-6}$$ Gauss), yet electron interference fringes shifted exactly by $$\pi$$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Fiber Bundles & Wilson Loops</h4>
+    <p>$$W[C] = \text{Tr} \, \mathcal{P} \exp\left(i g \oint_C A_\mu dx^\mu\right)$$. The Aharonov-Bohm phase is the fundamental prototype for gauge theory in modern particle physics, proving that geometry, holonomy, and fiber bundles govern the Standard Model.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🧲 LIVE AHARONOV-BOHM QUANTUM INTERFERENCE ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Vector Potential Streamlines, Solenoid Shielding & Interference Shift HUD)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabSolenoid" class="sim-btn primary">1. Solenoid & Vector Potential A</button>
+      <button id="btnTabDoubleSlit" class="sim-btn secondary">2. Quantum Two-Path Interference</button>
+      <button id="btnTabTonomura" class="sim-btn secondary">3. Tonomura Micro-Torus</button>
+      <button id="btnResetAB" class="sim-btn secondary">Reset State</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="abCanvas" width="900" height="540" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#fee440;">Magnetic Flux Φ_B:</span> <span id="dispFlux">1.00 Φ₀</span> &bull; 
+      <span style="color:#00f5d4;">Phase Shift Δφ:</span> <span id="dispPhase">π rad (180°)</span> &bull; 
+      <span style="color:#38bdf8;">Outside Field B:</span> <span id="dispField">0.000 T (Strictly Zero)</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="abStatusBadge">Mode: Solenoid & Circulating Vector Potential A</span>
+    </div>
+  </div>
+
+  <!-- Interactive Control Panel -->
+  <div style="padding:16px; background:#0f172a; border-top:1px solid rgba(255,255,255,0.1); display:flex; flex-wrap:wrap; gap:24px; align-items:center; font-size:0.85rem; color:#e2e8f0;">
+    <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:240px;">
+      <label for="fluxSlider" style="font-weight:600; color:#fee440;">Magnetic Flux Enclosed (Φ_B / Φ₀):</label>
+      <input type="range" id="fluxSlider" min="0" max="3" step="0.05" value="1.0" style="flex:1; cursor:pointer;">
+      <span id="fluxVal" style="font-family:monospace; min-width:45px; text-align:right;">1.00</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:12px;">
+      <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+        <input type="checkbox" id="chkStreamlines" checked>
+        <span>Vector Potential A Streamlines</span>
+      </label>
+      <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+        <input type="checkbox" id="chkElectrons" checked>
+        <span>Electron Wave Packets</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<h3>The Mathematical Derivation</h3>
+<p>
+  In quantum electrodynamics, the Schrödinger equation for a charged particle of mass $$m$$ and charge $$q$$ coupled to an electromagnetic gauge potential takes the minimal coupling form:
+</p>
+<div style="background:#0f172a; border:1px solid rgba(0,245,212,0.3); border-radius:8px; padding:18px; margin:20px 0; font-family:var(--font-mono, monospace); font-size:1.05rem; color:#00f5d4; text-align:center;">
+  $$\frac{1}{2m} \left( -i\hbar \boldsymbol{\nabla} - q \mathbf{A} \right)^2 \psi(\mathbf{r}, t) + q V \psi(\mathbf{r}, t) = i\hbar \frac{\partial \psi(\mathbf{r}, t)}{\partial t}$$
+</div>
+<p>
+  When an electron splits along two paths $$\Gamma_1$$ and $$\Gamma_2$$ enclosing a shielded solenoid with magnetic flux $$\Phi_B$$, the wavefunctions along each path acquire phase integrals:
+</p>
+<p>
+  $$\psi_1 = \psi_1^{(0)} \exp\left( \frac{iq}{\hbar} \int_{\Gamma_1} \mathbf{A} \cdot d\mathbf{l} \right), \quad \psi_2 = \psi_2^{(0)} \exp\left( \frac{iq}{\hbar} \int_{\Gamma_2} \mathbf{A} \cdot d\mathbf{l} \right)$$
+</p>
+<p>
+  The relative phase difference when the beams recombine at the detection screen is determined by the closed loop integral:
+</p>
+<div style="background:#0f172a; border:1px solid rgba(254,228,64,0.3); border-radius:8px; padding:18px; margin:20px 0; font-family:var(--font-mono, monospace); font-size:1.1rem; color:#fee440; text-align:center;">
+  $$\Delta \phi = \frac{q}{\hbar} \left( \int_{\Gamma_1} \mathbf{A} \cdot d\mathbf{l} - \int_{\Gamma_2} \mathbf{A} \cdot d\mathbf{l} \right) = \frac{q}{\hbar} \oint_C \mathbf{A} \cdot d\mathbf{l} = \frac{q}{\hbar} \iint_S (\boldsymbol{\nabla} \times \mathbf{A}) \cdot d\mathbf{S} = \frac{q}{\hbar} \Phi_B$$
+</div>
+<p>
+  Notice the remarkable physical implication: even though the magnetic field $$\mathbf{B} = \boldsymbol{\nabla} \times \mathbf{A} = 0$$ everywhere outside the solenoid where the electron actually travels, the interference pattern shifts laterally by an amount proportional to $$\Phi_B$$. When $$\Phi_B = \Phi_0 / 2 = h / (2e)$$, the interference shifts from constructive to destructive interference at the central axis!
+</p>
+
+<!-- Verification References -->
+<h3>Experimental Milestones & Academic References</h3>
+<ul>
+  <li><strong>Y. Aharonov & D. Bohm (1959)</strong>: <em>Significance of Electromagnetic Potentials in the Quantum Theory</em>, Physical Review 115, 485–491.</li>
+  <li><strong>R. G. Chambers (1960)</strong>: <em>Shift of an Electron Interference Pattern by Enclosed Magnetic Flux</em>, Physical Review Letters 5, 3–5.</li>
+  <li><strong>A. Tonomura et al. (1986)</strong>: <em>Evidence for Aharonov-Bohm effect with magnetic field completely shielded by a superconductor</em>, Physical Review Letters 56, 792–795.</li>
+  <li><strong>M. V. Berry (1984)</strong>: <em>Quantal Phase Factors Accompanying Adiabatic Changes</em>, Proceedings of the Royal Society of London A 392, 45–57.</li>
+</ul>
+
+<script>
+(function() {
+  const canvas = document.getElementById('abCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const btnSolenoid = document.getElementById('btnTabSolenoid');
+  const btnDoubleSlit = document.getElementById('btnTabDoubleSlit');
+  const btnTonomura = document.getElementById('btnTabTonomura');
+  const btnReset = document.getElementById('btnResetAB');
+
+  const fluxSlider = document.getElementById('fluxSlider');
+  const fluxVal = document.getElementById('fluxVal');
+  const chkStreamlines = document.getElementById('chkStreamlines');
+  const chkElectrons = document.getElementById('chkElectrons');
+
+  const dispFlux = document.getElementById('dispFlux');
+  const dispPhase = document.getElementById('dispPhase');
+  const dispField = document.getElementById('dispField');
+  const statusBadge = document.getElementById('abStatusBadge');
+
+  let currentTab = 'solenoid';
+  let simTime = 0;
+  let lastTime = performance.now();
+  let flux = 1.0;
+
+  // Wave packets
+  let electrons = [];
+  for (let i = 0; i < 40; i++) {
+    electrons.push({
+      x: Math.random() * 900,
+      y: 200 + Math.random() * 140,
+      path: Math.random() > 0.5 ? 1 : -1,
+      speed: 3 + Math.random() * 2,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+
+  function setTab(tab) {
+    currentTab = tab;
+    btnSolenoid.className = tab === 'solenoid' ? 'sim-btn primary' : 'sim-btn secondary';
+    btnDoubleSlit.className = tab === 'doubleslit' ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTonomura.className = tab === 'tonomura' ? 'sim-btn primary' : 'sim-btn secondary';
+
+    if (tab === 'solenoid') {
+      statusBadge.textContent = 'Mode: Solenoid & Circulating Vector Potential A';
+    } else if (tab === 'doubleslit') {
+      statusBadge.textContent = 'Mode: Quantum Two-Path Interference & Fringe Shift';
+    } else {
+      statusBadge.textContent = 'Mode: Tonomura Niobium Superconductor Shield (1986)';
+    }
+  }
+
+  btnSolenoid.addEventListener('click', () => setTab('solenoid'));
+  btnDoubleSlit.addEventListener('click', () => setTab('doubleslit'));
+  btnTonomura.addEventListener('click', () => setTab('tonomura'));
+
+  btnReset.addEventListener('click', () => {
+    flux = 1.0;
+    fluxSlider.value = '1.0';
+    fluxVal.textContent = '1.00';
+    simTime = 0;
+  });
+
+  fluxSlider.addEventListener('input', (e) => {
+    flux = parseFloat(e.target.value);
+    fluxVal.textContent = flux.toFixed(2);
+  });
+
+  function drawGrid() {
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 40) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 40) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
+  }
+
+  function loop(now) {
+    let dt = (now - lastTime) / 1000;
+    lastTime = now;
+    simTime += dt;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawGrid();
+
+    let cx = 400;
+    let cy = 270;
+    let solenoidR = 60;
+
+    let deltaPhi = flux * Math.PI; // Phase shift in radians
+
+    // Update Telemetry HUD
+    if (dispFlux) dispFlux.textContent = `${flux.toFixed(2)} Φ₀`;
+    if (dispPhase) dispPhase.textContent = `${(deltaPhi / Math.PI).toFixed(2)}π rad (${((deltaPhi * 180) / Math.PI).toFixed(0)}°)`;
+    if (dispField) dispField.textContent = '0.000 T (Strictly Zero Outside)';
+
+    if (currentTab === 'solenoid') {
+      drawSolenoidMode(cx, cy, solenoidR);
+    } else if (currentTab === 'doubleslit') {
+      drawDoubleSlitMode(cx, cy, solenoidR, deltaPhi);
+    } else {
+      drawTonomuraMode(cx, cy, solenoidR);
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  function drawSolenoidMode(cx, cy, R) {
+    // 1. Vector Potential Streamlines outside (A = Φ / 2πr)
+    if (chkStreamlines.checked) {
+      let numRings = 5;
+      for (let i = 0; i < numRings; i++) {
+        let r = R + 25 + i * 32;
+        let ringSpeed = (simTime * (flux * 1.5 + 0.5) / (i + 1)) % (Math.PI * 2);
+
+        ctx.strokeStyle = 'rgba(0, 245, 212, 0.25)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Directional arrows on streamlines
+        for (let a = 0; a < Math.PI * 2; a += Math.PI / 2) {
+          let ang = a + ringSpeed;
+          let ax = cx + Math.cos(ang) * r;
+          let ay = cy + Math.sin(ang) * r;
+
+          ctx.fillStyle = '#00f5d4';
+          ctx.beginPath();
+          ctx.arc(ax, ay, 3, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Tangential arrow
+          let tangX = -Math.sin(ang);
+          let tangY = Math.cos(ang);
+          ctx.strokeStyle = '#00f5d4';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(ax, ay);
+          ctx.lineTo(ax + tangX * 12, ay + tangY * 12);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // 2. Solenoid Core
+    ctx.save();
+    let grad = ctx.createRadialGradient(cx, cy, 10, cx, cy, R);
+    grad.addColorStop(0, '#ef4444');
+    grad.addColorStop(0.7, '#b91c1c');
+    grad.addColorStop(1, '#7f1d1d');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Shielding boundary ring
+    ctx.strokeStyle = '#fee440';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+
+    // Text callouts
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 14px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('B ≠ 0 (Flux Φ_B)', cx, cy - 8);
+    ctx.fillStyle = '#fee440';
+    ctx.font = '12px monospace';
+    ctx.fillText('MAGNETIC CORE', cx, cy + 12);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '13px monospace';
+    ctx.fillText('OUTSIDE: B ≡ 0, but A ≠ 0', cx, cy + R + 35);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px monospace';
+    ctx.fillText('A = (Φ_B / 2πr) θ̂  [Rotational Vector Potential]', cx, cy + R + 55);
+
+    // Right Side: Wave Interference Preview
+    drawInterferenceScreen(720, 270, flux * Math.PI);
+  }
+
+  function drawDoubleSlitMode(cx, cy, R, deltaPhi) {
+    // Electron emitter
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath();
+    ctx.arc(80, cy, 12, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('e⁻ SOURCE', 80, cy - 20);
+
+    // Two slits
+    ctx.fillStyle = '#334155';
+    ctx.fillRect(180, 80, 16, 150);
+    ctx.fillRect(180, 250, 16, 40);
+    ctx.fillRect(180, 310, 16, 150);
+
+    // Solenoid placed between the paths
+    ctx.fillStyle = '#ef4444';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 40, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#fee440';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText('SOLENOID', cx, cy + 4);
+
+    // Paths
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 6]);
+
+    // Path 1 (top)
+    ctx.beginPath();
+    ctx.moveTo(196, 240);
+    ctx.bezierCurveTo(280, 140, cx, 140, 680, cy);
+    ctx.stroke();
+
+    // Path 2 (bottom)
+    ctx.strokeStyle = '#a855f7';
+    ctx.beginPath();
+    ctx.moveTo(196, 300);
+    ctx.bezierCurveTo(280, 400, cx, 400, 680, cy);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Path Labels
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = 'bold 12px monospace';
+    ctx.fillText('Path Γ₁ (Phase +q/ℏ ∫A·dl)', 350, 130);
+    ctx.fillStyle = '#a855f7';
+    ctx.fillText('Path Γ₂ (Phase +q/ℏ ∫A·dl)', 350, 420);
+
+    // Right Side: Wave Interference
+    drawInterferenceScreen(760, 270, deltaPhi);
+  }
+
+  function drawTonomuraMode(cx, cy, R) {
+    // Akira Tonomura's Toroidal Magnet
+    let rOuter = 110;
+    let rInner = 50;
+
+    // Outer Niobium superconductor shield
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 8;
+    ctx.beginPath();
+    ctx.arc(cx, cy, rOuter, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Inner Niobium superconductor shield
+    ctx.beginPath();
+    ctx.arc(cx, cy, rInner, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Permalloy core (ferromagnet in doughnut)
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.4)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, rOuter, 0, Math.PI * 2);
+    ctx.arc(cx, cy, rInner, 0, Math.PI * 2, true);
+    ctx.fill();
+
+    // Magnetic flux circular arrows inside the torus
+    ctx.strokeStyle = '#fee440';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, (rOuter + rInner) / 2, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = 'bold 13px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('TONOMURA MICRO-TORUS (1986)', cx, cy - rOuter - 20);
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = '11px monospace';
+    ctx.fillText('Niobium Superconducting Shield (Meissner Effect)', cx, cy + rOuter + 25);
+    ctx.fillStyle = '#94a3b8';
+    ctx.fillText('Leakage Field B < 10⁻⁶ Gauss', cx, cy + rOuter + 45);
+
+    drawInterferenceScreen(740, 270, flux * Math.PI);
+  }
+
+  function drawInterferenceScreen(xCenter, yCenter, phaseShift) {
+    // Detector Screen box
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(xCenter - 60, yCenter - 180, 180, 360);
+    ctx.strokeRect(xCenter - 60, yCenter - 180, 180, 360);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('DETECTION SCREEN', xCenter + 30, yCenter - 190);
+
+    // Plot Intensity I(y) = cos^2(ky/2 + Δφ/2)
+    ctx.strokeStyle = '#fee440';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let y = -160; y <= 160; y += 2) {
+      let k = 0.05;
+      let phase = (k * y) + (phaseShift / 2);
+      let intensity = Math.pow(Math.cos(phase), 2); // 0 to 1
+      let px = (xCenter - 40) + intensity * 90;
+      let py = yCenter + y;
+
+      if (y === -160) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Central Shift Marker
+    let shiftY = -(phaseShift / 2) / 0.05;
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(xCenter - 50, yCenter + shiftY);
+    ctx.lineTo(xCenter + 100, yCenter + shiftY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '10px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('FRINGE SHIFT', xCenter + 12, yCenter + shiftY - 4);
+  }
+
+  lastTime = performance.now();
+  requestAnimationFrame(loop);
+})();
+</script>

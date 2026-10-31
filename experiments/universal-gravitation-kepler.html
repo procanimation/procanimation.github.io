@@ -1,0 +1,476 @@
+---
+layout: article
+title: "Universal Gravitation & Kepler's Celestial Laws: Newton's Cannon to Orbital Harmony"
+tagline: "The Architecture of the Cosmos: Falling Forever, Elliptical Orbits & The Harmonic Scale"
+description: "Master celestial mechanics and orbital physics through interactive simulations of Newton's mountain cannon, the inverse-square gravitational well, and Kepler's three laws of planetary motion."
+category: "Classical Mechanics & Celestial Dynamics"
+permalink: /experiments/universal-gravitation-kepler.html
+---
+
+<p class="article-lead">
+  For millennia, human philosophy drew an impenetrable wall between the corruptible earth below and the divine, circular heavens above. In 1687, Isaac Newton shattered this division forever with a singular, radical realization: the mundane force pulling a ripe apple to the orchard grass is identical to the invisible tether bending the Moon into its eternal celestial orbit. By unifying earthly dynamics with Johannes Kepler's empirical planetary observations, Newton established the foundation of modern physics: <strong>Universal Gravitation</strong>.
+</p>
+
+<!-- Gravitation Lexicon Hierarchy Grid -->
+<h3>The Celestial Mechanics Architecture</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Newton's Mountain Cannon</h4>
+    <p>$$v_{\text{orb}} = \sqrt{\frac{G M}{R}} \approx 7.91 \text{ km/s}$$. An orbit is not zero gravity: it is perpetual falling. When forward speed matches the curve of the globe, the falling object drops by 4.9 meters for every 8,000 meters traveled forward, continuously missing the ground.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Inverse-Square Well</h4>
+    <p>$$\mathbf{F} = -G \frac{M m}{r^2} \hat{\mathbf{r}}$$. Gravitational flux spreads across expanding spherical shells ($$A = 4\pi r^2$$). Double your distance from a world, and the geometric dilution reduces the attractive force to exactly one-quarter ($$1/2^2$$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Kepler's 1st Law (Ellipses)</h4>
+    <p>$$r(\theta) = \frac{a(1 - e^2)}{1 + e \cos \theta}$$. Planets do not travel in perfect circles; they trace ellipses with the Sun located at one focal point and empty space at the other. Distance fluctuates between perihelion ($$a(1-e)$$) and aphelion ($$a(1+e)$$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Kepler's 2nd Law (Equal Areas)</h4>
+    <p>$$\frac{dA}{dt} = \frac{L}{2m} = \text{constant}$$. Because gravity pulls purely radially toward the central mass, it exerts zero perpendicular torque ($$\boldsymbol{\tau} = \mathbf{r} \times \mathbf{F} = 0$$). Angular momentum is invariant, forcing the planet to sweep equal areas in equal times.</p>
+  </div>
+</div>
+
+<!-- Interactive Gravitation Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌌 LIVE UNIVERSAL GRAVITATION & ORBITAL ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Mountain Cannon, Keplerian Ellipse Sweeper & Solar System Harmonograph)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabCannon" class="sim-btn primary">1. Newton's Mountain Cannon</button>
+      <button id="btnTabKepler" class="sim-btn secondary">2. Kepler's Ellipse & Equal Areas</button>
+      <button id="btnTabSolar" class="sim-btn secondary">3. Solar System Harmonic Clock</button>
+      <button id="btnResetGrav" class="sim-btn secondary">Reset State</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="gravCanvas" width="900" height="540" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#fee440;">Launch Speed v:</span> <span id="dispSpeed">7.91 km/s</span> &bull; 
+      <span style="color:#00f5d4;">Trajectory:</span> <span id="dispTraj">Circular Orbit (LEO)</span> &bull; 
+      <span style="color:#38bdf8;">Central Pull g:</span> <span id="dispG">8.92 m/s²</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="gravStatusBadge">Mode: Newton's Mountain Cannon (v = 7.91 km/s Circular Orbit)</span>
+    </div>
+  </div>
+
+  <!-- Interactive Control Panel -->
+  <div style="padding:16px; background:#0f172a; border-top:1px solid rgba(255,255,255,0.1); display:flex; flex-wrap:wrap; gap:24px; align-items:center; font-size:0.85rem; color:#e2e8f0;">
+    <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:240px;">
+      <label for="speedSlider" style="font-weight:600; color:#fee440;">Cannon Velocity (km/s):</label>
+      <input type="range" id="speedSlider" min="2.0" max="12.0" step="0.1" value="7.9" style="flex:1; cursor:pointer;">
+      <span id="speedVal" style="font-family:monospace; min-width:45px; text-align:right;">7.91</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:12px;">
+      <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+        <input type="checkbox" id="chkTrail" checked>
+        <span>Orbital Trace Particles</span>
+      </label>
+      <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+        <input type="checkbox" id="chkVectors" checked>
+        <span>Velocity & Gravity Vectors</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<h3>The Mathematical Derivation</h3>
+<p>
+  Consider a satellite of mass $$m$$ moving at distance $$r$$ around a central spherical mass $$M$$. In Newtonian mechanics, the required inward centripetal acceleration to sustain circular motion must be supplied exclusively by the gravitational field:
+</p>
+<div style="background:#0f172a; border:1px solid rgba(0,245,212,0.3); border-radius:8px; padding:18px; margin:20px 0; font-family:var(--font-mono, monospace); font-size:1.05rem; color:#00f5d4; text-align:center;">
+  $$\frac{m v^2}{r} = \frac{G M m}{r^2} \implies v_{\text{orb}} = \sqrt{\frac{G M}{r}}$$
+</div>
+<p>
+  For an elliptical orbit with semi-major axis $$a$$, total mechanical energy $$E = K + U = \frac{1}{2}m v^2 - \frac{GMm}{r} = -\frac{GMm}{2a}$$ is strictly conserved. This yields the renowned <strong>Vis-Viva Equation</strong>:
+</p>
+<div style="background:#0f172a; border:1px solid rgba(254,228,64,0.3); border-radius:8px; padding:18px; margin:20px 0; font-family:var(--font-mono, monospace); font-size:1.1rem; color:#fee440; text-align:center;">
+  $$v^2 = G M \left( \frac{2}{r} - \frac{1}{a} \right)$$
+</div>
+<p>
+  Setting total energy $$E = 0$$ gives the condition where the object carries enough kinetic energy to coast to infinite distance, deriving the universal <strong>Escape Velocity</strong>:
+</p>
+<p>
+  $$v_{\text{esc}} = \sqrt{\frac{2 G M}{R}} = \sqrt{2} \, v_{\text{orb}} \approx 11.18 \text{ km/s for Earth}$$
+</p>
+<p>
+  To prove Kepler's Third Law ($$T^2 \propto a^3$$), we integrate the constant areal velocity $$\frac{dA}{dt} = \frac{L}{2m}$$ across one complete orbital period $$T$$. The total area of an ellipse is $$A = \pi a b$$, where $$b = a\sqrt{1 - e^2}$$ and specific angular momentum $$h = L/m = \sqrt{G M a (1 - e^2)}$$:
+</p>
+<div style="background:#0f172a; border:1px solid rgba(56,189,248,0.3); border-radius:8px; padding:18px; margin:20px 0; font-family:var(--font-mono, monospace); font-size:1.05rem; color:#38bdf8; text-align:center;">
+  $$T = \frac{2 \pi a b}{h} = \frac{2 \pi a \cdot a\sqrt{1-e^2}}{\sqrt{GM a (1-e^2)}} = \frac{2\pi}{\sqrt{GM}} a^{3/2} \implies T^2 = \left( \frac{4\pi^2}{G M} \right) a^3$$
+</div>
+
+<!-- Historical References -->
+<h3>Classical Foundations & Academic References</h3>
+<ul>
+  <li><strong>Johannes Kepler (1609)</strong>: <em>Astronomia Nova</em> — Announcement of the 1st (elliptical orbits) and 2nd (equal areas) laws of planetary motion.</li>
+  <li><strong>Johannes Kepler (1619)</strong>: <em>Harmonices Mundi (The Harmony of the World)</em> — Discovery of the 3rd harmonic law ($$T^2 \propto a^3$$).</li>
+  <li><strong>Isaac Newton (1687)</strong>: <em>Philosophiae Naturalis Principia Mathematica</em> — Mathematical formulation of Universal Gravitation and orbital derivation.</li>
+  <li><strong>Walter Hohmann (1925)</strong>: <em>Die Erreichbarkeit der Himmelskörper</em> — Minimum-energy interplanetary transfer ellipses between coplanar orbits.</li>
+</ul>
+
+<script>
+(function() {
+  const canvas = document.getElementById('gravCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const btnCannon = document.getElementById('btnTabCannon');
+  const btnKepler = document.getElementById('btnTabKepler');
+  const btnSolar = document.getElementById('btnTabSolar');
+  const btnReset = document.getElementById('btnResetGrav');
+
+  const speedSlider = document.getElementById('speedSlider');
+  const speedVal = document.getElementById('speedVal');
+  const chkTrail = document.getElementById('chkTrail');
+  const chkVectors = document.getElementById('chkVectors');
+
+  const dispSpeed = document.getElementById('dispSpeed');
+  const dispTraj = document.getElementById('dispTraj');
+  const dispG = document.getElementById('dispG');
+  const statusBadge = document.getElementById('gravStatusBadge');
+
+  let currentTab = 'cannon';
+  let simTime = 0;
+  let lastTime = performance.now();
+  let cannonSpeed = 7.91;
+
+  function setTab(tab) {
+    currentTab = tab;
+    btnCannon.className = tab === 'cannon' ? 'sim-btn primary' : 'sim-btn secondary';
+    btnKepler.className = tab === 'kepler' ? 'sim-btn primary' : 'sim-btn secondary';
+    btnSolar.className = tab === 'solar' ? 'sim-btn primary' : 'sim-btn secondary';
+
+    if (tab === 'cannon') {
+      statusBadge.textContent = "Mode: Newton's Mountain Cannon (Interactive Velocity)";
+    } else if (tab === 'kepler') {
+      statusBadge.textContent = "Mode: Kepler's Elliptical Orbit & Equal Area Sweeper";
+    } else {
+      statusBadge.textContent = "Mode: Solar System Harmonic Resonance (T² ∝ a³)";
+    }
+  }
+
+  btnCannon.addEventListener('click', () => setTab('cannon'));
+  btnKepler.addEventListener('click', () => setTab('kepler'));
+  btnSolar.addEventListener('click', () => setTab('solar'));
+
+  btnReset.addEventListener('click', () => {
+    cannonSpeed = 7.91;
+    speedSlider.value = '7.9';
+    speedVal.textContent = '7.91';
+    simTime = 0;
+  });
+
+  speedSlider.addEventListener('input', (e) => {
+    cannonSpeed = parseFloat(e.target.value);
+    speedVal.textContent = cannonSpeed.toFixed(2);
+  });
+
+  function drawGrid() {
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 40) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 40) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
+  }
+
+  function loop(now) {
+    let dt = (now - lastTime) / 1000;
+    lastTime = now;
+    simTime += dt;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawGrid();
+
+    if (dispSpeed) dispSpeed.textContent = `${cannonSpeed.toFixed(2)} km/s`;
+
+    if (currentTab === 'cannon') {
+      drawCannonMode();
+    } else if (currentTab === 'kepler') {
+      drawKeplerMode();
+    } else {
+      drawSolarMode();
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  function drawCannonMode() {
+    let cx = 450;
+    let cy = 300;
+    let R = 110;
+
+    // Atmospheric Glow
+    let atmoGrad = ctx.createRadialGradient(cx, cy, R - 5, cx, cy, R + 22);
+    atmoGrad.addColorStop(0, 'rgba(56, 189, 248, 0.4)');
+    atmoGrad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+    ctx.fillStyle = atmoGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, R + 22, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Earth Body
+    let earthGrad = ctx.createRadialGradient(cx - 30, cy - 30, 10, cx, cy, R);
+    earthGrad.addColorStop(0, '#1e40af');
+    earthGrad.addColorStop(0.7, '#1e3a8a');
+    earthGrad.addColorStop(1, '#0f172a');
+    ctx.fillStyle = earthGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Mountain peak at top
+    let mountX = cx;
+    let mountY = cy - R;
+    let peakY = mountY - 20;
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.beginPath();
+    ctx.moveTo(mountX - 12, mountY);
+    ctx.lineTo(mountX + 12, mountY);
+    ctx.lineTo(mountX, peakY);
+    ctx.closePath();
+    ctx.fill();
+
+    // Snow cap
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.moveTo(mountX - 5, peakY + 8);
+    ctx.lineTo(mountX + 5, peakY + 8);
+    ctx.lineTo(mountX, peakY);
+    ctx.closePath();
+    ctx.fill();
+
+    // Dynamic Trajectory based on cannonSpeed
+    let rLaunch = R + 20;
+    let vNorm = cannonSpeed / 7.91; // 1.0 = circular orbit
+
+    let trajType = "Sub-orbital Fall";
+    if (cannonSpeed < 7.5) {
+      trajType = "Sub-orbital Impact";
+      if (dispG) dispG.textContent = "9.81 m/s² (Ground Impact)";
+    } else if (cannonSpeed >= 7.5 && cannonSpeed <= 8.3) {
+      trajType = "Stable Circular Orbit (LEO)";
+      if (dispG) dispG.textContent = "8.92 m/s² (Perpetual Fall)";
+    } else if (cannonSpeed < 11.18) {
+      trajType = "Eccentric Elliptical Orbit";
+      if (dispG) dispG.textContent = "Variable (Apogee Climb)";
+    } else {
+      trajType = "Parabolic Escape (Interplanetary)";
+      if (dispG) dispG.textContent = "Decreasing to Zero";
+    }
+    if (dispTraj) dispTraj.textContent = trajType;
+
+    // Draw Orbit Curve
+    if (vNorm >= 0.95 && vNorm <= 1.4) {
+      // Orbit
+      let a = rLaunch / (2 - vNorm * vNorm);
+      let e = Math.abs(1 - rLaunch / a);
+      let b = a * Math.sqrt(Math.max(0.1, 1 - e * e));
+
+      ctx.strokeStyle = '#00f5d4';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + (a - rLaunch), b, a, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Satellite position
+      let orbAng = -Math.PI / 2 + simTime * (1.2 / Math.pow(vNorm, 1.5));
+      let sx = cx + Math.cos(orbAng) * b;
+      let sy = (cy + (a - rLaunch)) + Math.sin(orbAng) * a;
+
+      ctx.fillStyle = '#fee440';
+      ctx.beginPath();
+      ctx.arc(sx, sy, 7, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Vector arrows
+      if (chkVectors.checked) {
+        ctx.strokeStyle = '#fee440';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx - Math.sin(orbAng) * 24, sy + Math.cos(orbAng) * 24);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx - (sx - cx) * 0.15, sy - (sy - cy) * 0.15);
+        ctx.stroke();
+      }
+    } else if (vNorm < 0.95) {
+      // Sub-orbital drop arc
+      let arcFrac = vNorm * 1.6;
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let a = -Math.PI / 2; a <= -Math.PI / 2 + arcFrac; a += 0.03) {
+        let prog = (a - (-Math.PI / 2)) / arcFrac;
+        let rCur = rLaunch * (1 - prog * 0.18);
+        let px = cx + Math.cos(a) * rCur;
+        let py = cy + Math.sin(a) * rCur;
+        if (a === -Math.PI / 2) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    } else {
+      // Escape parabola
+      ctx.strokeStyle = '#fee440';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let x = -160; x <= 350; x += 6) {
+        let py = peakY + (x * x) / 360;
+        let px = mountX + x;
+        if (x === -160) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+  }
+
+  function drawKeplerMode() {
+    let cx = 450;
+    let cy = 270;
+    let a = 200;
+    let e = 0.55;
+    let c = a * e;
+    let b = a * Math.sqrt(1 - e * e);
+    let sunX = cx - c;
+    let sunY = cy;
+
+    // Ellipse Orbit
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, a, b, 0, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Equal Area Slices: Perihelion Slice
+    ctx.fillStyle = 'rgba(254, 228, 64, 0.25)';
+    ctx.beginPath();
+    ctx.moveTo(sunX, sunY);
+    for (let ang = Math.PI - 0.4; ang <= Math.PI + 0.4; ang += 0.02) {
+      let px = cx + a * Math.cos(ang);
+      let py = cy + b * Math.sin(ang);
+      ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    // Aphelion Slice
+    ctx.fillStyle = 'rgba(0, 245, 212, 0.25)';
+    ctx.beginPath();
+    ctx.moveTo(sunX, sunY);
+    for (let ang = -0.15; ang <= 0.15; ang += 0.02) {
+      let px = cx + a * Math.cos(ang);
+      let py = cy + b * Math.sin(ang);
+      ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    // Sun at Focus
+    let sGrad = ctx.createRadialGradient(sunX, sunY, 3, sunX, sunY, 30);
+    sGrad.addColorStop(0, '#ffffff');
+    sGrad.addColorStop(0.3, '#fee440');
+    sGrad.addColorStop(1, 'rgba(239, 68, 68, 0)');
+    ctx.fillStyle = sGrad;
+    ctx.beginPath();
+    ctx.arc(sunX, sunY, 30, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#fee440';
+    ctx.beginPath();
+    ctx.arc(sunX, sunY, 14, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Moving Planet
+    let theta = simTime * 0.9;
+    let px = cx + a * Math.cos(theta);
+    let py = cy + b * Math.sin(theta);
+
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(sunX, sunY);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath();
+    ctx.arc(px, py, 9, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('AREA A₁ ≡ AREA A₂ (Equal Times)', cx, 110);
+  }
+
+  function drawSolarMode() {
+    let cx = 450;
+    let cy = 270;
+
+    // Sun
+    ctx.fillStyle = '#fee440';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+    ctx.fill();
+
+    let planets = [
+      { name: "Mercury", r: 40, col: "#94a3b8", sz: 5, spd: 4.15 },
+      { name: "Venus",   r: 70, col: "#facc15", sz: 7, spd: 1.62 },
+      { name: "Earth",   r: 105, col: "#38bdf8", sz: 8, spd: 1.00 },
+      { name: "Mars",    r: 155, col: "#ef4444", sz: 6, spd: 0.53 },
+      { name: "Jupiter", r: 215, col: "#fb923c", sz: 12, spd: 0.084 }
+    ];
+
+    for (let p of planets) {
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, p.r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      let ang = simTime * p.spd * 0.6;
+      let px = cx + Math.cos(ang) * p.r;
+      let py = cy + Math.sin(ang) * p.r;
+
+      ctx.fillStyle = p.col;
+      ctx.beginPath();
+      ctx.arc(px, py, p.sz, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(p.name, px, py - p.sz - 3);
+    }
+  }
+
+  lastTime = performance.now();
+  requestAnimationFrame(loop);
+})();
+</script>

@@ -1,4 +1,26 @@
 # Public Creative Coding Showcase Projects
+- name: "The Aharonov-Bohm Effect: Quantum Non-Locality & Potentials"
+  slug: "aharonov-bohm-effect"
+  category: "physics"
+  tag: "Quantum Mechanics • Gauge Theory"
+  tech: "p5.js / Vector Potential Holonomy & Phase Shift Engine"
+  description: "Electromagnetic potentials, quantum phase shifts in zero-field regions, the shielded solenoid paradox, Akira Tonomura's superconductor experiment, and fiber bundle holonomy."
+  article_url: "/experiments/aharonov-bohm-effect.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/aharonov_bohm_effect"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+
+- name: "Universal Gravitation & Kepler's Celestial Laws"
+  slug: "universal-gravitation-kepler"
+  category: "physics"
+  tag: "Classical Mechanics • Celestial Dynamics"
+  tech: "p5.js / Newton's Cannon & Keplerian Harmonograph Engine"
+  description: "Newton's mountain cannon, perpetual falling orbits, the inverse-square gravitational well, Kepler's 3 laws of planetary motion, and Hohmann transfer orbits to Mars."
+  article_url: "/experiments/universal-gravitation-kepler.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/universal_gravitation_kepler"
+  featured: true
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #fee440 50%, #ef4444 100%)"
+
 - name: "Rotational Motion & Angular Momentum: Gyroscopes & Torque"
   slug: "rotational-motion-angular-momentum"
   category: "physics"
