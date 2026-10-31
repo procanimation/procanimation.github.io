@@ -1,4 +1,26 @@
 # YouTube Video Series & Educational Tracks
+- title: "Universal Gravitation & Kepler's Laws: Newton's Cannon to Orbital Harmony"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "05:00"
+  description: "Master celestial mechanics, Newton's mountain cannon, perpetual falling orbits, Kepler's 3 laws of planetary motion, and Hohmann transfer orbits to Mars."
+  tags: ["Universal Gravitation", "Keplers Laws", "Newtons Laws", "Orbital Mechanics", "Celestial Mechanics", "Newtons Cannon", "Escape Velocity", "Hohmann Transfer", "Elliptical Orbit", "Inverse Square Law", "Angular Momentum", "Planetary Motion", "Spacecraft", "Solar System", "Astrophysics", "Physics Simulation", "p5js", "STEM Animation", "Science Documentary", "Procanimation"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #fee440 50%, #ef4444 100%)"
+  video_url: "https://www.youtube.com/watch?v=KoTyjyLbsLI"
+  article_url: "/experiments/universal-gravitation-kepler.html"
+
+- title: "The Aharonov-Bohm Effect: Quantum Non-Locality & The Reality of Potentials"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "05:01"
+  description: "Explore quantum non-locality, electromagnetic potentials, shielded solenoids, Akira Tonomura's superconductor experiment, and fiber bundle holonomy."
+  tags: ["Aharonov Bohm Effect", "Quantum Mechanics", "Vector Potential", "Electromagnetic Potentials", "Quantum Physics", "Theoretical Physics", "Tonomura Experiment", "Gauge Invariance", "Gauge Theory", "Berry Phase", "Wilson Loop", "Magnetic Monopole", "Superconductivity", "Meissner Effect", "Quantum Interference", "Double Slit", "Electromagnetism", "STEM Animation", "Science Documentary", "Procanimation"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
+  video_url: "https://www.youtube.com/watch?v=41BJIC9s54U"
+  article_url: "/experiments/aharonov-bohm-effect.html"
+
 - title: "Rotational Motion & Angular Momentum: Gyroscopes, Precession & The Figure Skater Spin"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"
