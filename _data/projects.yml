@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "2D Motion & Projectile Trajectories"
+  slug: "2d-projectile-motion"
+  category: "physics"
+  tag: "Classical Mechanics • Ballistics"
+  tech: "p5.js / Orthogonal Independence & Safety Envelope Engine"
+  description: "Galileo's orthogonal independence principle, timeless parabolic trajectory derivation, dynamic velocity vector decomposition, the parabolic safety envelope, aerodynamic drag, and Newton's orbital cannon."
+  article_url: "/experiments/2d-projectile-motion.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/2d_projectile_motion"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)"
+
 - name: "1D Motion & The Calculus of Kinematics"
   slug: "1d-motion-kinematics"
   category: "physics"

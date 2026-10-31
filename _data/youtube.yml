@@ -1,4 +1,15 @@
 # YouTube Video Series & Educational Tracks
+- title: "2D Motion & Projectile Trajectories: Parabolic Envelopes & Orbital Mechanics"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:52"
+  description: "Galileo's orthogonal independence principle, timeless parabolic trajectory derivation, dynamic velocity vector decomposition, the parabolic safety envelope, aerodynamic drag, and Newton's orbital cannon."
+  tags: ["2D Motion", "Projectile Motion", "Classical Mechanics", "Parabolic Trajectory", "Safety Envelope", "Galileo Galilei", "Isaac Newton", "Ballistics", "Centripetal Acceleration", "Orbital Mechanics", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=z3938q0OjIc"
+  article_url: "/experiments/2d-projectile-motion.html"
+
 - title: "1D Motion & The Calculus of Kinematics: Derivatives, Concavity & Galileo's Laws"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"

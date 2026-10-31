@@ -1,0 +1,330 @@
+---
+layout: article
+title: "2D Motion & Projectile Trajectories"
+tagline: "Orthogonal Independence, The Parabolic Safety Envelope, Air Drag & Orbital Leap"
+description: "How the complete independence of perpendicular dimensions produces parabolas, bounding envelopes, and celestial orbits."
+category: "Classical Mechanics & Kinematics"
+permalink: /experiments/2d-projectile-motion.html
+---
+
+<p class="article-lead">
+  When an arrow arcs across the sky or an artillery shell seeks its target, motion escapes the confines of a single straight line and expands into the plane. Discovered by <strong>Galileo Galilei</strong>, the foundational law governing all multi-dimensional motion is the <strong>independence of orthogonal dimensions</strong>: what occurs horizontally has zero influence on vertical gravitational free fall. Eliminating time yields the timeless inverted parabola, whose family of curves defines an impenetrable geometric boundary: the <strong>parabolic safety envelope</strong>.
+</p>
+
+<!-- The 2D Projectile Architecture Grid -->
+<h3>The Architectural Principles of 2D Ballistics</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>1. Orthogonal Independence</h4>
+    <p>$$\mathbf{r}(t) = [v_0 \cos\theta \cdot t] \mathbf{\hat{i}} + [v_0 \sin\theta \cdot t - \frac{1}{2}gt^2] \mathbf{\hat{j}}$$. Horizontal motion proceeds at constant speed, completely unaffected by vertical acceleration.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>2. The Timeless Parabola</h4>
+    <p>Eliminating $$t = \frac{x}{v_0 \cos\theta}$$ yields the trajectory: $$y(x) = x \tan\theta - \frac{g}{2v_0^2 \cos^2\theta} x^2$$. Its apex occurs where vertical velocity vanishes ($$v_y \equiv 0$$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>3. The Parabolic Safety Envelope</h4>
+    <p>The upper envelope of all possible trajectories for fixed $$v_0$$ is the bounding parabola: $$y_{\text{bound}}(x) = \frac{v_0^2}{2g} - \frac{g}{2v_0^2}x^2$$. Targets outside this envelope are strictly unreachable.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>4. The Leap into Orbit</h4>
+    <p>As horizontal launch velocity reaches $$v_{\text{orb}} = \sqrt{g R_E} \approx 7.9\,\text{km/s}$$, the rate of falling matches Earth's curvature. The projectile falls forever without landing: it enters circular orbit.</p>
+  </div>
+</div>
+
+<!-- Interactive Projectile Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE 2D PROJECTILE & BALLISTICS ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Launch Angle, Velocity Vectors, Air Drag & Safety Envelope)</span>
+    </div>
+    <div class="sim-controls">
+      <label style="color:#94a3b8; font-size:0.8rem;">Angle θ: <span id="lblAngle" style="color:#00f5d4;">45°</span></label>
+      <input type="range" id="slAngle" min="15" max="80" value="45" step="1" style="width:110px;">
+      
+      <label style="color:#94a3b8; font-size:0.8rem;">Speed v₀: <span id="lblSpeed" style="color:#fee440;">70 m/s</span></label>
+      <input type="range" id="slSpeed" min="30" max="100" value="70" step="1" style="width:110px;">
+
+      <button id="btnToggleDrag" class="sim-btn secondary">Toggle Air Drag</button>
+      <button id="btnLaunch" class="sim-btn primary">Fire Projectile</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="projectileCanvas" width="900" height="540" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Max Height H:</span> <span id="dispH">0.0 m</span> &bull; 
+      <span style="color:#fee440;">Range R:</span> <span id="dispR">0.0 m</span> &bull; 
+      <span style="color:#f72585;">Flight Time T:</span> <span id="dispT">0.0 s</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="dragBadge">Vacuum Model (No Drag)</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('projectileCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let angleDeg = 45;
+  let v0 = 70;
+  let withDrag = false;
+  let simTime = 0;
+  let isFiring = true;
+
+  const slAngle = document.getElementById('slAngle');
+  const slSpeed = document.getElementById('slSpeed');
+  const lblAngle = document.getElementById('lblAngle');
+  const lblSpeed = document.getElementById('lblSpeed');
+  const btnToggleDrag = document.getElementById('btnToggleDrag');
+  const btnLaunch = document.getElementById('btnLaunch');
+  const dispH = document.getElementById('dispH');
+  const dispR = document.getElementById('dispR');
+  const dispT = document.getElementById('dispT');
+  const dragBadge = document.getElementById('dragBadge');
+
+  slAngle.addEventListener('input', (e) => {
+    angleDeg = parseFloat(e.target.value);
+    lblAngle.innerText = angleDeg + '°';
+    simTime = 0;
+  });
+
+  slSpeed.addEventListener('input', (e) => {
+    v0 = parseFloat(e.target.value);
+    lblSpeed.innerText = v0 + ' m/s';
+    simTime = 0;
+  });
+
+  btnToggleDrag.addEventListener('click', () => {
+    withDrag = !withDrag;
+    btnToggleDrag.className = withDrag ? 'sim-btn primary' : 'sim-btn secondary';
+    dragBadge.innerText = withDrag ? 'Aerodynamic Drag: F_d = -½ρCdAv²' : 'Vacuum Model (No Drag)';
+    simTime = 0;
+  });
+
+  btnLaunch.addEventListener('click', () => { simTime = 0; });
+
+  const g = 9.807;
+
+  function render() {
+    simTime += 0.025;
+
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, w, h);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+    for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+    const groundY = h - 70;
+    const originX = 60;
+
+    // Ground line
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(originX, groundY); ctx.lineTo(w - 40, groundY); ctx.stroke();
+
+    const theta = (angleDeg * Math.PI) / 180.0;
+    const v0x = v0 * Math.cos(theta);
+    const v0y = v0 * Math.sin(theta);
+
+    const T_flight = (2 * v0y) / g;
+    const H_max = (v0y * v0y) / (2 * g);
+    const R_max = (v0 * v0 * Math.sin(2 * theta)) / g;
+
+    const scaleX = (w - 140) / Math.max(500, R_max * 1.15);
+    const scaleY = (h - 180) / Math.max(160, H_max * 1.25);
+
+    // Draw Parabolic Safety Envelope
+    const H_env = (v0 * v0) / (2 * g);
+    const R_env = (v0 * v0) / g;
+    ctx.strokeStyle = 'rgba(254, 228, 64, 0.35)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    for (let x = 0; x <= R_env; x += 4) {
+      let yBound = H_env - (g / (2 * v0 * v0)) * (x * x);
+      if (yBound < 0) break;
+      let px = originX + x * scaleX;
+      let py = groundY - yBound * scaleY;
+      if (x === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Draw Theoretical Ideal Vacuum Parabola
+    ctx.strokeStyle = withDrag ? 'rgba(0, 245, 212, 0.3)' : '#00f5d4';
+    ctx.lineWidth = withDrag ? 1.5 : 3;
+    ctx.beginPath();
+    for (let x = 0; x <= R_max; x += 4) {
+      let y = x * Math.tan(theta) - (g / (2 * v0x * v0x)) * (x * x);
+      let px = originX + x * scaleX;
+      let py = groundY - y * scaleY;
+      if (x === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Numerical integration with Drag
+    let path = [];
+    let curX = 0, curY = 0, curVx = v0x, curVy = v0y;
+    let dt = 0.01;
+    let dragK = withDrag ? 0.014 : 0.0;
+    let actualT = 0;
+    let maxH = 0;
+
+    while (curY >= 0 && curX < 800) {
+      path.push({ x: curX, y: curY, vx: curVx, vy: curVy, t: actualT });
+      if (curY > maxH) maxH = curY;
+      let spd = Math.sqrt(curVx * curVx + curVy * curVy);
+      let ax = -dragK * spd * curVx;
+      let ay = -g - dragK * spd * curVy;
+      curVx += ax * dt;
+      curVy += ay * dt;
+      curX += curVx * dt;
+      curY += curVy * dt;
+      actualT += dt;
+    }
+
+    if (withDrag) {
+      ctx.strokeStyle = '#f72585';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for (let i = 0; i < path.length; i++) {
+        let px = originX + path[i].x * scaleX;
+        let py = groundY - path[i].y * scaleY;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+
+    // Active Projectile Position along path
+    let loopDur = (withDrag ? actualT : T_flight) + 1.0;
+    let currentT = simTime % loopDur;
+    let activeState = null;
+
+    if (withDrag) {
+      for (let pt of path) {
+        if (pt.t >= currentT) { activeState = pt; break; }
+      }
+      if (!activeState && path.length > 0) activeState = path[path.length - 1];
+    } else {
+      if (currentT <= T_flight) {
+        let x = v0x * currentT;
+        let y = v0y * currentT - 0.5 * g * currentT * currentT;
+        let vx = v0x;
+        let vy = v0y - g * currentT;
+        activeState = { x, y, vx, vy };
+      }
+    }
+
+    if (activeState) {
+      let apx = originX + activeState.x * scaleX;
+      let apy = groundY - activeState.y * scaleY;
+
+      // Projectile Glowing Sphere
+      ctx.fillStyle = withDrag ? '#f72585' : '#00f5d4';
+      ctx.beginPath(); ctx.arc(apx, apy, 8, 0, Math.PI * 2); ctx.fill();
+
+      // Velocity Components Arrows
+      let vScale = 0.6;
+      // vx arrow
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(apx, apy); ctx.lineTo(apx + activeState.vx * vScale, apy); ctx.stroke();
+      // vy arrow
+      ctx.strokeStyle = '#fee440';
+      ctx.beginPath(); ctx.moveTo(apx, apy); ctx.lineTo(apx, apy - activeState.vy * vScale); ctx.stroke();
+      // Resultant v arrow
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(apx, apy); ctx.lineTo(apx + activeState.vx * vScale, apy - activeState.vy * vScale); ctx.stroke();
+    }
+
+    // Telemetry updates
+    dispH.innerText = (withDrag ? maxH : H_max).toFixed(1) + ' m';
+    dispR.innerText = (withDrag ? path[path.length-1].x : R_max).toFixed(1) + ' m';
+    dispT.innerText = (withDrag ? actualT : T_flight).toFixed(2) + ' s';
+
+    requestAnimationFrame(render);
+  }
+
+  requestAnimationFrame(render);
+})();
+</script>
+
+<h2>1. The Geometry of 2D Projectiles</h2>
+<p>
+  When air resistance is negligible, the equations of motion decouple completely:
+</p>
+
+$$\begin{aligned}
+  x(t) &= v_0 \cos\theta \cdot t \\
+  y(t) &= v_0 \sin\theta \cdot t - \frac{1}{2}gt^2
+\end{aligned}$$
+
+<p>
+  Solving the horizontal relation for $t = \frac{x}{v_0 \cos\theta}$ and substituting into the vertical trajectory produces the timeless parabola:
+</p>
+
+<div class="math-card">
+  <div class="math-title">The Parabolic Trajectory Equation</div>
+  $$y(x) = x \tan\theta - \frac{g}{2v_0^2 \cos^2\theta} x^2$$
+</div>
+
+<h2>2. Key Trajectory Metrics</h2>
+<ul>
+  <li><strong>Time of Flight ($T$)</strong>: When $y = 0$, $T = \frac{2v_0 \sin\theta}{g}$.</li>
+  <li><strong>Maximum Apex Height ($H$)</strong>: Occurs where $v_y = 0$, giving $H = \frac{v_0^2 \sin^2\theta}{2g}$.</li>
+  <li><strong>Horizontal Range ($R$)</strong>: $R = \frac{v_0^2 \sin(2\theta)}{g}$. The maximum range occurs at $\theta = 45^\circ$, and complementary angles ($\theta$ and $90^\circ - \theta$) achieve identical range.</li>
+</ul>
+
+<h2>3. The Parabolic Safety Envelope</h2>
+<p>
+  By considering all possible launch angles $\theta \in (0, \pi/2)$ for a given launch speed $v_0$, the outer boundary enclosing all reachable space forms an inverted bounding parabola:
+</p>
+
+$$y_{\text{bound}}(x) = \frac{v_0^2}{2g} - \frac{g}{2v_0^2}x^2$$
+
+<p>
+  Points with coordinates $(x, y)$ satisfying $y > y_{\text{bound}}(x)$ cannot be reached by any launch angle with speed $v_0$.
+</p>
+
+<h2>4. 1080p Master Documentary Feature</h2>
+<p>
+  Watch the master 1080p documentary feature produced by <strong>Procanimation World Studio</strong>:
+</p>
+
+<div class="video-showcase-card">
+  <div class="video-badge">
+    <span>▶ 1080P MASTER • FULL DOCUMENTARY FEATURE</span>
+  </div>
+  <div class="video-info">
+    <h3>2D Motion & Projectile Trajectories: The Parabola of Reality</h3>
+    <p>Galileo's orthogonal independence principle, dynamic velocity vector decomposition, the parabolic safety envelope, aerodynamic drag coupling, and Newton's orbital mountain cannon.</p>
+    <div class="video-meta-tags">
+      <span class="meta-tag">Code: p5.js / Canvas</span>
+      <span class="meta-tag">16:9 Landscape Master</span>
+      <span class="meta-tag">Audio: 48kHz Neural Stereo</span>
+      <span class="meta-tag">Duration: 04:52</span>
+    </div>
+    <div id="videoContainer" style="margin-top:16px;">
+      <a id="ytLink2D" href="https://www.youtube.com/watch?v=z3938q0OjIc" target="_blank" class="btn btn-youtube" style="display:inline-flex; align-items:center; gap:8px;">
+        ▶ Watch on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
+
