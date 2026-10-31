@@ -1,4 +1,15 @@
 # YouTube Video Series & Educational Tracks
+- title: "Rotational Motion & Angular Momentum: Gyroscopes, Precession & The Figure Skater Spin"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:29"
+  description: "Master rotational dynamics, the moment of inertia, rolling races down ramps, the figure skater spin paradox, and anti-gravity gyroscopic precession."
+  tags: ["Rotational Motion", "Angular Momentum", "Gyroscope", "Gyroscopic Precession", "Moment of Inertia", "Torque", "Figure Skater Spin", "Classical Mechanics", "Physics Animation", "Intuitive Physics", "STEM", "p5.js"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #a855f7 100%)"
+  video_url: "https://www.youtube.com/watch?v=rhHsJUhPa60"
+  article_url: "/experiments/rotational-motion-angular-momentum.html"
+
 - title: "Work, Kinetic Energy & The Rollercoaster of Physics"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"
