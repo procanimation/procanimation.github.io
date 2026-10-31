@@ -1,4 +1,26 @@
 # Public Creative Coding Showcase Projects
+- name: "Newton's 3 Laws of Motion: The Visual Intuition Guide"
+  slug: "newtons-laws-of-motion"
+  category: "physics"
+  tag: "Classical Mechanics • Dynamics"
+  tech: "p5.js / Newtonian Dynamics & Action-Reaction Spring Engine"
+  description: "Visual intuition for Newton's 3 laws: the frictionless ice puck in deep vacuum, force as the velocity accelerator pedal (F = ma), directional acceleration, and action-reaction recoil symmetry."
+  article_url: "/experiments/newtons-laws-of-motion.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/newtons_laws_of_motion"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
+
+- name: "Work, Kinetic Energy & The Rollercoaster of Physics"
+  slug: "work-energy-rollercoaster"
+  category: "physics"
+  tag: "Classical Mechanics • Energy & Thermodynamics"
+  tech: "p5.js / Spline Coaster & Twin Fluid Reservoir Engine"
+  description: "Mechanical work integrals, quadratic velocity scaling, potential energy hills, twin fluid tanks trading volume in real time, clothoid teardrop loops, and eddy current magnetic brakes."
+  article_url: "/experiments/work-energy-rollercoaster.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/work_energy_rollercoaster"
+  featured: true
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #facc15 50%, #f43f5e 100%)"
+
 - name: "Momentum, Collisions & The Center of Mass"
   slug: "momentum-collisions-center-of-mass"
   category: "physics"

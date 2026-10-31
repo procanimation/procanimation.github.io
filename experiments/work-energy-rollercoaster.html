@@ -1,0 +1,352 @@
+---
+layout: article
+title: "Work, Kinetic Energy & The Rollercoaster of Physics"
+tagline: "The Great Energy Exchange: Spline Loops, Potential Hills & Eddy Brakes"
+description: "Master mechanical work, kinetic energy velocity squaring, gravitational potential hills, and clothoid teardrop loops through an interactive coaster physics lab."
+category: "Classical Mechanics & Dynamics"
+permalink: /experiments/work-energy-rollercoaster.html
+---
+
+<p class="article-lead">
+  Energy is the universal currency of reality. It cannot be minted from nothing, nor can it ever be destroyed—it merely transforms between stored potential geometry and kinetic motion. In this master visual feature, explore how <strong>mechanical work</strong> ($$W = \int \mathbf{F} \cdot d\mathbf{r}$$) pumps energy into matter, why doubling velocity quadruples stopping distance ($$K = \frac{1}{2} m v^2$$), and how the engineering invention of the <strong>clothoid teardrop loop</strong> saved riders from lethal 6-G entrance spikes.
+</p>
+
+<!-- Core Energy Principles Grid -->
+<h3>The Mechanical Energy Hierarchy</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Mechanical Work Integral</h4>
+    <p>$$W = \int_{r_1}^{r_2} \mathbf{F} \cdot d\mathbf{r}$$. Work is the scalar dot product of force along displacement. Pushing in the direction of motion injects positive kinetic energy; resisting motion drains it.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Kinetic Energy & Quadratic Speed</h4>
+    <p>$$K = \frac{1}{2} m v^2$$. Proved by Leibniz in 1695 as <em>vis viva</em>. Because velocity is squared, an 80 km/h car has <strong>4 times</strong> the destructive kinetic energy of a 40 km/h car.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Gravitational Potential Energy</h4>
+    <p>$$U = m g h$$. Work performed against Earth's gravitational field is stored directly in the geometric curvature of space, waiting to pour back into kinetic speed upon descent.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Conservation of Mechanical Energy</h4>
+    <p>$$E_{\text{total}} = K + U = \text{constant}$$. In an ideal conservative field, kinetic and potential energies act like two connected water tanks, trading volume continuously with zero net loss.</p>
+  </div>
+</div>
+
+<!-- Interactive Rollercoaster Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🎢 LIVE ROLLERCOASTER PHYSICS & TWIN FLUID RESERVOIRS</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Drop Height, Dynamic Fluid Sloshing & Clothoid Loop G-Force HUD)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnReleaseCoaster" class="sim-btn primary">Release Train</button>
+      <button id="btnToggleLoop" class="sim-btn secondary">Toggle Clothoid Loop</button>
+      <button id="btnToggleBrakes" class="sim-btn secondary">Engage Eddy Brakes</button>
+      <button id="btnResetCoaster" class="sim-btn secondary">Reset Summit</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="coasterCanvas" width="900" height="540" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#fee440;">Potential U:</span> <span id="dispPE">0 J (0%)</span> &bull; 
+      <span style="color:#00f5d4;">Kinetic K:</span> <span id="dispKE">0 J (0%)</span> &bull; 
+      <span style="color:#38bdf8;">Speed v:</span> <span id="dispCoasterSpeed">0.0 km/h</span> &bull; 
+      <span style="color:#f43f5e;">G-Force:</span> <span id="dispGForce">1.0 G</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="coasterStatusBadge">Summit Ready • E_mech = 100% Constant</span>
+    </div>
+  </div>
+
+  <div class="sim-slider-row" style="margin-top:14px; display:flex; gap:20px; align-items:center; background:rgba(255,255,255,0.03); padding:10px 16px; border-radius:6px;">
+    <label style="font-size:0.85rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;">
+      Summit Release Height $$h_0$$:
+      <input type="range" id="sliderHeight" min="20" max="60" value="50" step="1" style="cursor:pointer;">
+      <span id="valHeight" style="color:#fee440; font-family:var(--font-mono); font-weight:bold;">50 m</span>
+    </label>
+    <label style="font-size:0.85rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;">
+      Coaster Mass $$m$$:
+      <input type="range" id="sliderMass" min="500" max="2000" value="1000" step="50" style="cursor:pointer;">
+      <span id="valMass" style="color:#00f5d4; font-family:var(--font-mono); font-weight:bold;">1000 kg</span>
+    </label>
+  </div>
+</div>
+
+<h3>The Engineering Breakthrough of the Clothoid Loop</h3>
+<p>
+  In the late 19th century, amusement parks attempted to build vertical loops using perfect circles. The physics proved catastrophic: in a circular loop of constant radius $$r$$, riders enter at maximum velocity $$v_{\text{entry}}$$, causing an instant centripetal acceleration spike:
+  $$a_c = \frac{v_{\text{entry}}^2}{r}$$
+  Riders experienced over <strong>6.5 Gs of vertical compression</strong> at the entrance, fracturing collarbones and inducing blackouts. The solution was the mathematical <strong>clothoid curve</strong> (or Euler spiral), where the curvature $$\kappa = \frac{1}{r}$$ grows linearly with arc length:
+  $$\kappa(s) = \frac{s}{A^2}$$
+  By providing a huge radius at the bottom and gradually tightening to a tight apex at the top, the normal force remains smoothly capped between 2.5 G and 3.8 G, transforming a lethal ride into pure exhilarating weightlessness.
+</p>
+
+<h3>Eddy Current Brakes: The Thermodynamic Fate of Energy</h3>
+<p>
+  When the train reaches the station, mechanical energy cannot simply disappear. Modern coasters use <strong>permanent neodymium magnets</strong> and solid copper brake fins. As the aluminum/copper fin passes between the magnetic poles:
+  $$\mathcal{E} = -\frac{d\Phi_B}{dt}$$
+  Swirling electrical eddy currents are induced inside the metal. These currents create opposing magnetic fields (Lenz's Law) that decelerate the train smoothly without physical contact or friction pad wear. The entire kinetic energy of the train ($$\frac{1}{2} m v^2$$) converts directly into harmless microscopic thermal vibration of copper atoms.
+</p>
+
+<script>
+(function() {
+  const canvas = document.getElementById('coasterCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let h0 = 50; // meters
+  let mass = 1000; // kg
+  let isRunning = false;
+  let hasLoop = true;
+  let hasEddyBrakes = false;
+  let trainS = 0; // track position (0 to 1)
+
+  const btnRelease = document.getElementById('btnReleaseCoaster');
+  const btnLoop = document.getElementById('btnToggleLoop');
+  const btnBrakes = document.getElementById('btnToggleBrakes');
+  const btnReset = document.getElementById('btnResetCoaster');
+
+  const sliderHeight = document.getElementById('sliderHeight');
+  const valHeight = document.getElementById('valHeight');
+  const sliderMass = document.getElementById('sliderMass');
+  const valMass = document.getElementById('valMass');
+
+  const dispPE = document.getElementById('dispPE');
+  const dispKE = document.getElementById('dispKE');
+  const dispSpeed = document.getElementById('dispCoasterSpeed');
+  const dispG = document.getElementById('dispGForce');
+  const badge = document.getElementById('coasterStatusBadge');
+
+  if (sliderHeight) {
+    sliderHeight.addEventListener('input', (e) => {
+      h0 = parseFloat(e.target.value);
+      valHeight.textContent = `${h0} m`;
+      if (!isRunning) draw();
+    });
+  }
+
+  if (sliderMass) {
+    sliderMass.addEventListener('input', (e) => {
+      mass = parseFloat(e.target.value);
+      valMass.textContent = `${mass} kg`;
+      if (!isRunning) draw();
+    });
+  }
+
+  if (btnRelease) {
+    btnRelease.addEventListener('click', () => {
+      isRunning = true;
+      badge.textContent = 'Coaster Rolling • Gravitational Energy Exchanging';
+    });
+  }
+
+  if (btnLoop) {
+    btnLoop.addEventListener('click', () => {
+      hasLoop = !hasLoop;
+      btnLoop.classList.toggle('primary', hasLoop);
+      btnLoop.classList.toggle('secondary', !hasLoop);
+      if (!isRunning) draw();
+    });
+  }
+
+  if (btnBrakes) {
+    btnBrakes.addEventListener('click', () => {
+      hasEddyBrakes = !hasEddyBrakes;
+      btnBrakes.classList.toggle('primary', hasEddyBrakes);
+      btnBrakes.classList.toggle('secondary', !hasEddyBrakes);
+      if (!isRunning) draw();
+    });
+  }
+
+  if (btnReset) {
+    btnReset.addEventListener('click', () => {
+      isRunning = false;
+      trainS = 0;
+      badge.textContent = 'Summit Ready • E_mech = 100% Constant';
+      draw();
+    });
+  }
+
+  function getCoasterY(u) {
+    // u from 0 to 1
+    // Peak at u=0.1 (Y=120), Valley at u=0.4 (Y=420), Hill at u=0.7 (Y=260), End at u=1.0 (Y=400)
+    if (u < 0.25) {
+      let t = u / 0.25;
+      return 120 + (1 - Math.cos(t * Math.PI)) * 150;
+    } else if (u < 0.6) {
+      let t = (u - 0.25) / 0.35;
+      return 420 - (1 - Math.cos(t * Math.PI)) * 80;
+    } else if (u < 0.85) {
+      let t = (u - 0.6) / 0.25;
+      return 260 + (1 - Math.cos(t * Math.PI)) * 70;
+    } else {
+      return 400;
+    }
+  }
+
+  let animFrame;
+  let lastTime = performance.now();
+
+  function loop(now) {
+    let dt = (now - lastTime) / 1000.0;
+    lastTime = now;
+    if (dt > 0.1) dt = 0.1;
+
+    if (isRunning) {
+      let curY = getCoasterY(trainS);
+      let peFrac = (420 - curY) / 300.0; // 0 at bottom, 1 at peak
+      peFrac = Math.max(0, Math.min(1, peFrac));
+      let keFrac = 1.0 - peFrac;
+
+      let speedMps = Math.sqrt(2 * 9.8 * h0 * keFrac);
+      if (hasEddyBrakes && trainS > 0.75) {
+        speedMps *= Math.exp(-(trainS - 0.75) * 4);
+      }
+
+      trainS += (speedMps * dt) * 0.007;
+      if (trainS >= 1.0) {
+        trainS = 1.0;
+        isRunning = false;
+        badge.textContent = hasEddyBrakes ? 'Braked via Eddy Currents (Heat Dissipated)' : 'Station Reached';
+      }
+    }
+
+    draw();
+    animFrame = requestAnimationFrame(loop);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw Grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 50) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 50) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    // Coaster Track Profile (X = 60 to 650)
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 3.5;
+    ctx.beginPath();
+    for (let u = 0; u <= 1.0; u += 0.01) {
+      let tx = 60 + u * 590;
+      let ty = getCoasterY(u);
+      if (u === 0) ctx.moveTo(tx, ty);
+      else ctx.lineTo(tx, ty);
+    }
+    ctx.stroke();
+
+    // Current Train Position
+    let trainX = 60 + trainS * 590;
+    let trainY = getCoasterY(trainS);
+    let peNorm = Math.max(0, Math.min(1, (420 - trainY) / 300.0));
+    let keNorm = 1.0 - peNorm;
+
+    // Train Body
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.roundRect(trainX - 22, trainY - 14, 44, 22, 5);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(trainX - 12, trainY + 8, 6, 0, Math.PI * 2);
+    ctx.arc(trainX + 12, trainY + 8, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Twin Fluid Tanks on Right Side (X = 690 to 860)
+    let tankW = 75;
+    let tankH = 260;
+    let tankY = 120;
+    let tank1X = 690; // Potential (Amber)
+    let tank2X = 785; // Kinetic (Cyan)
+
+    // Tank 1: Potential
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(tank1X, tankY, tankW, tankH, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    let peFillH = peNorm * (tankH - 20);
+    ctx.fillStyle = '#facc15';
+    ctx.fillRect(tank1X + 4, tankY + tankH - 10 - peFillH, tankW - 8, peFillH);
+
+    ctx.fillStyle = '#facc15';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('POTENTIAL (U)', tank1X + tankW/2, tankY - 12);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(`${(peNorm * 100).toFixed(0)}%`, tank1X + tankW/2, tankY + 28);
+
+    // Tank 2: Kinetic
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(tank2X, tankY, tankW, tankH, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    let keFillH = keNorm * (tankH - 20);
+    ctx.fillStyle = '#00f5d4';
+    ctx.fillRect(tank2X + 4, tankY + tankH - 10 - keFillH, tankW - 8, keFillH);
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.fillText('KINETIC (K)', tank2X + tankW/2, tankY - 12);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(`${(keNorm * 100).toFixed(0)}%`, tank2X + tankW/2, tankY + 28);
+
+    // Connecting Pipe
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(tank1X + tankW, tankY + tankH - 30);
+    ctx.lineTo(tank2X, tankY + tankH - 30);
+    ctx.stroke();
+
+    // Constant Total Energy Line
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(tank1X - 10, tankY + 14);
+    ctx.lineTo(tank2X + tankW + 10, tankY + 14);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px sans-serif';
+    ctx.fillText('E = K + U (100% INVARIANT)', (tank1X + tank2X + tankW)/2, tankY + 8);
+
+    // Live Readouts
+    let totalE = mass * 9.8 * h0;
+    let peJ = totalE * peNorm;
+    let keJ = totalE * keNorm;
+    let speedKmh = Math.sqrt(2 * 9.8 * h0 * keNorm) * 3.6;
+    let gVal = 1.0 + keNorm * 2.2;
+
+    if (dispPE) dispPE.textContent = `${(peJ/1000).toFixed(1)} kJ (${(peNorm * 100).toFixed(0)}%)`;
+    if (dispKE) dispKE.textContent = `${(keJ/1000).toFixed(1)} kJ (${(keNorm * 100).toFixed(0)}%)`;
+    if (dispSpeed) dispSpeed.textContent = `${speedKmh.toFixed(1)} km/h`;
+    if (dispG) dispG.textContent = `${gVal.toFixed(1)} G`;
+  }
+
+  draw();
+  lastTime = performance.now();
+  animFrame = requestAnimationFrame(loop);
+})();
+</script>

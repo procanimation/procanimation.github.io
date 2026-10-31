@@ -1,0 +1,291 @@
+---
+layout: article
+title: "Newton's 3 Laws of Motion: The Visual Intuition Guide"
+tagline: "Inertia Pucks, Force Accelerator Pedals & Action-Reaction Springs"
+description: "Master the three laws that rule the cosmos through pure visual intuition, interactive force pedals, and spring recoil physics."
+category: "Classical Mechanics & Dynamics"
+permalink: /experiments/newtons-laws-of-motion.html
+---
+
+<p class="article-lead">
+  For two thousand years, human intuition was trapped by an illusion: Aristotle believed that objects naturally want to stop, and that motion requires a continuous push. In 1687, <strong>Isaac Newton</strong> unlocked the true architecture of the physical universe with three elegant laws. Forces do not create motion; forces create <em>acceleration</em>. Inertia preserves the past, force creates the future, and interactions bind every atom in the cosmos.
+</p>
+
+<!-- The 3 Laws Architecture Grid -->
+<h3>The Three Foundations of Classical Reality</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>1st Law: The Law of Inertia</h4>
+    <p>$$\sum \mathbf{F} = 0 \implies \mathbf{v} = \text{constant}$$. An object at rest stays at rest, and an object in motion continues with constant velocity in a straight line unless acted upon by a net force.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>2nd Law: The Accelerator Pedal</h4>
+    <p>$$\mathbf{F}_{\text{net}} = m \mathbf{a} \implies \mathbf{a} = \frac{\mathbf{F}}{m}$$. Net force causes acceleration (rate of change of velocity). Doubling mass cuts acceleration in half for the same force.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>3rd Law: Action & Reaction</h4>
+    <p>$$\mathbf{F}_{AB} = -\mathbf{F}_{BA}$$. Forces never exist alone; they are equal and opposite interactions between two bodies. The lighter body accelerates faster, but the Center of Mass never budges.</p>
+  </div>
+</div>
+
+<!-- Interactive Newton Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE NEWTONIAN PHYSICS & INTUITION ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Friction Sliders, Force Gas Pedal & Compressed Spring Recoil)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnLaw1" class="sim-btn primary">1st Law (Inertia & Friction)</button>
+      <button id="btnLaw2" class="sim-btn secondary">2nd Law (Force Pedal F=ma)</button>
+      <button id="btnLaw3" class="sim-btn secondary">3rd Law (Action-Reaction)</button>
+      <button id="btnResetNewton" class="sim-btn secondary">Reset State</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:540px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="newtonCanvas" width="900" height="540" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:14px; left:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#94a3b8; background:rgba(2, 6, 23, 0.85); padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span style="color:#00f5d4;">Applied Force F:</span> <span id="dispForce">0.0 N</span> &bull; 
+      <span style="color:#fee440;">Acceleration a:</span> <span id="dispAcc">0.00 m/s²</span> &bull; 
+      <span style="color:#38bdf8;">Velocity v:</span> <span id="dispVel">0.00 m/s</span>
+    </div>
+
+    <div style="position:absolute; top:14px; right:16px; font-family:var(--font-mono, monospace); font-size:0.75rem; color:#64748b; background:rgba(2, 6, 23, 0.85); padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); pointer-events:none;">
+      <span id="lawBadge">1st Law: ΣF = 0 ⇒ v = const (Frictionless Ice)</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('newtonCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let activeLaw = 1;
+  let simTime = 0;
+
+  const btnLaw1 = document.getElementById('btnLaw1');
+  const btnLaw2 = document.getElementById('btnLaw2');
+  const btnLaw3 = document.getElementById('btnLaw3');
+  const btnReset = document.getElementById('btnResetNewton');
+  const dispForce = document.getElementById('dispForce');
+  const dispAcc = document.getElementById('dispAcc');
+  const dispVel = document.getElementById('dispVel');
+  const lawBadge = document.getElementById('lawBadge');
+
+  function setLaw(law) {
+    activeLaw = law;
+    simTime = 0;
+    btnLaw1.className = (law === 1) ? 'sim-btn primary' : 'sim-btn secondary';
+    btnLaw2.className = (law === 2) ? 'sim-btn primary' : 'sim-btn secondary';
+    btnLaw3.className = (law === 3) ? 'sim-btn primary' : 'sim-btn secondary';
+
+    if (law === 1) lawBadge.innerText = "1st Law: ΣF = 0 ⇒ v = const (Frictionless Ice)";
+    else if (law === 2) lawBadge.innerText = "2nd Law: F = ma ⇒ a = F/m (Gas Pedal)";
+    else lawBadge.innerText = "3rd Law: F_AB = -F_BA (Action-Reaction Spring)";
+  }
+
+  btnLaw1.addEventListener('click', () => setLaw(1));
+  btnLaw2.addEventListener('click', () => setLaw(2));
+  btnLaw3.addEventListener('click', () => setLaw(3));
+  btnReset.addEventListener('click', () => { simTime = 0; });
+
+  function render() {
+    simTime += 0.02;
+
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, w, h);
+
+    // Subtle grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+    for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+    if (activeLaw === 1) {
+      renderLaw1(w, h);
+    } else if (activeLaw === 2) {
+      renderLaw2(w, h);
+    } else {
+      renderLaw3(w, h);
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  // --- LAW 1: INERTIA ON ICE ---
+  function renderLaw1(w, h) {
+    const cycle = simTime % 5.0;
+    const v0 = 160;
+
+    // Track 1: Rough Wood (Friction stops puck)
+    const y1 = 160;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(50, y1); ctx.lineTo(w - 50, y1); ctx.stroke();
+
+    let stopT = 2.0;
+    let dist1 = cycle < stopT ? (v0 * cycle - 0.5 * (v0/stopT) * cycle * cycle) : (0.5 * v0 * stopT);
+    let px1 = Math.min(w - 80, 80 + dist1);
+
+    ctx.fillStyle = '#f72585';
+    ctx.beginPath(); ctx.arc(px1, y1 - 12, 14, 0, Math.PI * 2); ctx.fill();
+    ctx.font = '12px monospace';
+    ctx.fillText("Rough Wood (Friction stops motion)", 80, y1 - 25);
+
+    // Track 2: Frictionless Ice in Vacuum (Never stops!)
+    const y2 = 360;
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(50, y2); ctx.lineTo(w - 50, y2); ctx.stroke();
+
+    let dist2 = (v0 * cycle) % (w - 160);
+    let px2 = 80 + dist2;
+
+    ctx.fillStyle = 'rgba(0, 245, 212, 0.3)';
+    ctx.beginPath(); ctx.arc(px2, y2 - 12, 22, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#00f5d4';
+    ctx.beginPath(); ctx.arc(px2, y2 - 12, 14, 0, Math.PI * 2); ctx.fill();
+    ctx.font = '12px monospace';
+    ctx.fillText("Frictionless Ice (Zero Force: v = CONSTANT FOREVER)", 80, y2 - 25);
+
+    // Velocity arrow
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(px2, y2 - 12); ctx.lineTo(px2 + 60, y2 - 12); ctx.stroke();
+
+    dispForce.innerText = "0.0 N";
+    dispAcc.innerText = "0.00 m/s²";
+    dispVel.innerText = "10.0 m/s (Inertial)";
+  }
+
+  // --- LAW 2: FORCE AS GAS PEDAL (F = ma) ---
+  function renderLaw2(w, h) {
+    const cycle = simTime % 4.0;
+    const pedalF = Math.abs(Math.sin(cycle * Math.PI)) * 100;
+
+    const y = 280;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(w - 50, y); ctx.stroke();
+
+    const mass = 10.0;
+    const acc = pedalF / mass;
+    const x = 120 + acc * 35;
+
+    // Vehicle Cart
+    ctx.fillStyle = '#00f5d4';
+    ctx.fillRect(x - 35, y - 45, 70, 40);
+    ctx.fillStyle = '#020617';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText("m = 10kg", x, y - 22);
+
+    // Thruster flame
+    ctx.fillStyle = '#fee440';
+    ctx.beginPath();
+    ctx.moveTo(x - 35, y - 35);
+    ctx.lineTo(x - 35, y - 15);
+    ctx.lineTo(x - 35 - pedalF * 0.8, y - 25);
+    ctx.fill();
+
+    // Acceleration arrow
+    ctx.strokeStyle = '#fee440';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(x + 35, y - 25); ctx.lineTo(x + 35 + acc * 15, y - 25); ctx.stroke();
+
+    dispForce.innerText = pedalF.toFixed(1) + " N";
+    dispAcc.innerText = acc.toFixed(2) + " m/s²";
+    dispVel.innerText = (acc * 2.5).toFixed(1) + " m/s";
+  }
+
+  // --- LAW 3: ACTION & REACTION SPRING ---
+  function renderLaw3(w, h) {
+    const cycle = simTime % 3.5;
+    const cx = w / 2;
+    const y = 280;
+
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(50, y + 40); ctx.lineTo(w - 50, y + 40); ctx.stroke();
+
+    let dist1, dist2;
+    if (cycle < 1.0) {
+      dist1 = 30; dist2 = 30;
+    } else {
+      let dt = cycle - 1.0;
+      dist1 = 30 + dt * 60;
+      dist2 = 30 + dt * 120; // 2x speed for 50kg!
+    }
+
+    // Center of Mass Crosshair (NEVER MOVES!)
+    ctx.strokeStyle = '#fee440';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(cx, y - 40); ctx.lineTo(cx, y + 60); ctx.stroke();
+    ctx.fillStyle = '#fee440';
+    ctx.fillText("CM (Fixed)", cx, y - 45);
+
+    // Body 1 (100 kg)
+    const x1 = cx - dist1;
+    ctx.fillStyle = '#38bdf8';
+    ctx.fillRect(x1 - 25, y - 25, 50, 50);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText("100kg", x1, y + 5);
+
+    // Body 2 (50 kg)
+    const x2 = cx + dist2;
+    ctx.fillStyle = '#00f5d4';
+    ctx.fillRect(x2 - 18, y - 18, 36, 36);
+    ctx.fillStyle = '#020617';
+    ctx.fillText("50kg", x2, y + 5);
+
+    dispForce.innerText = "±50.0 N (Equal & Opp)";
+    dispAcc.innerText = "a₁ = 0.5 m/s², a₂ = 1.0 m/s²";
+    dispVel.innerText = "v₂ = 2 · v₁ (CM Stationary)";
+  }
+
+  requestAnimationFrame(render);
+})();
+</script>
+
+<h2>1. The Geometry of Inertia & Force</h2>
+<p>
+  Newton's three laws establish a complete, causal description of the physical world:
+</p>
+
+$$\begin{aligned}
+  \text{1st Law:} &\quad \sum \mathbf{F} = 0 \implies \frac{d\mathbf{v}}{dt} = 0 \\
+  \text{2nd Law:} &\quad \mathbf{F}_{\text{net}} = m \mathbf{a} = \frac{d\mathbf{p}}{dt} \\
+  \text{3rd Law:} &\quad \mathbf{F}_{AB} = -\mathbf{F}_{BA}
+\end{aligned}$$
+
+<h2>2. 1080p Master Documentary Feature</h2>
+<p>
+  Watch the master 1080p documentary feature produced by <strong>Procanimation World Studio</strong>:
+</p>
+
+<div class="video-showcase-card">
+  <div class="video-badge">
+    <span>▶ 1080P MASTER • FULL DOCUMENTARY FEATURE</span>
+  </div>
+  <div class="video-info">
+    <h3>Newton's 3 Laws of Motion: The Visual Intuition Guide</h3>
+    <p>Aristotle's illusion, frictionless vacuum ice pucks, the shield of inertia, force as an accelerator pedal, perpendicular turning, and action-reaction space springs.</p>
+    <div class="video-meta-tags">
+      <span class="meta-tag">Code: p5.js / Canvas</span>
+      <span class="meta-tag">16:9 Landscape Master</span>
+      <span class="meta-tag">Audio: 48kHz Neural Stereo</span>
+      <span class="meta-tag">Duration: 04:00</span>
+    </div>
+    <div id="videoContainer" style="margin-top:16px;">
+      <a id="ytLinkNewtonsLaws" href="https://www.youtube.com" target="_blank" class="btn btn-youtube" style="display:inline-flex; align-items:center; gap:8px;">
+        ▶ Watch on YouTube ↗
+      </a>
+    </div>
+  </div>
+</div>
