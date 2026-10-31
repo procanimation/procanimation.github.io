@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "Momentum, Collisions & The Center of Mass"
+  slug: "momentum-collisions-center-of-mass"
+  category: "physics"
+  tag: "Classical Mechanics • Dynamics"
+  tech: "p5.js / Vector Momentum & Center of Mass Engine"
+  description: "Newton's original quantity of motion, invariant momentum conservation, impulse-force integrals, elastic vs inelastic restitution, the Zero-Momentum Center of Mass frame, and the Tsiolkovsky rocket equation."
+  article_url: "/experiments/momentum-collisions-center-of-mass.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/momentum_collisions_center_of_mass"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+
 - name: "2D Motion & Projectile Trajectories"
   slug: "2d-projectile-motion"
   category: "physics"

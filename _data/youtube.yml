@@ -1,4 +1,15 @@
 # YouTube Video Series & Educational Tracks
+- title: "Momentum, Collisions & The Center of Mass: The Invariant Laws of Impact"
+  series: "Documentary Feature"
+  format: "Landscape (16:9 • 1080p Master)"
+  duration: "04:30"
+  description: "Newton's original quantity of motion, the inviolable conservation of momentum, impulse-force integrals, automotive crumple zones, elastic vs inelastic restitution, the Zero-Momentum Center of Mass frame, and the Tsiolkovsky rocket equation."
+  tags: ["Momentum", "Conservation of Momentum", "Collisions", "Classical Mechanics", "Center of Mass", "Impulse", "Elastic Collisions", "Inelastic Collisions", "Tsiolkovsky Rocket Equation", "Documentary"]
+  badge: "Featured Documentary"
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
+  video_url: "https://www.youtube.com/watch?v=pPXzbWcGUi4"
+  article_url: "/experiments/momentum-collisions-center-of-mass.html"
+
 - title: "2D Motion & Projectile Trajectories: Parabolic Envelopes & Orbital Mechanics"
   series: "Documentary Feature"
   format: "Landscape (16:9 • 1080p Master)"
