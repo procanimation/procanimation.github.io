@@ -1,3 +1,22 @@
+- id: -iiLBnOAaB0
+  title: 'Wave Mechanics & The Huygens-Fresnel Principle: Superposition to Shock Waves'
+  series: Classical Physics
+  format: Full Feature
+  duration: 04:53
+  badge: Vol. IX
+  video_url: https://www.youtube.com/watch?v=-iiLBnOAaB0
+  article_url: /experiments/wave-mechanics-huygens.html
+  gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%)'
+  description: Master transverse and longitudinal waves, standing wave resonance,
+    Doppler shock cones, Huygens wavelets, and Snell's refraction.
+  tags:
+  - Wave Mechanics
+  - Huygens Principle
+  - Superposition
+  - Standing Waves
+  - Doppler Effect
+  - Mach Cone
+  - Diffraction
 - id: yU5M1nMy2-o
   title: 'Simple Harmonic Motion & The Resonance Catastrophe: Hooke''s Law to Mechanical
     Rupture'
