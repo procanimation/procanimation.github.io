@@ -1,3 +1,23 @@
+- id: PAyOKCr_XTo
+  title: 'The Geometry of Vectors & Linear Regression: How Machines Learn'
+  series: Neural Networks & AI
+  format: Full Feature
+  duration: 05:16
+  badge: Vol. I
+  video_url: https://www.youtube.com/watch?v=PAyOKCr_XTo
+  article_url: /experiments/vectors-linear-regression.html
+  gradient: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%)'
+  description: Master vectors, dot products, cosine similarity, best-fit linear hyperplanes,
+    convex loss bowls, and gradient descent optimization.
+  tags:
+  - Machine Learning
+  - Neural Networks
+  - Vectors
+  - Linear Regression
+  - Gradient Descent
+  - Loss Functions
+  - Dot Product
+  - Embeddings
 - id: McNTMq6ssDE
   title: 'Fluid Dynamics: Bernoulli''s Principle, The Venturi Effect & Aerodynamic
     Lift'
