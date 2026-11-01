@@ -1,0 +1,39 @@
+- id: PLVaAmyIFA544
+  title: "Classical Physics: The Visual Intuition Guide"
+  url: "https://www.youtube.com/playlist?list=PLVaAmyIFA544"
+  count: "7 Videos"
+  icon: "⚙️"
+  tagline: "Newtonian Mechanics, Conservation Laws & Celestial Dynamics"
+  gradient: "linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #78350f 100%)"
+
+- id: PLD5EbHDpjf1E
+  title: "Quantum Mechanics & Gauge Theory"
+  url: "https://www.youtube.com/playlist?list=PLD5EbHDpjf1E"
+  count: "9 Videos"
+  icon: "⚛️"
+  tagline: "Wave Functions, Gauge Invariance & Non-Locality"
+  gradient: "linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #1e1b4b 100%)"
+
+- id: PLKeFWB7Riznc
+  title: "Pure Mathematics & Theoretical Physics"
+  url: "https://www.youtube.com/playlist?list=PLKeFWB7Riznc"
+  count: "10 Videos"
+  icon: "📐"
+  tagline: "Fractals, Riemann Zeta, Quaternions & Symmetry"
+  gradient: "linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #4c0519 100%)"
+
+- id: PLfB4WTMnO7Lk
+  title: "Spacetime, Relativity & Cosmology"
+  url: "https://www.youtube.com/playlist?list=PLfB4WTMnO7Lk"
+  count: "6 Videos"
+  icon: "🌌"
+  tagline: "Minkowski Metric, Geodesics & Gravitational Lensing"
+  gradient: "linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #312e81 100%)"
+
+- id: PLbPPHfxM2AH8
+  title: "Chaos, Nonlinear Dynamics & Complex Systems"
+  url: "https://www.youtube.com/playlist?list=PLbPPHfxM2AH8"
+  count: "11 Videos"
+  icon: "🌀"
+  tagline: "Strange Attractors, Bifurcations & Emergent Order"
+  gradient: "linear-gradient(135deg, #10b981 0%, #14b8a6 50%, #064e3b 100%)"

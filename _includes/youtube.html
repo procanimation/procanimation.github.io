@@ -23,6 +23,34 @@
       </div>
     </div>
 
+    <!-- Official Curated Playlists Shelf -->
+    {% if site.data.playlists %}
+    <div class="playlists-shelf">
+      <div class="shelf-header">
+        <h3>
+          Curated Playlists
+          <span class="shelf-pill">Official Series</span>
+        </h3>
+        <span class="shelf-sub">Organized visual journeys through physics, mathematics, and complexity</span>
+      </div>
+      <div class="playlists-grid">
+        {% for pl in site.data.playlists %}
+        <a href="{{ pl.url }}" target="_blank" class="playlist-card" style="--playlist-gradient: {{ pl.gradient }};">
+          <div class="pl-top">
+            <span class="pl-icon">{{ pl.icon }}</span>
+            <span class="pl-count">{{ pl.count }}</span>
+          </div>
+          <h4>{{ pl.title }}</h4>
+          <p>{{ pl.tagline }}</p>
+          <div class="pl-btn">
+            <span>▶ Play Full Series ↗</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
     <!-- Video Grid -->
     <div class="video-grid">
       {% for video in site.data.youtube %}
