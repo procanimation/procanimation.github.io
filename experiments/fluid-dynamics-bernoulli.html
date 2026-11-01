@@ -1,0 +1,496 @@
+---
+layout: article
+title: "Fluid Dynamics: Bernoulli's Principle, The Venturi Effect & Aerodynamic Lift"
+tagline: "The Poetry of Continuous Motion: Incompressible Flow, Pressure Gradients, Circulation & Vorticity"
+description: "Master the foundational physics of fluid dynamics through interactive simulations of the Venturi constriction, Bernoulli manometer pressure differentials, cambered airfoil lift generation, and boundary layer turbulence."
+category: "Classical Mechanics & Fluid Dynamics"
+permalink: /experiments/fluid-dynamics-bernoulli.html
+---
+
+<p class="article-lead">
+  Why does an 80-ton commercial jet effortlessly take flight? Why does water accelerate into a fierce jet when passing through a narrow nozzle, while its internal static pressure paradoxically plunges? How do spinning baseballs curve through the air, and why do flags flap in steady breeze? All these phenomena emerge from the elegant laws governing continuous media: <strong>The Physics of Fluid Dynamics</strong>.
+</p>
+
+<!-- Fluid Dynamics Architecture Grid -->
+<h3>The Hydrodynamic Architecture</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Continuity Equation</h4>
+    <p>$$A_1 v_1 = A_2 v_2 = Q$$. In an incompressible fluid, mass conservation demands that volumetric flow rate remains strictly constant along any streamline. When cross-sectional area contracts, flow speed must inversely accelerate.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Bernoulli's Principle</h4>
+    <p>$$P + \frac{1}{2}\rho v^2 + \rho g h = \text{constant}$$. Total mechanical energy along a streamline is conserved. Accelerating fluid exchanges static pressure energy ($$P$$) into dynamic kinetic energy ($$\frac{1}{2}\rho v^2$$), creating localized low-pressure zones.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Venturi Effect</h4>
+    <p>$$\Delta P = P_1 - P_2 = \frac{1}{2}\rho (v_2^2 - v_1^2)$$. Passing fluid through an hourglass throat generates a dramatic suction depression. Vertical manometer liquid columns directly reveal this pressure drop ($$\Delta h = \frac{\Delta P}{\rho_m g}$$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Aerodynamic Lift & Circulation</h4>
+    <p>$$L = \frac{1}{2}\rho v^2 S C_L = \rho v_\infty \Gamma$$. Cambered airfoils steer approaching streamlines downwards (downwash). By Newton's Third Law and the Kutta-Joukowski circulation theorem, this downward momentum deflection generates powerful upward lift.</p>
+  </div>
+</div>
+
+<!-- Interactive Fluid Dynamics Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌊 LIVE FLUID DYNAMICS & AERODYNAMICS LABORATORY</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Venturi Tube, Cambered Airfoil Lift & Boundary Layer Vorticity)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabVenturi" class="sim-btn primary">1. Venturi Tube & Manometers</button>
+      <button id="btnTabAirfoil" class="sim-btn secondary">2. Cambered Airfoil & Lift</button>
+      <button id="btnTabVortices" class="sim-btn secondary">3. Boundary Layer & Vortices</button>
+      <button id="btnResetSim" class="sim-btn secondary">Reset State</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="fluidCanvas" width="1000" height="520" style="display:block; width:100%; height:100%;"></canvas>
+  </div>
+
+  <div class="sim-parameters-panel" style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam1" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">INLET VELOCITY (v₁): 12 m/s</label>
+      <input type="range" id="sliderParam1" min="4" max="25" step="1" value="12" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam2" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">THROAT CONSTRICTION: 50%</label>
+      <input type="range" id="sliderParam2" min="25" max="80" step="5" value="50" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam3" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">FLUID DENSITY (ρ): 1.2 kg/m³</label>
+      <input type="range" id="sliderParam3" min="0.5" max="3.0" step="0.1" value="1.2" style="width:100%;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('fluidCanvas');
+  const ctx = canvas.getContext('2d');
+  let activeTab = 1;
+
+  const btnTabVenturi = document.getElementById('btnTabVenturi');
+  const btnTabAirfoil = document.getElementById('btnTabAirfoil');
+  const btnTabVortices = document.getElementById('btnTabVortices');
+  const btnResetSim = document.getElementById('btnResetSim');
+
+  const slider1 = document.getElementById('sliderParam1');
+  const slider2 = document.getElementById('sliderParam2');
+  const slider3 = document.getElementById('sliderParam3');
+
+  const lbl1 = document.getElementById('lblParam1');
+  const lbl2 = document.getElementById('lblParam2');
+  const lbl3 = document.getElementById('lblParam3');
+
+  // Particles for Venturi
+  let venturiParticles = [];
+  for (let i = 0; i < 90; i++) {
+    venturiParticles.push({
+      u: Math.random(),
+      relY: (Math.random() - 0.5) * 1.7,
+      size: 2.5 + Math.random() * 2
+    });
+  }
+
+  // Airfoil particles
+  let airfoilParticles = [];
+  for (let i = 0; i < 80; i++) {
+    airfoilParticles.push({
+      x: Math.random() * 1000,
+      yLane: Math.floor(Math.random() * 9),
+      phase: Math.random()
+    });
+  }
+
+  function setTab(tab) {
+    activeTab = tab;
+    btnTabVenturi.className = (tab === 1) ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabAirfoil.className = (tab === 2) ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabVortices.className = (tab === 3) ? 'sim-btn primary' : 'sim-btn secondary';
+
+    if (tab === 1) {
+      lbl1.textContent = `INLET VELOCITY (v₁): ${slider1.value} m/s`;
+      lbl2.textContent = `THROAT CONSTRICTION: ${slider2.value}%`;
+      lbl3.textContent = `FLUID DENSITY (ρ): ${slider3.value} kg/m³`;
+      slider1.min = 4; slider1.max = 25; slider1.step = 1;
+      slider2.min = 25; slider2.max = 80; slider2.step = 5;
+      slider3.min = 0.5; slider3.max = 3.0; slider3.step = 0.1;
+    } else if (tab === 2) {
+      lbl1.textContent = `ANGLE OF ATTACK (α): ${slider1.value}°`;
+      lbl2.textContent = `FREESTREAM VELOCITY (v): ${slider2.value} m/s`;
+      lbl3.textContent = `CAMBER CURVATURE: ${slider3.value}`;
+      slider1.min = -4; slider1.max = 20; slider1.step = 1; slider1.value = 6;
+      slider2.min = 20; slider2.max = 120; slider2.step = 5; slider2.value = 60;
+      slider3.min = 0.02; slider3.max = 0.15; slider3.step = 0.01; slider3.value = 0.08;
+      updateLabels();
+    } else {
+      lbl1.textContent = `REYNOLDS NUMBER (Re): ${slider1.value}`;
+      lbl2.textContent = `FREESTREAM FLOW: ${slider2.value} m/s`;
+      lbl3.textContent = `OBSTACLE DIAMETER: ${slider3.value} cm`;
+      slider1.min = 200; slider1.max = 4000; slider1.step = 100; slider1.value = 1600;
+      slider2.min = 5; slider2.max = 50; slider2.step = 2; slider2.value = 20;
+      slider3.min = 5; slider3.max = 30; slider3.step = 1; slider3.value = 15;
+      updateLabels();
+    }
+  }
+
+  function updateLabels() {
+    if (activeTab === 1) {
+      lbl1.textContent = `INLET VELOCITY (v₁): ${slider1.value} m/s`;
+      lbl2.textContent = `THROAT CONSTRICTION: ${slider2.value}%`;
+      lbl3.textContent = `FLUID DENSITY (ρ): ${slider3.value} kg/m³`;
+    } else if (activeTab === 2) {
+      lbl1.textContent = `ANGLE OF ATTACK (α): ${slider1.value}°`;
+      lbl2.textContent = `FREESTREAM VELOCITY (v): ${slider2.value} m/s`;
+      lbl3.textContent = `CAMBER CURVATURE: ${slider3.value}`;
+    } else {
+      lbl1.textContent = `REYNOLDS NUMBER (Re): ${slider1.value}`;
+      lbl2.textContent = `FREESTREAM FLOW: ${slider2.value} m/s`;
+      lbl3.textContent = `OBSTACLE DIAMETER: ${slider3.value} cm`;
+    }
+  }
+
+  btnTabVenturi.onclick = () => setTab(1);
+  btnTabAirfoil.onclick = () => setTab(2);
+  btnTabVortices.onclick = () => setTab(3);
+
+  btnResetSim.onclick = () => {
+    if (activeTab === 1) {
+      slider1.value = 12; slider2.value = 50; slider3.value = 1.2;
+    } else if (activeTab === 2) {
+      slider1.value = 6; slider2.value = 60; slider3.value = 0.08;
+    } else {
+      slider1.value = 1600; slider2.value = 20; slider3.value = 15;
+    }
+    updateLabels();
+  };
+
+  slider1.oninput = updateLabels;
+  slider2.oninput = updateLabels;
+  slider3.oninput = updateLabels;
+
+  let lastT = performance.now();
+  let simTime = 0;
+
+  function draw(now) {
+    const dt = Math.min(0.05, (now - lastT) / 1000);
+    lastT = now;
+    simTime += dt;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Background grid
+    ctx.strokeStyle = 'rgba(30, 41, 59, 0.4)';
+    ctx.lineWidth = 1;
+    for (let x = 40; x < canvas.width; x += 60) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 40; y < canvas.height; y += 60) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    if (activeTab === 1) {
+      drawVenturiSim(dt);
+    } else if (activeTab === 2) {
+      drawAirfoilSim(dt);
+    } else {
+      drawVorticesSim(dt);
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  function getVenturiH(xFrac, throatFrac) {
+    const hWide = 90;
+    const hNarrow = hWide * (1 - throatFrac);
+    const d = Math.abs(xFrac - 0.5);
+    if (d < 0.25) {
+      const s = (1 + Math.cos((d / 0.25) * Math.PI)) * 0.5;
+      return hWide * (1 - s) + hNarrow * s;
+    }
+    return hWide;
+  }
+
+  function drawVenturiSim(dt) {
+    const v1 = parseFloat(slider1.value);
+    const throatRatio = parseFloat(slider2.value) / 100;
+    const rho = parseFloat(slider3.value);
+
+    const centerY = 270;
+    const pipeL = 80;
+    const pipeR = 920;
+    const pipeW = pipeR - pipeL;
+
+    const A1 = 90;
+    const A2 = getVenturiH(0.5, throatRatio);
+    const v2 = v1 * (A1 / A2);
+
+    const P1 = 101.3; // kPa
+    const deltaP = 0.5 * rho * (v2 * v2 - v1 * v1) / 1000; // kPa
+    const P2 = Math.max(10, P1 - deltaP);
+
+    // Draw Venturi contour
+    ctx.fillStyle = 'rgba(14, 165, 233, 0.06)';
+    ctx.beginPath();
+    ctx.moveTo(pipeL, centerY - getVenturiH(0, throatRatio));
+    for (let x = pipeL; x <= pipeR; x += 10) {
+      const xF = (x - pipeL) / pipeW;
+      ctx.lineTo(x, centerY - getVenturiH(xF, throatRatio));
+    }
+    for (let x = pipeR; x >= pipeL; x -= 10) {
+      const xF = (x - pipeL) / pipeW;
+      ctx.lineTo(x, centerY + getVenturiH(xF, throatRatio));
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let x = pipeL; x <= pipeR; x += 10) {
+      const xF = (x - pipeL) / pipeW;
+      const y = centerY - getVenturiH(xF, throatRatio);
+      if (x === pipeL) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    ctx.beginPath();
+    for (let x = pipeL; x <= pipeR; x += 10) {
+      const xF = (x - pipeL) / pipeW;
+      const y = centerY + getVenturiH(xF, throatRatio);
+      if (x === pipeL) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Manometers
+    const monoX = [pipeL + 80, 500, pipeR - 80];
+    const monoP = [P1, P2, P1];
+    monoX.forEach((mx, idx) => {
+      const xF = (mx - pipeL) / pipeW;
+      const pipeTop = centerY - getVenturiH(xF, throatRatio);
+      const tubeH = 140;
+      const liqLevel = pipeTop - (monoP[idx] / P1) * (tubeH - 20);
+
+      // Tube glass
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(mx - 10, pipeTop - tubeH, 20, tubeH);
+
+      // Liquid
+      ctx.fillStyle = idx === 1 ? '#f59e0b' : '#38bdf8';
+      ctx.fillRect(mx - 8, liqLevel, 16, pipeTop - liqLevel);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '11px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${monoP[idx].toFixed(1)} kPa`, mx, pipeTop - tubeH - 8);
+    });
+
+    // Particles moving along streamlines
+    venturiParticles.forEach(p => {
+      const hLocal = getVenturiH(p.u, throatRatio);
+      const localV = v1 * (A1 / hLocal);
+      p.u += (localV / pipeW) * dt * 3.5;
+      if (p.u > 1) p.u -= 1;
+
+      const px = pipeL + p.u * pipeW;
+      const py = centerY + p.relY * (hLocal - 8);
+      const speedNorm = (localV - v1) / (v2 - v1 + 0.001);
+
+      ctx.fillStyle = `rgb(${Math.floor(56 + speedNorm * 180)}, ${Math.floor(189 - speedNorm * 50)}, ${Math.floor(248 - speedNorm * 100)})`;
+      ctx.beginPath();
+      ctx.arc(px, py, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // Live Readout Panel
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+    ctx.lineWidth = 1;
+    ctx.fillRect(50, 420, 900, 75);
+    ctx.strokeRect(50, 420, 900, 75);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 13px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(`INLET VELOCITY v₁ = ${v1.toFixed(1)} m/s | STATIC PRESSURE P₁ = ${P1.toFixed(1)} kPa`, 70, 445);
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillText(`THROAT VELOCITY v₂ = ${v2.toFixed(1)} m/s | THROAT PRESSURE P₂ = ${P2.toFixed(1)} kPa`, 70, 468);
+    ctx.fillStyle = '#10b981';
+    ctx.fillText(`ΔP (VENTURI DEPRESSION) = ${(P1 - P2).toFixed(1)} kPa | MASS FLUX CONSERVED (A₁v₁ = A₂v₂)`, 70, 485);
+  }
+
+  function drawAirfoilSim(dt) {
+    const alpha = parseFloat(slider1.value) * (Math.PI / 180);
+    const vInf = parseFloat(slider2.value);
+    const camber = parseFloat(slider3.value);
+
+    const ox = 420;
+    const oy = 260;
+    const chord = 260;
+
+    // Aerodynamic lift calculation (thin airfoil theory: Cl ≈ 2*pi*(alpha + 2*camber))
+    const Cl = Math.max(-0.2, Math.min(1.8, 2 * Math.PI * (alpha + 2 * camber)));
+    const liftN = 0.5 * 1.2 * vInf * vInf * 1.2 * Cl;
+
+    // Draw streamlines
+    const lanes = 9;
+    for (let l = 0; l < lanes; l++) {
+      const y0 = oy - 140 + l * 35;
+      ctx.strokeStyle = l < 4 ? 'rgba(56, 189, 248, 0.7)' : 'rgba(245, 158, 11, 0.7)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let x = 80; x <= 880; x += 15) {
+        const dx = (x - ox) / chord;
+        let dy = 0;
+        if (dx >= -0.3 && dx <= 1.3) {
+          const bump = Math.exp(-dx * dx * 4);
+          dy = (l < 4 ? -45 : 25) * bump * (1 + alpha * 1.5);
+        }
+        const y = y0 + dy + (x > ox + chord ? (x - (ox + chord)) * Math.sin(alpha) * 0.35 : 0);
+        if (x === 80) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    // Draw Airfoil profile
+    ctx.save();
+    ctx.translate(ox + chord * 0.3, oy);
+    ctx.rotate(-alpha);
+    ctx.translate(-ox - chord * 0.3, -oy);
+
+    ctx.fillStyle = '#334155';
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(ox, oy);
+    // Upper cambered contour
+    for (let x = 0; x <= chord; x += 5) {
+      const xF = x / chord;
+      const yt = 0.12 * chord * (0.2969 * Math.sqrt(xF) - 0.126 * xF - 0.3516 * xF * xF + 0.2843 * Math.pow(xF, 3) - 0.1015 * Math.pow(xF, 4));
+      const yc = camber * chord * 4 * xF * (1 - xF);
+      ctx.lineTo(ox + x, oy - (yc + yt));
+    }
+    // Lower contour
+    for (let x = chord; x >= 0; x -= 5) {
+      const xF = x / chord;
+      const yt = 0.12 * chord * (0.2969 * Math.sqrt(xF) - 0.126 * xF - 0.3516 * xF * xF + 0.2843 * Math.pow(xF, 3) - 0.1015 * Math.pow(xF, 4));
+      const yc = camber * chord * 4 * xF * (1 - xF);
+      ctx.lineTo(ox + x, oy - (yc - yt));
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    // Lift vector
+    const liftLen = Math.min(180, Math.max(10, liftN * 0.05));
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(ox + 80, oy);
+    ctx.lineTo(ox + 80, oy - liftLen);
+    ctx.stroke();
+    // Arrowhead
+    ctx.fillStyle = '#10b981';
+    ctx.beginPath();
+    ctx.moveTo(ox + 80, oy - liftLen - 10);
+    ctx.lineTo(ox + 72, oy - liftLen);
+    ctx.lineTo(ox + 88, oy - liftLen);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 14px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(`LIFT FORCE: ${Math.max(0, liftN).toFixed(0)} N (CL = ${Cl.toFixed(2)})`, ox + 95, oy - liftLen / 2);
+
+    // Readout panel
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = 'rgba(16, 185, 129, 0.4)';
+    ctx.lineWidth = 1;
+    ctx.fillRect(50, 420, 900, 75);
+    ctx.strokeRect(50, 420, 900, 75);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText(`UPPER SUCTION SURFACE: Velocity accelerated -> Local Pressure P < P_inf`, 70, 445);
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillText(`LOWER HIGH-PRESSURE SURFACE: Velocity decelerated -> Local Pressure P > P_inf`, 70, 468);
+    ctx.fillStyle = '#10b981';
+    ctx.fillText(`DOWNWASH DEFLECTION: Net downward momentum creates upward reaction lift (Newton + Bernoulli)`, 70, 485);
+  }
+
+  function drawVorticesSim(dt) {
+    const Re = parseFloat(slider1.value);
+    const vFlow = parseFloat(slider2.value);
+    const cylR = parseFloat(slider3.value);
+
+    const ox = 260;
+    const oy = 250;
+
+    // Obstacle cylinder
+    ctx.fillStyle = '#475569';
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(ox, oy, cylR * 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Strouhal shedding frequency (St ≈ 0.21)
+    const fShed = (0.21 * vFlow) / (cylR * 0.04);
+    const isTurbulent = Re > 2000;
+
+    // Von Karman street vortices
+    for (let i = 0; i < 7; i++) {
+      const vx = ox + 100 + i * 90 + ((simTime * vFlow * 6) % 90);
+      if (vx > 900) continue;
+      const upper = (i % 2 === 0);
+      const vy = oy + (upper ? -45 : 45) + Math.sin(simTime * 4 + i) * 10;
+      const rad = 18 + i * 4;
+
+      ctx.strokeStyle = upper ? 'rgba(56, 189, 248, 0.6)' : 'rgba(239, 68, 68, 0.6)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(vx, vy, rad, 0, Math.PI * 1.6);
+      ctx.stroke();
+
+      ctx.fillStyle = upper ? '#38bdf8' : '#ef4444';
+      ctx.beginPath();
+      ctx.arc(vx, vy, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Readout panel
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)';
+    ctx.lineWidth = 1;
+    ctx.fillRect(50, 420, 900, 75);
+    ctx.strokeRect(50, 420, 900, 75);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = 'bold 13px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(`REYNOLDS NUMBER Re = (ρ v L) / μ = ${Re.toFixed(0)} | REGIME: ${isTurbulent ? 'TURBULENT WAKE & SHEDDING' : 'LAMINAR VORTEX STREET'}`, 70, 445);
+    ctx.fillStyle = '#38bdf8';
+    ctx.fillText(`STROUHAL SHEDDING FREQUENCY: f_shed ≈ 0.21 * (U / D) = ${(fShed / 10).toFixed(1)} Hz`, 70, 468);
+    ctx.fillStyle = '#ef4444';
+    ctx.fillText(`BOUNDARY LAYER SEPARATION: Adverse pressure gradient induces alternating vortex shedding`, 70, 485);
+  }
+
+  requestAnimationFrame(draw);
+})();
+</script>
+
+<div class="article-footer-cta">
+  <p>Explore all classical physics visual experiments and documentaries across the entire series:</p>
+  <a href="https://www.youtube.com/playlist?list=PLVaAmyIFA544" target="_blank" class="btn btn-youtube">
+    ▶ Watch Classical Physics YouTube Playlist (10+ Videos)
+  </a>
+</div>

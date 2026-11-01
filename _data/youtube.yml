@@ -1,3 +1,23 @@
+- id: McNTMq6ssDE
+  title: 'Fluid Dynamics: Bernoulli''s Principle, The Venturi Effect & Aerodynamic
+    Lift'
+  series: Classical Physics
+  format: Full Feature
+  duration: 05:13
+  badge: Vol. XI
+  video_url: https://www.youtube.com/watch?v=McNTMq6ssDE
+  article_url: /experiments/fluid-dynamics-bernoulli.html
+  gradient: 'linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0c4a6e 100%)'
+  description: Master the continuity equation, Bernoulli manometer depression, cambered
+    airfoil lift generation, boundary layers, and aerodynamic stall.
+  tags:
+  - Fluid Dynamics
+  - Bernoulli Principle
+  - Venturi Effect
+  - Aerodynamic Lift
+  - Airfoil
+  - Reynolds Number
+  - Vortex Street
 - id: UpdEe5H3p60
   title: 'Thermodynamics: The Carnot Engine, Entropy & The Arrow of Time'
   series: Classical Physics

@@ -1,7 +1,7 @@
 - id: PLVaAmyIFA544
   title: "Classical Physics: The Visual Intuition Guide"
   url: "https://www.youtube.com/playlist?list=PLVaAmyIFA544"
-  count: "7 Videos"
+  count: "11 Videos"
   icon: "⚙️"
   tagline: "Newtonian Mechanics, Conservation Laws & Celestial Dynamics"
   gradient: "linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #78350f 100%)"
@@ -37,3 +37,4 @@
   icon: "🌀"
   tagline: "Strange Attractors, Bifurcations & Emergent Order"
   gradient: "linear-gradient(135deg, #10b981 0%, #14b8a6 50%, #064e3b 100%)"
+
