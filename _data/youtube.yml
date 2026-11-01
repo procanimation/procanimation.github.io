@@ -1,674 +1,1155 @@
-# YouTube Video Series & Educational Tracks
-- title: "Universal Gravitation & Kepler's Laws: Newton's Cannon to Orbital Harmony"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "05:00"
-  description: "Master celestial mechanics, Newton's mountain cannon, perpetual falling orbits, Kepler's 3 laws of planetary motion, and Hohmann transfer orbits to Mars."
-  tags: ["Universal Gravitation", "Keplers Laws", "Newtons Laws", "Orbital Mechanics", "Celestial Mechanics", "Newtons Cannon", "Escape Velocity", "Hohmann Transfer", "Elliptical Orbit", "Inverse Square Law", "Angular Momentum", "Planetary Motion", "Spacecraft", "Solar System", "Astrophysics", "Physics Simulation", "p5js", "STEM Animation", "Science Documentary", "Procanimation"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #38bdf8 0%, #fee440 50%, #ef4444 100%)"
-  video_url: "https://www.youtube.com/watch?v=KoTyjyLbsLI"
-  article_url: "/experiments/universal-gravitation-kepler.html"
-
-- title: "The Aharonov-Bohm Effect: Quantum Non-Locality & The Reality of Potentials"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "05:01"
-  description: "Explore quantum non-locality, electromagnetic potentials, shielded solenoids, Akira Tonomura's superconductor experiment, and fiber bundle holonomy."
-  tags: ["Aharonov Bohm Effect", "Quantum Mechanics", "Vector Potential", "Electromagnetic Potentials", "Quantum Physics", "Theoretical Physics", "Tonomura Experiment", "Gauge Invariance", "Gauge Theory", "Berry Phase", "Wilson Loop", "Magnetic Monopole", "Superconductivity", "Meissner Effect", "Quantum Interference", "Double Slit", "Electromagnetism", "STEM Animation", "Science Documentary", "Procanimation"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
-  video_url: "https://www.youtube.com/watch?v=41BJIC9s54U"
-  article_url: "/experiments/aharonov-bohm-effect.html"
-
-- title: "Rotational Motion & Angular Momentum: Gyroscopes, Precession & The Figure Skater Spin"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:29"
-  description: "Master rotational dynamics, the moment of inertia, rolling races down ramps, the figure skater spin paradox, and anti-gravity gyroscopic precession."
-  tags: ["Rotational Motion", "Angular Momentum", "Gyroscope", "Gyroscopic Precession", "Moment of Inertia", "Torque", "Figure Skater Spin", "Classical Mechanics", "Physics Animation", "Intuitive Physics", "STEM", "p5.js"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #a855f7 100%)"
-  video_url: "https://www.youtube.com/watch?v=rhHsJUhPa60"
-  article_url: "/experiments/rotational-motion-angular-momentum.html"
-
-- title: "Work, Kinetic Energy & The Rollercoaster of Physics"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "03:41"
-  description: "Explore the conservation of mechanical energy as potential height pours like water into kinetic speed: work integrals (W = ∫ F · dr), quadratic velocity scaling (K = ½ m v²), clothoid teardrop loops, and eddy current magnetic brakes."
-  tags: ["Work and Energy", "Kinetic Energy", "Potential Energy", "Rollercoaster Physics", "Conservation of Energy", "Clothoid Loop", "Eddy Current Brakes", "Classical Mechanics", "Physics Animation", "STEM Education", "p5.js", "Procanimation"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #38bdf8 0%, #facc15 50%, #f43f5e 100%)"
-  video_url: "https://www.youtube.com/watch?v=n4yfwllP93c"
-  article_url: "/experiments/work-energy-rollercoaster.html"
-
-- title: "Newton's 3 Laws of Motion: The Visual Intuition Guide"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:00"
-  description: "Master Isaac Newton's three foundational laws of motion through pure visual intuition: the frictionless ice puck, force as the accelerator pedal (F = ma), directional acceleration, and action-reaction recoil symmetry."
-  tags: ["Newtons Laws", "Newtons Laws of Motion", "Classical Mechanics", "Inertia", "Force", "Acceleration", "F equals ma", "Action and Reaction", "Isaac Newton", "Physics Animation", "Intuitive Physics", "STEM", "p5.js"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
-  video_url: "https://www.youtube.com/watch?v=JmGX7d8gWmA"
-  article_url: "/experiments/newtons-laws-of-motion.html"
-
-- title: "Momentum, Collisions & The Center of Mass: The Invariant Laws of Impact"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:30"
-  description: "Newton's original quantity of motion, the inviolable conservation of momentum, impulse-force integrals, automotive crumple zones, elastic vs inelastic restitution, the Zero-Momentum Center of Mass frame, and the Tsiolkovsky rocket equation."
-  tags: ["Momentum", "Conservation of Momentum", "Collisions", "Classical Mechanics", "Center of Mass", "Impulse", "Elastic Collisions", "Inelastic Collisions", "Tsiolkovsky Rocket Equation", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=pPXzbWcGUi4"
-  article_url: "/experiments/momentum-collisions-center-of-mass.html"
-
-- title: "2D Motion & Projectile Trajectories: Parabolic Envelopes & Orbital Mechanics"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:52"
-  description: "Galileo's orthogonal independence principle, timeless parabolic trajectory derivation, dynamic velocity vector decomposition, the parabolic safety envelope, aerodynamic drag, and Newton's orbital cannon."
-  tags: ["2D Motion", "Projectile Motion", "Classical Mechanics", "Parabolic Trajectory", "Safety Envelope", "Galileo Galilei", "Isaac Newton", "Ballistics", "Centripetal Acceleration", "Orbital Mechanics", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=z3938q0OjIc"
-  article_url: "/experiments/2d-projectile-motion.html"
-
-- title: "1D Motion & The Calculus of Kinematics: Derivatives, Concavity & Galileo's Laws"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "05:15"
-  description: "Position, displacement vectors, instantaneous velocity tangents, acceleration as curve concavity, Galileo's uniform acceleration laws, terminal velocity under aerodynamic drag, and phase space determinism."
-  tags: ["1D Motion", "Kinematics", "Classical Mechanics", "Calculus of Motion", "Instantaneous Velocity", "Acceleration", "Galileo Galilei", "Kinematic Equations", "Free Fall", "Terminal Velocity", "Phase Space", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
-  video_url: "https://www.youtube.com/watch?v=eXH3xWs5REM"
-  article_url: "/experiments/1d-motion-kinematics.html"
-
-- title: "The Ising Model & Phase Transitions: Spontaneous Magnetism & Criticality"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "05:15"
-  description: "Pierre Curie's discovery, the microscopic spin lattice Hamiltonian, the Metropolis-Hastings Monte Carlo algorithm, Lars Onsager's 1944 exact analytical solution, fractal cluster scale invariance, and Hopfield neural networks."
-  tags: ["Ising Model", "Phase Transitions", "Statistical Mechanics", "Monte Carlo", "Metropolis Algorithm", "Spontaneous Magnetism", "Lars Onsager", "Critical Phenomena", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=3_lUs6Mzut8"
-  article_url: "/experiments/ising-model-magnetism.html"
-
-- title: "The Hopf Fibration: Visualizing 4D Space & The Quantum Spin Sphere"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "05:04"
-  description: "Heinz Hopf's 1931 topological breakthrough, stereographic projection of interlocking Villarceau circles, nested coaxial tori, the Bloch sphere of qubits, and Dirac magnetic monopoles."
-  tags: ["Hopf Fibration", "4D Visualization", "Topology", "Differential Geometry", "Quantum Computing", "Bloch Sphere", "Qubit", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)"
-  video_url: "https://www.youtube.com/watch?v=ZUJKVoE-kaU"
-  article_url: "/experiments/hopf-fibration-4d.html"
-
-- title: "The Dirac Equation: Antimatter, Spin & Relativistic Quantum Mechanics"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:57"
-  description: "Paul Dirac's 1928 breakthrough, 4x4 gamma matrices, the relativistic origin of electron spin, the Dirac Sea, Carl Anderson's 1932 cloud chamber positron discovery, and matter-antimatter annihilation in QED."
-  tags: ["Dirac Equation", "Antimatter", "Positron", "Paul Dirac", "Quantum Mechanics", "Special Relativity", "Spinors", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=X-41tOHU91s"
-  article_url: "/experiments/dirac-equation-antimatter.html"
-
-- title: "Noether's Theorem: The Hidden Symmetries That Rule the Universe"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:48"
-  description: "The 1915 crisis in General Relativity, David Hilbert's challenge, the Principle of Stationary Action, Emmy Noether's First Theorem, continuous Lie symmetry groups, the Trinity of spacetime conservations, and gauge theory in the Standard Model."
-  tags: ["Noethers Theorem", "Emmy Noether", "Symmetry", "Conservation Laws", "Theoretical Physics", "Lagrangian Mechanics", "General Relativity", "Standard Model", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #fee440 100%)"
-  video_url: "https://www.youtube.com/watch?v=aRzTXuSnWz4"
-  article_url: "/experiments/noethers-theorem.html"
-
-- title: "The Quantum Harmonic Oscillator & Zero-Point Energy: Coherent States & Quantum Vacuum Fluctuations"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "06:20"
-  description: "Max Planck's 1900 blackbody resonators, Hermite polynomial bound states, Dirac ladder operators, irreducible zero-point vacuum energy, Glauber coherent states, and second quantization."
-  tags: ["Quantum Harmonic Oscillator", "Zero Point Energy", "Quantum Mechanics", "Quantum Field Theory", "Ladder Operators", "Hermite Polynomials", "Coherent States", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #a855f7 0%, #00f5d4 50%, #fee440 100%)"
-  video_url: "https://www.youtube.com/watch?v=DznV1u24Dg0"
-  article_url: "/experiments/quantum-harmonic-oscillator.html"
-
-- title: "Maxwell's Equations & Electrodynamics: Light, Gauge Invariance & The Speed of Reality"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "06:29"
-  description: "James Clerk Maxwell's 1865 field theory, Gauss's divergence symmetries, Faraday's vortex rings, the displacement current, 3D transverse wave propagation, and relativistic U(1) gauge covariance."
-  tags: ["Maxwell Equations", "Electrodynamics", "Light Speed", "Faraday Law", "Gauss Law", "Ampere Maxwell Law", "Special Relativity", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
-  video_url: "https://www.youtube.com/watch?v=pH-zCFPHygs"
-  article_url: "/experiments/maxwell-electrodynamics.html"
-
-- title: "Solitons & The Korteweg–de Vries Equation: Non-Linear Waves That Refuse to Die"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "06:47"
-  description: "John Scott Russell's 1834 Union Canal discovery, non-linear steepening vs third-order dispersion, Zabusky and Kruskal's 1965 collision transparency, the FPU recurrence, and Lax pairs."
-  tags: ["Solitons", "KdV Equation", "Nonlinear Dynamics", "FPU Recurrence", "Inverse Scattering", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
-  video_url: "https://www.youtube.com/watch?v=jl27lx1xcks"
-  article_url: "/experiments/solitons-kdv-equation.html"
-
-- title: "Lissajous Figures & Coupled Resonators: Harmonic Geometry & Energy Beats"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "05:30"
-  description: "Jules Antoine Lissajous' 1857 optical acoustic discovery, spring-coupled pendulums, energy beats, normal modes, Victorian harmonographs, and Chebyshev polynomials."
-  tags: ["Lissajous Figures", "Coupled Oscillators", "Harmonic Motion", "Resonance", "Normal Modes", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
-  video_url: "https://www.youtube.com/watch?v=q-zJXcQ6ezc"
-  article_url: "/experiments/lissajous-coupled-resonators.html"
-
-- title: "Foucault's Pendulum & The Coriolis Effect: Earth's Rotation & Holonomy on S²"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "05:13"
-  description: "Jean Bernard Léon Foucault's 1851 Panthéon experiment, non-inertial reference frames, the Sine of Latitude law, and parallel transport holonomy on the 2-sphere."
-  tags: ["Foucault Pendulum", "Coriolis Effect", "Earth Rotation", "Classical Mechanics", "Holonomy", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #f43f5e 100%)"
-  video_url: "https://www.youtube.com/watch?v=3o8GQWaFcU0"
-  article_url: "/experiments/foucault-pendulum-coriolis.html"
-
-- title: "Hamiltonian Mechanics & The Geometry of Phase Space: Liouville's Law & Chaos"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "05:34"
-  description: "William Rowan Hamilton's 1833 formulation, canonical equations, Liouville's incompressible phase fluid, the separatrix, and the KAM theorem transition to chaos."
-  tags: ["Hamiltonian Mechanics", "Phase Space", "Classical Mechanics", "Liouville Theorem", "Symplectic Geometry", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
-  video_url: "https://www.youtube.com/watch?v=ZwvFWbBMvoQ"
-  article_url: "/experiments/hamiltonian-phase-space.html"
-
-- title: "The Architecture of Chaos: When Simple Rules Build the Universe"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "02:08"
-  description: "Wolfram Rule 30, the Chaos Game, the Buddhabrot, Chladni cymatics, and the plane-tiling Heighway Dragon. How minimal recursive rules build universal cosmic complexity."
-  tags: ["Chaos Theory", "Fractals", "Cymatics", "Cellular Automata", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #ffb703 100%)"
-  video_url: "https://www.youtube.com/watch?v=mLvYWNr5tNo"
-  article_url: "/experiments/cellular-automata-rule30.html"
-
-- title: "The Music of the Cosmos: How the Fourier Transform Explains Reality"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "02:51"
-  description: "How Joseph Fourier's mathematical breakthrough decomposes light, planetary orbits, quantum wavefunctions, and the Cosmic Microwave Background into pure harmonics."
-  tags: ["Fourier Transform", "Cosmology", "Harmonics", "Astrophysics", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=J0Vgf_xLiZo"
-  article_url: "/experiments/fourier-series.html"
-
-- title: "The Gravitational Ballet: Chaos in Celestial Mechanics"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "02:58"
-  description: "Henri Poincaré's discovery of gravitational non-integrability, chaotic N-body choreographies, Lagrange points, and why the solar system cannot be solved in closed form."
-  tags: ["Celestial Mechanics", "Three-Body Problem", "Chaos Theory", "Astrophysics", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #0077b6 0%, #00f5d4 50%, #fee440 100%)"
-  video_url: "https://www.youtube.com/watch?v=pPXzhInf4xA"
-  article_url: "/experiments/three-body-problem.html"
-
-- title: "The Geometry of Life: How Physics Builds Living Order"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "03:28"
-  description: "Alan Turing's activator-inhibitor reaction-diffusion morphogenesis, Ilya Prigogine's dissipative structures, and how spontaneous spatial order self-organizes far from equilibrium."
-  tags: ["Turing Morphogenesis", "Reaction-Diffusion", "Complexity", "Biophysics", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #ec4899 100%)"
-  video_url: "https://www.youtube.com/watch?v=YdSTRGYKb68"
-  article_url: "/experiments/turing-morphogenesis.html"
-
-- title: "The Holographic Universe: Are We Living on the Edge of Spacetime?"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "03:37"
-  description: "Bekenstein-Hawking black hole entropy (S = k_B A / 4l_p^2), the Information Paradox, AdS/CFT duality, and the radical proposal that our 3D reality is a boundary hologram."
-  tags: ["Holographic Principle", "Black Holes", "Quantum Gravity", "String Theory", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #7209b7 0%, #f72585 50%, #00f5d4 100%)"
-  video_url: "https://www.youtube.com/watch?v=dEanJ_qEqns"
-  article_url: "/experiments/black-hole-gravitational-lensing.html"
-
-- title: "The Arrow of Time: Why Yesterday Can Never Be Undone"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:21"
-  description: "Ludwig Boltzmann's statistical entropy (S = k_B ln Ω), Loschmidt's reversibility paradox, Poincaré recurrence, and why microscopic reversible laws create an irreversible macroscopic arrow of time."
-  tags: ["Thermodynamics", "Entropy", "Arrow of Time", "Statistical Mechanics", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #ff0055 0%, #ff5500 50%, #00f5d4 100%)"
-  video_url: "https://www.youtube.com/watch?v=O-0rUbsY_Lo"
-  article_url: "/experiments/arrow-of-time.html"
-
-- title: "The Quantum Observer: Does Reality Exist When Nobody is Looking?"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:25"
-  description: "The double-slit enigma, Schrödinger's cat superposition paradox, environmental decoherence and the density matrix, Hugh Everett's Many-Worlds multiverse, and freezing time via the Quantum Zeno Effect."
-  tags: ["Quantum Physics", "Schrodingers Cat", "Measurement Problem", "Many Worlds", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=GjL8bOBPv1o"
-  article_url: "/experiments/quantum-observer.html"
-
-- title: "Quantum Tunneling: Defying the Walls of Reality"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:38"
-  description: "Wavefunction barrier penetration, evanescent decay, George Gamow's nuclear alpha decay miracle, the solar core proton fusion engine, and Scanning Tunneling Microscopy."
-  tags: ["Quantum Tunneling", "Alpha Decay", "Gamow Miracle", "Solar Fusion", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=3RXshPfWtrw"
-  article_url: "/experiments/quantum-tunneling.html"
-
-- title: "The Infinite Continuum: Cantor's Transfinite Revolution"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:51"
-  description: "Hilbert's Grand Hotel, Cantor's diagonal slash, uncountability of the real continuum, the ternary dust of measure zero, and the undecidability of the Continuum Hypothesis."
-  tags: ["Infinities", "Cantors Theorem", "Hilberts Hotel", "Transfinite", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=dLDk9Sh8t-U"
-  article_url: "/experiments/cantors-infinity.html"
-
-- title: "The Quantum Fabric: Spooky Action at a Distance & Bell's Theorem"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:13"
-  description: "The EPR paradox, John Stewart Bell's inequality, the 2022 Nobel Prize experimental verification, quantum teleportation protocols, and the ER=EPR wormhole connection."
-  tags: ["Quantum Entanglement", "Bells Theorem", "CHSH Inequality", "Quantum Teleportation", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=HAAOUW6ZJwQ"
-  article_url: "/experiments/quantum-entanglement.html"
-
-- title: "The Ripples of Spacetime: Gravitational Waves & Warped Geometry"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "03:52"
-  description: "General Relativity, binary black hole orbital decay, LIGO 4-km laser interferometry, GW150914 cosmic collision, and multi-messenger astronomy with kilonova nucleosynthesis."
-  tags: ["Gravitational Waves", "General Relativity", "LIGO", "Black Hole Merger", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=AuaWbIELFkQ"
-  article_url: "/experiments/gravitational-waves.html"
-
-- title: "The Riemann Hypothesis: The Cosmic Music of the Primes"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:03"
-  description: "Euler's golden product, the critical line Re(s)=1/2, Riemann's explicit prime formula, Montgomery-Dyson quantum chaos connection, and the million-dollar Millennium mystery."
-  tags: ["Riemann Hypothesis", "Prime Numbers", "Complex Analysis", "Quantum Chaos", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=SWjjEUnevdU"
-  article_url: "/experiments/riemann-hypothesis.html"
-
-- title: "The Computational Cosmos: Turing Completeness in Conway's Game of Life"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:10"
-  description: "Conway's B3/S23 elementary rules, Gosper glider gun, logic gate synthesis, Paul Rendell's Universal Turing Machine, and the mind-bending self-simulating Metapixel."
-  tags: ["Game of Life", "Cellular Automata", "Turing Complete", "Computer Science", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
-  video_url: "https://www.youtube.com/watch?v=t1eeSNWcto0"
-  article_url: "/experiments/game-of-life-turing.html"
-
-- title: "The Einstein-Rosen Bridge: Traversable Wormholes & Exotic Matter"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "03:39"
-  description: "The 1935 Schwarzschild coordinate bridge, Kip Thorne's 1988 traversability conditions, Casimir vacuum negative energy density, ER=EPR quantum entanglement, and Chronology Protection."
-  tags: ["Wormholes", "General Relativity", "Einstein Rosen Bridge", "Exotic Matter", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=p1bOnMH6yfg"
-  article_url: "/experiments/wormholes-exotic-matter.html"
-
-- title: "Self-Organized Criticality: The Sandpile Model & The 1/f Cosmic Pulse"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "03:45"
-  description: "Per Bak's 1987 Abelian Sandpile model, scale-invariant power laws, 1/f pink noise cosmic acoustics, earthquakes, financial crashes, and the critical brain hypothesis."
-  tags: ["Self-Organized Criticality", "Sandpile Model", "Pink Noise", "Power Laws", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
-  video_url: "https://www.youtube.com/watch?v=tNblesFu3J0"
-  article_url: "/experiments/self-organized-criticality.html"
-
-- title: "The Quantum Computer: Shor's Algorithm, Superposition & The Death of RSA"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:06"
-  description: "Continuous linear superposition on the Bloch sphere, an exponential 2^n state space, Peter Shor's 1994 quantum Fourier transform algorithm, and the cryptographic transition."
-  tags: ["Quantum Computing", "Shor Algorithm", "Bloch Sphere", "Superposition", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=K1nqF-wM5gU"
-  article_url: "/experiments/quantum-computing-shor.html"
-
-- title: "The Navier-Stokes Enigma: Turbulence, Vortex Cascades & The Millennium Singularity"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:23"
-  description: "Claude Navier & George Stokes' 1845 momentum equation, the convective demon (u · ∇)u, Kolmogorov's k^-5/3 energy cascade, vortex stretching, and the Clay Millennium singularity prize."
-  tags: ["Fluid Dynamics", "Navier Stokes", "Turbulence", "Chaos", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=4f2a1NrDba8"
-  article_url: "/experiments/navier-stokes-turbulence.html"
-
-- title: "The Topology of Reality: Poincaré Conjecture & Perelman's Ricci Flow"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:00"
-  description: "Henri Poincaré's 1904 question on the 3-sphere, simple connectivity, Richard Hamilton's Ricci flow metric diffusion, and Grigori Perelman's singularity surgeries."
-  tags: ["Topology", "Poincare Conjecture", "Ricci Flow", "Perelman", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=S4ZbFUKeQgo"
-  article_url: "/experiments/poincare-conjecture-ricci.html"
-
-- title: "Cosmic Inflation & The Multiverse: Inflaton Dynamics & The Cosmic Seeds"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:03"
-  description: "Alan Guth's exponential superluminal expansion, Heisenberg quantum vacuum fluctuations frozen as cosmic seeds, Planck CMB acoustic peaks, and the eternal bubble multiverse."
-  tags: ["Cosmology", "Cosmic Inflation", "Multiverse", "Astrophysics", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)"
-  video_url: "https://www.youtube.com/watch?v=q7ADNAIZUq8"
-  article_url: "/experiments/cosmic-inflation-multiverse.html"
-
-- title: "The P vs NP Enigma: The Limits of Computation & The Intrinsic Hardness of Reality"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:17"
-  description: "The asymmetry of insight, Cook-Levin 3-SAT theorem, Karp's 21 reductions, cryptographic apocalypse, and the three meta-mathematical proof barriers."
-  tags: ["P vs NP", "Computational Complexity", "Algorithms", "Theoretical Computer Science", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)"
-  video_url: "https://www.youtube.com/watch?v=oSJD2UT2b5Y"
-  article_url: "/experiments/p-vs-np-enigma.html"
-
-- title: "The Yang-Mills Mass Gap: Quark Confinement & The Origin of Mass"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master)"
-  duration: "04:43"
-  description: "Why 99% of visible mass is pure energy. Non-Abelian gauge invariance, SU(3) color symmetries, asymptotic freedom, the 14-ton flux tube, and the positive spectral mass gap."
-  tags: ["Yang-Mills", "Mass Gap", "Quantum Chromodynamics", "Quark Confinement", "Millennium Prize", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
-  video_url: "https://www.youtube.com/watch?v=bEziNRa2nWA"
-  article_url: "/experiments/yang-mills-mass-gap.html"
-
-- title: "The Brachistochrone: The Geometry of Light & The Calculus of Variations"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master • p5.js)"
-  duration: "04:53"
-  description: "Johann Bernoulli's 1696 challenge, Fermat's optical refraction analogy, Snell's law, Huygens' tautochrone isochronism, and Hamilton's Principle of Least Action."
-  tags: ["Brachistochrone", "Calculus of Variations", "Classical Mechanics", "Cycloid", "p5.js", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)"
-  video_url: "https://www.youtube.com/watch?v=BGQ0ZRWK8Jg"
-  article_url: "/experiments/brachistochrone-calculus-variations.html"
-
-- title: "The Dzhanibekov Effect & The Tennis Racket Theorem: Euler's Rigid Body Chaos"
-  series: "Documentary Feature"
-  format: "Landscape (16:9 • 1080p Master • p5.js)"
-  duration: "04:55"
-  description: "Why spinning objects spontaneously flip 180° in zero gravity. Euler's equations of motion, intermediate axis instability, Poinsot's inertia ellipsoids, and the hyperbolic saddle separatrix."
-  tags: ["Dzhanibekov Effect", "Tennis Racket Theorem", "Euler Equations", "Classical Mechanics", "p5.js", "Documentary"]
-  badge: "Featured Documentary"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)"
-  video_url: "https://www.youtube.com/watch?v=LDX4p3W8lmA"
-  article_url: "/experiments/dzhanibekov-tennis-racket.html"
-
-- title: "The Spiral That Broke Randomness: The Ulam Spiral"
-  series: "Number Theory & Prime Density"
-  format: "Shorts (9:16 Vertical)"
-  duration: "00:48"
-  description: "Stanislaw Ulam's 1963 discovery of prime number diagonals, Euler's lucky prime polynomial (n² + n + 41), and polar Sacks spiral projections."
-  tags: ["Math", "Primes", "Number Theory", "Creative Coding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f5d4 0%, #ffb703 100%)"
-  video_url: "https://www.youtube.com/shorts/8YfChWI63JQ"
-  article_url: "/experiments/ulam-spiral.html"
-
-- title: "The Mandelbrot Deep Zoom: Into Mathematical Infinity"
-  series: "Fractals & Chaos"
-  format: "Landscape (16:9 • 60 FPS)"
-  duration: "10:24"
-  description: "Diving billions of levels into the boundary of the Mandelbrot set. Exploring how simple complex quadratic equations yield infinite organic complexity."
-  tags: ["Fractals", "Mathematics", "p5.js"]
-  badge: "Featured Episode"
-  gradient: "linear-gradient(135deg, #7209b7, #3f37c9)"
-  video_url: "https://www.youtube.com/shorts/5Gy1DjezVRU"
-  article_url: "/experiments/mandelbrot-deep-zoom.html"
-
-- title: "N-Body Orbital Chaos: The Three-Body Problem Explained"
-  series: "Cosmic Physics"
-  format: "Shorts (9:16 Vertical)"
-  duration: "00:56"
-  description: "Why are gravitational systems with three or more bodies inherently chaotic? Simulating resonance, Lagrange points, and orbital decay."
-  tags: ["Physics", "Orbits", "Gravity"]
-  badge: "High Physics"
-  gradient: "linear-gradient(135deg, #0077b6, #0096c7)"
-  video_url: "https://www.youtube.com/shorts/lGvIhmJy57w"
-  article_url: "/experiments/three-body-problem.html"
-
-- title: "Double Pendulum & Lagrangian Chaos"
-  series: "Chaos Theory"
-  format: "Shorts (9:16 Vertical • 60 FPS)"
-  duration: "00:48"
-  description: "Euler-Lagrange equations of motion, sensitive dependence on initial conditions (0.01° offset), and real-time Lyapunov divergence."
-  tags: ["Chaos", "Physics", "Lagrangian", "RK4"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #f72585, #7209b7)"
-  video_url: "https://www.youtube.com/shorts/GNwcn2bJjuw"
-  article_url: "/2026/09/27/chaos-theory-double-pendulum.html"
-
-- title: "Lorenz Attractor: The Butterfly That Rewrote Physics"
-  series: "Dynamic Systems"
-  format: "Shorts (9:16 Vertical • 60 FPS)"
-  duration: "00:48"
-  description: "3D chaotic strange attractor differential equations with dual diverging trajectories and Lyapunov exponents in Three.js."
-  tags: ["Three.js", "Chaos", "3D", "Differential Equations"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f5d4, #7209b7)"
-  video_url: "https://www.youtube.com/shorts/T9CM8CtTHuY"
-  article_url: "/experiments/lorenz-attractor.html"
-
-- title: "The Fourier Transform: Drawing Anything with Rotating Circles"
-  series: "Visual Mathematics"
-  format: "Shorts (9:16 Vertical • 60 FPS)"
-  duration: "00:48"
-  description: "How Joseph Fourier's harmonic series synthesis turns spinning circular epicycles into square waves and complex waveforms."
-  tags: ["Fourier", "Math", "Physics", "p5.js", "Creative Coding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f5d4, #f72585)"
-  video_url: "https://www.youtube.com/shorts/ckx9KLXdK4U"
-  article_url: "/experiments/fourier-series.html"
-
-- title: "Turing Morphogenesis: How the Leopard Got Its Spots"
-  series: "Biological Mathematics"
-  format: "Shorts (9:16 Vertical • 60 FPS)"
-  duration: "00:48"
-  description: "Alan Turing's 1952 activator-inhibitor partial differential equations, Gray-Scott reaction-diffusion kinetics, and biological pattern formation."
-  tags: ["Turing", "Biology", "Reaction-Diffusion", "Math", "Shaders"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f5d4, #7209b7, #f72585)"
-  video_url: "https://www.youtube.com/shorts/Vo1i-e7y650"
-  article_url: "/experiments/turing-morphogenesis.html"
-
-- title: "Swarm Intelligence: How Brainless Agents Solve Impossible Mazes"
-  series: "Emergent Systems"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:53"
-  description: "Ant Colony Optimization (ACO), stigmergy, and evaporating chemical pheromone trails routing 500 agents through complex mazes."
-  tags: ["AI", "Swarm", "Algorithms", "p5.js", "Biology"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f5d4, #ffbe0b)"
-  video_url: "https://www.youtube.com/shorts/mkORha4ej3Q"
-  article_url: "/experiments/ant-swarm-intelligence.html"
-
-- title: "Black Hole Gravitational Lensing: How Spacetime Bends Light"
-  series: "General Relativity"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:53"
-  description: "Karl Schwarzschild's metric, photon spheres (1.5 Rs), Einstein rings, and relativistic Doppler beaming modeled with raymarched geodesics."
-  tags: ["BlackHole", "Relativity", "Physics", "Einstein", "WebGL"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #f72585, #7209b7, #00f5d4)"
-  video_url: "https://www.youtube.com/shorts/q678Qhyd8gE"
-  article_url: "/experiments/black-hole-gravitational-lensing.html"
-
-- title: "Conway's Game of Life: How 4 Rules Create Virtual Worlds"
-  series: "Cellular Automata & Complexity"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:54"
-  description: "John Conway's zero-player cellular automaton, Moore neighborhood sum, B3/S23 transition rules, Gosper glider guns, and Turing completeness."
-  tags: ["GameOfLife", "Conway", "CellularAutomata", "Algorithms", "Coding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f5d4, #06d6a0, #ffbe0b)"
-  video_url: "https://www.youtube.com/watch?v=k1gCvbj1PAA"
-  article_url: "/experiments/conways-game-of-life.html"
-
-- title: "The Quantum Double Slit Experiment: Reality Changes When You Look"
-  series: "Quantum Mechanics"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:53"
-  description: "Wave-particle duality, de Broglie matter waves, Schrödinger's wavefunction, Born's probability density rule, and quantum observer collapse."
-  tags: ["Quantum", "Physics", "DoubleSlit", "Schrodinger", "WaveParticle"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f5d4, #7209b7, #f72585)"
-  video_url: "https://www.youtube.com/watch?v=0W6v_AxhsXg"
-  article_url: "/experiments/quantum-double-slit.html"
-
-- title: "Von Kármán Vortex Streets: The Hidden Rhythm of Fluid Turbulence"
-  series: "Fluid Dynamics"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:48"
-  description: "Boundary layer separation, alternating counter-rotating vortex trails, Strouhal shedding frequencies, and aeroelastic resonance flutter."
-  tags: ["FluidDynamics", "Physics", "NavierStokes", "VonKarman", "Engineering", "TacomaNarrows"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f5d4, #f72585, #facc15)"
-  video_url: "https://youtube.com/shorts/voQD4VPnf5s"
-  article_url: "/experiments/von-karman-vortex.html"
-
-- title: "XOR Bitwise Fractals: The Infinite Geometry of Pure Binary Logic"
-  series: "Discrete Mathematics"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:56"
-  description: "Binary addition without carry, Sierpinski triangle emergence, modulo prime harmonics, Walsh-Hadamard matrices, and crystalline Moorish mandalas."
-  tags: ["DiscreteMath", "Fractals", "XOR", "Binary", "Sierpinski", "CreativeCoding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f5d4, #f72585, #ffbe0b)"
-  video_url: "https://youtube.com/shorts/vtOvXTFyw0k"
-  article_url: "/experiments/xor-bitwise-fractal.html"
-
-- title: "Rule 30 & 110 Cellular Automata: Cryptographic Chaos & Turing Completeness"
-  series: "Discrete Mathematics"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:58"
-  description: "Wolfram elementary rules, deterministic aperiodic pseudo-randomness in Rule 30, Rule 90 Sierpinski fractals, and Cook's Turing completeness in Rule 110."
-  tags: ["CellularAutomata", "Rule30", "Rule110", "TuringComplete", "ChaosTheory", "Math", "CreativeCoding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)"
-  video_url: "https://youtube.com/shorts/gUbQU2DU7f0"
-  article_url: "/experiments/cellular-automata-rule30.html"
-
-- title: "The Chaos Game: When Random Chance Obeys Mathematical Law (Barnsley Fern)"
-  series: "Fractals & Chaos"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:53"
-  description: "Michael Barnsley's 1988 iterated function systems, affine matrix contractions, stochastic probability distributions, and botanical self-similarity."
-  tags: ["ChaosGame", "BarnsleyFern", "Fractals", "IteratedFunctionSystems", "Math", "CreativeCoding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #4ade80, #38bdf8, #f59e0b)"
-  video_url: "https://youtube.com/shorts/SKUboRsQmkw"
-  article_url: "/experiments/chaos-game-ifs.html"
-
-- title: "The Simplest Impossible Problem in Math: The Collatz Conjecture (3n + 1)"
-  series: "Number Theory & Chaos"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:51"
-  description: "Lothar Collatz 1937 conjecture (3n+1), chaotic hailstone trajectories, inescapable (4, 2, 1) loop attractor, and the colossal inverse directed tree connecting all integers."
-  tags: ["CollatzConjecture", "3nPlus1", "NumberTheory", "Hailstone", "Math", "CreativeCoding", "FractalTree"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #38bdf8, #f59e0b, #f43f5e)"
-  video_url: "https://youtube.com/shorts/6yjZyX9oHZ0"
-  article_url: "/experiments/collatz-fractal-tree.html"
-
-- title: "The 2 Rules That Created Spontaneous Intelligence (Langton's Ant)"
-  series: "Artificial Life & Emergence"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:54"
-  description: "Christopher Langton's 1986 cellular automaton, transition from symmetry to 10,000 steps of chaos, and spontaneous crystallization of the 104-step highway."
-  tags: ["LangtonsAnt", "ArtificialLife", "Emergence", "CellularAutomata", "TuringMachine", "ChaosTheory", "Math", "CreativeCoding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)"
-  video_url: "https://youtube.com/shorts/J_5nxtVoJsg"
-  article_url: "/experiments/langtons-ant.html"
-
-- title: "How Sound Waves Sculpt Matter Into Sacred Geometry (Chladni Patterns)"
-  series: "Acoustics & Physics"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:55"
-  description: "Ernst Chladni's 1787 physical acoustic standing waves, nodal curve displacement, sand particle kinetics, and harmonic frequency mandalas."
-  tags: ["ChladniPatterns", "Cymatics", "Acoustics", "Physics", "StandingWaves", "HelmholtzEquation", "Math", "CreativeCoding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #f59e0b, #fbbf24, #38bdf8)"
-  video_url: "https://youtube.com/shorts/m81VnjuWMe4"
-  article_url: "/experiments/chladni-patterns.html"
-
-- title: "The Ghost in the Mandelbrot Set: The Buddhabrot & Nebulabrot"
-  series: "Chaos Theory & Fractals"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:52"
-  description: "Melinda Green's 1993 dual complex plane orbit density fractal, escaping trajectory footprints, and multi-wavelength RGB Nebulabrot."
-  tags: ["Buddhabrot", "Nebulabrot", "Fractals", "Mandelbrot", "ChaosTheory", "Math", "ComplexNumbers", "CreativeCoding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #00f0ff, #f59e0b, #a855f7)"
-  video_url: "https://youtube.com/shorts/Z4xm5k-jIdU"
-  article_url: "/experiments/buddhabrot.html"
-
-- title: "The Paper-Folding Monster: The Heighway Dragon Curve"
-  series: "Fractals & L-Systems"
-  format: "Shorts (9:16 Vertical • 30 FPS)"
-  duration: "00:50"
-  description: "NASA physicists 1966 paper-folding fractal, dimension-two plane tiling, and 4-dragon interlocking tessellation."
-  tags: ["HeighwayDragon", "DragonCurve", "Fractals", "LSystem", "Math", "PaperFolding", "Tessellation", "CreativeCoding"]
-  badge: "Master HD Short"
-  gradient: "linear-gradient(135deg, #f43f5e, #38bdf8, #10b981)"
-  video_url: "https://youtube.com/shorts/eytUDjr6_0Q"
-  article_url: "/experiments/heighway-dragon.html"
-
-
-
+- id: yU5M1nMy2-o
+  title: 'Simple Harmonic Motion & The Resonance Catastrophe: Hooke''s Law to Mechanical
+    Rupture'
+  series: Classical Physics
+  format: Full Feature
+  duration: 05:23
+  badge: Vol. VIII
+  video_url: https://www.youtube.com/watch?v=yU5M1nMy2-o
+  article_url: /experiments/simple-harmonic-motion-resonance.html
+  gradient: 'linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #082f49 100%)'
+  description: Master Hooke's restoring force, parabolic potential wells, invariant
+    phase-space orbits, damping shock absorbers, and frequency-locked resonance catastrophes.
+  tags:
+  - Harmonic Motion
+  - Resonance
+  - Damping
+  - Hookes Law
+  - Phase Space
+  - Tacoma Narrows
+  - Taipei 101
+- title: 'Universal Gravitation & Kepler''s Laws: Newton''s Cannon to Orbital Harmony'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:00
+  description: Master celestial mechanics, Newton's mountain cannon, perpetual falling
+    orbits, Kepler's 3 laws of planetary motion, and Hohmann transfer orbits to Mars.
+  tags:
+  - Universal Gravitation
+  - Keplers Laws
+  - Newtons Laws
+  - Orbital Mechanics
+  - Celestial Mechanics
+  - Newtons Cannon
+  - Escape Velocity
+  - Hohmann Transfer
+  - Elliptical Orbit
+  - Inverse Square Law
+  - Angular Momentum
+  - Planetary Motion
+  - Spacecraft
+  - Solar System
+  - Astrophysics
+  - Physics Simulation
+  - p5js
+  - STEM Animation
+  - Science Documentary
+  - Procanimation
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #38bdf8 0%, #fee440 50%, #ef4444 100%)'
+  video_url: https://www.youtube.com/watch?v=KoTyjyLbsLI
+  article_url: /experiments/universal-gravitation-kepler.html
+- title: 'The Aharonov-Bohm Effect: Quantum Non-Locality & The Reality of Potentials'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:01
+  description: Explore quantum non-locality, electromagnetic potentials, shielded
+    solenoids, Akira Tonomura's superconductor experiment, and fiber bundle holonomy.
+  tags:
+  - Aharonov Bohm Effect
+  - Quantum Mechanics
+  - Vector Potential
+  - Electromagnetic Potentials
+  - Quantum Physics
+  - Theoretical Physics
+  - Tonomura Experiment
+  - Gauge Invariance
+  - Gauge Theory
+  - Berry Phase
+  - Wilson Loop
+  - Magnetic Monopole
+  - Superconductivity
+  - Meissner Effect
+  - Quantum Interference
+  - Double Slit
+  - Electromagnetism
+  - STEM Animation
+  - Science Documentary
+  - Procanimation
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
+  video_url: https://www.youtube.com/watch?v=41BJIC9s54U
+  article_url: /experiments/aharonov-bohm-effect.html
+- title: 'Rotational Motion & Angular Momentum: Gyroscopes, Precession & The Figure
+    Skater Spin'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:29
+  description: Master rotational dynamics, the moment of inertia, rolling races down
+    ramps, the figure skater spin paradox, and anti-gravity gyroscopic precession.
+  tags:
+  - Rotational Motion
+  - Angular Momentum
+  - Gyroscope
+  - Gyroscopic Precession
+  - Moment of Inertia
+  - Torque
+  - Figure Skater Spin
+  - Classical Mechanics
+  - Physics Animation
+  - Intuitive Physics
+  - STEM
+  - p5.js
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #a855f7 100%)'
+  video_url: https://www.youtube.com/watch?v=rhHsJUhPa60
+  article_url: /experiments/rotational-motion-angular-momentum.html
+- title: Work, Kinetic Energy & The Rollercoaster of Physics
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 03:41
+  description: 'Explore the conservation of mechanical energy as potential height
+    pours like water into kinetic speed: work integrals (W = ∫ F · dr), quadratic
+    velocity scaling (K = ½ m v²), clothoid teardrop loops, and eddy current magnetic
+    brakes.'
+  tags:
+  - Work and Energy
+  - Kinetic Energy
+  - Potential Energy
+  - Rollercoaster Physics
+  - Conservation of Energy
+  - Clothoid Loop
+  - Eddy Current Brakes
+  - Classical Mechanics
+  - Physics Animation
+  - STEM Education
+  - p5.js
+  - Procanimation
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #38bdf8 0%, #facc15 50%, #f43f5e 100%)'
+  video_url: https://www.youtube.com/watch?v=n4yfwllP93c
+  article_url: /experiments/work-energy-rollercoaster.html
+- title: 'Newton''s 3 Laws of Motion: The Visual Intuition Guide'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:00
+  description: 'Master Isaac Newton''s three foundational laws of motion through pure
+    visual intuition: the frictionless ice puck, force as the accelerator pedal (F
+    = ma), directional acceleration, and action-reaction recoil symmetry.'
+  tags:
+  - Newtons Laws
+  - Newtons Laws of Motion
+  - Classical Mechanics
+  - Inertia
+  - Force
+  - Acceleration
+  - F equals ma
+  - Action and Reaction
+  - Isaac Newton
+  - Physics Animation
+  - Intuitive Physics
+  - STEM
+  - p5.js
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)'
+  video_url: https://www.youtube.com/watch?v=JmGX7d8gWmA
+  article_url: /experiments/newtons-laws-of-motion.html
+- title: 'Momentum, Collisions & The Center of Mass: The Invariant Laws of Impact'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:30
+  description: Newton's original quantity of motion, the inviolable conservation of
+    momentum, impulse-force integrals, automotive crumple zones, elastic vs inelastic
+    restitution, the Zero-Momentum Center of Mass frame, and the Tsiolkovsky rocket
+    equation.
+  tags:
+  - Momentum
+  - Conservation of Momentum
+  - Collisions
+  - Classical Mechanics
+  - Center of Mass
+  - Impulse
+  - Elastic Collisions
+  - Inelastic Collisions
+  - Tsiolkovsky Rocket Equation
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=pPXzbWcGUi4
+  article_url: /experiments/momentum-collisions-center-of-mass.html
+- title: '2D Motion & Projectile Trajectories: Parabolic Envelopes & Orbital Mechanics'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:52
+  description: Galileo's orthogonal independence principle, timeless parabolic trajectory
+    derivation, dynamic velocity vector decomposition, the parabolic safety envelope,
+    aerodynamic drag, and Newton's orbital cannon.
+  tags:
+  - 2D Motion
+  - Projectile Motion
+  - Classical Mechanics
+  - Parabolic Trajectory
+  - Safety Envelope
+  - Galileo Galilei
+  - Isaac Newton
+  - Ballistics
+  - Centripetal Acceleration
+  - Orbital Mechanics
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=z3938q0OjIc
+  article_url: /experiments/2d-projectile-motion.html
+- title: '1D Motion & The Calculus of Kinematics: Derivatives, Concavity & Galileo''s
+    Laws'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:15
+  description: Position, displacement vectors, instantaneous velocity tangents, acceleration
+    as curve concavity, Galileo's uniform acceleration laws, terminal velocity under
+    aerodynamic drag, and phase space determinism.
+  tags:
+  - 1D Motion
+  - Kinematics
+  - Classical Mechanics
+  - Calculus of Motion
+  - Instantaneous Velocity
+  - Acceleration
+  - Galileo Galilei
+  - Kinematic Equations
+  - Free Fall
+  - Terminal Velocity
+  - Phase Space
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
+  video_url: https://www.youtube.com/watch?v=eXH3xWs5REM
+  article_url: /experiments/1d-motion-kinematics.html
+- title: 'The Ising Model & Phase Transitions: Spontaneous Magnetism & Criticality'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:15
+  description: Pierre Curie's discovery, the microscopic spin lattice Hamiltonian,
+    the Metropolis-Hastings Monte Carlo algorithm, Lars Onsager's 1944 exact analytical
+    solution, fractal cluster scale invariance, and Hopfield neural networks.
+  tags:
+  - Ising Model
+  - Phase Transitions
+  - Statistical Mechanics
+  - Monte Carlo
+  - Metropolis Algorithm
+  - Spontaneous Magnetism
+  - Lars Onsager
+  - Critical Phenomena
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=3_lUs6Mzut8
+  article_url: /experiments/ising-model-magnetism.html
+- title: 'The Hopf Fibration: Visualizing 4D Space & The Quantum Spin Sphere'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:04
+  description: Heinz Hopf's 1931 topological breakthrough, stereographic projection
+    of interlocking Villarceau circles, nested coaxial tori, the Bloch sphere of qubits,
+    and Dirac magnetic monopoles.
+  tags:
+  - Hopf Fibration
+  - 4D Visualization
+  - Topology
+  - Differential Geometry
+  - Quantum Computing
+  - Bloch Sphere
+  - Qubit
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)'
+  video_url: https://www.youtube.com/watch?v=ZUJKVoE-kaU
+  article_url: /experiments/hopf-fibration-4d.html
+- title: 'The Dirac Equation: Antimatter, Spin & Relativistic Quantum Mechanics'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:57
+  description: Paul Dirac's 1928 breakthrough, 4x4 gamma matrices, the relativistic
+    origin of electron spin, the Dirac Sea, Carl Anderson's 1932 cloud chamber positron
+    discovery, and matter-antimatter annihilation in QED.
+  tags:
+  - Dirac Equation
+  - Antimatter
+  - Positron
+  - Paul Dirac
+  - Quantum Mechanics
+  - Special Relativity
+  - Spinors
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=X-41tOHU91s
+  article_url: /experiments/dirac-equation-antimatter.html
+- title: 'Noether''s Theorem: The Hidden Symmetries That Rule the Universe'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:48
+  description: The 1915 crisis in General Relativity, David Hilbert's challenge, the
+    Principle of Stationary Action, Emmy Noether's First Theorem, continuous Lie symmetry
+    groups, the Trinity of spacetime conservations, and gauge theory in the Standard
+    Model.
+  tags:
+  - Noethers Theorem
+  - Emmy Noether
+  - Symmetry
+  - Conservation Laws
+  - Theoretical Physics
+  - Lagrangian Mechanics
+  - General Relativity
+  - Standard Model
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #fee440 100%)'
+  video_url: https://www.youtube.com/watch?v=aRzTXuSnWz4
+  article_url: /experiments/noethers-theorem.html
+- title: 'The Quantum Harmonic Oscillator & Zero-Point Energy: Coherent States & Quantum
+    Vacuum Fluctuations'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 06:20
+  description: Max Planck's 1900 blackbody resonators, Hermite polynomial bound states,
+    Dirac ladder operators, irreducible zero-point vacuum energy, Glauber coherent
+    states, and second quantization.
+  tags:
+  - Quantum Harmonic Oscillator
+  - Zero Point Energy
+  - Quantum Mechanics
+  - Quantum Field Theory
+  - Ladder Operators
+  - Hermite Polynomials
+  - Coherent States
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #a855f7 0%, #00f5d4 50%, #fee440 100%)'
+  video_url: https://www.youtube.com/watch?v=DznV1u24Dg0
+  article_url: /experiments/quantum-harmonic-oscillator.html
+- title: 'Maxwell''s Equations & Electrodynamics: Light, Gauge Invariance & The Speed
+    of Reality'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 06:29
+  description: James Clerk Maxwell's 1865 field theory, Gauss's divergence symmetries,
+    Faraday's vortex rings, the displacement current, 3D transverse wave propagation,
+    and relativistic U(1) gauge covariance.
+  tags:
+  - Maxwell Equations
+  - Electrodynamics
+  - Light Speed
+  - Faraday Law
+  - Gauss Law
+  - Ampere Maxwell Law
+  - Special Relativity
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)'
+  video_url: https://www.youtube.com/watch?v=pH-zCFPHygs
+  article_url: /experiments/maxwell-electrodynamics.html
+- title: 'Solitons & The Korteweg–de Vries Equation: Non-Linear Waves That Refuse
+    to Die'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 06:47
+  description: John Scott Russell's 1834 Union Canal discovery, non-linear steepening
+    vs third-order dispersion, Zabusky and Kruskal's 1965 collision transparency,
+    the FPU recurrence, and Lax pairs.
+  tags:
+  - Solitons
+  - KdV Equation
+  - Nonlinear Dynamics
+  - FPU Recurrence
+  - Inverse Scattering
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)'
+  video_url: https://www.youtube.com/watch?v=jl27lx1xcks
+  article_url: /experiments/solitons-kdv-equation.html
+- title: 'Lissajous Figures & Coupled Resonators: Harmonic Geometry & Energy Beats'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:30
+  description: Jules Antoine Lissajous' 1857 optical acoustic discovery, spring-coupled
+    pendulums, energy beats, normal modes, Victorian harmonographs, and Chebyshev
+    polynomials.
+  tags:
+  - Lissajous Figures
+  - Coupled Oscillators
+  - Harmonic Motion
+  - Resonance
+  - Normal Modes
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)'
+  video_url: https://www.youtube.com/watch?v=q-zJXcQ6ezc
+  article_url: /experiments/lissajous-coupled-resonators.html
+- title: 'Foucault''s Pendulum & The Coriolis Effect: Earth''s Rotation & Holonomy
+    on S²'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:13
+  description: Jean Bernard Léon Foucault's 1851 Panthéon experiment, non-inertial
+    reference frames, the Sine of Latitude law, and parallel transport holonomy on
+    the 2-sphere.
+  tags:
+  - Foucault Pendulum
+  - Coriolis Effect
+  - Earth Rotation
+  - Classical Mechanics
+  - Holonomy
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #f43f5e 100%)'
+  video_url: https://www.youtube.com/watch?v=3o8GQWaFcU0
+  article_url: /experiments/foucault-pendulum-coriolis.html
+- title: 'Hamiltonian Mechanics & The Geometry of Phase Space: Liouville''s Law &
+    Chaos'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:34
+  description: William Rowan Hamilton's 1833 formulation, canonical equations, Liouville's
+    incompressible phase fluid, the separatrix, and the KAM theorem transition to
+    chaos.
+  tags:
+  - Hamiltonian Mechanics
+  - Phase Space
+  - Classical Mechanics
+  - Liouville Theorem
+  - Symplectic Geometry
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)'
+  video_url: https://www.youtube.com/watch?v=ZwvFWbBMvoQ
+  article_url: /experiments/hamiltonian-phase-space.html
+- title: 'The Architecture of Chaos: When Simple Rules Build the Universe'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 02:08
+  description: Wolfram Rule 30, the Chaos Game, the Buddhabrot, Chladni cymatics,
+    and the plane-tiling Heighway Dragon. How minimal recursive rules build universal
+    cosmic complexity.
+  tags:
+  - Chaos Theory
+  - Fractals
+  - Cymatics
+  - Cellular Automata
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #ffb703 100%)'
+  video_url: https://www.youtube.com/watch?v=mLvYWNr5tNo
+  article_url: /experiments/cellular-automata-rule30.html
+- title: 'The Music of the Cosmos: How the Fourier Transform Explains Reality'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 02:51
+  description: How Joseph Fourier's mathematical breakthrough decomposes light, planetary
+    orbits, quantum wavefunctions, and the Cosmic Microwave Background into pure harmonics.
+  tags:
+  - Fourier Transform
+  - Cosmology
+  - Harmonics
+  - Astrophysics
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=J0Vgf_xLiZo
+  article_url: /experiments/fourier-series.html
+- title: 'The Gravitational Ballet: Chaos in Celestial Mechanics'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 02:58
+  description: Henri Poincaré's discovery of gravitational non-integrability, chaotic
+    N-body choreographies, Lagrange points, and why the solar system cannot be solved
+    in closed form.
+  tags:
+  - Celestial Mechanics
+  - Three-Body Problem
+  - Chaos Theory
+  - Astrophysics
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #0077b6 0%, #00f5d4 50%, #fee440 100%)'
+  video_url: https://www.youtube.com/watch?v=pPXzhInf4xA
+  article_url: /experiments/three-body-problem.html
+- title: 'The Geometry of Life: How Physics Builds Living Order'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 03:28
+  description: Alan Turing's activator-inhibitor reaction-diffusion morphogenesis,
+    Ilya Prigogine's dissipative structures, and how spontaneous spatial order self-organizes
+    far from equilibrium.
+  tags:
+  - Turing Morphogenesis
+  - Reaction-Diffusion
+  - Complexity
+  - Biophysics
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #ec4899 100%)'
+  video_url: https://www.youtube.com/watch?v=YdSTRGYKb68
+  article_url: /experiments/turing-morphogenesis.html
+- title: 'The Holographic Universe: Are We Living on the Edge of Spacetime?'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 03:37
+  description: Bekenstein-Hawking black hole entropy (S = k_B A / 4l_p^2), the Information
+    Paradox, AdS/CFT duality, and the radical proposal that our 3D reality is a boundary
+    hologram.
+  tags:
+  - Holographic Principle
+  - Black Holes
+  - Quantum Gravity
+  - String Theory
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #7209b7 0%, #f72585 50%, #00f5d4 100%)'
+  video_url: https://www.youtube.com/watch?v=dEanJ_qEqns
+  article_url: /experiments/black-hole-gravitational-lensing.html
+- title: 'The Arrow of Time: Why Yesterday Can Never Be Undone'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:21
+  description: Ludwig Boltzmann's statistical entropy (S = k_B ln Ω), Loschmidt's
+    reversibility paradox, Poincaré recurrence, and why microscopic reversible laws
+    create an irreversible macroscopic arrow of time.
+  tags:
+  - Thermodynamics
+  - Entropy
+  - Arrow of Time
+  - Statistical Mechanics
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #ff0055 0%, #ff5500 50%, #00f5d4 100%)'
+  video_url: https://www.youtube.com/watch?v=O-0rUbsY_Lo
+  article_url: /experiments/arrow-of-time.html
+- title: 'The Quantum Observer: Does Reality Exist When Nobody is Looking?'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:25
+  description: The double-slit enigma, Schrödinger's cat superposition paradox, environmental
+    decoherence and the density matrix, Hugh Everett's Many-Worlds multiverse, and
+    freezing time via the Quantum Zeno Effect.
+  tags:
+  - Quantum Physics
+  - Schrodingers Cat
+  - Measurement Problem
+  - Many Worlds
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=GjL8bOBPv1o
+  article_url: /experiments/quantum-observer.html
+- title: 'Quantum Tunneling: Defying the Walls of Reality'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:38
+  description: Wavefunction barrier penetration, evanescent decay, George Gamow's
+    nuclear alpha decay miracle, the solar core proton fusion engine, and Scanning
+    Tunneling Microscopy.
+  tags:
+  - Quantum Tunneling
+  - Alpha Decay
+  - Gamow Miracle
+  - Solar Fusion
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=3RXshPfWtrw
+  article_url: /experiments/quantum-tunneling.html
+- title: 'The Infinite Continuum: Cantor''s Transfinite Revolution'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:51
+  description: Hilbert's Grand Hotel, Cantor's diagonal slash, uncountability of the
+    real continuum, the ternary dust of measure zero, and the undecidability of the
+    Continuum Hypothesis.
+  tags:
+  - Infinities
+  - Cantors Theorem
+  - Hilberts Hotel
+  - Transfinite
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=dLDk9Sh8t-U
+  article_url: /experiments/cantors-infinity.html
+- title: 'The Quantum Fabric: Spooky Action at a Distance & Bell''s Theorem'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:13
+  description: The EPR paradox, John Stewart Bell's inequality, the 2022 Nobel Prize
+    experimental verification, quantum teleportation protocols, and the ER=EPR wormhole
+    connection.
+  tags:
+  - Quantum Entanglement
+  - Bells Theorem
+  - CHSH Inequality
+  - Quantum Teleportation
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=HAAOUW6ZJwQ
+  article_url: /experiments/quantum-entanglement.html
+- title: 'The Ripples of Spacetime: Gravitational Waves & Warped Geometry'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 03:52
+  description: General Relativity, binary black hole orbital decay, LIGO 4-km laser
+    interferometry, GW150914 cosmic collision, and multi-messenger astronomy with
+    kilonova nucleosynthesis.
+  tags:
+  - Gravitational Waves
+  - General Relativity
+  - LIGO
+  - Black Hole Merger
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=AuaWbIELFkQ
+  article_url: /experiments/gravitational-waves.html
+- title: 'The Riemann Hypothesis: The Cosmic Music of the Primes'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:03
+  description: Euler's golden product, the critical line Re(s)=1/2, Riemann's explicit
+    prime formula, Montgomery-Dyson quantum chaos connection, and the million-dollar
+    Millennium mystery.
+  tags:
+  - Riemann Hypothesis
+  - Prime Numbers
+  - Complex Analysis
+  - Quantum Chaos
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=SWjjEUnevdU
+  article_url: /experiments/riemann-hypothesis.html
+- title: 'The Computational Cosmos: Turing Completeness in Conway''s Game of Life'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:10
+  description: Conway's B3/S23 elementary rules, Gosper glider gun, logic gate synthesis,
+    Paul Rendell's Universal Turing Machine, and the mind-bending self-simulating
+    Metapixel.
+  tags:
+  - Game of Life
+  - Cellular Automata
+  - Turing Complete
+  - Computer Science
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
+  video_url: https://www.youtube.com/watch?v=t1eeSNWcto0
+  article_url: /experiments/game-of-life-turing.html
+- title: 'The Einstein-Rosen Bridge: Traversable Wormholes & Exotic Matter'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 03:39
+  description: The 1935 Schwarzschild coordinate bridge, Kip Thorne's 1988 traversability
+    conditions, Casimir vacuum negative energy density, ER=EPR quantum entanglement,
+    and Chronology Protection.
+  tags:
+  - Wormholes
+  - General Relativity
+  - Einstein Rosen Bridge
+  - Exotic Matter
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=p1bOnMH6yfg
+  article_url: /experiments/wormholes-exotic-matter.html
+- title: 'Self-Organized Criticality: The Sandpile Model & The 1/f Cosmic Pulse'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 03:45
+  description: Per Bak's 1987 Abelian Sandpile model, scale-invariant power laws,
+    1/f pink noise cosmic acoustics, earthquakes, financial crashes, and the critical
+    brain hypothesis.
+  tags:
+  - Self-Organized Criticality
+  - Sandpile Model
+  - Pink Noise
+  - Power Laws
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
+  video_url: https://www.youtube.com/watch?v=tNblesFu3J0
+  article_url: /experiments/self-organized-criticality.html
+- title: 'The Quantum Computer: Shor''s Algorithm, Superposition & The Death of RSA'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:06
+  description: Continuous linear superposition on the Bloch sphere, an exponential
+    2^n state space, Peter Shor's 1994 quantum Fourier transform algorithm, and the
+    cryptographic transition.
+  tags:
+  - Quantum Computing
+  - Shor Algorithm
+  - Bloch Sphere
+  - Superposition
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=K1nqF-wM5gU
+  article_url: /experiments/quantum-computing-shor.html
+- title: 'The Navier-Stokes Enigma: Turbulence, Vortex Cascades & The Millennium Singularity'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:23
+  description: Claude Navier & George Stokes' 1845 momentum equation, the convective
+    demon (u · ∇)u, Kolmogorov's k^-5/3 energy cascade, vortex stretching, and the
+    Clay Millennium singularity prize.
+  tags:
+  - Fluid Dynamics
+  - Navier Stokes
+  - Turbulence
+  - Chaos
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=4f2a1NrDba8
+  article_url: /experiments/navier-stokes-turbulence.html
+- title: 'The Topology of Reality: Poincaré Conjecture & Perelman''s Ricci Flow'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:00
+  description: Henri Poincaré's 1904 question on the 3-sphere, simple connectivity,
+    Richard Hamilton's Ricci flow metric diffusion, and Grigori Perelman's singularity
+    surgeries.
+  tags:
+  - Topology
+  - Poincare Conjecture
+  - Ricci Flow
+  - Perelman
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=S4ZbFUKeQgo
+  article_url: /experiments/poincare-conjecture-ricci.html
+- title: 'Cosmic Inflation & The Multiverse: Inflaton Dynamics & The Cosmic Seeds'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:03
+  description: Alan Guth's exponential superluminal expansion, Heisenberg quantum
+    vacuum fluctuations frozen as cosmic seeds, Planck CMB acoustic peaks, and the
+    eternal bubble multiverse.
+  tags:
+  - Cosmology
+  - Cosmic Inflation
+  - Multiverse
+  - Astrophysics
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
+  video_url: https://www.youtube.com/watch?v=q7ADNAIZUq8
+  article_url: /experiments/cosmic-inflation-multiverse.html
+- title: 'The P vs NP Enigma: The Limits of Computation & The Intrinsic Hardness of
+    Reality'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:17
+  description: The asymmetry of insight, Cook-Levin 3-SAT theorem, Karp's 21 reductions,
+    cryptographic apocalypse, and the three meta-mathematical proof barriers.
+  tags:
+  - P vs NP
+  - Computational Complexity
+  - Algorithms
+  - Theoretical Computer Science
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)'
+  video_url: https://www.youtube.com/watch?v=oSJD2UT2b5Y
+  article_url: /experiments/p-vs-np-enigma.html
+- title: 'The Yang-Mills Mass Gap: Quark Confinement & The Origin of Mass'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 04:43
+  description: Why 99% of visible mass is pure energy. Non-Abelian gauge invariance,
+    SU(3) color symmetries, asymptotic freedom, the 14-ton flux tube, and the positive
+    spectral mass gap.
+  tags:
+  - Yang-Mills
+  - Mass Gap
+  - Quantum Chromodynamics
+  - Quark Confinement
+  - Millennium Prize
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)'
+  video_url: https://www.youtube.com/watch?v=bEziNRa2nWA
+  article_url: /experiments/yang-mills-mass-gap.html
+- title: 'The Brachistochrone: The Geometry of Light & The Calculus of Variations'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master • p5.js)
+  duration: 04:53
+  description: Johann Bernoulli's 1696 challenge, Fermat's optical refraction analogy,
+    Snell's law, Huygens' tautochrone isochronism, and Hamilton's Principle of Least
+    Action.
+  tags:
+  - Brachistochrone
+  - Calculus of Variations
+  - Classical Mechanics
+  - Cycloid
+  - p5.js
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)'
+  video_url: https://www.youtube.com/watch?v=BGQ0ZRWK8Jg
+  article_url: /experiments/brachistochrone-calculus-variations.html
+- title: 'The Dzhanibekov Effect & The Tennis Racket Theorem: Euler''s Rigid Body
+    Chaos'
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master • p5.js)
+  duration: 04:55
+  description: Why spinning objects spontaneously flip 180° in zero gravity. Euler's
+    equations of motion, intermediate axis instability, Poinsot's inertia ellipsoids,
+    and the hyperbolic saddle separatrix.
+  tags:
+  - Dzhanibekov Effect
+  - Tennis Racket Theorem
+  - Euler Equations
+  - Classical Mechanics
+  - p5.js
+  - Documentary
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)'
+  video_url: https://www.youtube.com/watch?v=LDX4p3W8lmA
+  article_url: /experiments/dzhanibekov-tennis-racket.html
+- title: 'The Spiral That Broke Randomness: The Ulam Spiral'
+  series: Number Theory & Prime Density
+  format: Shorts (9:16 Vertical)
+  duration: 00:48
+  description: Stanislaw Ulam's 1963 discovery of prime number diagonals, Euler's
+    lucky prime polynomial (n² + n + 41), and polar Sacks spiral projections.
+  tags:
+  - Math
+  - Primes
+  - Number Theory
+  - Creative Coding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #ffb703 100%)'
+  video_url: https://www.youtube.com/shorts/8YfChWI63JQ
+  article_url: /experiments/ulam-spiral.html
+- title: 'The Mandelbrot Deep Zoom: Into Mathematical Infinity'
+  series: Fractals & Chaos
+  format: Landscape (16:9 • 60 FPS)
+  duration: '10:24'
+  description: Diving billions of levels into the boundary of the Mandelbrot set.
+    Exploring how simple complex quadratic equations yield infinite organic complexity.
+  tags:
+  - Fractals
+  - Mathematics
+  - p5.js
+  badge: Featured Episode
+  gradient: 'linear-gradient(135deg, #7209b7, #3f37c9)'
+  video_url: https://www.youtube.com/shorts/5Gy1DjezVRU
+  article_url: /experiments/mandelbrot-deep-zoom.html
+- title: 'N-Body Orbital Chaos: The Three-Body Problem Explained'
+  series: Cosmic Physics
+  format: Shorts (9:16 Vertical)
+  duration: 00:56
+  description: Why are gravitational systems with three or more bodies inherently
+    chaotic? Simulating resonance, Lagrange points, and orbital decay.
+  tags:
+  - Physics
+  - Orbits
+  - Gravity
+  badge: High Physics
+  gradient: 'linear-gradient(135deg, #0077b6, #0096c7)'
+  video_url: https://www.youtube.com/shorts/lGvIhmJy57w
+  article_url: /experiments/three-body-problem.html
+- title: Double Pendulum & Lagrangian Chaos
+  series: Chaos Theory
+  format: Shorts (9:16 Vertical • 60 FPS)
+  duration: 00:48
+  description: Euler-Lagrange equations of motion, sensitive dependence on initial
+    conditions (0.01° offset), and real-time Lyapunov divergence.
+  tags:
+  - Chaos
+  - Physics
+  - Lagrangian
+  - RK4
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #f72585, #7209b7)'
+  video_url: https://www.youtube.com/shorts/GNwcn2bJjuw
+  article_url: /2026/09/27/chaos-theory-double-pendulum.html
+- title: 'Lorenz Attractor: The Butterfly That Rewrote Physics'
+  series: Dynamic Systems
+  format: Shorts (9:16 Vertical • 60 FPS)
+  duration: 00:48
+  description: 3D chaotic strange attractor differential equations with dual diverging
+    trajectories and Lyapunov exponents in Three.js.
+  tags:
+  - Three.js
+  - Chaos
+  - 3D
+  - Differential Equations
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #7209b7)'
+  video_url: https://www.youtube.com/shorts/T9CM8CtTHuY
+  article_url: /experiments/lorenz-attractor.html
+- title: 'The Fourier Transform: Drawing Anything with Rotating Circles'
+  series: Visual Mathematics
+  format: Shorts (9:16 Vertical • 60 FPS)
+  duration: 00:48
+  description: How Joseph Fourier's harmonic series synthesis turns spinning circular
+    epicycles into square waves and complex waveforms.
+  tags:
+  - Fourier
+  - Math
+  - Physics
+  - p5.js
+  - Creative Coding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #f72585)'
+  video_url: https://www.youtube.com/shorts/ckx9KLXdK4U
+  article_url: /experiments/fourier-series.html
+- title: 'Turing Morphogenesis: How the Leopard Got Its Spots'
+  series: Biological Mathematics
+  format: Shorts (9:16 Vertical • 60 FPS)
+  duration: 00:48
+  description: Alan Turing's 1952 activator-inhibitor partial differential equations,
+    Gray-Scott reaction-diffusion kinetics, and biological pattern formation.
+  tags:
+  - Turing
+  - Biology
+  - Reaction-Diffusion
+  - Math
+  - Shaders
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #7209b7, #f72585)'
+  video_url: https://www.youtube.com/shorts/Vo1i-e7y650
+  article_url: /experiments/turing-morphogenesis.html
+- title: 'Swarm Intelligence: How Brainless Agents Solve Impossible Mazes'
+  series: Emergent Systems
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:53
+  description: Ant Colony Optimization (ACO), stigmergy, and evaporating chemical
+    pheromone trails routing 500 agents through complex mazes.
+  tags:
+  - AI
+  - Swarm
+  - Algorithms
+  - p5.js
+  - Biology
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #ffbe0b)'
+  video_url: https://www.youtube.com/shorts/mkORha4ej3Q
+  article_url: /experiments/ant-swarm-intelligence.html
+- title: 'Black Hole Gravitational Lensing: How Spacetime Bends Light'
+  series: General Relativity
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:53
+  description: Karl Schwarzschild's metric, photon spheres (1.5 Rs), Einstein rings,
+    and relativistic Doppler beaming modeled with raymarched geodesics.
+  tags:
+  - BlackHole
+  - Relativity
+  - Physics
+  - Einstein
+  - WebGL
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #f72585, #7209b7, #00f5d4)'
+  video_url: https://www.youtube.com/shorts/q678Qhyd8gE
+  article_url: /experiments/black-hole-gravitational-lensing.html
+- title: 'Conway''s Game of Life: How 4 Rules Create Virtual Worlds'
+  series: Cellular Automata & Complexity
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:54
+  description: John Conway's zero-player cellular automaton, Moore neighborhood sum,
+    B3/S23 transition rules, Gosper glider guns, and Turing completeness.
+  tags:
+  - GameOfLife
+  - Conway
+  - CellularAutomata
+  - Algorithms
+  - Coding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #06d6a0, #ffbe0b)'
+  video_url: https://www.youtube.com/watch?v=k1gCvbj1PAA
+  article_url: /experiments/conways-game-of-life.html
+- title: 'The Quantum Double Slit Experiment: Reality Changes When You Look'
+  series: Quantum Mechanics
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:53
+  description: Wave-particle duality, de Broglie matter waves, Schrödinger's wavefunction,
+    Born's probability density rule, and quantum observer collapse.
+  tags:
+  - Quantum
+  - Physics
+  - DoubleSlit
+  - Schrodinger
+  - WaveParticle
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #7209b7, #f72585)'
+  video_url: https://www.youtube.com/watch?v=0W6v_AxhsXg
+  article_url: /experiments/quantum-double-slit.html
+- title: 'Von Kármán Vortex Streets: The Hidden Rhythm of Fluid Turbulence'
+  series: Fluid Dynamics
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:48
+  description: Boundary layer separation, alternating counter-rotating vortex trails,
+    Strouhal shedding frequencies, and aeroelastic resonance flutter.
+  tags:
+  - FluidDynamics
+  - Physics
+  - NavierStokes
+  - VonKarman
+  - Engineering
+  - TacomaNarrows
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #f72585, #facc15)'
+  video_url: https://youtube.com/shorts/voQD4VPnf5s
+  article_url: /experiments/von-karman-vortex.html
+- title: 'XOR Bitwise Fractals: The Infinite Geometry of Pure Binary Logic'
+  series: Discrete Mathematics
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:56
+  description: Binary addition without carry, Sierpinski triangle emergence, modulo
+    prime harmonics, Walsh-Hadamard matrices, and crystalline Moorish mandalas.
+  tags:
+  - DiscreteMath
+  - Fractals
+  - XOR
+  - Binary
+  - Sierpinski
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #f72585, #ffbe0b)'
+  video_url: https://youtube.com/shorts/vtOvXTFyw0k
+  article_url: /experiments/xor-bitwise-fractal.html
+- title: 'Rule 30 & 110 Cellular Automata: Cryptographic Chaos & Turing Completeness'
+  series: Discrete Mathematics
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:58
+  description: Wolfram elementary rules, deterministic aperiodic pseudo-randomness
+    in Rule 30, Rule 90 Sierpinski fractals, and Cook's Turing completeness in Rule
+    110.
+  tags:
+  - CellularAutomata
+  - Rule30
+  - Rule110
+  - TuringComplete
+  - ChaosTheory
+  - Math
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)'
+  video_url: https://youtube.com/shorts/gUbQU2DU7f0
+  article_url: /experiments/cellular-automata-rule30.html
+- title: 'The Chaos Game: When Random Chance Obeys Mathematical Law (Barnsley Fern)'
+  series: Fractals & Chaos
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:53
+  description: Michael Barnsley's 1988 iterated function systems, affine matrix contractions,
+    stochastic probability distributions, and botanical self-similarity.
+  tags:
+  - ChaosGame
+  - BarnsleyFern
+  - Fractals
+  - IteratedFunctionSystems
+  - Math
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #4ade80, #38bdf8, #f59e0b)'
+  video_url: https://youtube.com/shorts/SKUboRsQmkw
+  article_url: /experiments/chaos-game-ifs.html
+- title: 'The Simplest Impossible Problem in Math: The Collatz Conjecture (3n + 1)'
+  series: Number Theory & Chaos
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:51
+  description: Lothar Collatz 1937 conjecture (3n+1), chaotic hailstone trajectories,
+    inescapable (4, 2, 1) loop attractor, and the colossal inverse directed tree connecting
+    all integers.
+  tags:
+  - CollatzConjecture
+  - 3nPlus1
+  - NumberTheory
+  - Hailstone
+  - Math
+  - CreativeCoding
+  - FractalTree
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #38bdf8, #f59e0b, #f43f5e)'
+  video_url: https://youtube.com/shorts/6yjZyX9oHZ0
+  article_url: /experiments/collatz-fractal-tree.html
+- title: The 2 Rules That Created Spontaneous Intelligence (Langton's Ant)
+  series: Artificial Life & Emergence
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:54
+  description: Christopher Langton's 1986 cellular automaton, transition from symmetry
+    to 10,000 steps of chaos, and spontaneous crystallization of the 104-step highway.
+  tags:
+  - LangtonsAnt
+  - ArtificialLife
+  - Emergence
+  - CellularAutomata
+  - TuringMachine
+  - ChaosTheory
+  - Math
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #38bdf8, #4ade80, #f43f5e)'
+  video_url: https://youtube.com/shorts/J_5nxtVoJsg
+  article_url: /experiments/langtons-ant.html
+- title: How Sound Waves Sculpt Matter Into Sacred Geometry (Chladni Patterns)
+  series: Acoustics & Physics
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:55
+  description: Ernst Chladni's 1787 physical acoustic standing waves, nodal curve
+    displacement, sand particle kinetics, and harmonic frequency mandalas.
+  tags:
+  - ChladniPatterns
+  - Cymatics
+  - Acoustics
+  - Physics
+  - StandingWaves
+  - HelmholtzEquation
+  - Math
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #f59e0b, #fbbf24, #38bdf8)'
+  video_url: https://youtube.com/shorts/m81VnjuWMe4
+  article_url: /experiments/chladni-patterns.html
+- title: 'The Ghost in the Mandelbrot Set: The Buddhabrot & Nebulabrot'
+  series: Chaos Theory & Fractals
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:52
+  description: Melinda Green's 1993 dual complex plane orbit density fractal, escaping
+    trajectory footprints, and multi-wavelength RGB Nebulabrot.
+  tags:
+  - Buddhabrot
+  - Nebulabrot
+  - Fractals
+  - Mandelbrot
+  - ChaosTheory
+  - Math
+  - ComplexNumbers
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f0ff, #f59e0b, #a855f7)'
+  video_url: https://youtube.com/shorts/Z4xm5k-jIdU
+  article_url: /experiments/buddhabrot.html
+- title: 'The Paper-Folding Monster: The Heighway Dragon Curve'
+  series: Fractals & L-Systems
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:50
+  description: NASA physicists 1966 paper-folding fractal, dimension-two plane tiling,
+    and 4-dragon interlocking tessellation.
+  tags:
+  - HeighwayDragon
+  - DragonCurve
+  - Fractals
+  - LSystem
+  - Math
+  - PaperFolding
+  - Tessellation
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #f43f5e, #38bdf8, #10b981)'
+  video_url: https://youtube.com/shorts/eytUDjr6_0Q
+  article_url: /experiments/heighway-dragon.html
