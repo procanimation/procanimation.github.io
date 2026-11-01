@@ -1,0 +1,434 @@
+---
+layout: article
+title: "Thermodynamics: The Carnot Engine, Entropy & The Arrow of Time"
+tagline: "The Unidirectional Flow of Reality: Kinetic Heat, Reversible Engines, Boltzmann Microstates & Cosmic Destiny"
+description: "Master the fundamental laws of thermodynamics through interactive simulations of molecular kinetic pressure, the 4-stroke reversible Carnot engine, Boltzmann's statistical entropy, and the cosmic arrow of time."
+category: "Classical Mechanics & Thermodynamics"
+permalink: /experiments/thermodynamics-carnot-entropy.html
+---
+
+<p class="article-lead">
+  When you drop an ice cube into hot coffee, heat flows in a single relentless direction until equilibrium is reached; never in human history has lukewarm liquid spontaneously separated into boiling water and a block of ice. While every microscopic equation in classical and quantum mechanics is strictly time-reversible, the macroscopic universe marches along an irreversible path. This cosmic compass is dictated by <strong>The Laws of Thermodynamics</strong> and the statistical nature of <strong>Entropy</strong>.
+</p>
+
+<!-- Thermodynamics Lexicon Hierarchy Grid -->
+<h3>The Thermodynamic Architecture</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The First Law (Energy Conservation)</h4>
+    <p>$$dU = \delta Q - \delta W$$. Internal energy of a closed system can only change via heat transfer ($$Q$$) or mechanical boundary work ($$W$$). Heat is not a fluid, but the microscopic kinetic motion of constituent atoms ($$\langle E_k \rangle = \frac{3}{2} k_B T$$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Reversible Carnot Cycle</h4>
+    <p>$$W_{\text{net}} = \oint P \, dV = Q_H - Q_C$$. Operating between two thermal reservoirs ($$T_H$$ and $$T_C$$) across two isotherms and two adiabats, Sadi Carnot's cycle defines the absolute theoretical ceiling of mechanical efficiency.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Carnot Efficiency Limit</h4>
+    <p>$$\eta_{\text{max}} = 1 - \frac{T_C}{T_H}$$. Converting thermal energy into work requires dumping waste heat into a cold sink. Achieving 100% efficiency requires $$T_C = 0\text{ K}$$, an impossible state by the Third Law of Thermodynamics.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Statistical Entropy (Boltzmann)</h4>
+    <p>$$S = k_B \ln \Omega$$. Entropy is not disorder, but the logarithm of the number of microscopic configurations ($$\Omega$$) that yield the same macroscopic state. Isolated systems evolve toward maximum entropy simply because uniform states outnumber ordered ones by trillions of orders of magnitude.</p>
+  </div>
+</div>
+
+<!-- Interactive Thermodynamics Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🔥 LIVE THERMODYNAMICS & ENTROPY LABORATORY</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Molecular Kinetic Gas, 4-Stroke Carnot Cycle & Statistical Free Expansion)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabKin" class="sim-btn primary">1. Kinetic Theory & Gas Law</button>
+      <button id="btnTabCarnot" class="sim-btn secondary">2. Carnot Cycle (P-V)</button>
+      <button id="btnTabEntropy" class="sim-btn secondary">3. Statistical Free Expansion</button>
+      <button id="btnResetSim" class="sim-btn secondary">Reset State</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="thermoCanvas" width="1000" height="520" style="display:block; width:100%; height:100%;"></canvas>
+  </div>
+
+  <div class="sim-parameters-panel" style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam1" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">TEMPERATURE (T): 300 K</label>
+      <input type="range" id="sliderParam1" min="100" max="600" step="10" value="300" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam2" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">CHAMBER VOLUME (V): 1.0 m³</label>
+      <input type="range" id="sliderParam2" min="0.5" max="2.0" step="0.1" value="1.0" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam3" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">MOLECULE COUNT (N): 50</label>
+      <input type="range" id="sliderParam3" min="20" max="100" step="5" value="50" style="width:100%;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('thermoCanvas');
+  const ctx = canvas.getContext('2d');
+  let activeTab = 1;
+
+  const btnTabKin = document.getElementById('btnTabKin');
+  const btnTabCarnot = document.getElementById('btnTabCarnot');
+  const btnTabEntropy = document.getElementById('btnTabEntropy');
+  const btnResetSim = document.getElementById('btnResetSim');
+  const slider1 = document.getElementById('sliderParam1');
+  const slider2 = document.getElementById('sliderParam2');
+  const slider3 = document.getElementById('sliderParam3');
+  const lbl1 = document.getElementById('lblParam1');
+  const lbl2 = document.getElementById('lblParam2');
+  const lbl3 = document.getElementById('lblParam3');
+
+  let simTime = 0;
+  let lastTimestamp = performance.now();
+
+  // Pre-seed gas particles
+  let particles = [];
+  function initParticles(n) {
+    particles = [];
+    for (let i = 0; i < n; i++) {
+      particles.push({
+        x: Math.random() * 300 + 70,
+        y: Math.random() * 300 + 100,
+        vx: (Math.random() - 0.5) * 4,
+        vy: (Math.random() - 0.5) * 4
+      });
+    }
+  }
+  initParticles(50);
+
+  function updateLabels() {
+    if (activeTab === 1) {
+      lbl1.textContent = `TEMPERATURE (T): ${parseFloat(slider1.value).toFixed(0)} K`;
+      lbl2.textContent = `CHAMBER VOLUME (V): ${parseFloat(slider2.value).toFixed(1)} m³`;
+      lbl3.textContent = `MOLECULE COUNT (N): ${parseFloat(slider3.value).toFixed(0)}`;
+    } else if (activeTab === 2) {
+      lbl1.textContent = `HOT RESERVOIR (T_H): ${parseFloat(slider1.value).toFixed(0)} K`;
+      lbl2.textContent = `COLD RESERVOIR (T_C): ${parseFloat(slider2.value).toFixed(0)} K`;
+      lbl3.textContent = `CYCLE SPEED: ${parseFloat(slider3.value).toFixed(1)}x`;
+    } else {
+      lbl1.textContent = `PARTICLE COUNT (N): ${parseFloat(slider1.value).toFixed(0)}`;
+      lbl2.textContent = `DIFFUSION RATE: ${parseFloat(slider2.value).toFixed(1)}x`;
+      lbl3.textContent = `SIMULATION TIMER: ${parseFloat(slider3.value).toFixed(1)} s`;
+    }
+  }
+
+  btnTabKin.onclick = () => {
+    activeTab = 1;
+    btnTabKin.className = "sim-btn primary";
+    btnTabCarnot.className = "sim-btn secondary";
+    btnTabEntropy.className = "sim-btn secondary";
+    slider1.min = 100; slider1.max = 600; slider1.step = 10; slider1.value = 300;
+    slider2.min = 0.5; slider2.max = 2.0; slider2.step = 0.1; slider2.value = 1.0;
+    slider3.min = 20; slider3.max = 100; slider3.step = 5; slider3.value = 50;
+    initParticles(50);
+    updateLabels();
+  };
+
+  btnTabCarnot.onclick = () => {
+    activeTab = 2;
+    btnTabKin.className = "sim-btn secondary";
+    btnTabCarnot.className = "sim-btn primary";
+    btnTabEntropy.className = "sim-btn secondary";
+    slider1.min = 400; slider1.max = 800; slider1.step = 25; slider1.value = 600;
+    slider2.min = 200; slider2.max = 400; slider2.step = 25; slider2.value = 300;
+    slider3.min = 0.5; slider3.max = 2.5; slider3.step = 0.5; slider3.value = 1.0;
+    updateLabels();
+  };
+
+  btnTabEntropy.onclick = () => {
+    activeTab = 3;
+    btnTabKin.className = "sim-btn secondary";
+    btnTabCarnot.className = "sim-btn secondary";
+    btnTabEntropy.className = "sim-btn primary";
+    slider1.min = 20; slider1.max = 100; slider1.step = 5; slider1.value = 50;
+    slider2.min = 0.5; slider2.max = 3.0; slider2.step = 0.5; slider2.value = 1.5;
+    slider3.min = 0.0; slider3.max = 20.0; slider3.step = 1.0; slider3.value = 0.0;
+    updateLabels();
+  };
+
+  btnResetSim.onclick = () => {
+    simTime = 0;
+    initParticles(parseInt(slider3.value) || 50);
+  };
+
+  [slider1, slider2, slider3].forEach(s => s.addEventListener('input', () => {
+    updateLabels();
+    if (activeTab === 1 && s === slider3) initParticles(parseInt(slider3.value));
+  }));
+  updateLabels();
+
+  function draw() {
+    const now = performance.now();
+    const dt = Math.min(0.05, (now - lastTimestamp) / 1000);
+    lastTimestamp = now;
+    simTime += dt;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Background Grid
+    ctx.strokeStyle = 'rgba(30, 41, 59, 0.4)';
+    ctx.lineWidth = 1;
+    for (let x = 40; x < canvas.width; x += 60) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 40; y < canvas.height; y += 60) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    if (activeTab === 1) drawTab1_Kinetic();
+    else if (activeTab === 2) drawTab2_Carnot();
+    else drawTab3_Entropy();
+
+    requestAnimationFrame(draw);
+  }
+
+  function drawTab1_Kinetic() {
+    const T = parseFloat(slider1.value);
+    const V = parseFloat(slider2.value);
+    const N = parseInt(slider3.value);
+    const P = (N * T * 0.0033) / V;
+
+    // --- Left Pane: Molecule Chamber ---
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+    ctx.strokeStyle = 'rgba(51, 65, 85, 0.8)';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(40, 40, 440, 440);
+    ctx.strokeRect(40, 40, 440, 440);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '13px monospace';
+    ctx.fillText('MOLECULAR KINETIC GAS CHAMBER', 60, 70);
+
+    const cX = 60;
+    const cY = 100;
+    const cW = 200 * V;
+    const cH = 280;
+
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(cX, cY, cW, cH);
+
+    const speedScale = Math.sqrt(T / 300);
+    for (let p of particles) {
+      p.x += p.vx * speedScale;
+      p.y += p.vy * speedScale;
+
+      if (p.x < cX + 5) { p.x = cX + 5; p.vx *= -1; }
+      if (p.x > cX + cW - 5) { p.x = cX + cW - 5; p.vx *= -1; }
+      if (p.y < cY + 5) { p.y = cY + 5; p.vy *= -1; }
+      if (p.y > cY + cH - 5) { p.y = cY + cH - 5; p.vy *= -1; }
+
+      ctx.fillStyle = T > 350 ? '#f43f5e' : '#38bdf8';
+      ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2); ctx.fill();
+    }
+
+    // Gauge
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px monospace';
+    ctx.fillText(`Pressure P:    ${P.toFixed(2)} atm`, 60, 420);
+    ctx.fillText(`Temperature T: ${T.toFixed(0)} K`, 60, 445);
+    ctx.fillText(`Volume V:      ${V.toFixed(1)} m³`, 240, 420);
+    ctx.fillText(`Ideal Gas Law: PV = N·k_B·T`, 240, 445);
+
+    // --- Right Pane: Maxwell-Boltzmann Distribution ---
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+    ctx.strokeStyle = 'rgba(51, 65, 85, 0.8)';
+    ctx.fillRect(520, 40, 440, 440);
+    ctx.strokeRect(520, 40, 440, 440);
+
+    ctx.fillStyle = '#fbbf24';
+    ctx.fillText('MAXWELL-BOLTZMANN SPEED DISTRIBUTION', 540, 70);
+
+    const gOx = 560;
+    const gBaseY = 400;
+    const gW = 360;
+    const gH = 260;
+
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(gOx, gBaseY); ctx.lineTo(gOx + gW, gBaseY);
+    ctx.moveTo(gOx, gBaseY - gH); ctx.lineTo(gOx, gBaseY);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    const a = 1.0 / (T * 0.012);
+    for (let px = 0; px <= gW; px += 3) {
+      const v = (px / gW) * 8.0;
+      const y = 140 * (v * v) * Math.exp(-a * v * v) * Math.sqrt(a * a * a);
+      if (px === 0) ctx.moveTo(gOx + px, gBaseY - y * 4.5);
+      else ctx.lineTo(gOx + px, gBaseY - y * 4.5);
+    }
+    ctx.stroke();
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px monospace';
+    ctx.fillText('Molecular Speed v →', gOx + 120, gBaseY + 20);
+  }
+
+  function drawTab2_Carnot() {
+    const TH = parseFloat(slider1.value);
+    const TC = parseFloat(slider2.value);
+    const spd = parseFloat(slider3.value);
+    const eta = 1 - (TC / TH);
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+    ctx.strokeStyle = 'rgba(51, 65, 85, 0.8)';
+    ctx.fillRect(40, 40, 920, 440);
+    ctx.strokeRect(40, 40, 920, 440);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '13px monospace';
+    ctx.fillText(`THE REVERSIBLE CARNOT ENGINE: THEORETICAL MAX EFFICIENCY η = ${(eta * 100).toFixed(1)}%`, 60, 70);
+
+    // Indicator loop
+    const ox = 120;
+    const oy = 400;
+    const w = 480;
+    const h = 260;
+
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(ox, oy); ctx.lineTo(ox + w, oy);
+    ctx.moveTo(ox, oy - h); ctx.lineTo(ox, oy);
+    ctx.stroke();
+
+    const ptA = { x: ox + 60, y: oy - 220 };
+    const ptB = { x: ox + 220, y: oy - 150 };
+    const ptC = { x: ox + 420, y: oy - 60 };
+    const ptD = { x: ox + 200, y: oy - 100 };
+
+    // Shaded Carnot Loop
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.2)';
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(ptA.x, ptA.y);
+    ctx.lineTo(ptB.x, ptB.y);
+    ctx.lineTo(ptC.x, ptC.y);
+    ctx.lineTo(ptD.x, ptD.y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = '12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('Net Work W_net', (ptA.x + ptC.x)/2, (ptA.y + ptC.y)/2);
+
+    // Sankey Flow on right
+    const sX = 720;
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#f43f5e';
+    ctx.fillRect(sX, 120, 180, 35);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(`Hot Sink: T_H = ${TH} K`, sX + 15, 142);
+
+    ctx.fillStyle = '#10b981';
+    ctx.fillRect(sX, 220, 180 * eta, 35);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(`Work: ${(eta * 100).toFixed(0)}%`, sX + 15, 242);
+
+    ctx.fillStyle = '#06b6d4';
+    ctx.fillRect(sX, 320, 180 * (1 - eta), 35);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(`Waste Heat: ${((1 - eta) * 100).toFixed(0)}%`, sX + 15, 342);
+
+    ctx.fillStyle = '#06b6d4';
+    ctx.fillRect(sX, 390, 180, 35);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(`Cold Sink: T_C = ${TC} K`, sX + 15, 412);
+  }
+
+  function drawTab3_Entropy() {
+    const N = parseInt(slider1.value);
+    const rate = parseFloat(slider2.value);
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+    ctx.strokeStyle = 'rgba(51, 65, 85, 0.8)';
+    ctx.fillRect(40, 40, 920, 440);
+    ctx.strokeRect(40, 40, 920, 440);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '13px monospace';
+    ctx.fillText('FREE EXPANSION & STATISTICAL ENTROPY: S = k_B·ln(Ω)', 60, 70);
+
+    const bX = 80;
+    const bY = 120;
+    const bW = 440;
+    const bH = 280;
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(bX, bY, bW, bH);
+
+    // Barrier opens after 2s of loop
+    const cycleT = (simTime * rate) % 12.0;
+    const open = cycleT > 2.0;
+
+    if (!open) {
+      ctx.strokeStyle = '#f59e0b';
+      ctx.beginPath(); ctx.moveTo(bX + bW/2, bY); ctx.lineTo(bX + bW/2, bY + bH); ctx.stroke();
+    }
+
+    // Render particles
+    for (let i = 0; i < N; i++) {
+      let px = 0;
+      if (!open) {
+        px = bX + 10 + (Math.sin(i * 99 + simTime * 3) * 0.5 + 0.5) * (bW/2 - 20);
+      } else {
+        const spread = Math.min(1.0, (cycleT - 2.0) * 0.4);
+        px = bX + 10 + (Math.sin(i * 99 + simTime * 3) * 0.5 + 0.5) * (bW - 20) * spread;
+      }
+      const py = bY + 10 + (Math.cos(i * 33 + simTime * 2) * 0.5 + 0.5) * (bH - 20);
+
+      ctx.fillStyle = open ? '#a855f7' : '#38bdf8';
+      ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI * 2); ctx.fill();
+    }
+
+    // Binomial peak on right
+    const mOx = 580;
+    const mBaseY = 380;
+    const mW = 320;
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(mOx, mBaseY); ctx.lineTo(mOx + mW, mBaseY); ctx.stroke();
+
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let px = 0; px <= mW; px += 3) {
+      const frac = px / mW;
+      const dev = frac - 0.5;
+      const y = 180 * Math.exp(-dev * dev * 40);
+      if (px === 0) ctx.moveTo(mOx + px, mBaseY - y);
+      else ctx.lineTo(mOx + px, mBaseY - y);
+    }
+    ctx.stroke();
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px monospace';
+    ctx.fillText('Even Dispersion (Max Ω)', mOx + 90, mBaseY - 190);
+    ctx.fillText(open ? 'State: High Entropy (Dispersed)' : 'State: Low Entropy (Confined)', 80, 435);
+  }
+
+  requestAnimationFrame(draw);
+})();
+</script>
+
+<div class="article-footer-cta">
+  <p>Explore all classical physics visual experiments and documentaries across the entire series:</p>
+  <a href="https://www.youtube.com/playlist?list=PLVaAmyIFA544" target="_blank" class="btn btn-youtube">
+    ▶ Watch Classical Physics YouTube Playlist (9+ Videos)
+  </a>
+</div>
+

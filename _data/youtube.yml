@@ -1,3 +1,22 @@
+- id: UpdEe5H3p60
+  title: 'Thermodynamics: The Carnot Engine, Entropy & The Arrow of Time'
+  series: Classical Physics
+  format: Full Feature
+  duration: 04:51
+  badge: Vol. X
+  video_url: https://www.youtube.com/watch?v=UpdEe5H3p60
+  article_url: /experiments/thermodynamics-carnot-entropy.html
+  gradient: 'linear-gradient(135deg, #ea580c 0%, #c2410c 50%, #7c2d12 100%)'
+  description: Master kinetic heat theory, reversible Carnot cycles, Kelvin-Planck
+    limits, Boltzmann microstates, and the cosmological Arrow of Time.
+  tags:
+  - Thermodynamics
+  - Carnot Engine
+  - Entropy
+  - Arrow of Time
+  - Boltzmann
+  - Second Law
+  - Heat Death
 - id: -iiLBnOAaB0
   title: 'Wave Mechanics & The Huygens-Fresnel Principle: Superposition to Shock Waves'
   series: Classical Physics
