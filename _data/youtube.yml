@@ -1,10 +1,10 @@
-- id: 2pISVGtKrmc
+- id: -9K3UVtZsAs
   title: 'The Self-Attention Mechanism & Transformers: How AI Understands Context'
   series: Neural Networks & AI
   format: Full Feature
   duration: 05:40
   badge: Vol. VI
-  video_url: https://www.youtube.com/watch?v=2pISVGtKrmc
+  video_url: https://www.youtube.com/watch?v=-9K3UVtZsAs
   article_url: /experiments/transformers-self-attention.html
   gradient: 'linear-gradient(135deg, #a855f7 0%, #38bdf8 50%, #10b981 100%)'
   description: Master the Self-Attention mechanism, Query-Key-Value matrix projections,
