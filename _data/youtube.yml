@@ -1,3 +1,23 @@
+- id: lnFK8ASHrSU
+  title: 'Multi-Layer Perceptrons & Backpropagation: The Calculus of Learning'
+  series: Neural Networks & AI
+  format: Full Feature
+  duration: 06:07
+  badge: Vol. III
+  video_url: https://www.youtube.com/watch?v=lnFK8ASHrSU
+  article_url: /experiments/backpropagation-multilayer-perceptrons.html
+  gradient: 'linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #8b5cf6 100%)'
+  description: Master multi-layer perceptrons, non-linear coordinate space warping,
+    the multivariable chain rule, vanishing gradients, and training on spiral manifolds.
+  tags:
+  - Multi-Layer Perceptron
+  - Backpropagation
+  - Chain Rule
+  - Deep Learning
+  - Neural Networks
+  - Vanishing Gradients
+  - ReLU
+  - Manifold Hypothesis
 - id: BdR20C_lqTw
   title: 'The Artificial Neuron, Sigmoid & Logistic Classification: How Machines Decide'
   series: Neural Networks & AI

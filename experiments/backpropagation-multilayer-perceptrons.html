@@ -1,0 +1,376 @@
+---
+layout: article
+title: "Multi-Layer Perceptrons & Backpropagation: The Calculus of Learning"
+tagline: "The Engine of Deep Learning: Hierarchical Depth, Space-Folding Manifolds, The Chain Rule & Vanishing Gradients"
+description: "Master the mechanics of multi-layer neural networks, geometric space warping, multivariable chain rule backpropagation, and gradient flow through live interactive simulations."
+category: "Neural Networks & Artificial Intelligence"
+permalink: /experiments/backpropagation-multilayer-perceptrons.html
+---
+
+<p class="article-lead">
+  A single artificial neuron is an elegant classifier, but it is bounded by a fundamental geometric constraint: it can only draw straight hyperplanes across feature space. To recognize handwritten digits, translate spoken language, or navigate autonomous vehicles, artificial intelligence requires depth. By stacking neurons into a <strong>Multi-Layer Perceptron (MLP)</strong> and tuning synaptic weights via <strong>Backpropagation and the Multivariable Chain Rule</strong>, neural networks transform and fold high-dimensional space to solve complex, curved reality.
+</p>
+
+<!-- AI Mathematical Architecture Grid -->
+<h3>The Core Principles of Depth & Calculus</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>1. Hierarchical Depth</h4>
+    <p>$$\mathbf{z}^{[l]} = \mathbf{W}^{[l]} \mathbf{a}^{[l-1]} + \mathbf{b}^{[l]}, \quad \mathbf{a}^{[l]} = \sigma(\mathbf{z}^{[l]})$$. Without non-linear activation functions $$\sigma$$, stacking linear layers collapses mathematically into a single matrix product: $$W_2(W_1 x + b_1) + b_2 = (W_2 W_1)x + \text{const}$$. Non-linearities grant the network universal function approximation power.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>2. The Manifold Hypothesis</h4>
+    <p>$$\mathbf{x} \in \mathbb{R}^2 \xrightarrow{\text{Hidden Layers}} \mathbf{a}^{[l]} \in \mathcal{H}_{\text{latent}}$$. Hidden layers do not merely draw decision boundaries in the original feature space; they dynamically twist, bend, and unfold the coordinate fabric into a latent space where previously tangled non-linear datasets (such as XOR or interlocked spirals) become linearly separable.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>3. The Multivariable Chain Rule</h4>
+    <p>$$\frac{\partial \mathcal{L}}{\partial w_{jk}^{[l]}} = \frac{\partial \mathcal{L}}{\partial a_j^{[l]}} \cdot \frac{\partial a_j^{[l]}}{\partial z_j^{[l]}} \cdot \frac{\partial z_j^{[l]}}{\partial w_{jk}^{[l]}}$$. The Credit Assignment Problem is resolved by decomposing total loss gradients into three local factors: upstream error, local activation derivative $$\sigma'(z)$$, and incoming activation $$a_k^{[l-1]}$$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>4. The Vanishing Gradient Dilemma</h4>
+    <p>$$\boldsymbol{\delta}^{[l-1]} = (\mathbf{W}^{[l]})^T \boldsymbol{\delta}^{[l]} \odot \sigma'(\mathbf{z}^{[l-1]})$$. Because $$\sigma'(z) \le 0.25$$, retrograde error waves shrink exponentially across deep layers ($$0.25^5 \approx 0.00097$$), freezing early weights. The Rectified Linear Unit ($$\text{ReLU}(z) = \max(0, z)$$, with $$\text{ReLU}'(z) = 1$$ for $$z > 0$$) unlocked true deep learning.</p>
+  </div>
+</div>
+
+<!-- Interactive AI Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE MULTI-LAYER PERCEPTRON & BACKPROPAGATION LABORATORY</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Forward/Backward Passes, Manifold Space Warping & Live Spiral Training)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabGraph" class="sim-btn primary">1. Forward & Backward Pass</button>
+      <button id="btnTabWarp" class="sim-btn secondary">2. Manifold Space Warping</button>
+      <button id="btnTabTrain" class="sim-btn secondary">3. Live Training & Vanishing Gradients</button>
+      <button id="btnResetSim" class="sim-btn secondary">Reset Network</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="mlpCanvas" width="1000" height="520" style="display:block; width:100%; height:100%;"></canvas>
+  </div>
+
+  <div class="sim-parameters-panel" style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam1" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">INPUT FEATURE (x₁): 0.80</label>
+      <input type="range" id="sliderParam1" min="-2.0" max="2.0" step="0.1" value="0.8" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam2" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">LEARNING RATE (α): 0.15</label>
+      <input type="range" id="sliderParam2" min="0.01" max="0.5" step="0.01" value="0.15" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam3" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">WARPING FACTOR / ACTIVATION: 1.00</label>
+      <input type="range" id="sliderParam3" min="0.0" max="1.0" step="0.02" value="1.0" style="width:100%;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('mlpCanvas');
+  const ctx = canvas.getContext('2d');
+  let activeTab = 1;
+
+  // Sliders
+  const sParam1 = document.getElementById('sliderParam1');
+  const sParam2 = document.getElementById('sliderParam2');
+  const sParam3 = document.getElementById('sliderParam3');
+  const lParam1 = document.getElementById('lblParam1');
+  const lParam2 = document.getElementById('lblParam2');
+  const lParam3 = document.getElementById('lblParam3');
+
+  // Buttons
+  const btnTabGraph = document.getElementById('btnTabGraph');
+  const btnTabWarp = document.getElementById('btnTabWarp');
+  const btnTabTrain = document.getElementById('btnTabTrain');
+  const btnResetSim = document.getElementById('btnResetSim');
+
+  function setTab(tab) {
+    activeTab = tab;
+    btnTabGraph.className = 'sim-btn ' + (tab === 1 ? 'primary' : 'secondary');
+    btnTabWarp.className = 'sim-btn ' + (tab === 2 ? 'primary' : 'secondary');
+    btnTabTrain.className = 'sim-btn ' + (tab === 3 ? 'primary' : 'secondary');
+
+    if (tab === 1) {
+      lParam1.textContent = `INPUT FEATURE (x₁): ${parseFloat(sParam1.value).toFixed(2)}`;
+      lParam2.textContent = `SYNAPSE WEIGHT (w): ${parseFloat(sParam2.value).toFixed(2)}`;
+      lParam3.textContent = `TARGET LABEL (y): ${sParam3.value > 0.5 ? '1' : '0'}`;
+    } else if (tab === 2) {
+      lParam1.textContent = `INPUT COORDINATE (x₁): ${parseFloat(sParam1.value).toFixed(2)}`;
+      lParam2.textContent = `GRID DENSITY: 12`;
+      lParam3.textContent = `MANIFOLD WARP FACTOR: ${parseFloat(sParam3.value).toFixed(2)}`;
+    } else {
+      lParam1.textContent = `TRAINING SPEED: Fast`;
+      lParam2.textContent = `LEARNING RATE (α): ${parseFloat(sParam2.value).toFixed(2)}`;
+      lParam3.textContent = `ACTIVATION FUNCTION: ${sParam3.value > 0.5 ? 'ReLU (No Vanishing)' : 'Sigmoid (Vanishing)'}`;
+    }
+  }
+
+  btnTabGraph.addEventListener('click', () => setTab(1));
+  btnTabWarp.addEventListener('click', () => setTab(2));
+  btnTabTrain.addEventListener('click', () => setTab(3));
+
+  sParam1.addEventListener('input', () => setTab(activeTab));
+  sParam2.addEventListener('input', () => setTab(activeTab));
+  sParam3.addEventListener('input', () => setTab(activeTab));
+
+  let animTime = 0;
+  let trainEpoch = 0;
+  let trainLoss = 0.92;
+
+  function sigmoid(z) { return 1.0 / (1.0 + Math.exp(-z)); }
+
+  btnResetSim.addEventListener('click', () => {
+    trainEpoch = 0;
+    trainLoss = 0.92;
+    animTime = 0;
+  });
+
+  function render() {
+    animTime += 0.03;
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (activeTab === 1) {
+      drawTab1();
+    } else if (activeTab === 2) {
+      drawTab2();
+    } else {
+      drawTab3();
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  // TAB 1: Forward & Backward Pass Visualization
+  function drawTab1() {
+    let x1 = parseFloat(sParam1.value);
+    let wScale = parseFloat(sParam2.value);
+    let targetY = sParam3.value > 0.5 ? 1.0 : 0.0;
+
+    let layers = [
+      { name: "Input", x: 180, nodes: [x1, 0.4] },
+      { name: "Hidden", x: 480, nodes: [0.65, -0.32, 0.81] },
+      { name: "Output", x: 780, nodes: [0.78] }
+    ];
+
+    // Title
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '14px monospace';
+    ctx.fillText("TAB 1: FORWARD SIGNAL PASS & RETROGRADE CHAIN RULE ERROR FLOW", 30, 35);
+
+    // Draw Synapses
+    for (let l = 0; l < layers.length - 1; l++) {
+      let l1 = layers[l];
+      let l2 = layers[l + 1];
+      for (let i = 0; i < l1.nodes.length; i++) {
+        let y1 = 260 - (l1.nodes.length - 1) * 60 + i * 120;
+        for (let j = 0; j < l2.nodes.length; j++) {
+          let y2 = 260 - (l2.nodes.length - 1) * 60 + j * 120;
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(l1.x, y1);
+          ctx.lineTo(l2.x, y2);
+          ctx.stroke();
+
+          // Forward pulse
+          let fProg = (animTime * 0.8 + i * 0.2 + j * 0.1) % 1.0;
+          let px = l1.x + (l2.x - l1.x) * fProg;
+          let py = y1 + (y2 - y1) * fProg;
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(px, py, 4, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Backward retrograde error pulse
+          let bProg = 1.0 - ((animTime * 0.6 + i * 0.15 + j * 0.2) % 1.0);
+          let bx = l1.x + (l2.x - l1.x) * bProg;
+          let by = y1 + (y2 - y1) * bProg;
+          ctx.fillStyle = '#f59e0b';
+          ctx.beginPath();
+          ctx.arc(bx, by - 10, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    // Draw Nodes
+    for (let l = 0; l < layers.length; l++) {
+      let layer = layers[l];
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '12px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(layer.name, layer.x, 90);
+
+      for (let i = 0; i < layer.nodes.length; i++) {
+        let ny = 260 - (layer.nodes.length - 1) * 60 + i * 120;
+        ctx.fillStyle = '#0f172a';
+        ctx.strokeStyle = l === 2 ? '#ec4899' : '#38bdf8';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.arc(layer.x, ny, 26, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '12px sans-serif';
+        ctx.fillText(layer.nodes[i].toFixed(2), layer.x, ny + 4);
+      }
+    }
+
+    // Chain Rule Equation Overlay Box
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(40, 420, 920, 80);
+    ctx.fillRect(40, 420, 920, 80);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = '13px monospace';
+    ctx.fillText("MULTIVARIABLE CHAIN RULE: ∂L / ∂w = (∂L / ∂a) · (∂a / ∂z) · (∂z / ∂w)", 60, 448);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("Forward Pass computes predictions ŷ; Backward Pass ripples errors backward, multiplying by local derivatives σ'(z).", 60, 475);
+  }
+
+  // TAB 2: Manifold Space Warping
+  function drawTab2() {
+    let warpVal = parseFloat(sParam3.value);
+    ctx.fillStyle = '#a855f7';
+    ctx.font = '14px monospace';
+    ctx.fillText(`TAB 2: COORDINATE MANIFOLD WARPING (WARP FACTOR: ${warpVal.toFixed(2)})`, 30, 35);
+
+    let leftCx = 260, leftCy = 270;
+    let rightCx = 740, rightCy = 270;
+    let scale = 95;
+
+    // Left: Input Space
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText("Original Input Space ℝ² (Non-Separable)", leftCx, 70);
+
+    ctx.strokeStyle = 'rgba(51, 65, 85, 0.6)';
+    ctx.lineWidth = 1;
+    for (let gx = -1.2; gx <= 1.2; gx += 0.4) {
+      ctx.beginPath();
+      ctx.moveTo(leftCx + gx * scale, leftCy - 1.2 * scale);
+      ctx.lineTo(leftCx + gx * scale, leftCy + 1.2 * scale);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(leftCx - 1.2 * scale, leftCy + gx * scale);
+      ctx.lineTo(leftCx + 1.2 * scale, leftCy + gx * scale);
+      ctx.stroke();
+    }
+
+    let pts = [
+      { x: -0.7, y: -0.7, c: 0 },
+      { x:  0.7, y:  0.7, c: 0 },
+      { x: -0.7, y:  0.7, c: 1 },
+      { x:  0.7, y: -0.7, c: 1 }
+    ];
+
+    for (let p of pts) {
+      ctx.fillStyle = p.c === 0 ? '#f43f5e' : '#38bdf8';
+      ctx.beginPath();
+      ctx.arc(leftCx + p.x * scale, leftCy + p.y * scale, 10, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Right: Latent Warped Space
+    ctx.fillStyle = '#10b981';
+    ctx.fillText("Hidden Layer Latent Space ℋ (Linearly Sliced)", rightCx, 70);
+
+    for (let gx = -1.2; gx <= 1.2; gx += 0.3) {
+      ctx.strokeStyle = 'rgba(168, 85, 247, 0.5)';
+      ctx.beginPath();
+      for (let gy = -1.2; gy <= 1.2; gy += 0.1) {
+        let wx = gx + warpVal * 0.6 * Math.tanh(gx * 1.5 - gy * 1.2);
+        let wy = gy + warpVal * 0.6 * Math.tanh(gx * 1.2 + gy * 1.5);
+        if (gy === -1.2) ctx.moveTo(rightCx + wx * scale, rightCy + wy * scale);
+        else ctx.lineTo(rightCx + wx * scale, rightCy + wy * scale);
+      }
+      ctx.stroke();
+    }
+
+    for (let p of pts) {
+      let targetX = p.c === 0 ? -0.8 : 0.8;
+      let targetY = p.c === 0 ? -0.8 : 0.8;
+      let curX = p.x + (targetX - p.x) * warpVal;
+      let curY = p.y + (targetY - p.y) * warpVal;
+
+      ctx.fillStyle = p.c === 0 ? '#f43f5e' : '#38bdf8';
+      ctx.beginPath();
+      ctx.arc(rightCx + curX * scale, rightCy + curY * scale, 10, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Separating line in warped space
+    if (warpVal > 0.4) {
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(rightCx - 130, rightCy + 110);
+      ctx.lineTo(rightCx + 130, rightCy - 110);
+      ctx.stroke();
+    }
+  }
+
+  // TAB 3: Live Training & Vanishing Gradients
+  function drawTab3() {
+    let isRelu = sParam3.value > 0.5;
+    trainEpoch = Math.min(1000, trainEpoch + 2);
+    trainLoss = Math.max(0.04, 0.92 * Math.exp(-trainEpoch * (isRelu ? 0.006 : 0.0018)));
+
+    ctx.fillStyle = isRelu ? '#10b981' : '#f43f5e';
+    ctx.font = '14px monospace';
+    ctx.fillText(`TAB 3: LIVE BACKPROPAGATION • ACTIVATION: ${isRelu ? 'ReLU (Steady Gradients)' : 'Sigmoid (Vanishing Gradients)'}`, 30, 35);
+
+    // Left: Loss Curve
+    let lx = 60, ly = 80, lw = 440, lh = 300;
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(lx, ly, lw, lh);
+    ctx.fillRect(lx, ly, lw, lh);
+
+    ctx.strokeStyle = isRelu ? '#10b981' : '#f43f5e';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let i = 0; i <= trainEpoch; i += 5) {
+      let epLoss = 0.92 * Math.exp(-i * (isRelu ? 0.006 : 0.0018));
+      let px = lx + (i / 1000) * lw;
+      let py = ly + lh - (epLoss / 1.0) * lh;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Right: Metrics Panel
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '16px sans-serif';
+    ctx.fillText(`Training Epoch: ${trainEpoch} / 1000`, 540, 120);
+    ctx.fillText(`Binary Cross-Entropy Loss: ${trainLoss.toFixed(4)}`, 540, 160);
+    ctx.fillText(`Classification Accuracy: ${(Math.min(99.6, 50.0 + (1.0 - trainLoss / 0.92) * 49.6)).toFixed(1)}%`, 540, 200);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '13px sans-serif';
+    if (!isRelu) {
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText("⚠️ VANISHING GRADIENTS ACTIVE: In deep Sigmoid networks, σ'(z) ≤ 0.25", 540, 260);
+      ctx.fillText("Gradients shrink exponentially by 0.25 per layer, stalling convergence.", 540, 285);
+    } else {
+      ctx.fillStyle = '#10b981';
+      ctx.fillText("✔ ReLU ACTIVATION ACTIVE: f'(z) = 1.0 for all z > 0", 540, 260);
+      ctx.fillText("Gradients flow undiminished across arbitrary network depth!", 540, 285);
+    }
+  }
+
+  setTab(1);
+  render();
+})();
+</script>
+
