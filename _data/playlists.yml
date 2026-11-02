@@ -36,7 +36,7 @@
 - id: PLaHff4gNkMF8
   title: 'Neural Networks & LLMs: From Scratch to Transformers'
   url: https://www.youtube.com/playlist?list=PLaHff4gNkMF8
-  count: 5 Videos
+  count: 6 Videos
   icon: 🧠
   tagline: Vectors, Loss Landscapes, Backprop & Attention Mechanisms
   gradient: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%)'

@@ -1,3 +1,22 @@
+- id: 2pISVGtKrmc
+  title: 'The Self-Attention Mechanism & Transformers: How AI Understands Context'
+  series: Neural Networks & AI
+  format: Full Feature
+  duration: 05:40
+  badge: Vol. VI
+  video_url: https://www.youtube.com/watch?v=2pISVGtKrmc
+  article_url: /experiments/transformers-self-attention.html
+  gradient: 'linear-gradient(135deg, #a855f7 0%, #38bdf8 50%, #10b981 100%)'
+  description: Master the Self-Attention mechanism, Query-Key-Value matrix projections,
+    Scaled Dot-Product normalization, Multi-Head subspaces, and the Transformer architecture.
+  tags:
+  - Transformers
+  - Self-Attention
+  - LLM
+  - Attention Is All You Need
+  - Multi-Head Attention
+  - Deep Learning
+  - Machine Learning
 - id: Txxw2aFrZgc
   title: 'Convolutional Neural Networks (CNNs): The Geometry of Visual Perception'
   series: Neural Networks & AI
