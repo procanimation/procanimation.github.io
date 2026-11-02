@@ -1,0 +1,499 @@
+---
+layout: article
+title: "The Self-Attention Mechanism & Transformers: How AI Understands Context"
+tagline: "Replacing Recurrence with Parallel Matrix Multiplications: Queries, Keys, Values, Scaled Softmax & Multi-Head Subspaces"
+description: "Explore the mathematics of modern Large Language Models (LLMs): from sequential recurrent bottlenecks and vanishing gradients to Query-Key-Value vector retrieval, Scaled Dot-Product attention, Multi-Head attention subspaces, and autoregressive generation through live interactive simulations."
+category: "Neural Networks & Artificial Intelligence"
+permalink: /experiments/transformers-self-attention.html
+---
+
+<p class="article-lead">
+  For decades, natural language processing was trapped in sequential assembly lines. Recurrent Neural Networks (RNNs) and LSTMs forced neural networks to step word by word, bottlenecking hardware across time and suffering from catastrophic forgetting over long documents. In 2017, the seminal paper <em>"Attention Is All You Need"</em> shattered this paradigm by introducing the <strong>Transformer</strong>. By replacing recurrence entirely with <strong>Self-Attention</strong>, modern AI can process entire libraries in parallel, dynamically routing context between distant concepts with mathematical precision.
+</p>
+
+<!-- AI Mathematical Architecture Grid -->
+<h3>The Foundations of Attention & Transformers</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>1. The Recurrent Bottleneck</h4>
+    <p>$$h_t = \tanh(W_{hh} h_{t-1} + W_{xh} x_t)$$. Sequential recurrence prohibits GPU parallelization because step $$t$$ strictly depends on $$t-1$$. Repeated matrix multiplications cause gradients $$\frac{\partial h_T}{\partial h_1} \propto (W_{hh}^T)^T \to 0$$ to vanish exponentially, severing long-range document memory.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>2. The Query, Key & Value Trinity</h4>
+    <p>$$\mathbf{Q} = \mathbf{X}\mathbf{W}^Q, \; \mathbf{K} = \mathbf{X}\mathbf{W}^K, \; \mathbf{V} = \mathbf{X}\mathbf{W}^V$$. Inspired by database search, each token is projected into three distinct vectors: a <strong>Query</strong> (what am I looking for?), a <strong>Key</strong> (what identity/content do I offer?), and a <strong>Value</strong> (what semantic information do I communicate if matched?).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>3. Scaled Dot-Product Attention</h4>
+    <p>$$\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right)\mathbf{V}$$. Because the variance of vector dot products scales proportionally with dimension $$d_k$$, large dimensions push Softmax into flat saturated tails with zero gradients. Dividing by $$\sqrt{d_k}$$ stabilizes variance to 1.0, enabling stable gradient backpropagation.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>4. Multi-Head Specialization</h4>
+    <p>$$\text{MultiHead} = \text{Concat}(\text{head}_1, \dots, \text{head}_h)\mathbf{W}^O$$. Language is multi-faceted. Projecting into $$h$$ parallel lower-dimensional subspaces allows separate attention heads to independently specialize in grammatical syntax, pronoun co-reference, and distant causal relationships simultaneously.</p>
+  </div>
+</div>
+
+<!-- Interactive AI Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE TRANSFORMER & SELF-ATTENTION LABORATORY</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Scaled Dot-Product Engine, Variance Scaling & Multi-Head Routing)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabMatrix" class="sim-btn primary">1. Scaled Attention Matrix</button>
+      <button id="btnTabVariance" class="sim-btn secondary">2. Variance Scaling (√d_k)</button>
+      <button id="btnTabMultiHead" class="sim-btn secondary">3. Multi-Head Subspaces</button>
+      <button id="btnToggleAnim" class="sim-btn secondary">Pause / Play</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="transCanvas" width="1000" height="520" style="display:block; width:100%; height:100%;"></canvas>
+  </div>
+
+  <div class="sim-parameters-panel" style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblSelectToken" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">QUERY TOKEN (Q)</label>
+      <select id="selectToken" style="width:100%; background:#1e293b; color:#f8fafc; border:1px solid #475569; padding:6px; border-radius:4px; font-family:monospace;">
+        <option value="6">Token 7: "it" (Co-reference Search)</option>
+        <option value="1">Token 2: "animal" (Subject Head)</option>
+        <option value="3">Token 4: "cross" (Action Verb)</option>
+        <option value="4">Token 5: "street" (Direct Object)</option>
+        <option value="7">Token 8: "tired" (Predicate Adjective)</option>
+      </select>
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblDimension" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">KEY DIMENSION (d_k): 64 (Scale = 1/√64 = 0.125)</label>
+      <input type="range" id="sliderDk" min="4" max="512" step="4" value="64" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblHead" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">ACTIVE ATTENTION HEAD</label>
+      <select id="selectHead" style="width:100%; background:#1e293b; color:#f8fafc; border:1px solid #475569; padding:6px; border-radius:4px; font-family:monospace;">
+        <option value="coref">Head 1: Pronoun Co-reference ("it" ⟷ "animal")</option>
+        <option value="syntax">Head 2: Subject-Predicate ("animal" ⟷ "tired")</option>
+        <option value="object">Head 3: Verb-Object ("cross" ⟷ "street")</option>
+        <option value="causal">Head 4: Causal Discourse ("didn't" ⟷ "because")</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('transCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let activeTab = 1;
+  let isPlaying = true;
+  let simTime = 0;
+  let queryTokenIdx = 6; // "it"
+  let dkVal = 64;
+  let activeHead = 'coref';
+
+  const TOKENS = ["The", "animal", "didn't", "cross", "street", "because", "it", "tired"];
+  const N = TOKENS.length;
+
+  function setTab(tab) {
+    activeTab = tab;
+    document.getElementById('btnTabMatrix').className = tab === 1 ? 'sim-btn primary' : 'sim-btn secondary';
+    document.getElementById('btnTabVariance').className = tab === 2 ? 'sim-btn primary' : 'sim-btn secondary';
+    document.getElementById('btnTabMultiHead').className = tab === 3 ? 'sim-btn primary' : 'sim-btn secondary';
+  }
+
+  document.getElementById('btnTabMatrix').onclick = () => setTab(1);
+  document.getElementById('btnTabVariance').onclick = () => setTab(2);
+  document.getElementById('btnTabMultiHead').onclick = () => setTab(3);
+
+  document.getElementById('btnToggleAnim').onclick = () => {
+    isPlaying = !isPlaying;
+    document.getElementById('btnToggleAnim').textContent = isPlaying ? "Pause" : "Play";
+  };
+
+  document.getElementById('selectToken').onchange = (e) => {
+    queryTokenIdx = parseInt(e.target.value);
+  };
+
+  document.getElementById('sliderDk').oninput = (e) => {
+    dkVal = parseInt(e.target.value);
+    let scale = (1.0 / Math.sqrt(dkVal)).toFixed(3);
+    document.getElementById('lblDimension').textContent = `KEY DIMENSION (d_k): ${dkVal} (Scale = 1/√${dkVal} = ${scale})`;
+  };
+
+  document.getElementById('selectHead').onchange = (e) => {
+    activeHead = e.target.value;
+  };
+
+  function render() {
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (isPlaying) {
+      simTime += 0.02;
+    }
+
+    if (activeTab === 1) {
+      drawTabMatrix();
+    } else if (activeTab === 2) {
+      drawTabVariance();
+    } else {
+      drawTabMultiHead();
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  // -----------------------------------------------------------
+  // TAB 1: SCALED ATTENTION MATRIX & ROUTING
+  // -----------------------------------------------------------
+  function drawTabMatrix() {
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText("SCALED DOT-PRODUCT ATTENTION: SOFTMAX( Q K^T / √d_k ) V", 40, 35);
+
+    let startX = 140;
+    let startY = 75;
+    let cSize = 42;
+
+    // Heatmap column headers
+    ctx.font = '11px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    for (let c = 0; c < N; c++) {
+      ctx.fillStyle = (c === queryTokenIdx) ? '#f59e0b' : '#94a3b8';
+      ctx.fillText(TOKENS[c], startX + c * cSize + cSize/2, startY - 8);
+    }
+    // Row headers
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    for (let r = 0; r < N; r++) {
+      ctx.fillStyle = (r === queryTokenIdx) ? '#f59e0b' : '#94a3b8';
+      ctx.fillText(TOKENS[r], startX - 10, startY + r * cSize + cSize/2);
+    }
+
+    // Compute synthetic attention weights for selected token
+    let weights = [];
+    for (let c = 0; c < N; c++) {
+      let rawScore = 0.5;
+      if (queryTokenIdx === 6) { // "it"
+        if (c === 1) rawScore = 5.2; // "animal"
+        else if (c === 7) rawScore = 2.1; // "tired"
+        else if (c === 6) rawScore = 1.2; // "it"
+        else rawScore = 0.3;
+      } else if (queryTokenIdx === 1) { // "animal"
+        if (c === 1) rawScore = 4.5;
+        else if (c === 7) rawScore = 3.8; // "tired"
+        else if (c === 3) rawScore = 2.0; // "cross"
+        else rawScore = 0.4;
+      } else {
+        rawScore = (c === queryTokenIdx) ? 3.5 : 0.8;
+      }
+      weights.push(Math.exp(rawScore / Math.sqrt(dkVal / 64.0)));
+    }
+    let sumW = weights.reduce((a, b) => a + b, 0);
+    let normWeights = weights.map(w => w / sumW);
+
+    // Draw Heatmap Grid
+    for (let r = 0; r < N; r++) {
+      for (let c = 0; c < N; c++) {
+        let w = (r === queryTokenIdx) ? normWeights[c] : ((r === c) ? 0.4 : 0.08);
+
+        ctx.fillStyle = (r === queryTokenIdx)
+          ? `rgba(16, 185, 129, ${Math.max(0.15, w)})`
+          : `rgba(51, 65, 85, ${w})`;
+        ctx.fillRect(startX + c * cSize, startY + r * cSize, cSize, cSize);
+
+        ctx.strokeStyle = (r === queryTokenIdx && c === 1) ? '#f59e0b' : '#1e293b';
+        ctx.lineWidth = (r === queryTokenIdx && c === 1) ? 2 : 1;
+        ctx.strokeRect(startX + c * cSize, startY + r * cSize, cSize, cSize);
+
+        if (w > 0.08) {
+          ctx.fillStyle = w > 0.4 ? '#ffffff' : '#cbd5e1';
+          ctx.font = '10px monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(w.toFixed(2), startX + c * cSize + cSize/2, startY + r * cSize + cSize/2);
+        }
+      }
+    }
+
+    // Highlight active query row
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 2.5;
+    ctx.strokeRect(startX, startY + queryTokenIdx * cSize, cSize * N, cSize);
+
+    // Right Side: Softmax Distribution & Value Synthesis
+    let rightX = 540;
+    let rightY = 70;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(rightX, rightY, 420, 340);
+    ctx.fillRect(rightX, rightY, 420, 340);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(`ATTENTION DISTRIBUTION: Q("${TOKENS[queryTokenIdx]}") · K^T / √${dkVal}`, rightX + 16, rightY + 25);
+
+    for (let c = 0; c < N; c++) {
+      let py = rightY + 55 + c * 32;
+      let w = normWeights[c];
+
+      ctx.fillStyle = (c === 1 && queryTokenIdx === 6) ? '#10b981' : '#cbd5e1';
+      ctx.font = '11px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(TOKENS[c], rightX + 16, py + 10);
+
+      // Bar container
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(rightX + 90, py, 240, 14);
+
+      // Active Bar
+      ctx.fillStyle = (c === 1 && queryTokenIdx === 6) ? '#10b981' : '#38bdf8';
+      ctx.fillRect(rightX + 90, py, 240 * w, 14);
+
+      // Percentage label
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '11px monospace';
+      ctx.fillText((w * 100).toFixed(1) + "%", rightX + 345, py + 11);
+    }
+
+    // Bottom Explanation Bar
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(40, 425, 920, 75);
+    ctx.fillRect(40, 425, 920, 75);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("DYNAMIC CONTEXT SYNTHESIS (O(1) DISTANCE):", 60, 447);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText(`When query token "${TOKENS[queryTokenIdx]}" computes attention, it allocates ${(normWeights[1]*100).toFixed(0)}% of its weight to "${TOKENS[1]}" across 5 intervening words.`, 60, 467);
+    ctx.fillText("Self-attention requires ZERO sequential steps: information teleports directly across embedding space via matrix dot products.", 60, 485);
+  }
+
+  // -----------------------------------------------------------
+  // TAB 2: VARIANCE SCALING: WHY WE DIVIDE BY √d_k
+  // -----------------------------------------------------------
+  function drawTabVariance() {
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText("STABILIZING THE SOFTMAX: THE MATHEMATICAL NECESSITY OF 1 / √d_k", 40, 35);
+
+    let leftX = 80;
+    let rightX = 540;
+    let cardY = 70;
+    let cardW = 400;
+    let cardH = 340;
+
+    // Left Card: Unscaled Dot Product
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(leftX, cardY, cardW, cardH);
+    ctx.fillRect(leftX, cardY, cardW, cardH);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("UNSCALED: Var(q · k) = d_k = " + dkVal, leftX + 16, cardY + 25);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '11px sans-serif';
+    ctx.fillText("As dimension d_k increases, the sum of d_k independent", leftX + 16, cardY + 50);
+    ctx.fillText("normal distributions scales variance proportionally to d_k.", leftX + 16, cardY + 68);
+
+    // Plot Unscaled Bell Curve & Softmax Saturation
+    let unscaledScale = Math.sqrt(dkVal);
+    drawGaussianCurve(leftX + 200, cardY + 180, unscaledScale * 3, '#ef4444');
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Extreme Outliers: ±${(unscaledScale * 2.5).toFixed(1)}`, leftX + 200, cardY + 250);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px sans-serif';
+    ctx.fillText("Softmax pushes probabilities to {1, 0, 0, ...}", leftX + 200, cardY + 275);
+    ctx.fillText("Gradients: ∂Softmax/∂z ⟶ 0 (VANISHING GRADIENT!)", leftX + 200, cardY + 295);
+
+    // Right Card: Scaled Dot Product
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(rightX, cardY, cardW, cardH);
+    ctx.fillRect(rightX, cardY, cardW, cardH);
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("SCALED (q · k / √d_k): Var = 1.0", rightX + 16, cardY + 25);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '11px sans-serif';
+    ctx.fillText("Dividing by √" + dkVal + " restores unit variance (Var = 1.0),", rightX + 16, cardY + 50);
+    ctx.fillText("regardless of whether d_k is 64, 512, or 12,288.", rightX + 16, cardY + 68);
+
+    drawGaussianCurve(rightX + 200, cardY + 180, 25, '#10b981');
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText("Standard Normal: ~99.7% in [-3, +3]", rightX + 200, cardY + 250);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px sans-serif';
+    ctx.fillText("Softmax maintains high entropy across tokens", rightX + 200, cardY + 275);
+    ctx.fillText("Gradients: Active, non-zero backpropagation!", rightX + 200, cardY + 295);
+
+    // Bottom Summary
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(40, 425, 920, 75);
+    ctx.fillRect(40, 425, 920, 75);
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("THE PROOF: Var(∑ q_i k_i) = ∑ Var(q_i k_i) = d_k · 1 = d_k", 60, 447);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("Because Var(c · X) = c² · Var(X), choosing c = 1 / √d_k yields Var( (1 / √d_k) · (q · k) ) = (1 / d_k) · d_k = 1.0.", 60, 467);
+    ctx.fillText("This single square root term is why frontier LLMs train stably across thousands of layers.", 60, 485);
+  }
+
+  function drawGaussianCurve(cx, cy, spread, col) {
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let x = -140; x <= 140; x += 4) {
+      let g = Math.exp(-(x * x) / (2 * spread * spread));
+      let py = cy - g * 60;
+      if (x === -140) ctx.moveTo(cx + x, py);
+      else ctx.lineTo(cx + x, py);
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx - 150, cy);
+    ctx.lineTo(cx + 150, cy);
+    ctx.stroke();
+  }
+
+  // -----------------------------------------------------------
+  // TAB 3: MULTI-HEAD ATTENTION SUBSPACES
+  // -----------------------------------------------------------
+  function drawTabMultiHead() {
+    ctx.fillStyle = '#a855f7';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText("MULTI-HEAD ATTENTION: CONCURRENT LINGUISTIC SUBSPACE SPECIALIZATION", 40, 35);
+
+    let heads = [
+      { id: "coref", name: "Head 1: Co-reference", desc: 'Resolves "it" ⟷ "animal"', col: "#f59e0b", src: 6, dst: 1 },
+      { id: "syntax", name: "Head 2: Subject-Predicate", desc: 'Links "animal" ⟷ "tired"', col: "#38bdf8", src: 1, dst: 7 },
+      { id: "object", name: "Head 3: Verb-Object", desc: 'Links "cross" ⟷ "street"', col: "#ec4899", src: 3, dst: 4 },
+      { id: "causal", name: "Head 4: Causal Discourse", desc: 'Links "didn\'t" ⟷ "because"', col: "#10b981", src: 2, dst: 5 }
+    ];
+
+    let startX = 100;
+    let tokenY = 260;
+    let tokSpacing = 105;
+
+    // Draw Sentence Tokens
+    for (let i = 0; i < N; i++) {
+      let tx = startX + i * tokSpacing;
+      ctx.fillStyle = '#1e293b';
+      ctx.strokeStyle = '#475569';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(tx - 40, tokenY - 18, 80, 36);
+      ctx.fillRect(tx - 40, tokenY - 18, 80, 36);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 12px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(TOKENS[i], tx, tokenY);
+    }
+
+    // Draw Attention Arcs for all 4 heads
+    for (let h of heads) {
+      let isSelected = (h.id === activeHead);
+      let sx = startX + h.src * tokSpacing;
+      let dx = startX + h.dst * tokSpacing;
+      let arcHeight = Math.abs(dx - sx) * 0.35 + (isSelected ? 20 : 0);
+
+      ctx.strokeStyle = isSelected ? h.col : 'rgba(71, 85, 105, 0.4)';
+      ctx.lineWidth = isSelected ? 4 : 1.5;
+      ctx.beginPath();
+      ctx.moveTo(sx, tokenY - 18);
+      ctx.bezierCurveTo(sx, tokenY - 18 - arcHeight, dx, tokenY - 18 - arcHeight, dx, tokenY - 18);
+      ctx.stroke();
+
+      if (isSelected) {
+        // Pulse bead
+        let p = (simTime * 1.5) % 1.0;
+        let px = (1-p)*(1-p)*sx + 2*(1-p)*p*((sx+dx)/2) + p*p*dx;
+        let py = (1-p)*(1-p)*(tokenY - 18) + 2*(1-p)*p*(tokenY - 18 - arcHeight*1.3) + p*p*(tokenY - 18);
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(px, py, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // 4 Head Cards (Bottom Panel)
+    let cardStartX = 60;
+    let cardY = 320;
+    let cardW = 215;
+    let cardH = 80;
+
+    for (let i = 0; i < heads.length; i++) {
+      let h = heads[i];
+      let cx = cardStartX + i * (cardW + 10);
+      let isSel = (h.id === activeHead);
+
+      ctx.fillStyle = isSel ? 'rgba(30, 41, 59, 0.95)' : 'rgba(15, 23, 42, 0.8)';
+      ctx.strokeStyle = isSel ? h.col : '#334155';
+      ctx.lineWidth = isSel ? 2.5 : 1;
+      ctx.strokeRect(cx, cardY, cardW, cardH);
+      ctx.fillRect(cx, cardY, cardW, cardH);
+
+      ctx.fillStyle = h.col;
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText(h.name, cx + 10, cardY + 12);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '10px sans-serif';
+      ctx.fillText(h.desc, cx + 10, cardY + 32);
+
+      ctx.fillStyle = isSel ? '#10b981' : '#64748b';
+      ctx.font = '10px monospace';
+      ctx.fillText(isSel ? "● ACTIVE SUBSPACE" : "○ CLICK TO INSPECT", cx + 10, cardY + 54);
+    }
+
+    // Bottom Summary
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(40, 425, 920, 75);
+    ctx.fillRect(40, 425, 920, 75);
+
+    ctx.fillStyle = '#a855f7';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("WHY SINGLE-HEAD ATTENTION IS NOT ENOUGH:", 60, 447);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("In natural language, a word participates in multiple simultaneous relationships (who did what, which pronoun refers to whom, causal logic).", 60, 467);
+    ctx.fillText("Multi-Head Attention projects into h independent subspaces, concatenating outputs via W^O to enrich each token with comprehensive context.", 60, 485);
+  }
+
+  setTab(1);
+  render();
+})();
+</script>
