@@ -1,0 +1,823 @@
+---
+layout: article
+title: "Perlin & Simplex Noise: The Geometry of Coherent Randomness"
+tagline: "Banishing Spatial Independence: Lattice Gradients, Dot Products, Quintic C² Blending & Fractal fBm Terrains"
+description: "Explore the mathematics of procedural generation: from Ken Perlin's 1983 Disney 'Tron' breakthrough to lattice corner gradients, dot product projections, C² continuous Hermite blending, multi-octave Fractional Brownian Motion (fBm), and recursive domain warping through interactive canvas simulations."
+category: "Procedural Generation & Generative Math"
+permalink: /experiments/perlin-noise-procedural-generation.html
+---
+
+<p class="article-lead">
+  In 1982, Disney's <em>Tron</em> pioneered computer graphics on the silver screen, yet its digital landscapes appeared jarringly rigid and sterile. Ken Perlin realized the root problem: classical pseudo-random number generators produce <strong>white noise</strong>, where every coordinate is statistically independent. Real nature—rolling mountains, marbled rock, cumulus clouds, and ocean tides—is governed by <strong>spatial autocorrelation</strong>. In 1983, Perlin solved this with <strong>Gradient Noise</strong>, a mathematical breakthrough awarded an Academy Award that became the cornerstone of procedural video games, VFX, and generative art.
+</p>
+
+<!-- Procedural Generation Mathematical Architecture Grid -->
+<h3>The Core Principles of Gradient Noise</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>1. Lattice Corner Gradients</h4>
+    <p>$$\vec{g}_i \in \{(\pm 1, \pm 1) / \sqrt{2}\}, \; \|\vec{g}_i\| = 1$$. Rather than assigning scalar values to grid points, gradient noise assigns pseudo-random unit vectors to the vertices of an integer lattice, creating smooth directional slopes.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>2. Interior Dot Product Projections</h4>
+    <p>$$v_i = \vec{g}_i \cdot (\vec{p} - \vec{c}_i)$$. For any evaluation point $$\vec{p}$$, displacement vectors $$\vec{d}_i$$ are projected onto corner gradients. Points aligned with the gradient produce crests; orthogonal points produce zeroes; opposed points produce troughs.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>3. The Quintic C² Fade Curve</h4>
+    <p>$$s(t) = 6t^5 - 15t^4 + 10t^3$$. While cubic interpolation ($$3t^2 - 2t^3$$) achieves $$C^1$$ continuity, its second derivative jumps across grid boundaries. Perlin's 2002 "Improved Noise" enforces $$s'(0)=s'(1)=0$$ and $$s''(0)=s''(1)=0$$, completely banishing grid creases.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>4. Fractional Brownian Motion (fBm)</h4>
+    <p>$$\text{fBm}(\vec{x}) = \sum_{k=0}^{O-1} A \cdot p^k \cdot \text{noise}(f \cdot l^k \cdot \vec{x})$$. Summing harmonic octaves with persistence $$p \approx 0.5$$ and lacunarity $$l \approx 2.0$$ mimics physical $$1/f$$ fractal noise, synthesizing continents, hills, and fine gravel simultaneously.</p>
+  </div>
+</div>
+
+<!-- Interactive Procedural Generation Laboratory -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌊 LIVE PROCEDURAL NOISE & GENERATIVE MATH LABORATORY</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Lattice Evaluator, Hermite C² Curves & Multi-Octave fBm Synthesis)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabLattice" class="sim-btn primary">1. Gradient Lattice & Dot Products</button>
+      <button id="btnTabFade" class="sim-btn secondary">2. Fade Curves & C² Continuity</button>
+      <button id="btnTabFbm" class="sim-btn secondary">3. Multi-Octave fBm Terrain</button>
+      <button id="btnToggleAnim" class="sim-btn secondary">Pause / Play</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="procCanvas" width="1000" height="520" style="display:block; width:100%; height:100%;"></canvas>
+  </div>
+
+  <div id="controlsLattice" class="sim-parameters-panel" style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblPointPos" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">DRAG POINT P IN BOX OR USE SLIDER X: 0.50</label>
+      <input type="range" id="sliderPx" min="0" max="100" value="50" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblPointPosY" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">POINT P POSITION Y: 0.50</label>
+      <input type="range" id="sliderPy" min="0" max="100" value="50" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px; display:flex; align-items:center; gap:8px;">
+      <button id="btnRandomizeGradients" class="sim-btn secondary" style="width:100%; height:38px; margin-top:16px;">🎲 Randomize Corner Gradients</button>
+    </div>
+  </div>
+
+  <div id="controlsFade" class="sim-parameters-panel" style="display:none; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblEvalT" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">EVALUATION PARAMETER t: 0.50</label>
+      <input type="range" id="sliderEvalT" min="0" max="100" value="50" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">INTERPOLATION FUNCTION</label>
+      <select id="selectCurveType" style="width:100%; background:#1e293b; color:#f8fafc; border:1px solid #475569; padding:6px; border-radius:4px; font-family:monospace;">
+        <option value="all">Compare All 3 (Linear C⁰ vs Cubic C¹ vs Quintic C²)</option>
+        <option value="linear">1. Linear: f(t) = t (Discontinuous Derivative)</option>
+        <option value="cubic">2. Cubic: 3t² - 2t³ (Discontinuous Curvature)</option>
+        <option value="quintic">3. Quintic: 6t⁵ - 15t⁴ + 10t³ (Smooth Curvature C²)</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="controlsFbm" class="sim-parameters-panel" style="display:none; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:180px;">
+      <label id="lblOctaves" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">OCTAVES: 4 (Harmonic Layers)</label>
+      <input type="range" id="sliderOctaves" min="1" max="6" step="1" value="4" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:180px;">
+      <label id="lblPersistence" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">PERSISTENCE (p): 0.50 (Amplitude Decay)</label>
+      <input type="range" id="sliderPersistence" min="10" max="90" step="5" value="50" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:180px;">
+      <label id="lblLacunarity" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">LACUNARITY (l): 2.00 (Frequency Multiplier)</label>
+      <input type="range" id="sliderLacunarity" min="15" max="35" step="1" value="20" style="width:100%;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('procCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let activeTab = 1;
+  let isPlaying = true;
+  let simTime = 0;
+  let lastTimestamp = performance.now();
+
+  // Tab 1 state
+  let pxNorm = 0.5;
+  let pyNorm = 0.5;
+  let isDraggingPoint = false;
+  let cornerGradients = [
+    { x: 1, y: 1 },    // C0 (0,0)
+    { x: -1, y: 1 },   // C1 (1,0)
+    { x: 1, y: -1 },   // C2 (0,1)
+    { x: -1, y: -1 }   // C3 (1,1)
+  ];
+  // Normalize
+  for (let g of cornerGradients) {
+    let len = Math.hypot(g.x, g.y);
+    g.x /= len;
+    g.y /= len;
+  }
+
+  // Tab 2 state
+  let evalT = 0.5;
+  let curveType = 'all';
+
+  // Tab 3 state
+  let numOctaves = 4;
+  let persistence = 0.5;
+  let lacunarity = 2.0;
+
+  // Simple deterministic 1D/2D hash-based gradient noise implementation for canvas demo
+  function pseudoNoise(x, y) {
+    let xi = Math.floor(x);
+    let yi = Math.floor(y);
+    let xf = x - xi;
+    let yf = y - yi;
+
+    function hash(ix, iy) {
+      let n = Math.sin(ix * 127.1 + iy * 311.7) * 43758.5453123;
+      return (n - Math.floor(n)) * Math.PI * 2;
+    }
+
+    let a00 = hash(xi, yi);
+    let a10 = hash(xi + 1, yi);
+    let a01 = hash(xi, yi + 1);
+    let a11 = hash(xi + 1, yi + 1);
+
+    let d00 = Math.cos(a00) * xf + Math.sin(a00) * yf;
+    let d10 = Math.cos(a10) * (xf - 1) + Math.sin(a10) * yf;
+    let d01 = Math.cos(a01) * xf + Math.sin(a01) * (yf - 1);
+    let d11 = Math.cos(a11) * (xf - 1) + Math.sin(a11) * (yf - 1);
+
+    // Quintic fade
+    let u = xf * xf * xf * (xf * (xf * 6 - 15) + 10);
+    let v = yf * yf * yf * (yf * (yf * 6 - 15) + 10);
+
+    let nx0 = d00 * (1 - u) + d10 * u;
+    let nx1 = d01 * (1 - u) + d11 * u;
+    return nx0 * (1 - v) + nx1 * v;
+  }
+
+  // UI Buttons
+  const btnTabLattice = document.getElementById('btnTabLattice');
+  const btnTabFade = document.getElementById('btnTabFade');
+  const btnTabFbm = document.getElementById('btnTabFbm');
+  const btnToggleAnim = document.getElementById('btnToggleAnim');
+
+  const controlsLattice = document.getElementById('controlsLattice');
+  const controlsFade = document.getElementById('controlsFade');
+  const controlsFbm = document.getElementById('controlsFbm');
+
+  function setTab(tab) {
+    activeTab = tab;
+    btnTabLattice.className = tab === 1 ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabFade.className = tab === 2 ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabFbm.className = tab === 3 ? 'sim-btn primary' : 'sim-btn secondary';
+
+    controlsLattice.style.display = tab === 1 ? 'flex' : 'none';
+    controlsFade.style.display = tab === 2 ? 'flex' : 'none';
+    controlsFbm.style.display = tab === 3 ? 'flex' : 'none';
+  }
+
+  btnTabLattice.addEventListener('click', () => setTab(1));
+  btnTabFade.addEventListener('click', () => setTab(2));
+  btnTabFbm.addEventListener('click', () => setTab(3));
+
+  btnToggleAnim.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    btnToggleAnim.textContent = isPlaying ? "Pause / Play" : "Resume Play";
+  });
+
+  // Tab 1 Listeners
+  const sliderPx = document.getElementById('sliderPx');
+  const sliderPy = document.getElementById('sliderPy');
+  const lblPointPos = document.getElementById('lblPointPos');
+  const lblPointPosY = document.getElementById('lblPointPosY');
+  const btnRandomizeGradients = document.getElementById('btnRandomizeGradients');
+
+  sliderPx.addEventListener('input', (e) => {
+    pxNorm = parseFloat(e.target.value) / 100;
+    lblPointPos.textContent = `POINT P POSITION X: ${pxNorm.toFixed(2)}`;
+  });
+  sliderPy.addEventListener('input', (e) => {
+    pyNorm = parseFloat(e.target.value) / 100;
+    lblPointPosY.textContent = `POINT P POSITION Y: ${pyNorm.toFixed(2)}`;
+  });
+
+  btnRandomizeGradients.addEventListener('click', () => {
+    for (let i = 0; i < 4; i++) {
+      let angle = Math.random() * Math.PI * 2;
+      cornerGradients[i] = { x: Math.cos(angle), y: Math.sin(angle) };
+    }
+  });
+
+  // Tab 2 Listeners
+  const sliderEvalT = document.getElementById('sliderEvalT');
+  const lblEvalT = document.getElementById('lblEvalT');
+  const selectCurveType = document.getElementById('selectCurveType');
+
+  sliderEvalT.addEventListener('input', (e) => {
+    evalT = parseFloat(e.target.value) / 100;
+    lblEvalT.textContent = `EVALUATION PARAMETER t: ${evalT.toFixed(2)}`;
+  });
+  selectCurveType.addEventListener('change', (e) => {
+    curveType = e.target.value;
+  });
+
+  // Tab 3 Listeners
+  const sliderOctaves = document.getElementById('sliderOctaves');
+  const sliderPersistence = document.getElementById('sliderPersistence');
+  const sliderLacunarity = document.getElementById('sliderLacunarity');
+  const lblOctaves = document.getElementById('lblOctaves');
+  const lblPersistence = document.getElementById('lblPersistence');
+  const lblLacunarity = document.getElementById('lblLacunarity');
+
+  sliderOctaves.addEventListener('input', (e) => {
+    numOctaves = parseInt(e.target.value, 10);
+    lblOctaves.textContent = `OCTAVES: ${numOctaves} (Harmonic Layers)`;
+  });
+  sliderPersistence.addEventListener('input', (e) => {
+    persistence = parseFloat(e.target.value) / 100;
+    lblPersistence.textContent = `PERSISTENCE (p): ${persistence.toFixed(2)} (Amplitude Decay)`;
+  });
+  sliderLacunarity.addEventListener('input', (e) => {
+    lacunarity = parseFloat(e.target.value) / 10;
+    lblLacunarity.textContent = `LACUNARITY (l): ${lacunarity.toFixed(2)} (Frequency Multiplier)`;
+  });
+
+  // Canvas Mouse Interactions for Draggable Point P
+  canvas.addEventListener('mousedown', (e) => {
+    if (activeTab !== 1) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    let cellX = 80;
+    let cellY = 90;
+    let cellSize = 340;
+
+    let px = cellX + pxNorm * cellSize;
+    let py = cellY + pyNorm * cellSize;
+
+    if (Math.hypot(mx - px, my - py) < 25 || (mx >= cellX && mx <= cellX + cellSize && my >= cellY && my <= cellY + cellSize)) {
+      isDraggingPoint = true;
+      updatePointFromMouse(mx, my, cellX, cellY, cellSize);
+    }
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDraggingPoint || activeTab !== 1) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+    updatePointFromMouse(mx, my, 80, 90, 340);
+  });
+
+  window.addEventListener('mouseup', () => { isDraggingPoint = false; });
+
+  function updatePointFromMouse(mx, my, cellX, cellY, cellSize) {
+    pxNorm = Math.max(0, Math.min(1, (mx - cellX) / cellSize));
+    pyNorm = Math.max(0, Math.min(1, (my - cellY) / cellSize));
+    sliderPx.value = Math.round(pxNorm * 100);
+    sliderPy.value = Math.round(pyNorm * 100);
+    lblPointPos.textContent = `POINT P POSITION X: ${pxNorm.toFixed(2)}`;
+    lblPointPosY.textContent = `POINT P POSITION Y: ${pyNorm.toFixed(2)}`;
+  }
+
+  // Animation Loop
+  function render(now) {
+    if (!now) now = performance.now();
+    let dt = (now - lastTimestamp) / 1000.0;
+    lastTimestamp = now;
+
+    if (isPlaying) {
+      simTime += dt;
+      if (activeTab === 1 && !isDraggingPoint) {
+        // Gently rotate gradients
+        for (let i = 0; i < 4; i++) {
+          let baseAngle = (i * Math.PI / 2) + Math.PI / 4;
+          let a = baseAngle + Math.sin(simTime * 0.8 + i) * 0.4;
+          cornerGradients[i] = { x: Math.cos(a), y: Math.sin(a) };
+        }
+      } else if (activeTab === 2) {
+        evalT = (evalT + dt * 0.2) % 1.0;
+        sliderEvalT.value = Math.round(evalT * 100);
+        lblEvalT.textContent = `EVALUATION PARAMETER t: ${evalT.toFixed(2)}`;
+      }
+    }
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (activeTab === 1) {
+      drawTabLattice();
+    } else if (activeTab === 2) {
+      drawTabFade();
+    } else {
+      drawTabFbm();
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  // TAB 1: Gradient Lattice & Dot Products
+  function drawTabLattice() {
+    let cellX = 80;
+    let cellY = 90;
+    let cellSize = 340;
+
+    // Unit Square Box
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(cellX, cellY, cellSize, cellSize);
+    ctx.fillRect(cellX, cellY, cellSize, cellSize);
+
+    // Title Header
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 15px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("2D UNIT LATTICE CELL [0, 1]²: CORNER GRADIENTS gᵢ & DISPLACEMENT VECTORS dᵢ", 40, 45);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("Click and drag inside the unit square to reposition evaluation point P(x, y).", 40, 68);
+
+    // Sample Point P coordinates
+    let px = cellX + pxNorm * cellSize;
+    let py = cellY + pyNorm * cellSize;
+
+    // Corners: C0=(0,0), C1=(1,0), C2=(0,1), C3=(1,1)
+    let corners = [
+      { name: "C0 (0,0)", cx: cellX, cy: cellY, dx: pxNorm, dy: pyNorm },
+      { name: "C1 (1,0)", cx: cellX + cellSize, cy: cellY, dx: pxNorm - 1.0, dy: pyNorm },
+      { name: "C2 (0,1)", cx: cellX, cy: cellY + cellSize, dx: pxNorm, dy: pyNorm - 1.0 },
+      { name: "C3 (1,1)", cx: cellX + cellSize, cy: cellY + cellSize, dx: pxNorm - 1.0, dy: pyNorm - 1.0 }
+    ];
+
+    let dotProducts = [];
+
+    // Draw Corner vectors and displacement rays
+    for (let i = 0; i < 4; i++) {
+      let c = corners[i];
+      let g = cornerGradients[i];
+      let dot = g.x * c.dx + g.y * c.dy;
+      dotProducts.push(dot);
+
+      // Displacement line to P (dashed amber)
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(c.cx, c.cy);
+      ctx.lineTo(px, py);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Gradient vector arrow (cyan solid)
+      let arrowLen = 55;
+      let gx = c.cx + g.x * arrowLen;
+      let gy = c.cy + g.y * arrowLen;
+
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(c.cx, c.cy);
+      ctx.lineTo(gx, gy);
+      ctx.stroke();
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath();
+      ctx.arc(gx, gy, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Corner node
+      ctx.fillStyle = '#0284c7';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(c.cx, c.cy, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Corner label
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = (c.cx === cellX) ? 'right' : 'left';
+      let lx = (c.cx === cellX) ? c.cx - 10 : c.cx + 10;
+      let ly = (c.cy === cellY) ? c.cy - 10 : c.cy + 15;
+      ctx.fillText(c.name, lx, ly);
+    }
+
+    // Draw point P
+    ctx.fillStyle = '#f59e0b';
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(px, py, 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(`P (${pxNorm.toFixed(2)}, ${pyNorm.toFixed(2)})`, px, py - 14);
+
+    // Right Side: Live Math HUD Card
+    let hudX = 480;
+    let hudY = 90;
+    let hudW = 480;
+    let hudH = 340;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(hudX, hudY, hudW, hudH);
+    ctx.fillRect(hudX, hudY, hudW, hudH);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 13px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("CORNER DOT PRODUCT CONTRIBUTIONS (gᵢ · dᵢ):", hudX + 20, hudY + 28);
+
+    for (let i = 0; i < 4; i++) {
+      let ry = hudY + 65 + i * 48;
+      let dot = dotProducts[i];
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '12px monospace';
+      ctx.fillText(`C${i}: g${i} · d${i} = `, hudX + 20, ry + 4);
+
+      // Dot bar
+      let barX = hudX + 170;
+      let barZero = barX + 100;
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(barX, ry - 8, 200, 16);
+
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(barZero, ry - 8);
+      ctx.lineTo(barZero, ry + 8);
+      ctx.stroke();
+
+      let bw = dot * 90;
+      ctx.fillStyle = dot >= 0 ? '#10b981' : '#ef4444';
+      if (dot >= 0) {
+        ctx.fillRect(barZero, ry - 6, bw, 12);
+      } else {
+        ctx.fillRect(barZero + bw, ry - 6, -bw, 12);
+      }
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText((dot >= 0 ? "+" : "") + dot.toFixed(3), barX + 215, ry + 4);
+    }
+
+    // Quintic Blending Math Display
+    let u = pxNorm;
+    let v = pyNorm;
+    let fadeU = 6 * Math.pow(u, 5) - 15 * Math.pow(u, 4) + 10 * Math.pow(u, 3);
+    let fadeV = 6 * Math.pow(v, 5) - 15 * Math.pow(v, 4) + 10 * Math.pow(v, 3);
+    let nx0 = dotProducts[0] * (1 - fadeU) + dotProducts[1] * fadeU;
+    let nx1 = dotProducts[2] * (1 - fadeU) + dotProducts[3] * fadeU;
+    let finalVal = nx0 * (1 - fadeV) + nx1 * fadeV;
+
+    let resBoxY = hudY + 260;
+    ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(hudX + 20, resBoxY, hudW - 40, 56);
+    ctx.fillRect(hudX + 20, resBoxY, hudW - 40, 56);
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText(`★ BLENDED NOISE VALUE: n(P) = ${(finalVal >= 0 ? "+" : "") + finalVal.toFixed(4)}`, hudX + 35, resBoxY + 24);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px sans-serif';
+    ctx.fillText(`Quintic Weights: s(u) = ${fadeU.toFixed(3)},  s(v) = ${fadeV.toFixed(3)}`, hudX + 35, resBoxY + 44);
+
+    // Bottom Insight
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(40, 455, 920, 50);
+    ctx.fillRect(40, 455, 920, 50);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText("GEOMETRIC INTUITION:", 55, 475);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("Moving towards a corner aligned with its gradient arrow produces positive elevation; orthogonal is zero; backwards is negative.", 55, 493);
+  }
+
+  // TAB 2: Fade Curves & C² Continuity
+  function drawTabFade() {
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 15px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("FADE CURVES: LINEAR (C⁰) vs CUBIC (C¹) vs QUINTIC HERMITE (C²)", 40, 40);
+
+    let curves = [
+      {
+        id: 'linear',
+        name: 'Linear: f(t) = t',
+        order: 'C⁰ Continuous',
+        fn: (t) => t,
+        d1: (t) => 1.0,
+        d2: (t) => 0.0,
+        col: '#ef4444',
+        defect: 'Derivative jumps abruptly at integer boundaries. Causes harsh diamond grid seams.'
+      },
+      {
+        id: 'cubic',
+        name: 'Cubic: 3t² - 2t³ (1985)',
+        order: 'C¹ Continuous',
+        fn: (t) => 3*t*t - 2*t*t*t,
+        d1: (t) => 6*t - 6*t*t,
+        d2: (t) => 6 - 12*t,
+        col: '#f59e0b',
+        defect: "First derivative s'(0)=s'(1)=0, but second derivative jumps (Δs'' ≠ 0), causing visible ridges."
+      },
+      {
+        id: 'quintic',
+        name: 'Quintic: 6t⁵ - 15t⁴ + 10t³ (2002)',
+        order: 'C² Continuous',
+        fn: (t) => 6*Math.pow(t,5) - 15*Math.pow(t,4) + 10*Math.pow(t,3),
+        d1: (t) => 30*Math.pow(t,4) - 60*Math.pow(t,3) + 30*Math.pow(t,2),
+        d2: (t) => 120*Math.pow(t,3) - 180*Math.pow(t,2) + 60*t,
+        col: '#10b981',
+        defect: "Both s'(0)=s'(1)=0 AND s''(0)=s''(1)=0. Zero acceleration jump across cells banishes grid seams."
+      }
+    ];
+
+    let plotX = 60;
+    let plotY = 260;
+    let plotW = 540;
+    let plotH = 180;
+
+    // Plot Frame
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(plotX, plotY - plotH, plotW, plotH);
+    ctx.fillRect(plotX, plotY - plotH, plotW, plotH);
+
+    // Grid lines
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 1;
+    for (let g = 0.25; g < 1.0; g += 0.25) {
+      let gx = plotX + g * plotW;
+      ctx.beginPath();
+      ctx.moveTo(gx, plotY);
+      ctx.lineTo(gx, plotY - plotH);
+      ctx.stroke();
+
+      let gy = plotY - g * plotH;
+      ctx.beginPath();
+      ctx.moveTo(plotX, gy);
+      ctx.lineTo(plotX + plotW, gy);
+      ctx.stroke();
+    }
+
+    // Axes labels
+    ctx.fillStyle = '#64748b';
+    ctx.font = '10px monospace';
+    ctx.fillText("t = 0.0", plotX - 5, plotY + 16);
+    ctx.fillText("t = 1.0", plotX + plotW - 25, plotY + 16);
+    ctx.fillText("f(t) = 1.0", plotX - 45, plotY - plotH + 12);
+    ctx.fillText("f(t) = 0.0", plotX - 45, plotY);
+
+    // Draw curves
+    for (let c of curves) {
+      if (curveType !== 'all' && curveType !== c.id) continue;
+
+      ctx.strokeStyle = c.col;
+      ctx.lineWidth = (curveType === c.id || curveType === 'all') ? 2.5 : 1;
+      ctx.beginPath();
+      for (let s = 0; s <= 60; s++) {
+        let tNorm = s / 60.0;
+        let val = c.fn(tNorm);
+        let cx = plotX + tNorm * plotW;
+        let cy = plotY - val * plotH;
+        if (s === 0) ctx.moveTo(cx, cy);
+        else ctx.lineTo(cx, cy);
+      }
+      ctx.stroke();
+
+      // Moving evaluation bead
+      let beadVal = c.fn(evalT);
+      let bx = plotX + evalT * plotW;
+      let by = plotY - beadVal * plotH;
+      ctx.fillStyle = c.col;
+      ctx.beginPath();
+      ctx.arc(bx, by, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Right Side: Derivative & Continuity Analysis Cards
+    let cardX = 630;
+    let cardY = 80;
+    let cardW = 330;
+    let cardH = 100;
+
+    for (let i = 0; i < 3; i++) {
+      let c = curves[i];
+      let cy = cardY + i * 115;
+      let isSel = (curveType === 'all' || curveType === c.id);
+
+      ctx.fillStyle = isSel ? 'rgba(15, 23, 42, 0.95)' : 'rgba(15, 23, 42, 0.4)';
+      ctx.strokeStyle = isSel ? c.col : '#334155';
+      ctx.lineWidth = isSel ? 2 : 1;
+      ctx.strokeRect(cardX, cy, cardW, cardH);
+      ctx.fillRect(cardX, cy, cardW, cardH);
+
+      ctx.fillStyle = c.col;
+      ctx.font = 'bold 12px monospace';
+      ctx.fillText(c.name, cardX + 12, cy + 20);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px monospace';
+      ctx.fillText(`Class: ${c.order}  |  s'(t) = ${c.d1(evalT).toFixed(2)}  |  s''(t) = ${c.d2(evalT).toFixed(2)}`, cardX + 12, cy + 38);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '11px sans-serif';
+      ctx.fillText(c.defect, cardX + 12, cy + 56, cardW - 24);
+    }
+
+    // Bottom Grayscale Gradient Strip Comparison
+    let stripY = 320;
+    let stripH = 35;
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText("VISUAL GRID BOUNDARY CONTINUITY ACROSS CELLS [0, 1] ⟶ [1, 2]:", plotX, stripY - 8);
+
+    let gradWidth = 540;
+    let cellW = gradWidth / 2;
+
+    for (let i = 0; i < 3; i++) {
+      let c = curves[i];
+      let sy = stripY + i * 40;
+
+      // Draw label
+      ctx.fillStyle = c.col;
+      ctx.font = '11px monospace';
+      ctx.fillText(c.id.toUpperCase(), plotX - 45, sy + 22);
+
+      // Render 2-cell gradient strip
+      for (let x = 0; x < gradWidth; x += 3) {
+        let tLocal = (x < cellW) ? (x / cellW) : ((x - cellW) / cellW);
+        let val = c.fn(tLocal);
+        let gray = Math.floor(val * 255);
+        ctx.fillStyle = `rgb(${gray}, ${gray}, ${gray})`;
+        ctx.fillRect(plotX + x, sy, 3, stripH - 8);
+      }
+
+      // Seam line
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(plotX + cellW, sy);
+      ctx.lineTo(plotX + cellW, sy + stripH - 8);
+      ctx.stroke();
+    }
+
+    // Seam marker annotation
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '10px monospace';
+    ctx.fillText("↑ CELL SEAM (x=1.0)", plotX + cellW - 55, stripY + 128);
+
+    // Bottom card
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(40, 465, 920, 45);
+    ctx.fillRect(40, 465, 920, 45);
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText("WHY C² MATTERS:", 55, 483);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '11px sans-serif';
+    ctx.fillText("The human visual system is sensitive not just to edges (C⁰) and slopes (C¹), but to rate-of-change of curvature (C²). Zeroing s''(0)=0 removes lighting creases.", 55, 498);
+  }
+
+  // TAB 3: Multi-Octave fBm Terrain
+  function drawTabFbm() {
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 15px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("FRACTIONAL BROWNIAN MOTION (fBm): HARMONIC OCTAVES & FRACTAL TERRAIN", 40, 40);
+
+    // Left: 4 Octave Frequency Strips
+    let startX = 50;
+    let stripW = 380;
+    let stripH = 50;
+    let startY = 70;
+
+    for (let o = 0; o < numOctaves; o++) {
+      let freq = Math.pow(lacunarity, o);
+      let amp = Math.pow(persistence, o);
+      let sy = startY + o * 62;
+
+      ctx.fillStyle = '#0f172a';
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(startX, sy, stripW, stripH);
+      ctx.fillRect(startX, sy, stripW, stripH);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText(`Octave ${o+1}: ${freq.toFixed(1)}× Freq  |  Amp: ${amp.toFixed(2)}`, startX + 10, sy + 16);
+
+      // Waveform
+      ctx.strokeStyle = (o === 0) ? '#38bdf8' : (o === 1 ? '#a855f7' : (o === 2 ? '#ec4899' : '#f59e0b'));
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      for (let x = 0; x < stripW - 20; x += 3) {
+        let sampleX = (x * 0.02 * freq) + simTime * 0.4 * (o + 1);
+        let sampleY = pseudoNoise(sampleX, o * 10);
+        let wy = sy + 34 + sampleY * amp * 18;
+        if (x === 0) ctx.moveTo(startX + 10 + x, wy);
+        else ctx.lineTo(startX + 10 + x, wy);
+      }
+      ctx.stroke();
+    }
+
+    // Right: Composite 3D / Isometric Wireframe Landscape
+    let compX = 470;
+    let compY = 70;
+    let compW = 490;
+    let compH = 370;
+
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(compX, compY, compW, compH);
+    ctx.fillRect(compX, compY, compW, compH);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText("★ LIVE COMPOSITE FRACTAL TERRAIN (fBm):", compX + 20, compY + 28);
+
+    // Draw isometric grid
+    let rows = 16;
+    let cols = 30;
+    let cellW = (compW - 60) / cols;
+    let cellH = (compH - 90) / rows;
+
+    for (let r = 0; r < rows; r++) {
+      let rNorm = r / rows;
+      // Color gradient from sea cyan to mountain snow
+      let strokeColor = (rNorm < 0.4) ? '#0284c7' : ((rNorm < 0.75) ? '#10b981' : '#f59e0b');
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+
+      for (let c = 0; c < cols; c++) {
+        let elev = 0;
+        let curAmp = 1.0;
+        let curFreq = 1.0;
+
+        for (let o = 0; o < numOctaves; o++) {
+          let nx = (c * 0.1 * curFreq) + simTime * 0.15;
+          let ny = (r * 0.1 * curFreq);
+          elev += pseudoNoise(nx, ny) * curAmp;
+          curAmp *= persistence;
+          curFreq *= lacunarity;
+        }
+
+        let px = compX + 30 + c * cellW;
+        let py = compY + 80 + r * cellH + elev * 45;
+
+        if (c === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+
+    // Bottom summary
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(40, 460, 920, 50);
+    ctx.fillRect(40, 460, 920, 50);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText("SPECTRAL SYNTHESIS (1/f NOISE):", 55, 478);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("By summing geometrically declining harmonic frequencies, low octaves define broad mountain silhouettes while high octaves etch craggy ridges and gravel.", 55, 496);
+  }
+
+  setTab(1);
+  render();
+})();
+</script>
+

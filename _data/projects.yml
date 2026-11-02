@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "Perlin & Simplex Noise: The Geometry of Coherent Randomness"
+  slug: "perlin-noise-procedural-generation"
+  category: "math"
+  tag: "Procedural Generation • Generative Math"
+  tech: "p5.js / Lattice Gradients, C² Hermite Blending & fBm Terrain Engine"
+  description: "Ken Perlin's 1983 Disney 'Tron' breakthrough, unit lattice corner gradients, dot product projections, C² continuous quintic fade blending, multi-octave fBm fractal landscapes, and domain warping."
+  article_url: "/experiments/perlin-noise-procedural-generation.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/perlin_noise_procedural_generation"
+  featured: true
+  gradient: "linear-gradient(135deg, #06b6d4 0%, #10b981 50%, #84cc16 100%)"
+
 - name: "The Aharonov-Bohm Effect: Quantum Non-Locality & Potentials"
   slug: "aharonov-bohm-effect"
   category: "physics"

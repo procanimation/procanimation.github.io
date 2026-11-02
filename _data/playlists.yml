@@ -40,3 +40,10 @@
   icon: 🧠
   tagline: Vectors, Loss Landscapes, Backprop & Attention Mechanisms
   gradient: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%)'
+- id: PLGhjiJN2KimI
+  title: 'Procedural Generation & Generative Math: From Perlin Noise to Turing Patterns'
+  url: https://www.youtube.com/playlist?list=PLGhjiJN2KimI
+  count: 1 Video
+  icon: 🌊
+  tagline: Coherent Noise, Vector Flow Fields, Morphogenesis & Emergent Geometry
+  gradient: 'linear-gradient(135deg, #06b6d4 0%, #10b981 50%, #84cc16 100%)'

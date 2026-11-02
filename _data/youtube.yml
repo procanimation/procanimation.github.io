@@ -1,3 +1,22 @@
+- id: _MxnHAiMDOE
+  title: 'Perlin & Simplex Noise: The Geometry of Coherent Randomness'
+  series: Procedural Generation & Generative Math
+  format: Full Feature
+  duration: 05:36
+  badge: Vol. I
+  video_url: https://www.youtube.com/watch?v=_MxnHAiMDOE
+  article_url: /experiments/perlin-noise-procedural-generation.html
+  gradient: 'linear-gradient(135deg, #06b6d4 0%, #10b981 50%, #84cc16 100%)'
+  description: 'Master Ken Perlin''s gradient noise algorithm: lattice corner gradients,
+    dot products, quintic C² Hermite blending, and multi-octave fBm fractal terrains.'
+  tags:
+  - Perlin Noise
+  - Simplex Noise
+  - Procedural Generation
+  - Generative Art
+  - Fractional Brownian Motion
+  - Computer Graphics
+  - p5js
 - id: -9K3UVtZsAs
   title: 'The Self-Attention Mechanism & Transformers: How AI Understands Context'
   series: Neural Networks & AI
