@@ -43,7 +43,7 @@
 - id: PLGhjiJN2KimI
   title: 'Procedural Generation & Generative Math: From Perlin Noise to Turing Patterns'
   url: https://www.youtube.com/playlist?list=PLGhjiJN2KimI
-  count: 5 Videos
+  count: 6 Videos
   icon: 🌊
   tagline: Coherent Noise, Vector Flow Fields, Morphogenesis & Emergent Geometry
   gradient: 'linear-gradient(135deg, #06b6d4 0%, #10b981 50%, #84cc16 100%)'

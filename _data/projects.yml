@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "Vector Flow Fields & Curl Noise: The Fluid Dynamics of Generative Art"
+  slug: "flow-fields-curl-noise"
+  category: "math"
+  tag: "Procedural Generation • Generative Math"
+  tech: "p5.js / Solenoidal Curl Operator & Runge-Kutta Advection Engine"
+  description: "Directional vector manifolds, 2nd-order Runge-Kutta particle advection, the sinks and sources Laplacian defect, Robert Bridson's divergence-free curl noise, and multi-scale turbulence."
+  article_url: "/experiments/flow-fields-curl-noise.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/flow_fields_curl_noise"
+  featured: true
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #10b981 50%, #f59e0b 100%)"
+
 - name: "Perlin & Simplex Noise: The Geometry of Coherent Randomness"
   slug: "perlin-noise-procedural-generation"
   category: "math"

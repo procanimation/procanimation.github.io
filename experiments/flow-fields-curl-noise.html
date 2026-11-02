@@ -1,0 +1,675 @@
+---
+layout: article
+title: "Vector Flow Fields & Curl Noise: The Fluid Dynamics of Generative Art"
+tagline: "From Scalar Manifolds to Incompressible Vortices: Particle Advection, Runge-Kutta & Solenoidal Fluid Dynamics"
+description: "Explore the mathematics of vector flow fields and curl noise: from directional angle mapping and Runge-Kutta numerical integration to the sinks-and-sources Laplacian defect, Robert Bridson's solenoidal curl operator, and multi-scale fluid turbulence through live interactive canvas simulations."
+category: "Procedural Generation & Generative Math"
+permalink: /experiments/flow-fields-curl-noise.html
+---
+
+<p class="article-lead">
+  In traditional computer graphics, moving fluids and painterly textures were once trapped between two extremes: computationally brutal 3D Navier-Stokes solvers or chaotic, unnatural particle noise. In 2007, Robert Bridson and his collaborators introduced <strong>Curl Noise</strong>. By taking the rotational curl of a scalar noise potential, mathematicians unlocked <strong>incompressible, divergence-free vector fields</strong>. Particles swirl through eternal, volume-preserving vortex cascades without ever clumping into unsightly streaks or vanishing into sinks, bridging the gap between rigorous differential calculus and Van Gogh's impressionist brushwork.
+</p>
+
+<!-- Procedural Flow Fields Mathematical Grid -->
+<h3>The Differential Foundations of Flow Fields & Curl Noise</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>1. Directional Angle Mapping</h4>
+    <p>$$\vec{v}(x, y) = (\cos \theta, \sin \theta), \; \theta = \text{noise}(x, y) \cdot 2\pi$$. Evaluating a continuous scalar noise field across coordinates and mapping values to radians constructs a smooth manifold of directional compass vectors, establishing an invisible current.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>2. Runge-Kutta Particle Advection</h4>
+    <p>$$\vec{p}_{t+\Delta t} = \vec{p}_t + \vec{v}(\vec{p}_t + \frac{1}{2}\vec{v}\Delta t)\Delta t$$. Euler integration overshoots curved streamlines. 2nd-order Runge-Kutta (Midpoint) samples velocity halfway into the step to cancel first-order truncation error $$O(\Delta t^2)$$, tracing razor-sharp trajectories.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>3. The Gradient Clumping Defect</h4>
+    <p>$$\nabla \cdot (\nabla \phi) = \nabla^2 \phi \ne 0$$. Naive gradient fields suffer from non-zero divergence. Local maxima in noise act as explosive sources ($$\nabla \cdot \vec{v} > 0$$) while minima act as sinks ($$\nabla \cdot \vec{v} < 0$$), collapsing particles into ropey strands and empty voids.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>4. Clairaut's Zero-Divergence Curl</h4>
+    <p>$$\vec{u} = \left(\frac{\partial \psi}{\partial y}, -\frac{\partial \psi}{\partial x}\right), \; \nabla \cdot \vec{u} \equiv \frac{\partial^2 \psi}{\partial x \partial y} - \frac{\partial^2 \psi}{\partial y \partial x} \equiv 0$$. By Clairaut's theorem on mixed partial derivatives, the curl of any $$C^2$$ streamfunction cancels to identically zero, guaranteeing perpetual incompressibility.</p>
+  </div>
+</div>
+
+<!-- Interactive Flow Fields Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌊 LIVE FLOW FIELDS & CURL NOISE LABORATORY</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Vector Grid, Clumping vs Incompressibility & Multi-Scale Turbulence)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabGrid" class="sim-btn primary">1. Vector Grid & Probes</button>
+      <button id="btnTabDiv" class="sim-btn secondary">2. Gradient Clumping vs Curl Noise</button>
+      <button id="btnTabStream" class="sim-btn secondary">3. Streamline Particle Synthesizer</button>
+      <button id="btnToggleAnim" class="sim-btn secondary">Pause / Play</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="flowCanvas" width="1000" height="520" style="display:block; width:100%; height:100%;"></canvas>
+  </div>
+
+  <div id="controlsGrid" class="sim-parameters-panel" style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblNoiseScale" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">NOISE SPATIAL FREQUENCY: 0.005</label>
+      <input type="range" id="sliderNoiseScale" min="1" max="20" value="5" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblArrowAngle" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">ANGLE MULTIPLIER: 1.0× (0 to 2π)</label>
+      <input type="range" id="sliderAngleMult" min="5" max="30" value="10" style="width:100%;">
+    </div>
+  </div>
+
+  <div id="controlsDiv" class="sim-parameters-panel" style="display:none; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">FIELD TYPE</label>
+      <select id="selectFieldType" style="width:100%; background:#1e293b; color:#f8fafc; border:1px solid #475569; padding:6px; border-radius:4px; font-family:monospace;">
+        <option value="curl">Curl Noise (∇ · u = 0, Solenoidal Incompressible)</option>
+        <option value="gradient">Gradient Field v = ∇ϕ (Non-zero Divergence, Sinks & Clumping)</option>
+      </select>
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px; display:flex; align-items:center;">
+      <button id="btnResetParticles" class="sim-btn secondary" style="width:100%; height:38px; margin-top:16px;">🔄 Re-seed Uniform Particles</button>
+    </div>
+  </div>
+
+  <div id="controlsStream" class="sim-parameters-panel" style="display:none; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:180px;">
+      <label id="lblParticleCount" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">PARTICLES: 400</label>
+      <input type="range" id="sliderParticleCount" min="100" max="800" step="50" value="400" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:180px;">
+      <label id="lblTrailLength" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">TRAIL HISTORY: 16 Frames</label>
+      <input type="range" id="sliderTrailLength" min="5" max="35" value="16" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:180px;">
+      <label style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">SOLID OBSTACLE</label>
+      <select id="selectObstacle" style="width:100%; background:#1e293b; color:#f8fafc; border:1px solid #475569; padding:6px; border-radius:4px; font-family:monospace;">
+        <option value="on">Circular Slip Boundary (Enabled)</option>
+        <option value="off">Free Flow (Disabled)</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('flowCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let activeTab = 1;
+  let isPlaying = true;
+  let simTime = 0;
+  let lastTimestamp = performance.now();
+
+  // Pseudo-noise function
+  function pseudoNoise(x, y) {
+    let xi = Math.floor(x);
+    let yi = Math.floor(y);
+    let xf = x - xi;
+    let yf = y - yi;
+
+    function hash(ix, iy) {
+      let n = Math.sin(ix * 127.1 + iy * 311.7) * 43758.5453123;
+      return (n - Math.floor(n)) * Math.PI * 2;
+    }
+
+    let a00 = hash(xi, yi);
+    let a10 = hash(xi + 1, yi);
+    let a01 = hash(xi, yi + 1);
+    let a11 = hash(xi + 1, yi + 1);
+
+    let d00 = Math.cos(a00) * xf + Math.sin(a00) * yf;
+    let d10 = Math.cos(a10) * (xf - 1) + Math.sin(a10) * yf;
+    let d01 = Math.cos(a01) * xf + Math.sin(a01) * (yf - 1);
+    let d11 = Math.cos(a11) * (xf - 1) + Math.sin(a11) * (yf - 1);
+
+    let u = xf * xf * xf * (xf * (xf * 6 - 15) + 10);
+    let v = yf * yf * yf * (yf * (yf * 6 - 15) + 10);
+
+    let nx0 = d00 * (1 - u) + d10 * u;
+    let nx1 = d01 * (1 - u) + d11 * u;
+    return nx0 * (1 - v) + nx1 * v;
+  }
+
+  // Parameters
+  let noiseScale = 0.005;
+  let angleMult = 1.0;
+  let fieldType = 'curl';
+  let particleCount = 400;
+  let trailLength = 16;
+  let hasObstacle = true;
+
+  // Particle sets
+  let particlesTab2 = [];
+  let particlesTab3 = [];
+
+  function resetParticlesTab2() {
+    particlesTab2 = [];
+    for (let i = 0; i < 350; i++) {
+      particlesTab2.push({
+        x: 60 + Math.random() * 460,
+        y: 80 + Math.random() * 340,
+        history: []
+      });
+    }
+  }
+
+  function resetParticlesTab3() {
+    particlesTab3 = [];
+    for (let i = 0; i < particleCount; i++) {
+      particlesTab3.push({
+        x: 60 + Math.random() * 520,
+        y: 80 + Math.random() * 340,
+        history: []
+      });
+    }
+  }
+
+  resetParticlesTab2();
+  resetParticlesTab3();
+
+  // Controls UI
+  const btnTabGrid = document.getElementById('btnTabGrid');
+  const btnTabDiv = document.getElementById('btnTabDiv');
+  const btnTabStream = document.getElementById('btnTabStream');
+  const btnToggleAnim = document.getElementById('btnToggleAnim');
+
+  const controlsGrid = document.getElementById('controlsGrid');
+  const controlsDiv = document.getElementById('controlsDiv');
+  const controlsStream = document.getElementById('controlsStream');
+
+  function setTab(tab) {
+    activeTab = tab;
+    btnTabGrid.className = tab === 1 ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabDiv.className = tab === 2 ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabStream.className = tab === 3 ? 'sim-btn primary' : 'sim-btn secondary';
+
+    controlsGrid.style.display = tab === 1 ? 'flex' : 'none';
+    controlsDiv.style.display = tab === 2 ? 'flex' : 'none';
+    controlsStream.style.display = tab === 3 ? 'flex' : 'none';
+  }
+
+  btnTabGrid.addEventListener('click', () => setTab(1));
+  btnTabDiv.addEventListener('click', () => setTab(2));
+  btnTabStream.addEventListener('click', () => setTab(3));
+
+  btnToggleAnim.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    btnToggleAnim.textContent = isPlaying ? "Pause / Play" : "Resume Play";
+  });
+
+  // Tab 1 controls
+  const sliderNoiseScale = document.getElementById('sliderNoiseScale');
+  const sliderAngleMult = document.getElementById('sliderAngleMult');
+  const lblNoiseScale = document.getElementById('lblNoiseScale');
+  const lblArrowAngle = document.getElementById('lblArrowAngle');
+
+  sliderNoiseScale.addEventListener('input', (e) => {
+    noiseScale = parseFloat(e.target.value) * 0.001;
+    lblNoiseScale.textContent = `NOISE SPATIAL FREQUENCY: ${noiseScale.toFixed(4)}`;
+  });
+  sliderAngleMult.addEventListener('input', (e) => {
+    angleMult = parseFloat(e.target.value) / 10.0;
+    lblArrowAngle.textContent = `ANGLE MULTIPLIER: ${angleMult.toFixed(1)}× (0 to ${(angleMult * 2).toFixed(1)}π)`;
+  });
+
+  // Tab 2 controls
+  const selectFieldType = document.getElementById('selectFieldType');
+  const btnResetParticles = document.getElementById('btnResetParticles');
+  selectFieldType.addEventListener('change', (e) => {
+    fieldType = e.target.value;
+    resetParticlesTab2();
+  });
+  btnResetParticles.addEventListener('click', resetParticlesTab2);
+
+  // Tab 3 controls
+  const sliderParticleCount = document.getElementById('sliderParticleCount');
+  const sliderTrailLength = document.getElementById('sliderTrailLength');
+  const selectObstacle = document.getElementById('selectObstacle');
+  const lblParticleCount = document.getElementById('lblParticleCount');
+  const lblTrailLength = document.getElementById('lblTrailLength');
+
+  sliderParticleCount.addEventListener('input', (e) => {
+    particleCount = parseInt(e.target.value, 10);
+    lblParticleCount.textContent = `PARTICLES: ${particleCount}`;
+    resetParticlesTab3();
+  });
+  sliderTrailLength.addEventListener('input', (e) => {
+    trailLength = parseInt(e.target.value, 10);
+    lblTrailLength.textContent = `TRAIL HISTORY: ${trailLength} Frames`;
+  });
+  selectObstacle.addEventListener('change', (e) => {
+    hasObstacle = (e.target.value === 'on');
+  });
+
+  // Render loop
+  function render(now) {
+    if (!now) now = performance.now();
+    let dt = (now - lastTimestamp) / 1000.0;
+    lastTimestamp = now;
+
+    if (isPlaying) {
+      simTime += dt;
+    }
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (activeTab === 1) {
+      drawTabGrid();
+    } else if (activeTab === 2) {
+      drawTabDiv();
+    } else {
+      drawTabStream();
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  // TAB 1: Vector Grid & Orientation Field
+  function drawTabGrid() {
+    let gridX = 50;
+    let gridY = 80;
+    let gridW = 540;
+    let gridH = 340;
+    let cols = 18;
+    let rows = 11;
+    let stepX = gridW / cols;
+    let stepY = gridH / rows;
+
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(gridX, gridY, gridW, gridH);
+    ctx.fillRect(gridX, gridY, gridW, gridH);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 15px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("2D DIRECTIONAL ORIENTATION GRID: θ(x, y) = noise(x, y) · 2π", 40, 45);
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        let cx = gridX + c * stepX + stepX / 2;
+        let cy = gridY + r * stepY + stepY / 2;
+
+        let n = pseudoNoise(c * 0.25, r * 0.25 + simTime * 0.2);
+        let angle = n * Math.PI * 2 * angleMult;
+
+        let len = 10;
+        let ex = cx + Math.cos(angle) * len;
+        let ey = cy + Math.sin(angle) * len;
+
+        let col = (Math.sin(angle) > 0) ? '#38bdf8' : '#10b981';
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(ex, ey);
+        ctx.stroke();
+
+        ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.arc(ex, ey, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Right Side: Vector Math Panel
+    let cardX = 620;
+    let cardY = 80;
+    let cardW = 340;
+    let cardH = 340;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(cardX, cardY, cardW, cardH);
+    ctx.fillRect(cardX, cardY, cardW, cardH);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText("MATHEMATICAL PROPERTIES:", cardX + 16, cardY + 28);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    let lines = [
+      "• Discrete Directional Mapping:",
+      "  v⃗(x, y) = (cos θ, sin θ)",
+      "",
+      "• Autocorrelation Guarantee:",
+      "  Because noise values smoothly transition,",
+      "  Δθ between adjacent cells is infinitesimal.",
+      "",
+      "• Energy Conservation:",
+      "  Unit vectors guarantee constant speed ||v⃗|| = 1,",
+      "  preventing arbitrary velocity explosions.",
+      "",
+      "• Aesthetic Fluid Streams:",
+      "  Particles follow smooth curvature arcs",
+      "  rather than harsh random zig-zags."
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      ctx.fillText(lines[i], cardX + 16, cardY + 60 + i * 18);
+    }
+
+    // Bottom Summary
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(40, 450, 920, 50);
+    ctx.fillRect(40, 450, 920, 50);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText("GEOMETRIC FOUNDATION:", 55, 470);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("A flow field turns empty coordinate space into an invisible current of continuous directional vectors.", 55, 490);
+  }
+
+  // TAB 2: Gradient Clumping vs Incompressible Curl Noise
+  function drawTabDiv() {
+    let boxX = 50;
+    let boxY = 80;
+    let boxW = 540;
+    let boxH = 340;
+
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = (fieldType === 'curl') ? '#38bdf8' : '#ef4444';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(boxX, boxY, boxW, boxH);
+    ctx.fillRect(boxX, boxY, boxW, boxH);
+
+    ctx.fillStyle = (fieldType === 'curl') ? '#38bdf8' : '#ef4444';
+    ctx.font = 'bold 15px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(fieldType === 'curl' ? "INCOMPRESSIBLE CURL NOISE (∇ · u ≡ 0): ZERO CLUMPING" : "GRADIENT FIELD v = ∇ϕ (NON-ZERO DIVERGENCE): SINK CLUMPING", 40, 45);
+
+    let eps = 0.01;
+
+    for (let p of particlesTab2) {
+      let vx = 0;
+      let vy = 0;
+
+      if (fieldType === 'curl') {
+        // Curl noise u = (d_psi/dy, -d_psi/dx)
+        let nx = (p.x - boxX) * 0.008;
+        let ny = (p.y - boxY) * 0.008 + simTime * 0.1;
+        let d_dy = (pseudoNoise(nx, ny + eps) - pseudoNoise(nx, ny - eps)) / (2 * eps);
+        let d_dx = (pseudoNoise(nx + eps, ny) - pseudoNoise(nx - eps, ny)) / (2 * eps);
+        vx = d_dy * 2.8;
+        vy = -d_dx * 2.8;
+      } else {
+        // Gradient field v = (d_phi/dx, d_phi/dy)
+        let nx = (p.x - boxX) * 0.008;
+        let ny = (p.y - boxY) * 0.008;
+        let d_dx = (pseudoNoise(nx + eps, ny) - pseudoNoise(nx - eps, ny)) / (2 * eps);
+        let d_dy = (pseudoNoise(nx, ny + eps) - pseudoNoise(nx, ny - eps)) / (2 * eps);
+        vx = -d_dx * 3.5;
+        vy = -d_dy * 3.5;
+      }
+
+      p.x += vx;
+      p.y += vy;
+
+      if (p.x < boxX) p.x = boxX + boxW;
+      if (p.x > boxX + boxW) p.x = boxX;
+      if (p.y < boxY) p.y = boxY + boxH;
+      if (p.y > boxY + boxH) p.y = boxY;
+
+      p.history.push({ x: p.x, y: p.y });
+      if (p.history.length > 12) p.history.shift();
+
+      ctx.strokeStyle = (fieldType === 'curl') ? 'rgba(56, 189, 248, 0.4)' : 'rgba(239, 68, 68, 0.4)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      for (let i = 1; i < p.history.length; i++) {
+        let p0 = p.history[i-1];
+        let p1 = p.history[i];
+        if (Math.hypot(p0.x - p1.x, p0.y - p1.y) < 20) {
+          ctx.moveTo(p0.x, p0.y);
+          ctx.lineTo(p1.x, p1.y);
+        }
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Right Side: Divergence Analysis HUD
+    let cardX = 620;
+    let cardY = 80;
+    let cardW = 340;
+    let cardH = 340;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(cardX, cardY, cardW, cardH);
+    ctx.fillRect(cardX, cardY, cardW, cardH);
+
+    ctx.fillStyle = (fieldType === 'curl') ? '#10b981' : '#ef4444';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText("DIVERGENCE CALCULATION ∇ · v:", cardX + 16, cardY + 28);
+
+    if (fieldType === 'curl') {
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 12px monospace';
+      ctx.fillText("★ ∇ · u = ∂²ψ/∂x∂y − ∂²ψ/∂y∂x ≡ 0", cardX + 16, cardY + 60);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '11px sans-serif';
+      let info = [
+        "• Solenoidal Incompressibility:",
+        "  Fluid entering any infinitesimal region",
+        "  strictly equals fluid exiting it.",
+        "",
+        "• Perpetual Uniform Density:",
+        "  Particles swirl continuously in closed loops",
+        "  and turbulent eddies without clumping.",
+        "",
+        "• Robert Bridson's Theorem (2007):",
+        "  Provides a closed-form fluid velocity field",
+        "  without expensive Navier-Stokes grid solvers."
+      ];
+      for (let i = 0; i < info.length; i++) {
+        ctx.fillText(info[i], cardX + 16, cardY + 95 + i * 16);
+      }
+    } else {
+      ctx.fillStyle = '#ef4444';
+      ctx.font = 'bold 12px monospace';
+      ctx.fillText("⚠️ ∇ · v = ∇²ϕ ≠ 0 (Laplacian Sinks)", cardX + 16, cardY + 60);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '11px sans-serif';
+      let info = [
+        "• The Laplacian Defect:",
+        "  Points where ∇²ϕ < 0 act as vacuum sinks,",
+        "  drawing all nearby particles inward.",
+        "",
+        "• Catastrophic Clumping:",
+        "  Particles freeze into thin stringy lines,",
+        "  leaving vast areas of the canvas empty.",
+        "",
+        "• Violation of Physics:",
+        "  Liquids like water cannot compress into nothing;",
+        "  gradient fields fail physical realism."
+      ];
+      for (let i = 0; i < info.length; i++) {
+        ctx.fillText(info[i], cardX + 16, cardY + 95 + i * 16);
+      }
+    }
+
+    // Bottom card
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(40, 450, 920, 50);
+    ctx.fillRect(40, 450, 920, 50);
+
+    ctx.fillStyle = (fieldType === 'curl') ? '#10b981' : '#ef4444';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText("WHY CURL NOISE REVOLUTIONIZED CGI:", 55, 470);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("By guaranteeing zero divergence analytically, curl noise creates photorealistic fluid vortices at zero solver overhead.", 55, 490);
+  }
+
+  // TAB 3: Streamline Particle Synthesizer
+  function drawTabStream() {
+    let boxX = 50;
+    let boxY = 80;
+    let boxW = 580;
+    let boxH = 340;
+
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(boxX, boxY, boxW, boxH);
+    ctx.fillRect(boxX, boxY, boxW, boxH);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 15px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("MULTI-SCALE TURBULENCE & OBSTACLE BOUNDARY SLIPSTREAM", 40, 45);
+
+    let obsX = boxX + boxW * 0.45;
+    let obsY = boxY + boxH * 0.50;
+    let obsR = 40;
+
+    if (hasObstacle) {
+      ctx.fillStyle = '#1e293b';
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(obsX, obsY, obsR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = 'bold 10px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText("OBSTACLE", obsX, obsY + 3);
+    }
+
+    let eps = 0.01;
+
+    for (let p of particlesTab3) {
+      let ux = 0;
+      let uy = 0;
+
+      // 2 octaves
+      for (let o = 0; o < 2; o++) {
+        let f = Math.pow(2, o);
+        let a = Math.pow(0.5, o);
+        let nx = (p.x - boxX) * 0.005 * f;
+        let ny = (p.y - boxY) * 0.005 * f + simTime * 0.15 * f;
+        let d_dy = (pseudoNoise(nx, ny + eps) - pseudoNoise(nx, ny - eps)) / (2 * eps);
+        let d_dx = (pseudoNoise(nx + eps, ny) - pseudoNoise(nx - eps, ny)) / (2 * eps);
+        ux += d_dy * a * 3.2;
+        uy -= d_dx * a * 3.2;
+      }
+
+      if (hasObstacle) {
+        let dObs = Math.hypot(p.x - obsX, p.y - obsY);
+        if (dObs < obsR + 35) {
+          let aObs = Math.atan2(p.y - obsY, p.x - obsX);
+          let tangent = aObs + Math.PI / 2;
+          let blend = Math.max(0, Math.min(1, (obsR + 35 - dObs) / 35));
+          ux = ux * (1 - blend) + Math.cos(tangent) * 3.5 * blend;
+          uy = uy * (1 - blend) + Math.sin(tangent) * 3.5 * blend;
+          if (dObs < obsR + 2) {
+            p.x = obsX + Math.cos(aObs) * (obsR + 4);
+            p.y = obsY + Math.sin(aObs) * (obsR + 4);
+          }
+        }
+      }
+
+      p.x += ux;
+      p.y += uy;
+
+      if (p.x < boxX) p.x = boxX + boxW;
+      if (p.x > boxX + boxW) p.x = boxX;
+      if (p.y < boxY) p.y = boxY + boxH;
+      if (p.y > boxY + boxH) p.y = boxY;
+
+      p.history.push({ x: p.x, y: p.y });
+      if (p.history.length > trailLength) p.history.shift();
+
+      ctx.beginPath();
+      for (let i = 1; i < p.history.length; i++) {
+        let p0 = p.history[i-1];
+        let p1 = p.history[i];
+        if (Math.hypot(p0.x - p1.x, p0.y - p1.y) < 25) {
+          let alpha = (i / p.history.length) * 0.7;
+          ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
+          ctx.lineWidth = (i / p.history.length) * 1.8;
+          ctx.moveTo(p0.x, p0.y);
+          ctx.lineTo(p1.x, p1.y);
+        }
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Right Side: Applications Card
+    let cardX = 660;
+    let cardY = 80;
+    let cardW = 300;
+    let cardH = 340;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(cardX, cardY, cardW, cardH);
+    ctx.fillRect(cardX, cardY, cardW, cardH);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("APPLICATIONS IN GENERATIVE ART:", cardX + 16, cardY + 28);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '11px sans-serif';
+    let apps = [
+      "• Van Gogh Impressionism:",
+      "  Variable width and opacity along",
+      "  streamlines emulate painterly strokes.",
+      "",
+      "• Hollywood Smoke & Fire:",
+      "  Multi-octave turbulence adds high-res",
+      "  wisps to low-res fluid simulations.",
+      "",
+      "• Aerodynamic Slipstreams:",
+      "  Modulating potential ψ keeps stream-",
+      "  lines from penetrating solid surfaces."
+    ];
+    for (let i = 0; i < apps.length; i++) {
+      ctx.fillText(apps[i], cardX + 16, cardY + 60 + i * 18);
+    }
+
+    // Bottom card
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.strokeRect(40, 450, 920, 50);
+    ctx.fillRect(40, 450, 920, 50);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText("THE LIVING DIGITAL CANVAS:", 55, 470);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("Combining vector curl operators with particle advection produces organic, perpetual digital life.", 55, 490);
+  }
+
+  setTab(1);
+  render();
+})();
+</script>
+

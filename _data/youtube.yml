@@ -1,3 +1,23 @@
+- id: Eyu7u4uFzyc
+  title: 'Vector Flow Fields & Curl Noise: The Fluid Dynamics of Generative Art'
+  series: Procedural Generation & Generative Math
+  format: Full Feature
+  duration: 05:29
+  badge: Vol. II
+  video_url: https://www.youtube.com/watch?v=Eyu7u4uFzyc
+  article_url: /experiments/flow-fields-curl-noise.html
+  gradient: 'linear-gradient(135deg, #38bdf8 0%, #10b981 50%, #f59e0b 100%)'
+  description: Master vector flow fields, Runge-Kutta numerical particle advection,
+    the sinks and sources Laplacian defect, and Robert Bridson's divergence-free curl
+    noise.
+  tags:
+  - Vector Flow Fields
+  - Curl Noise
+  - Procedural Generation
+  - Generative Art
+  - Fluid Dynamics
+  - Computer Graphics
+  - p5js
 - id: _MxnHAiMDOE
   title: 'Perlin & Simplex Noise: The Geometry of Coherent Randomness'
   series: Procedural Generation & Generative Math
