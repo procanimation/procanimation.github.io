@@ -1,3 +1,23 @@
+- id: ChOcuxcc0dI
+  title: 'The Geometry of Optimization: Momentum, RMSprop & The Adam Optimizer'
+  series: Neural Networks & AI
+  format: Full Feature
+  duration: 06:26
+  badge: Vol. IV
+  video_url: https://www.youtube.com/watch?v=ChOcuxcc0dI
+  article_url: /experiments/optimizers-momentum-adam.html
+  gradient: 'linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%)'
+  description: Master loss landscape topographies, Hessian ravines, Newtonian momentum
+    physics, RMSprop variance scaling, and the Adam optimizer engine.
+  tags:
+  - Optimization
+  - Gradient Descent
+  - Momentum
+  - RMSprop
+  - Adam Optimizer
+  - Loss Landscape
+  - Rosenbrock
+  - Deep Learning
 - id: lnFK8ASHrSU
   title: 'Multi-Layer Perceptrons & Backpropagation: The Calculus of Learning'
   series: Neural Networks & AI
