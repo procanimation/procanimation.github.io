@@ -1,0 +1,592 @@
+---
+layout: article
+title: "Convolutional Neural Networks: The Geometry of Visual Perception"
+tagline: "Preserving 2D Topology: Sliding Kernels, Parameter Sharing, Max Pooling & Hierarchical Feature Abstraction"
+description: "Explore the mathematics of modern computer vision: from the dimensional curse of fully connected layers to 2D discrete convolutions, translation equivariance, pooling invariance, and hierarchical feature pyramids through live interactive simulations."
+category: "Neural Networks & Artificial Intelligence"
+permalink: /experiments/convolutional-networks-vision.html
+---
+
+<p class="article-lead">
+  When an image enters a neural network, treating it as a flat one-dimensional vector destroys the very geometry that makes vision possible: spatial adjacency. Modern computer vision was unlocked by embracing spatial topology through <strong>Convolutional Neural Networks (CNNs)</strong>. By sliding localized receptive fields across pixel grids with shared parameter weights, CNNs achieve translational equivariance, drastic compression, and deep compositional abstractions.
+</p>
+
+<!-- AI Mathematical Architecture Grid -->
+<h3>The Core Principles of Convolutional Vision</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>1. The Dimensional Curse of Flat Vision</h4>
+    <p>$$N_{\text{weights}} = (H \times W \times C) \times N_{\text{neurons}} \gg 10^9$$. Flattening a 1024×1024 RGB image yields 3,145,728 elements. Connecting this to a single 1,000-neuron layer demands over 3.1 billion parameters, overfitting catastrophically and severing the spatial correlation between neighboring pixels.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>2. The 2D Convolution Operation</h4>
+    <p>$$(I * K)(i, j) = \sum_{m} \sum_{n} I(i+m, j+n) K(m, n)$$. Instead of learning independent weights for every pixel, a compact filter (e.g. 3×3) slides across the entire image. This <em>parameter sharing</em> guarantees translational equivariance: shifting an object in the input shifts its activation feature map identically.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>3. Max Pooling & Spatial Invariance</h4>
+    <p>$$\text{MaxPool}_{2\times2}(X)_{i, j} = \max_{m,n \in \{0, 1\}} X_{2i+m, 2j+n}$$. Downsampling feature maps by taking the maximum activation over localized 2×2 patches discards 75% of coordinate data. This imparts robust translational invariance, making feature detection impervious to micro-jitter, slight rotations, and noise.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>4. Hierarchical Feature Abstraction</h4>
+    <p>$$\text{Pixels} \to \text{Gabor Edges} \to \text{Textures} \to \text{Parts} \to \text{Semantics}$$. Deep networks stack convolutions hierarchically. Shallow layers extract micro-primitives (edges, color gradients). Deeper layers compose these primitives into motifs, textures, object parts (wheels, eyes), and calibrated categorical predictions.</p>
+  </div>
+</div>
+
+<!-- Interactive AI Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE CONVOLUTIONAL VISION LABORATORY</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive 2D Sliding Kernel, Max Pooling Invariance & Deep Feature Hierarchy)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabConv" class="sim-btn primary">1. 2D Sliding Convolution</button>
+      <button id="btnTabPool" class="sim-btn secondary">2. Max Pooling Invariance</button>
+      <button id="btnTabHierarchy" class="sim-btn secondary">3. Deep Feature Pyramid</button>
+      <button id="btnTogglePlay" class="sim-btn secondary">Pause / Play</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="cnnCanvas" width="1000" height="520" style="display:block; width:100%; height:100%;"></canvas>
+  </div>
+
+  <div class="sim-parameters-panel" style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam1" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">KERNEL FILTER TYPE</label>
+      <select id="selectFilter" style="width:100%; background:#1e293b; color:#f8fafc; border:1px solid #475569; padding:6px; border-radius:4px; font-family:monospace;">
+        <option value="sobel">Sobel Vertical Edge ([-1 0 1], [-2 0 2], [-1 0 1])</option>
+        <option value="horizontal">Horizontal Edge ([-1 -1 -1], [0 0 0], [1 1 1])</option>
+        <option value="sharpen">Sharpen ([0 -1 0], [-1 5 -1], [0 -1 0])</option>
+        <option value="gaussian">Gaussian Blur ([1 2 1], [2 4 2], [1 2 1] / 16)</option>
+      </select>
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam2" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">SCANNING SPEED: 1.0×</label>
+      <input type="range" id="sliderSpeed" min="0.2" max="3.0" step="0.2" value="1.0" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam3" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">INPUT PATTERN</label>
+      <select id="selectPattern" style="width:100%; background:#1e293b; color:#f8fafc; border:1px solid #475569; padding:6px; border-radius:4px; font-family:monospace;">
+        <option value="digit">Handwritten Digit "A"</option>
+        <option value="cross">Geometric Cross</option>
+        <option value="checker">Checkerboard Gradient</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('cnnCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let activeTab = 1;
+  let isPlaying = true;
+  let simTime = 0;
+  let scanSpeed = 1.0;
+  let currentFilter = 'sobel';
+  let currentPattern = 'digit';
+
+  const KERNELS = {
+    sobel: [
+      [-1, 0, 1],
+      [-2, 0, 2],
+      [-1, 0, 1]
+    ],
+    horizontal: [
+      [-1, -1, -1],
+      [ 0,  0,  0],
+      [ 1,  1,  1]
+    ],
+    sharpen: [
+      [ 0, -1,  0],
+      [-1,  5, -1],
+      [ 0, -1,  0]
+    ],
+    gaussian: [
+      [1/16, 2/16, 1/16],
+      [2/16, 4/16, 2/16],
+      [1/16, 2/16, 1/16]
+    ]
+  };
+
+  const PATTERNS = {
+    digit: [
+      [0, 0, 1, 1, 1, 1, 0, 0],
+      [0, 1, 1, 0, 0, 1, 1, 0],
+      [1, 1, 0, 0, 0, 0, 1, 1],
+      [1, 1, 0, 0, 0, 0, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 0, 0, 0, 0, 1, 1],
+      [1, 1, 0, 0, 0, 0, 1, 1],
+      [0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    cross: [
+      [0, 0, 0, 1, 1, 0, 0, 0],
+      [0, 0, 0, 1, 1, 0, 0, 0],
+      [0, 0, 0, 1, 1, 0, 0, 0],
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [0, 0, 0, 1, 1, 0, 0, 0],
+      [0, 0, 0, 1, 1, 0, 0, 0],
+      [0, 0, 0, 1, 1, 0, 0, 0]
+    ],
+    checker: [
+      [1, 0, 1, 0, 1, 0, 1, 0],
+      [0, 1, 0, 1, 0, 1, 0, 1],
+      [1, 0, 1, 0, 1, 0, 1, 0],
+      [0, 1, 0, 1, 0, 1, 0, 1],
+      [1, 0, 1, 0, 1, 0, 1, 0],
+      [0, 1, 0, 1, 0, 1, 0, 1],
+      [1, 0, 1, 0, 1, 0, 1, 0],
+      [0, 1, 0, 1, 0, 1, 0, 1]
+    ]
+  };
+
+  function setTab(tab) {
+    activeTab = tab;
+    document.getElementById('btnTabConv').className = tab === 1 ? 'sim-btn primary' : 'sim-btn secondary';
+    document.getElementById('btnTabPool').className = tab === 2 ? 'sim-btn primary' : 'sim-btn secondary';
+    document.getElementById('btnTabHierarchy').className = tab === 3 ? 'sim-btn primary' : 'sim-btn secondary';
+  }
+
+  document.getElementById('btnTabConv').onclick = () => setTab(1);
+  document.getElementById('btnTabPool').onclick = () => setTab(2);
+  document.getElementById('btnTabHierarchy').onclick = () => setTab(3);
+
+  document.getElementById('btnTogglePlay').onclick = () => {
+    isPlaying = !isPlaying;
+    document.getElementById('btnTogglePlay').textContent = isPlaying ? "Pause" : "Play";
+  };
+
+  document.getElementById('sliderSpeed').oninput = (e) => {
+    scanSpeed = parseFloat(e.target.value);
+    document.getElementById('lblParam2').textContent = `SCANNING SPEED: ${scanSpeed.toFixed(1)}×`;
+  };
+
+  document.getElementById('selectFilter').onchange = (e) => {
+    currentFilter = e.target.value;
+  };
+
+  document.getElementById('selectPattern').onchange = (e) => {
+    currentPattern = e.target.value;
+  };
+
+  function render() {
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (isPlaying) {
+      simTime += 0.02 * scanSpeed;
+    }
+
+    if (activeTab === 1) {
+      drawTabConvolution();
+    } else if (activeTab === 2) {
+      drawTabMaxPooling();
+    } else {
+      drawTabHierarchy();
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  // -----------------------------------------------------------
+  // TAB 1: 2D SLIDING KERNEL CONVOLUTION
+  // -----------------------------------------------------------
+  function drawTabConvolution() {
+    let img = PATTERNS[currentPattern];
+    let kernel = KERNELS[currentFilter];
+    let inSize = 8;
+    let kSize = 3;
+    let outSize = inSize - kSize + 1; // 6x6
+
+    let totalSteps = outSize * outSize;
+    let curStep = Math.floor((simTime * 2.0) % totalSteps);
+    let curR = Math.floor(curStep / outSize);
+    let curC = curStep % outSize;
+
+    // Header Info
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText("2D CONVOLUTION: INPUT IMAGE (8×8) ⟶ 3×3 RECEPTIVE FIELD ⟶ FEATURE MAP (6×6)", 40, 35);
+
+    // Left Input Grid
+    let startX = 60;
+    let startY = 70;
+    let cellSize = 38;
+
+    for (let r = 0; r < inSize; r++) {
+      for (let c = 0; c < inSize; c++) {
+        let isKernel = (r >= curR && r < curR + kSize && c >= curC && c < curC + kSize);
+        let val = img[r][c];
+
+        ctx.fillStyle = isKernel ? 'rgba(56, 189, 248, 0.35)' : (val === 1 ? '#1e293b' : '#090d16');
+        ctx.fillRect(startX + c * cellSize, startY + r * cellSize, cellSize, cellSize);
+
+        ctx.strokeStyle = isKernel ? '#38bdf8' : '#334155';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(startX + c * cellSize, startY + r * cellSize, cellSize, cellSize);
+
+        ctx.fillStyle = val === 1 ? '#f8fafc' : '#475569';
+        ctx.font = '11px monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(val.toString(), startX + c * cellSize + cellSize/2, startY + r * cellSize + cellSize/2);
+      }
+    }
+
+    // Kernel Highlight Border
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(startX + curC * cellSize, startY + curR * cellSize, cellSize * kSize, cellSize * kSize);
+
+    // Kernel Matrix Display (Center)
+    let kDisplayX = 400;
+    let kDisplayY = 90;
+    let kCellSize = 42;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(kDisplayX - 15, kDisplayY - 30, 180, 260);
+    ctx.fillRect(kDisplayX - 15, kDisplayY - 30, 180, 260);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText("3×3 KERNEL WEIGHTS", kDisplayX + 75, kDisplayY - 12);
+
+    let dotSum = 0;
+    for (let kr = 0; kr < 3; kr++) {
+      for (let kc = 0; kc < 3; kc++) {
+        let w = kernel[kr][kc];
+        let pix = img[curR + kr][curC + kc];
+        dotSum += w * pix;
+
+        ctx.fillStyle = w === 0 ? '#1e293b' : 'rgba(56, 189, 248, 0.2)';
+        ctx.fillRect(kDisplayX + kc * kCellSize, kDisplayY + kr * kCellSize, kCellSize - 2, kCellSize - 2);
+        ctx.strokeStyle = '#475569';
+        ctx.strokeRect(kDisplayX + kc * kCellSize, kDisplayY + kr * kCellSize, kCellSize - 2, kCellSize - 2);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '11px monospace';
+        let strW = (typeof w === 'number' && !Number.isInteger(w)) ? w.toFixed(2) : w.toString();
+        ctx.fillText(strW, kDisplayX + kc * kCellSize + kCellSize/2 - 1, kDisplayY + kr * kCellSize + kCellSize/2 - 1);
+      }
+    }
+
+    // Dot product accumulator
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 12px monospace';
+    ctx.fillText(`Σ (I · K) = ${dotSum.toFixed(2)}`, kDisplayX + 75, kDisplayY + 160);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px sans-serif';
+    ctx.fillText("9 multiply-adds per step", kDisplayX + 75, kDisplayY + 185);
+    ctx.fillText("Translational Equivariance", kDisplayX + 75, kDisplayY + 205);
+
+    // Right Feature Map Grid
+    let outX = 640;
+    let outY = 85;
+    let outCellSize = 45;
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("OUTPUT FEATURE MAP (6×6)", outX, outY - 18);
+
+    for (let r = 0; r < outSize; r++) {
+      for (let c = 0; c < outSize; c++) {
+        let isDone = (r < curR || (r === curR && c <= curC));
+        let isCurrent = (r === curR && c === curC);
+
+        // Precompute activation
+        let cellVal = 0;
+        for (let kr = 0; kr < 3; kr++) {
+          for (let kc = 0; kc < 3; kc++) {
+            cellVal += kernel[kr][kc] * img[r + kr][c + kc];
+          }
+        }
+
+        ctx.fillStyle = isCurrent ? '#f59e0b' : (isDone ? (cellVal > 0 ? 'rgba(16, 185, 129, 0.4)' : '#1e293b') : '#090d16');
+        ctx.fillRect(outX + c * outCellSize, outY + r * outCellSize, outCellSize, outCellSize);
+
+        ctx.strokeStyle = isCurrent ? '#ffffff' : '#334155';
+        ctx.lineWidth = isCurrent ? 2 : 1;
+        ctx.strokeRect(outX + c * outCellSize, outY + r * outCellSize, outCellSize, outCellSize);
+
+        if (isDone) {
+          ctx.fillStyle = isCurrent ? '#000000' : '#ffffff';
+          ctx.font = '11px monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(cellVal.toFixed(1), outX + c * outCellSize + outCellSize/2, outY + r * outCellSize + outCellSize/2);
+        }
+      }
+    }
+
+    // Connect Laser Beam
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.7)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(startX + curC * cellSize + (cellSize * kSize)/2, startY + curR * cellSize + (cellSize * kSize)/2);
+    ctx.lineTo(outX + curC * outCellSize + outCellSize/2, outY + curR * outCellSize + outCellSize/2);
+    ctx.stroke();
+
+    // Bottom Explanation Bar
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(40, 420, 920, 75);
+    ctx.fillRect(40, 420, 920, 75);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("MATHEMATICAL GUARANTEE: PARAMETER SHARING & TRANSLATIONAL EQUIVARIANCE", 60, 442);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("The same 9 weights slide across all 64 pixels. An edge at coordinates (2,3) activates the kernel with the exact same numerical strength", 60, 462);
+    ctx.fillText("as the same edge at (6,7). This reduces model parameter count by orders of magnitude while permanently respecting 2D neighborhood geometry.", 60, 480);
+  }
+
+  // -----------------------------------------------------------
+  // TAB 2: MAX POOLING & INVARIANCE
+  // -----------------------------------------------------------
+  function drawTabMaxPooling() {
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText("SPATIAL DOWNSAMPLING: 4×4 FEATURE MAP ⟶ 2×2 MAX POOLING (TRANSLATIONAL INVARIANCE)", 40, 35);
+
+    let pStep = Math.floor((simTime * 0.8) % 4);
+    let curPR = Math.floor(pStep / 2);
+    let curPC = pStep % 2;
+
+    // Feature Map values with oscillating jitter
+    let jitterX = Math.sin(simTime * 6) * 5;
+    let jitterY = Math.cos(simTime * 6) * 5;
+
+    let baseValues = [
+      [0.15, 0.88, 0.34, 0.12],
+      [0.42, 0.29, 0.95, 0.61],
+      [0.77, 0.35, 0.09, 0.44],
+      [0.08, 0.69, 0.86, 0.53]
+    ];
+
+    let maxes = [
+      [0.88, 0.95],
+      [0.77, 0.86]
+    ];
+
+    // Left Grid (4x4)
+    let leftX = 120;
+    let leftY = 90;
+    let cSize = 65;
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("INPUT FEATURE MAP (4×4) + COORDINATE JITTER", leftX, leftY - 18);
+
+    for (let r = 0; r < 4; r++) {
+      for (let c = 0; c < 4; c++) {
+        let isQuad = (Math.floor(r / 2) === curPR && Math.floor(c / 2) === curPC);
+        let val = baseValues[r][c];
+
+        ctx.fillStyle = isQuad ? 'rgba(16, 185, 129, 0.25)' : '#1e293b';
+        ctx.fillRect(leftX + c * cSize + jitterX, leftY + r * cSize + jitterY, cSize, cSize);
+        ctx.strokeStyle = isQuad ? '#10b981' : '#334155';
+        ctx.strokeRect(leftX + c * cSize + jitterX, leftY + r * cSize + jitterY, cSize, cSize);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '14px monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(val.toFixed(2), leftX + c * cSize + cSize/2 + jitterX, leftY + r * cSize + cSize/2 + jitterY);
+      }
+    }
+
+    // 2x2 Window Highlight
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(leftX + curPC * cSize * 2 + jitterX, leftY + curPR * cSize * 2 + jitterY, cSize * 2, cSize * 2);
+
+    // Right Pooled Grid (2x2)
+    let outX = 600;
+    let outY = 120;
+    let outCSize = 105;
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("MAX-POOLED REPRESENTATION (2×2) • ROCK SOLID STABILITY", outX, outY - 20);
+
+    for (let r = 0; r < 2; r++) {
+      for (let c = 0; c < 2; c++) {
+        let isCurrent = (r === curPR && c === curPC);
+        let val = maxes[r][c];
+
+        ctx.fillStyle = isCurrent ? '#10b981' : 'rgba(16, 185, 129, 0.3)';
+        ctx.fillRect(outX + c * outCSize, outY + r * outCSize, outCSize, outCSize);
+        ctx.strokeStyle = isCurrent ? '#ffffff' : '#334155';
+        ctx.lineWidth = isCurrent ? 2.5 : 1;
+        ctx.strokeRect(outX + c * outCSize, outY + r * outCSize, outCSize, outCSize);
+
+        ctx.fillStyle = isCurrent ? '#000000' : '#ffffff';
+        ctx.font = 'bold 22px monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(val.toFixed(2), outX + c * outCSize + outCSize/2, outY + r * outCSize + outCSize/2);
+      }
+    }
+
+    // Arrow and Explanation
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(40, 420, 920, 75);
+    ctx.fillRect(40, 420, 920, 75);
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("WHY MAX POOLING CREATES INVARIANCE:", 60, 442);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("Even as the input pixels shake and jitter by several coordinates on the left, the maximum activation (0.88, 0.95, 0.77, 0.86) on the right", 60, 462);
+    ctx.fillText("remains completely constant. This discards 75% redundant spatial data while expanding the effective receptive field of subsequent layers.", 60, 480);
+  }
+
+  // -----------------------------------------------------------
+  // TAB 3: DEEP FEATURE PYRAMID HIERARCHY
+  // -----------------------------------------------------------
+  function drawTabHierarchy() {
+    ctx.fillStyle = '#a855f7';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText("THE VISUAL ABSTRACTION HIERARCHY: FROM RAW PHOTONS TO CALIBRATED SEMANTICS", 40, 35);
+
+    let stages = [
+      { name: "Input Image", sub: "32×32×3 Pixels", x: 80, col: "#38bdf8" },
+      { name: "Layer 1: Conv", sub: "Oriented Edges", x: 260, col: "#a855f7" },
+      { name: "Layer 2: Motifs", sub: "Textures & Arcs", x: 440, col: "#ec4899" },
+      { name: "Layer 3: Parts", sub: "Wheels & Grilles", x: 620, col: "#f59e0b" },
+      { name: "Output: Softmax", sub: "Class Confidence", x: 800, col: "#10b981" }
+    ];
+
+    let pulseProg = (simTime * 0.6) % 1.0;
+
+    // Draw connection pipes
+    for (let i = 0; i < stages.length - 1; i++) {
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(stages[i].x + 110, 200);
+      ctx.lineTo(stages[i + 1].x, 200);
+      ctx.stroke();
+
+      let dotX = stages[i].x + 110 + (stages[i + 1].x - (stages[i].x + 110)) * pulseProg;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(dotX, 200, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Draw Stages
+    for (let i = 0; i < stages.length; i++) {
+      let s = stages[i];
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+      ctx.strokeStyle = s.col;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(s.x, 90, 110, 260);
+      ctx.fillRect(s.x, 90, 110, 260);
+
+      ctx.fillStyle = s.col;
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(s.name, s.x + 55, 112);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px sans-serif';
+      ctx.fillText(s.sub, s.x + 55, 128);
+
+      // Interior visuals per stage
+      if (i === 0) {
+        // Pixel grid icon
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillRect(s.x + 25, 160, 60, 60);
+        ctx.fillStyle = '#0f172a';
+        ctx.font = '10px monospace';
+        ctx.fillText("Car.png", s.x + 55, 195);
+      } else if (i === 1) {
+        // Edges
+        ctx.strokeStyle = '#a855f7';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(s.x + 25, 160); ctx.lineTo(s.x + 85, 160);
+        ctx.moveTo(s.x + 55, 180); ctx.lineTo(s.x + 55, 230);
+        ctx.moveTo(s.x + 30, 250); ctx.lineTo(s.x + 80, 290);
+        ctx.stroke();
+      } else if (i === 2) {
+        // Textures & Arcs
+        ctx.strokeStyle = '#ec4899';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(s.x + 55, 180, 20, 0, Math.PI);
+        ctx.arc(s.x + 55, 240, 15, Math.PI/2, Math.PI * 1.5);
+        ctx.stroke();
+      } else if (i === 3) {
+        // Wheel & Body
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(s.x + 55, 190, 22, 0, Math.PI * 2);
+        ctx.arc(s.x + 55, 190, 10, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.strokeRect(s.x + 25, 240, 60, 20);
+      } else if (i === 4) {
+        // Probabilities
+        drawMiniProb(s.x + 10, 160, "Sports Car", 0.96, "#10b981");
+        drawMiniProb(s.x + 10, 200, "Coupe", 0.03, "#94a3b8");
+        drawMiniProb(s.x + 10, 240, "Truck", 0.01, "#64748b");
+      }
+    }
+
+    // Explanation Bar
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(40, 400, 920, 95);
+    ctx.fillRect(40, 400, 920, 95);
+
+    ctx.fillStyle = '#a855f7';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText("COMPOSITIONAL ABSTRACTION: HOW DEEP NETWORKS LEARN MEANING", 60, 422);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText("A single 3×3 convolution layer only sees 9 pixels. But through successive convolution and pooling layers, each deeper neuron's effective", 60, 442);
+    ctx.fillText("receptive field expands across the entire image. This allows deep CNNs to automatically assemble micro-edges into macro-semantics without", 60, 460);
+    ctx.fillText("ever suffering from the combinatorial explosion of fully connected architectures.", 60, 478);
+  }
+
+  function drawMiniProb(x, y, label, prob, col) {
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '9px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(label, x, y);
+    ctx.fillStyle = col;
+    ctx.textAlign = 'right';
+    ctx.fillText((prob * 100).toFixed(0) + '%', x + 90, y);
+
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(x, y + 4, 90, 6);
+    ctx.fillStyle = col;
+    ctx.fillRect(x, y + 4, 90 * prob, 6);
+  }
+
+  setTab(1);
+  render();
+})();
+</script>
