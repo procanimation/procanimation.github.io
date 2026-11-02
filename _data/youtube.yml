@@ -1,3 +1,23 @@
+- id: BdR20C_lqTw
+  title: 'The Artificial Neuron, Sigmoid & Logistic Classification: How Machines Decide'
+  series: Neural Networks & AI
+  format: Full Feature
+  duration: 05:58
+  badge: Vol. II
+  video_url: https://www.youtube.com/watch?v=BdR20C_lqTw
+  article_url: /experiments/neuron-sigmoid-classification.html
+  gradient: 'linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #6366f1 100%)'
+  description: Understand the artificial neuron, the smooth Sigmoid squashing function,
+    2D logistic decision boundaries, log-loss convexity, and the XOR limitation.
+  tags:
+  - Artificial Neuron
+  - Sigmoid Function
+  - Logistic Regression
+  - Decision Boundaries
+  - Binary Cross-Entropy
+  - XOR Problem
+  - Perceptron
+  - Machine Learning
 - id: PAyOKCr_XTo
   title: 'The Geometry of Vectors & Linear Regression: How Machines Learn'
   series: Neural Networks & AI

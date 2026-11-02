@@ -1,0 +1,563 @@
+---
+layout: article
+title: "The Artificial Neuron, Sigmoid & Logistic Classification: How Machines Decide"
+tagline: "The Genesis of Deep Learning: Perceptrons, Continuous S-Curves, Probability Fields & The XOR Dilemma"
+description: "Master the fundamental mechanics of artificial neurons, the Sigmoid squashing function, logistic classification manifolds, and the historic XOR limitation through live interactive visual simulations."
+category: "Neural Networks & Artificial Intelligence"
+permalink: /experiments/neuron-sigmoid-classification.html
+---
+
+<p class="article-lead">
+  How does a collection of silent mathematical equations make a definitive decision? Inside biological neural circuits, billions of microscopic neurons aggregate electrochemical spikes until a threshold is crossed, firing an action potential to downstream neighbors. In artificial intelligence, this biological miracle is distilled into the foundation of all modern deep learning: <strong>The Artificial Neuron</strong> and <strong>The Sigmoid Activation Function</strong>.
+</p>
+
+<!-- AI Mathematical Architecture Grid -->
+<h3>The Neural Architecture</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Perceptron Accumulator</h4>
+    <p>$$z = \mathbf{w} \cdot \mathbf{x} + b = \sum_{i=1}^n w_i x_i + b$$. Incoming features $$\mathbf{x}$$ are scaled by synaptic weights $$\mathbf{w}$$ (excitatory or inhibitory). The bias $$b$$ acts as a physical counterweight setting the baseline excitation threshold.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Sigmoid Squashing Machine</h4>
+    <p>$$\sigma(z) = \frac{1}{1 + e^{-z}}, \quad \sigma'(z) = \sigma(z)(1 - \sigma(z))$$. Continuously compresses the infinite real domain $$(-\infty, +\infty)$$ into a strict probability interval $$(0, 1)$$. Its derivative peaks at $$z=0$$ ($$0.25$$), ensuring the model learns fastest when it is most uncertain.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The 2D Probability Field</h4>
+    <p>$$P(y = 1 \mid \mathbf{x}) = \sigma(\mathbf{w} \cdot \mathbf{x} + b)$$. A single neuron paints the entire feature space with a smooth probability manifold. Right down the center lies the decision boundary ($$\mathbf{w}\cdot\mathbf{x} + b = 0$$), where prediction odds are exactly $$50\%$$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Binary Cross-Entropy & The XOR Trap</h4>
+    <p>$$\mathcal{L} = -[y \ln \hat{y} + (1-y)\ln(1-\hat{y})]$$. Prevents vanishing gradients on saturated plateaus. A single neuron can only draw linear boundaries; solving non-linear patterns like XOR requires stacking neurons into deep layers.</p>
+  </div>
+</div>
+
+<!-- Interactive AI Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ LIVE ARTIFICIAL NEURON & SIGMOID LABORATORY</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Signal Flow, S-Curve Squashing & 2D Probability Field Manifold)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabNeuron" class="sim-btn primary">1. Neuron Machine & Axon Dials</button>
+      <button id="btnTabSigmoid" class="sim-btn secondary">2. Sigmoid Squashing Sandbox</button>
+      <button id="btnTabField" class="sim-btn secondary">3. 2D Probability Field & XOR</button>
+      <button id="btnResetSim" class="sim-btn secondary">Reset State</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="neuronCanvas" width="1000" height="520" style="display:block; width:100%; height:100%;"></canvas>
+  </div>
+
+  <div class="sim-parameters-panel" style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam1" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">WEIGHT 1 (w₁): 1.40</label>
+      <input type="range" id="sliderParam1" min="-3.0" max="3.0" step="0.1" value="1.4" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam2" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">WEIGHT 2 (w₂): -0.80</label>
+      <input type="range" id="sliderParam2" min="-3.0" max="3.0" step="0.1" value="-0.8" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:200px;">
+      <label id="lblParam3" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">BIAS THRESHOLD (b): -0.50</label>
+      <input type="range" id="sliderParam3" min="-4.0" max="4.0" step="0.1" value="-0.5" style="width:100%;">
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('neuronCanvas');
+  const ctx = canvas.getContext('2d');
+  let activeTab = 1;
+
+  const btnTabNeuron = document.getElementById('btnTabNeuron');
+  const btnTabSigmoid = document.getElementById('btnTabSigmoid');
+  const btnTabField = document.getElementById('btnTabField');
+  const btnResetSim = document.getElementById('btnResetSim');
+
+  const slider1 = document.getElementById('sliderParam1');
+  const slider2 = document.getElementById('sliderParam2');
+  const slider3 = document.getElementById('sliderParam3');
+
+  const lbl1 = document.getElementById('lblParam1');
+  const lbl2 = document.getElementById('lblParam2');
+  const lbl3 = document.getElementById('lblParam3');
+
+  // Signal particles for Tab 1
+  let particles = [];
+  for (let i = 0; i < 30; i++) {
+    particles.push({
+      channel: Math.floor(Math.random() * 2),
+      prog: Math.random(),
+      speed: 0.4 + Math.random() * 0.4
+    });
+  }
+
+  // XOR and Cluster points for Tab 3
+  let isXORMode = false;
+
+  function setTab(tab) {
+    activeTab = tab;
+    btnTabNeuron.className = (tab === 1) ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabSigmoid.className = (tab === 2) ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabField.className = (tab === 3) ? 'sim-btn primary' : 'sim-btn secondary';
+
+    if (tab === 1) {
+      lbl1.textContent = `WEIGHT 1 (w₁): ${slider1.value}`;
+      lbl2.textContent = `WEIGHT 2 (w₂): ${slider2.value}`;
+      lbl3.textContent = `BIAS THRESHOLD (b): ${slider3.value}`;
+      slider1.min = -3.0; slider1.max = 3.0; slider1.step = 0.1; slider1.value = 1.4;
+      slider2.min = -3.0; slider2.max = 3.0; slider2.step = 0.1; slider2.value = -0.8;
+      slider3.min = -4.0; slider3.max = 4.0; slider3.step = 0.1; slider3.value = -0.5;
+    } else if (tab === 2) {
+      lbl1.textContent = `INPUT VALUE (z): ${slider1.value}`;
+      lbl2.textContent = `STEEPNESS COEFFICIENT: ${slider2.value}`;
+      lbl3.textContent = `CENTER SHIFT: ${slider3.value}`;
+      slider1.min = -6.0; slider1.max = 6.0; slider1.step = 0.1; slider1.value = 1.2;
+      slider2.min = 0.5; slider2.max = 3.0; slider2.step = 0.1; slider2.value = 1.0;
+      slider3.min = -3.0; slider3.max = 3.0; slider3.step = 0.1; slider3.value = 0.0;
+    } else {
+      lbl1.textContent = `SLOPE WEIGHT (w₁): ${slider1.value}`;
+      lbl2.textContent = `VERTICAL WEIGHT (w₂): ${slider2.value}`;
+      lbl3.textContent = `OFFSET BIAS (b): ${slider3.value}`;
+      slider1.min = -2.5; slider1.max = 2.5; slider1.step = 0.1; slider1.value = 1.2;
+      slider2.min = -2.5; slider2.max = 2.5; slider2.step = 0.1; slider2.value = -1.0;
+      slider3.min = -3.0; slider3.max = 3.0; slider3.step = 0.1; slider3.value = 0.0;
+    }
+  }
+
+  function updateLabels() {
+    if (activeTab === 1) {
+      lbl1.textContent = `WEIGHT 1 (w₁): ${slider1.value}`;
+      lbl2.textContent = `WEIGHT 2 (w₂): ${slider2.value}`;
+      lbl3.textContent = `BIAS THRESHOLD (b): ${slider3.value}`;
+    } else if (activeTab === 2) {
+      lbl1.textContent = `INPUT VALUE (z): ${slider1.value}`;
+      lbl2.textContent = `STEEPNESS COEFFICIENT: ${slider2.value}`;
+      lbl3.textContent = `CENTER SHIFT: ${slider3.value}`;
+    } else {
+      lbl1.textContent = `SLOPE WEIGHT (w₁): ${slider1.value}`;
+      lbl2.textContent = `VERTICAL WEIGHT (w₂): ${slider2.value}`;
+      lbl3.textContent = `OFFSET BIAS (b): ${slider3.value}`;
+    }
+  }
+
+  btnTabNeuron.onclick = () => setTab(1);
+  btnTabSigmoid.onclick = () => setTab(2);
+  btnTabField.onclick = () => setTab(3);
+
+  btnResetSim.onclick = () => {
+    if (activeTab === 1) {
+      slider1.value = 1.4; slider2.value = -0.8; slider3.value = -0.5;
+    } else if (activeTab === 2) {
+      slider1.value = 1.2; slider2.value = 1.0; slider3.value = 0.0;
+    } else {
+      slider1.value = 1.2; slider2.value = -1.0; slider3.value = 0.0;
+    }
+    updateLabels();
+  };
+
+  slider1.oninput = updateLabels;
+  slider2.oninput = updateLabels;
+  slider3.oninput = updateLabels;
+
+  let lastT = performance.now();
+  let simTime = 0;
+
+  function draw(now) {
+    const dt = Math.min(0.05, (now - lastT) / 1000);
+    lastT = now;
+    simTime += dt;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Background grid
+    ctx.strokeStyle = 'rgba(30, 41, 59, 0.4)';
+    ctx.lineWidth = 1;
+    for (let x = 40; x < canvas.width; x += 60) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 40; y < canvas.height; y += 60) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    if (activeTab === 1) {
+      drawNeuronTab(dt);
+    } else if (activeTab === 2) {
+      drawSigmoidTab(dt);
+    } else {
+      drawFieldTab(dt);
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  function drawNeuronTab(dt) {
+    const w1 = parseFloat(slider1.value);
+    const w2 = parseFloat(slider2.value);
+    const b = parseFloat(slider3.value);
+
+    // Oscillating test inputs x1, x2
+    const x1 = Math.sin(simTime * 1.5) * 0.9;
+    const x2 = Math.cos(simTime * 1.2) * 0.9;
+
+    const sx = 340;
+    const sy = 260;
+
+    const inX = 120;
+    const inY1 = sy - 90;
+    const inY2 = sy + 90;
+
+    // Draw Axon Cables
+    const drawCable = (x0, y0, x1, y1, w, col) => {
+      ctx.strokeStyle = col;
+      ctx.lineWidth = Math.max(2, Math.abs(w) * 3);
+      ctx.beginPath();
+      ctx.bezierCurveTo(x0 + 80, y0, (x0 + x1) / 2, y1, x1 - 40, y1);
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+    };
+
+    drawCable(inX, inY1, sx, sy, w1, w1 >= 0 ? '#38bdf8' : '#f59e0b');
+    drawCable(inX, inY2, sx, sy, w2, w2 >= 0 ? '#38bdf8' : '#f59e0b');
+
+    // Input Nodes
+    const drawNode = (x, y, val, label) => {
+      ctx.fillStyle = '#1e293b';
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(x, y, 24, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#f1f5f9';
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(val.toFixed(2), x, y + 4);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11px sans-serif';
+      ctx.fillText(label, x - 40, y + 4);
+    };
+
+    drawNode(inX, inY1, x1, 'x₁');
+    drawNode(inX, inY2, x2, 'x₂');
+
+    // Signal particles
+    particles.forEach(p => {
+      p.prog += p.speed * dt * 2.0;
+      if (p.prog > 1.0) p.prog -= 1.0;
+      const py0 = p.channel === 0 ? inY1 : inY2;
+      const px = inX + p.prog * (sx - inX);
+      const py = py0 + p.prog * (sy - py0);
+      const w = p.channel === 0 ? w1 : w2;
+      ctx.fillStyle = w >= 0 ? '#38bdf8' : '#f59e0b';
+      ctx.beginPath(); ctx.arc(px, py, 3.5, 0, Math.PI * 2); ctx.fill();
+    });
+
+    // Central Soma Node
+    const z = w1 * x1 + w2 * x2 + b;
+    const sig = 1.0 / (1.0 + Math.exp(-z));
+    const fires = sig >= 0.5;
+
+    ctx.fillStyle = fires ? 'rgba(236, 72, 153, 0.2)' : 'rgba(30, 41, 59, 0.8)';
+    ctx.strokeStyle = fires ? '#ec4899' : '#64748b';
+    ctx.lineWidth = 3.5;
+    ctx.beginPath(); ctx.arc(sx, sy, 55, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+    ctx.fillStyle = '#f1f5f9';
+    ctx.font = 'bold 13px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('Σ & σ(z)', sx, sy - 8);
+    ctx.fillStyle = fires ? '#ec4899' : '#94a3b8';
+    ctx.font = 'bold 14px monospace';
+    ctx.fillText(`z = ${z.toFixed(2)}`, sx, sy + 14);
+
+    // Output axon firing
+    ctx.strokeStyle = fires ? '#ec4899' : '#475569';
+    ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(sx + 55, sy); ctx.lineTo(sx + 150, sy); ctx.stroke();
+
+    ctx.fillStyle = fires ? '#ec4899' : '#64748b';
+    ctx.font = 'bold 13px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(`ŷ = σ(z) = ${sig.toFixed(3)}`, sx + 165, sy + 4);
+
+    // Telemetry Card on Right
+    const rx = 560;
+    const ry = 80;
+    const rw = 400;
+    const rh = 380;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(rx, ry, rw, rh);
+    ctx.strokeRect(rx, ry, rw, rh);
+
+    ctx.fillStyle = '#f1f5f9';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('PERCEPTRON ACCUMULATOR MATH', rx + 25, ry + 35);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '13px monospace';
+    ctx.fillText(`SYNAPSE 1: w₁ · x₁ = ${w1.toFixed(2)} × ${x1.toFixed(2)} = ${(w1 * x1).toFixed(2)}`, rx + 25, ry + 75);
+    ctx.fillText(`SYNAPSE 2: w₂ · x₂ = ${w2.toFixed(2)} × ${x2.toFixed(2)} = ${(w2 * x2).toFixed(2)}`, rx + 25, ry + 105);
+    ctx.fillText(`THRESHOLD BIAS b = ${b.toFixed(2)}`, rx + 25, ry + 135);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 15px monospace';
+    ctx.fillText(`NET POTENTIAL: z = ∑ wᵢ xᵢ + b = ${z.toFixed(3)}`, rx + 25, ry + 175);
+
+    ctx.fillStyle = fires ? '#ec4899' : '#64748b';
+    ctx.font = 'bold 18px monospace';
+    ctx.fillText(`ACTIVATION σ(z) = ${sig.toFixed(4)}`, rx + 25, ry + 215);
+
+    ctx.fillStyle = '#334155';
+    ctx.fillRect(rx + 25, ry + 235, rw - 50, 16);
+    ctx.fillStyle = fires ? '#ec4899' : '#38bdf8';
+    ctx.fillRect(rx + 25, ry + 235, (rw - 50) * sig, 16);
+
+    ctx.fillStyle = fires ? '#10b981' : '#f59e0b';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText(`DECISION: ${fires ? 'FIRE ACTION POTENTIAL (Class 1)' : 'SUB-THRESHOLD INHIBITED (Class 0)'}`, rx + 25, ry + 285);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText('• Excitatory weights (cyan) boost signal', rx + 25, ry + 320);
+    ctx.fillText('• Inhibitory weights (amber) suppress signal', rx + 25, ry + 345);
+  }
+
+  function drawSigmoidTab(dt) {
+    const inputZ = parseFloat(slider1.value);
+    const steepness = parseFloat(slider2.value);
+    const shift = parseFloat(slider3.value);
+
+    const ox = 280;
+    const oy = 300;
+    const plotW = 200;
+    const plotH = 160;
+
+    // Axes
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(ox - plotW, oy); ctx.lineTo(ox + plotW, oy);
+    ctx.moveTo(ox, oy + 20); ctx.lineTo(ox, oy - plotH - 20);
+    ctx.stroke();
+
+    // S-Curve
+    ctx.strokeStyle = '#ec4899';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let px = -plotW; px <= plotW; px += 3) {
+      const z = ((px / plotW) * 6.0 - shift) * steepness;
+      const sig = 1.0 / (1.0 + Math.exp(-z));
+      const py = oy - sig * plotH;
+      if (px === -plotW) ctx.moveTo(ox + px, py); else ctx.lineTo(ox + px, py);
+    }
+    ctx.stroke();
+
+    // Input marble projection
+    const zEff = (inputZ - shift) * steepness;
+    const sigVal = 1.0 / (1.0 + Math.exp(-zEff));
+    const curX = ox + (inputZ / 6.0) * plotW;
+    const curY = oy - sigVal * plotH;
+
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(curX, oy); ctx.lineTo(curX, curY); ctx.lineTo(ox, curY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Input dot
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath(); ctx.arc(curX, oy, 6, 0, Math.PI * 2); ctx.fill();
+
+    // Output dot
+    ctx.fillStyle = '#10b981';
+    ctx.beginPath(); ctx.arc(ox, curY, 6, 0, Math.PI * 2); ctx.fill();
+
+    // S-curve dot
+    ctx.fillStyle = '#ec4899';
+    ctx.beginPath(); ctx.arc(curX, curY, 8, 0, Math.PI * 2); ctx.fill();
+
+    // Secondary derivative plot below
+    const dSigVal = sigVal * (1.0 - sigVal);
+    const dyBase = 460;
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(ox - plotW, dyBase); ctx.lineTo(ox + plotW, dyBase); ctx.stroke();
+
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let px = -plotW; px <= plotW; px += 3) {
+      const z = ((px / plotW) * 6.0 - shift) * steepness;
+      const sig = 1.0 / (1.0 + Math.exp(-z));
+      const dS = sig * (1.0 - sig);
+      const py = dyBase - (dS / 0.25) * 50;
+      if (px === -plotW) ctx.moveTo(ox + px, py); else ctx.lineTo(ox + px, py);
+    }
+    ctx.stroke();
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = '11px monospace';
+    ctx.fillText(`Derivative σ'(z) = ${dSigVal.toFixed(3)} (Max 0.25 @ z=0)`, ox - 100, dyBase - 55);
+
+    // Explainer Card on Right
+    const rx = 560;
+    const ry = 80;
+    const rw = 400;
+    const rh = 380;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = 'rgba(236, 72, 153, 0.4)';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(rx, ry, rw, rh);
+    ctx.strokeRect(rx, ry, rw, rh);
+
+    ctx.fillStyle = '#f1f5f9';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText('SIGMOID SQUASHING OPERATOR', rx + 25, ry + 35);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '13px monospace';
+    ctx.fillText(`INPUT VALUE z = ${inputZ.toFixed(2)}`, rx + 25, ry + 75);
+    ctx.fillStyle = '#ec4899';
+    ctx.font = 'bold 18px monospace';
+    ctx.fillText(`σ(z) = 1 / (1 + e⁻ᶻ) = ${sigVal.toFixed(4)}`, rx + 25, ry + 110);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '13px monospace';
+    ctx.fillText(`DERIVATIVE σ'(z) = σ(z)(1 - σ(z)) = ${dSigVal.toFixed(4)}`, rx + 25, ry + 160);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText('1. BOUNDARY OF UNCERTAINTY (z ≈ 0):', rx + 25, ry + 210);
+    ctx.fillText('   σ = 0.50 | σ\' = 0.25 (Maximum gradient & rapid learning)', rx + 25, ry + 230);
+
+    ctx.fillText('2. SATURATED TAILS (|z| > 4):', rx + 25, ry + 265);
+    ctx.fillText('   σ → 0 or 1 | σ\' → 0.000 (Vanishing gradient deadzone)', rx + 25, ry + 285);
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = '13px monospace';
+    ctx.fillText(`PROBABILITY OUTPUT: ${(sigVal * 100).toFixed(1)}%`, rx + 25, ry + 335);
+  }
+
+  function drawFieldTab(dt) {
+    const w1 = parseFloat(slider1.value);
+    const w2 = parseFloat(slider2.value);
+    const b = parseFloat(slider3.value);
+
+    const ox = 260;
+    const oy = 260;
+    const fW = 380;
+    const fH = 340;
+
+    // Render coarse 2D probability field
+    const cell = 20;
+    for (let x = -fW / 2; x < fW / 2; x += cell) {
+      for (let y = -fH / 2; y < fH / 2; y += cell) {
+        const xF = x / (fW / 2);
+        const yF = -y / (fH / 2);
+        const z = w1 * xF + w2 * yF + b;
+        const p = 1.0 / (1.0 + Math.exp(-z));
+        ctx.fillStyle = p > 0.5 ? `rgba(236, 72, 153, ${(p - 0.5) * 1.4})` : `rgba(56, 189, 248, ${(0.5 - p) * 1.4})`;
+        ctx.fillRect(ox + x, oy + y, cell, cell);
+      }
+    }
+
+    // Border
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(ox - fW / 2, oy - fH / 2, fW, fH);
+
+    // Decision Line: w1*x + w2*y + b = 0 -> y = (-b - w1*x) / w2
+    if (Math.abs(w2) > 0.05) {
+      const x1 = -1.0;
+      const y1 = (-b - w1 * x1) / w2;
+      const x2 = 1.0;
+      const y2 = (-b - w1 * x2) / w2;
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(ox + x1 * (fW / 2), oy - y1 * (fH / 2));
+      ctx.lineTo(ox + x2 * (fW / 2), oy - y2 * (fH / 2));
+      ctx.stroke();
+    }
+
+    // XOR 4 Points
+    const pts = [
+      { x: -0.6, y: -0.6, cls: 0 },
+      { x: 0.6, y: 0.6, cls: 0 },
+      { x: -0.6, y: 0.6, cls: 1 },
+      { x: 0.6, y: -0.6, cls: 1 }
+    ];
+
+    pts.forEach(pt => {
+      const px = ox + pt.x * (fW / 2);
+      const py = oy - pt.y * (fH / 2);
+      ctx.fillStyle = pt.cls === 0 ? '#38bdf8' : '#ec4899';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(px, py, 7, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    });
+
+    // Right Telemetry Panel
+    const rx = 520;
+    const ry = 80;
+    const rw = 440;
+    const rh = 380;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(rx, ry, rw, rh);
+    ctx.strokeRect(rx, ry, rw, rh);
+
+    ctx.fillStyle = '#f1f5f9';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText('2D PROBABILITY FIELD & THE XOR TRAP', rx + 25, ry + 35);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '13px monospace';
+    ctx.fillText(`HYPERPLANE: ${w1.toFixed(2)}·x₁ + ${w2.toFixed(2)}·x₂ + ${b.toFixed(2)} = 0`, rx + 25, ry + 75);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 14px monospace';
+    ctx.fillText('NOTICE: NO SINGLE STRAIGHT LINE CAN SEPARATE XOR!', rx + 25, ry + 120);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '12px sans-serif';
+    ctx.fillText('• (0,0) and (1,1) are blue; (0,1) and (1,0) are pink.', rx + 25, ry + 155);
+    ctx.fillText('• Rotate or slide the line: you will always cut through wrong points.', rx + 25, ry + 180);
+    ctx.fillText('• 1969 Minsky & Papert Proof halted AI funding for a decade.', rx + 25, ry + 205);
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('THE SOLUTION IN VOL. III: DEEP HIDDEN LAYERS', rx + 25, ry + 250);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '12px sans-serif';
+    ctx.fillText('• 2 neurons draw 2 lines, carving out a triangular corridor.', rx + 25, ry + 280);
+    ctx.fillText('• Hidden layers fold 2D space into 3D, making XOR linearly separable.', rx + 25, ry + 305);
+    ctx.fillText('• Unlocks the Multilayer Perceptron & Backpropagation!', rx + 25, ry + 330);
+  }
+
+  requestAnimationFrame(draw);
+})();
+</script>
+
+<div class="article-footer-cta">
+  <p>Explore all artificial intelligence & neural network visual documentaries across the series:</p>
+  <a href="https://www.youtube.com/playlist?list=PLaHff4gNkMF8" target="_blank" class="btn btn-youtube">
+    ▶ Watch Neural Networks & LLMs YouTube Playlist
+  </a>
+</div>
+
