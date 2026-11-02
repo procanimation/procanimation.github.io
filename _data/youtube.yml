@@ -17,13 +17,13 @@
   - Multi-Head Attention
   - Deep Learning
   - Machine Learning
-- id: Txxw2aFrZgc
+- id: Vr6DQlbjgoE
   title: 'Convolutional Neural Networks (CNNs): The Geometry of Visual Perception'
   series: Neural Networks & AI
   format: Full Feature
   duration: 05:09
   badge: Vol. V
-  video_url: https://www.youtube.com/watch?v=Txxw2aFrZgc
+  video_url: https://www.youtube.com/watch?v=Vr6DQlbjgoE
   article_url: /experiments/convolutional-networks-vision.html
   gradient: 'linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #818cf8 100%)'
   description: Understand 2D spatial topology, discrete convolutions, sliding kernels,
