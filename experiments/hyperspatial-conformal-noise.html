@@ -1,0 +1,383 @@
+---
+layout: article
+title: "Hyperspatial & Conformal Noise: 4D Clifford Torus, Poincaré Disks & Damascene Manifolds"
+tagline: "Breaking Free from Flat 2D Grids: Double Rotations in S³, Cauchy-Riemann Orthogonality & Non-Euclidean Horizons"
+description: "Explore the cutting-edge mathematical frontiers of procedural noise: from 4-dimensional Clifford Torus embeddings and double rotations in SO(4) to Cauchy-Riemann orthogonal stream-potentials, Poincaré hyperbolic disk metrics, and acoustic Cymatic Chladni resonances through live interactive canvas simulations."
+category: "Procedural Generation & Generative Math"
+permalink: /experiments/hyperspatial-conformal-noise.html
+---
+
+<p class="article-lead">
+  For over forty years, computer graphics has largely treated procedural noise as a flat Euclidean canvas—sampling two coordinates, mapping elevation to a color gradient, and calling it terrain. But the physical universe is not a flat sheet. When we lift procedural noise into <strong>four-dimensional hyperspace</strong>, <strong>non-Euclidean hyperbolic manifolds</strong>, and <strong>conformal complex analysis</strong>, an entirely new visual aesthetic emerges. Coordinates breathe inside-out with zero boundary seams, orthogonal stream-potentials crystallize into folded Damascus steel, and hyperbolic metrics sculpt delicate radiolarian skeletons with mathematical precision.
+</p>
+
+<!-- Procedural Hyperspatial Mathematical Grid -->
+<h3>The Advanced Geometrical Foundations of Hyperspatial Noise</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>1. 4D Clifford Torus ($S^1 \times S^1 \subset S^3$)</h4>
+    <p>$$x_4 = \cos \theta, \; y_4 = \sin \theta, \; z_4 = \cos \phi, \; w_4 = \sin \phi$$. By mapping coordinates onto two independent orthogonal circles in four-space, double rotations in $$\text{SO}(4)$$ cause the noise pattern to breathe and invert organically with zero boundary cuts or repetition.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>2. Cauchy-Riemann Conformal Orthogonality</h4>
+    <p>$$\nabla \phi \cdot \nabla \psi \equiv 0, \; W(z) = \phi(x, y) + i \psi(x, y)$$. In complex analysis, holomorphic potentials enforce that lines of constant potential intersect streamlines at exact $$90^\circ$$ right angles, recreating the organic crystalline structures of Damascus steel and sliced agate.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>3. Poincaré Hyperbolic Horizons</h4>
+    <p>$$ds^2 = \frac{4(dx^2 + dy^2)}{(1 - r^2)^2}, \; r < 1$$. The conformal metric of hyperbolic space $$\mathbb{H}^2$$ contracts Euclidean space toward the circular event horizon, forcing procedural noise to branch into an infinite cascade of microscopic radiolarian micro-skeletons.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>4. Cymatic Chladni Standing Waves</h4>
+    <p>$$\cos(n \pi x) \cos(m \pi y) - \cos(m \pi x) \cos(n \pi y) = \text{noise}(x, y, t)$$. Coupling standing acoustic plate wave equations with procedural noise perturbations causes virtual sand particles to levitate into living sacred geometric mandalas.</p>
+  </div>
+</div>
+
+<!-- Interactive Hyperspatial Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>✨ LIVE HYPERSPATIAL & CONFORMAL NOISE LABORATORY</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(4D Clifford Torus, Conformal Damascene, Poincaré Radiolaria & Cymatic Mandalas)</span>
+    </div>
+    <div class="sim-controls">
+      <button id="btnTabTorus" class="sim-btn primary">1. 4D Clifford Torus</button>
+      <button id="btnTabDamascus" class="sim-btn secondary">2. Conformal Damascene</button>
+      <button id="btnTabPoincare" class="sim-btn secondary">3. Poincaré Radiolaria</button>
+      <button id="btnTabCymatic" class="sim-btn secondary">4. Cymatic Mandalas</button>
+      <button id="btnToggleAnim" class="sim-btn secondary">Pause / Play</button>
+    </div>
+  </div>
+
+  <div class="sim-canvas-container" style="position:relative; width:100%; height:520px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="hyperCanvas" width="1000" height="520" style="display:block; width:100%; height:100%;"></canvas>
+  </div>
+
+  <div class="sim-parameters-panel" style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:8px; margin-top:10px;">
+    <div class="param-group" style="flex:1; min-width:180px;">
+      <label id="lblFreq" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">HYPER-FREQUENCY: 1.8×</label>
+      <input type="range" id="sliderFreq" min="5" max="40" value="18" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:180px;">
+      <label id="lblSpeed" style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">PHASE VELOCITY: 1.0×</label>
+      <input type="range" id="sliderSpeed" min="0" max="30" value="10" style="width:100%;">
+    </div>
+    <div class="param-group" style="flex:1; min-width:180px;">
+      <label style="font-size:0.75rem; color:#94a3b8; font-family:monospace; display:block; margin-bottom:4px;">CHROMODYNAMIC PALETTE</label>
+      <select id="selectPalette" style="width:100%; background:#1e293b; color:#f8fafc; border:1px solid #475569; padding:6px; border-radius:4px; font-family:monospace;">
+        <option value="opal">Abalone Opal (Cyan / Gold / Magenta)</option>
+        <option value="damascus">Damascus Steel (Obsidian / Platinum / Gold)</option>
+        <option value="biolum">Deep-Sea Bioluminescence (Emerald / Indigo)</option>
+        <option value="cosmic">Cosmic Solar Flare (Amber / Crimson / Solar White)</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('hyperCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let activeTab = 1;
+  let isPlaying = true;
+  let simTime = 0;
+  let lastTimestamp = performance.now();
+
+  let freqMult = 1.8;
+  let phaseSpeed = 1.0;
+  let palette = 'opal';
+
+  let tracerParticles = [];
+  for (let i = 0; i < 450; i++) {
+    tracerParticles.push({
+      x: (Math.random() - 0.5) * 2.0,
+      y: (Math.random() - 0.5) * 1.0,
+      history: [],
+      life: Math.random() * 80,
+      maxLife: 60 + Math.random() * 60
+    });
+  }
+
+  function fastHash(x, y, z = 0, w = 0) {
+    let n = Math.sin(x * 12.9898 + y * 78.233 + z * 37.719 + w * 53.123 + 42.1337) * 43758.5453;
+    return n - Math.floor(n);
+  }
+
+  function smoothNoise4D(x, y, z, w) {
+    let xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z), wi = Math.floor(w);
+    let xf = x - xi, yf = y - yi, zf = z - zi, wf = w - wi;
+
+    let u = xf * xf * xf * (xf * (xf * 6 - 15) + 10);
+    let v = yf * yf * yf * (yf * (yf * 6 - 15) + 10);
+    let p = zf * zf * zf * (zf * (zf * 6 - 15) + 10);
+    let q = wf * wf * wf * (wf * (wf * 6 - 15) + 10);
+
+    let x00 = fastHash(xi, yi, zi, wi) * (1 - u) + fastHash(xi + 1, yi, zi, wi) * u;
+    let x10 = fastHash(xi, yi + 1, zi, wi) * (1 - u) + fastHash(xi + 1, yi + 1, zi, wi) * u;
+    let x01 = fastHash(xi, yi, zi + 1, wi) * (1 - u) + fastHash(xi + 1, yi, zi + 1, wi) * u;
+    let x11 = fastHash(xi, yi + 1, zi + 1, wi) * (1 - u) + fastHash(xi + 1, yi + 1, zi + 1, wi) * u;
+
+    let y0 = x00 * (1 - v) + x10 * v;
+    let y1 = x01 * (1 - v) + x11 * v;
+    let z0 = y0 * (1 - p) + y1 * p;
+
+    let x00w = fastHash(xi, yi, zi, wi + 1) * (1 - u) + fastHash(xi + 1, yi, zi, wi + 1) * u;
+    let x10w = fastHash(xi, yi + 1, zi, wi + 1) * (1 - u) + fastHash(xi + 1, yi + 1, zi, wi + 1) * u;
+    let x01w = fastHash(xi, yi, zi + 1, wi + 1) * (1 - u) + fastHash(xi + 1, yi, zi + 1, wi + 1) * u;
+    let x11w = fastHash(xi, yi + 1, zi + 1, wi + 1) * (1 - u) + fastHash(xi + 1, yi + 1, zi + 1, wi + 1) * u;
+
+    let y0w = x00w * (1 - v) + x10w * v;
+    let y1w = x01w * (1 - v) + x11w * v;
+    let z1 = y0w * (1 - p) + y1w * p;
+
+    return z0 * (1 - q) + z1 * q;
+  }
+
+  function getColor(val, alpha = 1.0) {
+    val = Math.max(0, Math.min(1, val));
+    let r, g, b;
+    if (palette === 'opal') {
+      if (val < 0.25) {
+        let s = val / 0.25;
+        r = 2 + 12 * s; g = 6 + 180 * s; b = 23 + 225 * s;
+      } else if (val < 0.5) {
+        let s = (val - 0.25) / 0.25;
+        r = 14 + 2 * s; g = 186 - 10 * s; b = 248 - 119 * s;
+      } else if (val < 0.75) {
+        let s = (val - 0.5) / 0.25;
+        r = 16 + 220 * s; g = 176 - 104 * s; b = 129 + 118 * s;
+      } else {
+        let s = (val - 0.75) / 0.25;
+        r = 236 + 9 * s; g = 72 + 86 * s; b = 247 - 236 * s;
+      }
+    } else if (palette === 'damascus') {
+      if (val < 0.33) {
+        let s = val / 0.33;
+        r = 15 + 40 * s; g = 23 + 45 * s; b = 42 + 50 * s;
+      } else if (val < 0.66) {
+        let s = (val - 0.33) / 0.33;
+        r = 55 + 160 * s; g = 68 + 165 * s; b = 92 + 160 * s;
+      } else {
+        let s = (val - 0.66) / 0.34;
+        r = 215 + 30 * s; g = 233 - 55 * s; b = 252 - 240 * s;
+      }
+    } else if (palette === 'biolum') {
+      if (val < 0.5) {
+        let s = val / 0.5;
+        r = 5 + 15 * s; g = 10 + 175 * s; b = 35 + 213 * s;
+      } else {
+        let s = (val - 0.5) / 0.5;
+        r = 20 - 4 * s; g = 185 + 2 * s; b = 248 - 119 * s;
+      }
+    } else {
+      if (val < 0.33) {
+        let s = val / 0.33;
+        r = 15 + 190 * s; g = 10 + 20 * s; b = 25 + 30 * s;
+      } else if (val < 0.66) {
+        let s = (val - 0.33) / 0.33;
+        r = 205 + 40 * s; g = 30 + 128 * s; b = 55 - 44 * s;
+      } else {
+        let s = (val - 0.66) / 0.34;
+        r = 245 + 10 * s; g = 158 + 92 * s; b = 11 + 241 * s;
+      }
+    }
+    return `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${alpha})`;
+  }
+
+  // Buttons
+  const btnTabTorus = document.getElementById('btnTabTorus');
+  const btnTabDamascus = document.getElementById('btnTabDamascus');
+  const btnTabPoincare = document.getElementById('btnTabPoincare');
+  const btnTabCymatic = document.getElementById('btnTabCymatic');
+  const btnToggleAnim = document.getElementById('btnToggleAnim');
+
+  function setTab(tab) {
+    activeTab = tab;
+    btnTabTorus.className = tab === 1 ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabDamascus.className = tab === 2 ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabPoincare.className = tab === 3 ? 'sim-btn primary' : 'sim-btn secondary';
+    btnTabCymatic.className = tab === 4 ? 'sim-btn primary' : 'sim-btn secondary';
+  }
+
+  btnTabTorus.addEventListener('click', () => setTab(1));
+  btnTabDamascus.addEventListener('click', () => setTab(2));
+  btnTabPoincare.addEventListener('click', () => setTab(3));
+  btnTabCymatic.addEventListener('click', () => setTab(4));
+
+  btnToggleAnim.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    btnToggleAnim.textContent = isPlaying ? "Pause / Play" : "Resume Play";
+  });
+
+  const sliderFreq = document.getElementById('sliderFreq');
+  const sliderSpeed = document.getElementById('sliderSpeed');
+  const selectPalette = document.getElementById('selectPalette');
+  const lblFreq = document.getElementById('lblFreq');
+  const lblSpeed = document.getElementById('lblSpeed');
+
+  sliderFreq.addEventListener('input', (e) => {
+    freqMult = parseFloat(e.target.value) / 10.0;
+    lblFreq.textContent = `HYPER-FREQUENCY: ${freqMult.toFixed(1)}×`;
+  });
+  sliderSpeed.addEventListener('input', (e) => {
+    phaseSpeed = parseFloat(e.target.value) / 10.0;
+    lblSpeed.textContent = `PHASE VELOCITY: ${phaseSpeed.toFixed(1)}×`;
+  });
+  selectPalette.addEventListener('change', (e) => {
+    palette = e.target.value;
+  });
+
+  function render(now) {
+    let dt = (now - lastTimestamp) / 1000.0;
+    lastTimestamp = now;
+
+    if (isPlaying) {
+      simTime += dt * phaseSpeed;
+    }
+
+    ctx.fillStyle = 'rgba(2, 6, 23, 0.25)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    let w = canvas.width;
+    let h = canvas.height;
+    let cx = w / 2;
+    let cy = h / 2;
+
+    if (activeTab === 1) {
+      // 4D Clifford Torus
+      let alpha = simTime * 0.4;
+      let beta = simTime * 0.6;
+      let step = 14;
+
+      for (let y = 0; y < h; y += step) {
+        for (let x = 0; x < w; x += step) {
+          let u = (x / w) * Math.PI * 2 * freqMult;
+          let v = (y / h) * Math.PI * 2 * freqMult;
+
+          let x4 = Math.cos(u);
+          let y4 = Math.sin(u);
+          let z4 = Math.cos(v);
+          let w4 = Math.sin(v);
+
+          let rx1 = x4 * Math.cos(alpha) - y4 * Math.sin(alpha);
+          let ry1 = x4 * Math.sin(alpha) + y4 * Math.cos(alpha);
+          let rz1 = z4 * Math.cos(beta) - w4 * Math.sin(beta);
+          let rw1 = z4 * Math.sin(beta) + w4 * Math.cos(beta);
+
+          let n = smoothNoise4D(rx1 * 1.5, ry1 * 1.5, rz1 * 1.5, rw1 * 1.5);
+          let iso = (n * 14) % 1.0;
+          if (iso < 0.18) {
+            ctx.fillStyle = getColor(n, 0.4);
+            ctx.fillRect(x, y, step, step);
+          }
+        }
+      }
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 15px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText("MODE 1: 4D CLIFFORD TORUS EMBEDDING (DOUBLE ROTATION IN S³)", 40, 40);
+    } else if (activeTab === 2) {
+      // Conformal Damascene
+      let step = 12;
+      let scale = freqMult * 0.003;
+
+      for (let y = 0; y < h; y += step) {
+        for (let x = 0; x < w; x += step) {
+          let nx = x * scale;
+          let ny = y * scale;
+
+          let phi = smoothNoise4D(nx, ny, simTime * 0.15, 0);
+          let psi = smoothNoise4D(nx + 15.3, ny + 27.8, simTime * 0.15, 0);
+
+          let isoPhi = Math.sin(phi * Math.PI * 14);
+          let isoPsi = Math.sin(psi * Math.PI * 14);
+
+          let intensity = Math.pow(Math.abs(isoPhi * isoPsi), 0.25);
+          if (intensity > 0.65) {
+            let val = (phi + psi) * 0.5;
+            ctx.fillStyle = getColor(val, (intensity - 0.65) * 2.8);
+            ctx.fillRect(x, y, step, step);
+          }
+        }
+      }
+
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = 'bold 15px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText("MODE 2: CONFORMAL DAMASCENE FILIGREE (∇ϕ ⊥ ∇ψ CAUCHY-RIEMANN MESH)", 40, 40);
+    } else if (activeTab === 3) {
+      // Poincaré Radiolaria
+      let maxR = Math.min(cx, cy) * 0.90;
+      ctx.strokeStyle = 'rgba(168, 85, 247, 0.5)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, maxR, 0, Math.PI * 2);
+      ctx.stroke();
+
+      let step = 12;
+      for (let y = cy - maxR; y <= cy + maxR; y += step) {
+        for (let x = cx - maxR; x <= cx + maxR; x += step) {
+          let dx = (x - cx) / maxR;
+          let dy = (y - cy) / maxR;
+          let r2 = dx * dx + dy * dy;
+
+          if (r2 < 0.96) {
+            let r = Math.sqrt(r2);
+            let hyperScale = r / (1.0 - r2 + 0.05);
+            let theta = Math.atan2(dy, dx);
+            let hx = Math.cos(theta) * hyperScale * freqMult * 0.6;
+            let hy = Math.sin(theta) * hyperScale * freqMult * 0.6;
+
+            let n = smoothNoise4D(hx, hy, simTime * 0.2, 0);
+            let iso = (n * 14) % 1.0;
+            if (iso < 0.20) {
+              let fade = 1.0 - Math.pow(r, 6);
+              ctx.fillStyle = getColor(n, fade * 0.75);
+              ctx.fillRect(x, y, step, step);
+            }
+          }
+        }
+      }
+
+      ctx.fillStyle = '#a855f7';
+      ctx.font = 'bold 15px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText("MODE 3: POINCARÉ HYPERBOLIC RADIOLARIA (FRACTAL HORIZON EXPANSION)", 40, 40);
+    } else {
+      // Cymatic Mandalas
+      let step = 12;
+      let nMode = Math.round(freqMult * 2);
+      let mMode = Math.round(freqMult * 3);
+
+      for (let y = 0; y < h; y += step) {
+        for (let x = 0; x < w; x += step) {
+          let u = (x / w - 0.5) * 2;
+          let v = (y / h - 0.5) * 2;
+
+          let chladni = Math.cos(nMode * Math.PI * u * 0.5) * Math.cos(mMode * Math.PI * v * 0.5) -
+                        Math.cos(mMode * Math.PI * u * 0.5) * Math.cos(nMode * Math.PI * v * 0.5);
+          let pNoise = smoothNoise4D(u * 2.0, v * 2.0, simTime * 0.25, 0);
+          let combined = Math.abs(chladni - (pNoise - 0.5) * 1.6);
+
+          if (combined < 0.18) {
+            let intensity = 1.0 - (combined / 0.18);
+            ctx.fillStyle = getColor(pNoise, intensity * 0.8);
+            ctx.fillRect(x, y, step, step);
+          }
+        }
+      }
+
+      ctx.fillStyle = '#ec4899';
+      ctx.font = 'bold 15px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText("MODE 4: CYMATIC CHLADNI RESONANCES (ACOUSTIC NODAL SACRED GEOMETRY)", 40, 40);
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  setTab(1);
+  requestAnimationFrame(render);
+})();
+</script>

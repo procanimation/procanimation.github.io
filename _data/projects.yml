@@ -1,4 +1,15 @@
 # Public Creative Coding Showcase Projects
+- name: "Hyperspatial & Conformal Noise: 4D Clifford Torus & Damascene Manifolds"
+  slug: "hyperspatial-conformal-noise"
+  category: "math"
+  tag: "Procedural Generation • Generative Math"
+  tech: "p5.js / 4D Clifford Torus, Conformal Stream-Potentials & Poincaré Disk Engine"
+  description: "4D Clifford Torus embeddings, double rotations in SO(4), Cauchy-Riemann conformal stream-potentials, non-Euclidean Poincaré hyperbolic horizons, and acoustic Cymatic mandalas."
+  article_url: "/experiments/hyperspatial-conformal-noise.html"
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/hyperspatial_conformal_noise"
+  featured: true
+  gradient: "linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #38bdf8 100%)"
+
 - name: "Vector Flow Fields & Curl Noise: The Fluid Dynamics of Generative Art"
   slug: "flow-fields-curl-noise"
   category: "math"
