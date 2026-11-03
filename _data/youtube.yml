@@ -285,6 +285,7 @@
   gradient: 'linear-gradient(135deg, #38bdf8 0%, #fee440 50%, #ef4444 100%)'
   video_url: https://www.youtube.com/watch?v=KoTyjyLbsLI
   article_url: /experiments/universal-gravitation-kepler.html
+  id: KoTyjyLbsLI
 - title: 'The Aharonov-Bohm Effect: Quantum Non-Locality & The Reality of Potentials'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -316,6 +317,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
   video_url: https://www.youtube.com/watch?v=41BJIC9s54U
   article_url: /experiments/aharonov-bohm-effect.html
+  id: 41BJIC9s54U
 - title: 'Rotational Motion & Angular Momentum: Gyroscopes, Precession & The Figure
     Skater Spin'
   series: Documentary Feature
@@ -340,6 +342,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #a855f7 100%)'
   video_url: https://www.youtube.com/watch?v=rhHsJUhPa60
   article_url: /experiments/rotational-motion-angular-momentum.html
+  id: rhHsJUhPa60
 - title: Work, Kinetic Energy & The Rollercoaster of Physics
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -365,6 +368,7 @@
   gradient: 'linear-gradient(135deg, #38bdf8 0%, #facc15 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=n4yfwllP93c
   article_url: /experiments/work-energy-rollercoaster.html
+  id: n4yfwllP93c
 - title: 'Newton''s 3 Laws of Motion: The Visual Intuition Guide'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -390,6 +394,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=JmGX7d8gWmA
   article_url: /experiments/newtons-laws-of-motion.html
+  id: JmGX7d8gWmA
 - title: 'Momentum, Collisions & The Center of Mass: The Invariant Laws of Impact'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -413,6 +418,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=pPXzbWcGUi4
   article_url: /experiments/momentum-collisions-center-of-mass.html
+  id: pPXzbWcGUi4
 - title: '2D Motion & Projectile Trajectories: Parabolic Envelopes & Orbital Mechanics'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -436,6 +442,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=z3938q0OjIc
   article_url: /experiments/2d-projectile-motion.html
+  id: z3938q0OjIc
 - title: '1D Motion & The Calculus of Kinematics: Derivatives, Concavity & Galileo''s
     Laws'
   series: Documentary Feature
@@ -461,6 +468,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
   video_url: https://www.youtube.com/watch?v=eXH3xWs5REM
   article_url: /experiments/1d-motion-kinematics.html
+  id: eXH3xWs5REM
 - title: 'The Ising Model & Phase Transitions: Spontaneous Magnetism & Criticality'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -482,6 +490,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=3_lUs6Mzut8
   article_url: /experiments/ising-model-magnetism.html
+  id: 3_lUs6Mzut8
 - title: 'The Hopf Fibration: Visualizing 4D Space & The Quantum Spin Sphere'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -502,6 +511,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)'
   video_url: https://www.youtube.com/watch?v=ZUJKVoE-kaU
   article_url: /experiments/hopf-fibration-4d.html
+  id: ZUJKVoE-kaU
 - title: 'The Dirac Equation: Antimatter, Spin & Relativistic Quantum Mechanics'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -522,6 +532,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=X-41tOHU91s
   article_url: /experiments/dirac-equation-antimatter.html
+  id: X-41tOHU91s
 - title: 'Noether''s Theorem: The Hidden Symmetries That Rule the Universe'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -544,6 +555,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #fee440 100%)'
   video_url: https://www.youtube.com/watch?v=aRzTXuSnWz4
   article_url: /experiments/noethers-theorem.html
+  id: aRzTXuSnWz4
 - title: 'The Quantum Harmonic Oscillator & Zero-Point Energy: Coherent States & Quantum
     Vacuum Fluctuations'
   series: Documentary Feature
@@ -565,6 +577,7 @@
   gradient: 'linear-gradient(135deg, #a855f7 0%, #00f5d4 50%, #fee440 100%)'
   video_url: https://www.youtube.com/watch?v=DznV1u24Dg0
   article_url: /experiments/quantum-harmonic-oscillator.html
+  id: DznV1u24Dg0
 - title: 'Maxwell''s Equations & Electrodynamics: Light, Gauge Invariance & The Speed
     of Reality'
   series: Documentary Feature
@@ -586,6 +599,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=pH-zCFPHygs
   article_url: /experiments/maxwell-electrodynamics.html
+  id: pH-zCFPHygs
 - title: 'Solitons & The Korteweg–de Vries Equation: Non-Linear Waves That Refuse
     to Die'
   series: Documentary Feature
@@ -605,6 +619,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=jl27lx1xcks
   article_url: /experiments/solitons-kdv-equation.html
+  id: jl27lx1xcks
 - title: 'Lissajous Figures & Coupled Resonators: Harmonic Geometry & Energy Beats'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -623,6 +638,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=q-zJXcQ6ezc
   article_url: /experiments/lissajous-coupled-resonators.html
+  id: q-zJXcQ6ezc
 - title: 'Foucault''s Pendulum & The Coriolis Effect: Earth''s Rotation & Holonomy
     on S²'
   series: Documentary Feature
@@ -642,6 +658,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=3o8GQWaFcU0
   article_url: /experiments/foucault-pendulum-coriolis.html
+  id: 3o8GQWaFcU0
 - title: 'Hamiltonian Mechanics & The Geometry of Phase Space: Liouville''s Law &
     Chaos'
   series: Documentary Feature
@@ -661,6 +678,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=ZwvFWbBMvoQ
   article_url: /experiments/hamiltonian-phase-space.html
+  id: ZwvFWbBMvoQ
 - title: 'The Architecture of Chaos: When Simple Rules Build the Universe'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -678,6 +696,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #ffb703 100%)'
   video_url: https://www.youtube.com/watch?v=mLvYWNr5tNo
   article_url: /experiments/cellular-automata-rule30.html
+  id: mLvYWNr5tNo
 - title: 'The Music of the Cosmos: How the Fourier Transform Explains Reality'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -694,6 +713,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=J0Vgf_xLiZo
   article_url: /experiments/fourier-series.html
+  id: J0Vgf_xLiZo
 - title: 'The Gravitational Ballet: Chaos in Celestial Mechanics'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -711,6 +731,7 @@
   gradient: 'linear-gradient(135deg, #0077b6 0%, #00f5d4 50%, #fee440 100%)'
   video_url: https://www.youtube.com/watch?v=pPXzhInf4xA
   article_url: /experiments/three-body-problem.html
+  id: pPXzhInf4xA
 - title: 'The Geometry of Life: How Physics Builds Living Order'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -728,6 +749,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #ec4899 100%)'
   video_url: https://www.youtube.com/watch?v=YdSTRGYKb68
   article_url: /experiments/turing-morphogenesis.html
+  id: YdSTRGYKb68
 - title: 'The Holographic Universe: Are We Living on the Edge of Spacetime?'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -745,6 +767,7 @@
   gradient: 'linear-gradient(135deg, #7209b7 0%, #f72585 50%, #00f5d4 100%)'
   video_url: https://www.youtube.com/watch?v=dEanJ_qEqns
   article_url: /experiments/black-hole-gravitational-lensing.html
+  id: dEanJ_qEqns
 - title: 'The Arrow of Time: Why Yesterday Can Never Be Undone'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -762,6 +785,7 @@
   gradient: 'linear-gradient(135deg, #ff0055 0%, #ff5500 50%, #00f5d4 100%)'
   video_url: https://www.youtube.com/watch?v=O-0rUbsY_Lo
   article_url: /experiments/arrow-of-time.html
+  id: O-0rUbsY_Lo
 - title: 'The Quantum Observer: Does Reality Exist When Nobody is Looking?'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -779,6 +803,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=GjL8bOBPv1o
   article_url: /experiments/quantum-observer.html
+  id: GjL8bOBPv1o
 - title: 'Quantum Tunneling: Defying the Walls of Reality'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -796,6 +821,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=3RXshPfWtrw
   article_url: /experiments/quantum-tunneling.html
+  id: 3RXshPfWtrw
 - title: 'The Infinite Continuum: Cantor''s Transfinite Revolution'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -813,6 +839,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=dLDk9Sh8t-U
   article_url: /experiments/cantors-infinity.html
+  id: dLDk9Sh8t-U
 - title: 'The Quantum Fabric: Spooky Action at a Distance & Bell''s Theorem'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -830,6 +857,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=HAAOUW6ZJwQ
   article_url: /experiments/quantum-entanglement.html
+  id: HAAOUW6ZJwQ
 - title: 'The Ripples of Spacetime: Gravitational Waves & Warped Geometry'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -847,6 +875,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=AuaWbIELFkQ
   article_url: /experiments/gravitational-waves.html
+  id: AuaWbIELFkQ
 - title: 'The Riemann Hypothesis: The Cosmic Music of the Primes'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -864,6 +893,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=SWjjEUnevdU
   article_url: /experiments/riemann-hypothesis.html
+  id: SWjjEUnevdU
 - title: 'The Computational Cosmos: Turing Completeness in Conway''s Game of Life'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -881,6 +911,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
   video_url: https://www.youtube.com/watch?v=t1eeSNWcto0
   article_url: /experiments/game-of-life-turing.html
+  id: t1eeSNWcto0
 - title: 'The Einstein-Rosen Bridge: Traversable Wormholes & Exotic Matter'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -898,6 +929,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=p1bOnMH6yfg
   article_url: /experiments/wormholes-exotic-matter.html
+  id: p1bOnMH6yfg
 - title: 'Self-Organized Criticality: The Sandpile Model & The 1/f Cosmic Pulse'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -915,6 +947,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
   video_url: https://www.youtube.com/watch?v=tNblesFu3J0
   article_url: /experiments/self-organized-criticality.html
+  id: tNblesFu3J0
 - title: 'The Quantum Computer: Shor''s Algorithm, Superposition & The Death of RSA'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -932,6 +965,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=K1nqF-wM5gU
   article_url: /experiments/quantum-computing-shor.html
+  id: K1nqF-wM5gU
 - title: 'The Navier-Stokes Enigma: Turbulence, Vortex Cascades & The Millennium Singularity'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -949,6 +983,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=4f2a1NrDba8
   article_url: /experiments/navier-stokes-turbulence.html
+  id: 4f2a1NrDba8
 - title: 'The Topology of Reality: Poincaré Conjecture & Perelman''s Ricci Flow'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -966,6 +1001,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=S4ZbFUKeQgo
   article_url: /experiments/poincare-conjecture-ricci.html
+  id: S4ZbFUKeQgo
 - title: 'Cosmic Inflation & The Multiverse: Inflaton Dynamics & The Cosmic Seeds'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -983,6 +1019,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fee440 100%)'
   video_url: https://www.youtube.com/watch?v=q7ADNAIZUq8
   article_url: /experiments/cosmic-inflation-multiverse.html
+  id: q7ADNAIZUq8
 - title: 'The P vs NP Enigma: The Limits of Computation & The Intrinsic Hardness of
     Reality'
   series: Documentary Feature
@@ -1000,6 +1037,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #7209b7 50%, #f72585 100%)'
   video_url: https://www.youtube.com/watch?v=oSJD2UT2b5Y
   article_url: /experiments/p-vs-np-enigma.html
+  id: oSJD2UT2b5Y
 - title: 'The Yang-Mills Mass Gap: Quark Confinement & The Origin of Mass'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -1018,6 +1056,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=bEziNRa2nWA
   article_url: /experiments/yang-mills-mass-gap.html
+  id: bEziNRa2nWA
 - title: 'The Brachistochrone: The Geometry of Light & The Calculus of Variations'
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master • p5.js)
@@ -1036,6 +1075,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #fee440 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=BGQ0ZRWK8Jg
   article_url: /experiments/brachistochrone-calculus-variations.html
+  id: BGQ0ZRWK8Jg
 - title: 'The Dzhanibekov Effect & The Tennis Racket Theorem: Euler''s Rigid Body
     Chaos'
   series: Documentary Feature
@@ -1055,6 +1095,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)'
   video_url: https://www.youtube.com/watch?v=LDX4p3W8lmA
   article_url: /experiments/dzhanibekov-tennis-racket.html
+  id: LDX4p3W8lmA
 - title: 'The Spiral That Broke Randomness: The Ulam Spiral'
   series: Number Theory & Prime Density
   format: Shorts (9:16 Vertical)
@@ -1208,6 +1249,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4, #06d6a0, #ffbe0b)'
   video_url: https://www.youtube.com/watch?v=k1gCvbj1PAA
   article_url: /experiments/conways-game-of-life.html
+  id: k1gCvbj1PAA
 - title: 'The Quantum Double Slit Experiment: Reality Changes When You Look'
   series: Quantum Mechanics
   format: Shorts (9:16 Vertical • 30 FPS)
@@ -1224,6 +1266,7 @@
   gradient: 'linear-gradient(135deg, #00f5d4, #7209b7, #f72585)'
   video_url: https://www.youtube.com/watch?v=0W6v_AxhsXg
   article_url: /experiments/quantum-double-slit.html
+  id: 0W6v_AxhsXg
 - title: 'Von Kármán Vortex Streets: The Hidden Rhythm of Fluid Turbulence'
   series: Fluid Dynamics
   format: Shorts (9:16 Vertical • 30 FPS)
