@@ -704,5 +704,19 @@
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #ffb703 50%, #38bdf8 100%)"
 
+- id: "penrose-tiling"
+  slug: "penrose-tiling"
+  category: "math"
+  name: "Penrose Tiling & Quasicrystals"
+  tag: "Aperiodic Geometry • Quasicrystals"
+  tech: "HTML5 Canvas • Robinson Deflation • p5.js"
+  description: "Roger Penrose's 1974 discovery of non-periodic five-fold plane tiling, golden ratio deflation, and Dan Shechtman's 2011 Nobel prize in quasicrystals."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/penrose_tiling"
+  article_url: "/experiments/penrose-tiling-quasicrystals.html"
+  demo_url: "/experiments/penrose-tiling-quasicrystals.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #ffd166 50%, #ff007f 100%)"
+
+
 
 

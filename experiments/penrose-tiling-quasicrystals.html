@@ -1,0 +1,184 @@
+---
+layout: article
+title: "Penrose Tiling & Quasicrystals: The Five-Fold Aperiodic Infinity"
+tagline: "Roger Penrose's 1974 Discovery, The Golden Ratio & Dan Shechtman's 2011 Nobel Prize"
+description: "How two golden rhombuses break the 200-year crystallographic restriction theorem to tile the infinite plane with five-fold symmetry without ever repeating."
+category: "Pure Mathematics & Theoretical Physics"
+permalink: /experiments/penrose-tiling-quasicrystals.html
+---
+
+<p class="article-lead">
+  For over two centuries, crystallographers swore that five-fold rotational symmetry was mathematically impossible in nature: a flat floor can be tiled with triangles, squares, or hexagons, but never pentagons without leaving gaps. In 1974, Oxford physicist <strong>Sir Roger Penrose</strong> shattered this dogma using just two simple golden rhombuses—thick and thin. He discovered a mathematical miracle: an <strong>aperiodic tiling</strong> that tiles the infinite universe with local 5-fold and 10-fold symmetry, yet never repeats a single translational motif.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Quasicrystal & Penrose Tiling Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Crystallographic Restriction Theorem</h4>
+    <p>In standard periodic crystal lattices, spatial translation symmetry strictly limits rotational symmetries to 2-fold, 3-fold, 4-fold, or 6-fold ($n \in \{2, 3, 4, 6\}$). Five-fold rotational symmetry ($\theta = 72^\circ$) was long proven to be impossible for any repeating Euclidean lattice.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Robinson Triangle Deflation</h4>
+    <p>The Penrose P3 tiling is decomposed into two isosceles Robinson triangles: acute Golden Triangles ($36^\circ, 72^\circ, 72^\circ$) and obtuse Golden Gnomons ($108^\circ, 36^\circ, 36^\circ$). Under recursive subdivision, every triangle deflates by the Golden Ratio $\phi = \frac{1+\sqrt{5}}{2} \approx 1.6180339887$, spawning self-similar infinite patterns.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Golden Ratio Asymptote ($\phi$)</h4>
+    <p>In any finite patch of Penrose tiling, let $N_{\text{thick}}$ and $N_{\text{thin}}$ be the counts of thick and thin rhombuses. As the area approaches infinity, their ratio converges strictly to the Golden Ratio: $\lim_{A \to \infty} \frac{N_{\text{thick}}}{N_{\text{thin}}} = \phi$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Dan Shechtman's Quasicrystals (2011 Nobel Prize)</h4>
+    <p>In 1982, Israeli materials scientist Dan Shechtman observed sharp 10-fold electron diffraction peaks in a rapidly quenched aluminum-manganese alloy ($Al_6Mn$). Mocked initially by Linus Pauling, Shechtman was awarded the 2011 Nobel Prize in Chemistry when Penrose tiling explained real physical quasicrystals.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>✨ REAL-TIME PENROSE TILING ENGINE</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Robinson Triangle Deflation & Quasicrystal Mandala)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Thick Rhombus (72°/108°)</span>
+      <span style="color:#f72585;">● Thin Rhombus (36°/144°)</span>
+      <span style="color:#fbbf24;">● Ratio $\to \phi$</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:580px; background:#02040a; border-radius:8px; overflow:hidden;">
+    <canvas id="penroseCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; display:flex; gap:10px; z-index:10;">
+      <button id="btnDeflate" style="background:#00f5d4; color:#02040a; border:none; padding:8px 16px; font-weight:700; border-radius:6px; cursor:pointer;">Subdivide (+1 Order)</button>
+      <button id="btnReset" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; font-weight:600; border-radius:6px; cursor:pointer;">Reset to Seed</button>
+      <button id="btnToggleSpin" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; font-weight:600; border-radius:6px; cursor:pointer;">Toggle Rotation</button>
+    </div>
+
+    <div id="telemetryBadge" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.85); border:1px solid rgba(0,245,212,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      Order: 1 | Tiles: 30 | Ratio: 2.0000
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const canvas = document.getElementById('penroseCanvas');
+    const ctx = canvas.getContext('2d');
+    const telemetry = document.getElementById('telemetryBadge');
+    const PHI = (1 + Math.sqrt(5)) / 2;
+
+    let width, height;
+    function resize() {
+      width = canvas.parentElement.clientWidth;
+      height = canvas.parentElement.clientHeight;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function subdivide(triangles) {
+      const next = [];
+      for (let i = 0; i < triangles.length; i++) {
+        const [color, A, B, C] = triangles[i];
+        if (color === 0) {
+          const P = [A[0] + (B[0] - A[0]) / PHI, A[1] + (B[1] - A[1]) / PHI];
+          next.push([0, C, P, B]);
+          next.push([1, P, C, A]);
+        } else {
+          const Q = [B[0] + (A[0] - B[0]) / PHI, B[1] + (A[1] - B[1]) / PHI];
+          const R = [B[0] + (C[0] - B[0]) / PHI, B[1] + (C[1] - B[1]) / PHI];
+          next.push([1, R, C, A]);
+          next.push([1, Q, R, B]);
+          next.push([0, R, Q, A]);
+        }
+      }
+      return next;
+    }
+
+    let order = 1;
+    let triangles = [];
+    const baseR = 360;
+
+    function initSeed() {
+      order = 1;
+      let seed = [];
+      for (let i = 0; i < 10; i++) {
+        const a1 = (2 * i - 1) * Math.PI / 10;
+        const a2 = (2 * i + 1) * Math.PI / 10;
+        let A = [baseR * Math.cos(a1), baseR * Math.sin(a1)];
+        let C = [baseR * Math.cos(a2), baseR * Math.sin(a2)];
+        if (i % 2 === 0) { const tmp = A; A = C; C = tmp; }
+        seed.push([1, A, [0, 0], C]);
+      }
+      triangles = subdivide(seed);
+      updateTelemetry();
+    }
+
+    function updateTelemetry() {
+      const reds = triangles.filter(t => t[0] === 0).length;
+      const blues = triangles.filter(t => t[0] === 1).length;
+      const ratio = reds > 0 ? (blues / reds).toFixed(4) : "2.0000";
+      telemetry.innerHTML = `Order: ${order} | Tiles: ${triangles.length} | Blue/Red: ${ratio} &rarr; &phi;`;
+    }
+
+    document.getElementById('btnDeflate').addEventListener('click', () => {
+      if (order < 6) {
+        order++;
+        triangles = subdivide(triangles);
+        updateTelemetry();
+      }
+    });
+
+    document.getElementById('btnReset').addEventListener('click', () => {
+      initSeed();
+    });
+
+    let spinning = true;
+    document.getElementById('btnToggleSpin').addEventListener('click', () => {
+      spinning = !spinning;
+    });
+
+    initSeed();
+
+    let angle = 0;
+    function draw() {
+      if (spinning) angle += 0.003;
+      ctx.fillStyle = '#02040a';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.save();
+      ctx.translate(width / 2, height / 2);
+      ctx.rotate(angle);
+
+      const zoom = Math.min(1.0, 1.0 - (order - 1) * 0.12);
+      ctx.scale(zoom, zoom);
+
+      ctx.lineWidth = 1.0 / zoom;
+      for (let i = 0; i < triangles.length; i++) {
+        const [color, A, B, C] = triangles[i];
+        ctx.beginPath();
+        ctx.moveTo(A[0], A[1]);
+        ctx.lineTo(B[0], B[1]);
+        ctx.lineTo(C[0], C[1]);
+        ctx.closePath();
+
+        if (color === 1) {
+          ctx.fillStyle = 'rgba(0, 245, 212, 0.22)';
+          ctx.strokeStyle = 'rgba(0, 245, 212, 0.75)';
+        } else {
+          ctx.fillStyle = 'rgba(247, 37, 133, 0.22)';
+          ctx.strokeStyle = 'rgba(247, 37, 133, 0.75)';
+        }
+        ctx.fill();
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  })();
+</script>

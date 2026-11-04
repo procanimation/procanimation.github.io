@@ -1432,3 +1432,21 @@
   gradient: 'linear-gradient(135deg, #f43f5e, #38bdf8, #10b981)'
   video_url: https://youtube.com/shorts/eytUDjr6_0Q
   article_url: /experiments/heighway-dragon.html
+- title: 'The Shape That Broke Crystallography: Penrose Tiling & Quasicrystals'
+  series: Aperiodic Geometry & Quasicrystals
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:55
+  description: Roger Penrose's 1974 aperiodic golden rhombuses, infinite non-repeating deflation, the golden ratio asymptote, and Dan Shechtman's Nobel-winning quasicrystals.
+  tags:
+  - PenroseTiling
+  - Quasicrystals
+  - RogerPenrose
+  - GoldenRatio
+  - AperiodicTiling
+  - Geometry
+  - Physics
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #ffd166, #ff007f)'
+  video_url: https://youtube.com/shorts/8MKP2kf-FKU
+  article_url: /experiments/penrose-tiling-quasicrystals.html
