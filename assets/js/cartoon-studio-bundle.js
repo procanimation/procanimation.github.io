@@ -6403,31 +6403,31 @@ const canvas = document.getElementById('studioCanvas');
       ctx.shadowBlur = 0;
       pop();
 
-      // 4. Floating Holographic Cockpit HUD
+      // 4. Floating Holographic Cockpit HUD Banner
       push();
-      const hudX = w * 0.50, hudY = groundY * 0.32;
-      ctx.shadowColor = '#06b6d4'; ctx.shadowBlur = 12;
-      ctx.strokeStyle = 'rgba(6, 182, 212, 0.55)'; ctx.lineWidth = 1.5;
+      const hudW = Math.min(380, w * 0.45);
+      const hudX = (w - hudW) * 0.5;
+      const hudY = 48;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+      ctx.beginPath(); ctx.roundRect(hudX, hudY, hudW, 36, 6); ctx.fill();
+      ctx.strokeStyle = '#06b6d4'; ctx.lineWidth = 1.2;
+      ctx.strokeRect(hudX, hudY, hudW, 36);
 
-      // Holographic reticle circle
-      ctx.beginPath();
-      ctx.arc(hudX, hudY, 52, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.setLineDash([6, 4]);
-      ctx.beginPath();
-      ctx.arc(hudX, hudY, 68, time * 0.5, time * 0.5 + Math.PI * 1.5);
-      ctx.stroke();
-      ctx.setLineDash([]);
+      // Sci-Fi Corner Brackets
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2.0;
+      const cLen = 8;
+      ctx.beginPath(); ctx.moveTo(hudX - 4, hudY + cLen); ctx.lineTo(hudX - 4, hudY - 4); ctx.lineTo(hudX + cLen, hudY - 4); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(hudX + hudW + 4, hudY + cLen); ctx.lineTo(hudX + hudW + 4, hudY - 4); ctx.lineTo(hudX + hudW - cLen, hudY - 4); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(hudX - 4, hudY + 36 - cLen); ctx.lineTo(hudX - 4, hudY + 40); ctx.lineTo(hudX + cLen, hudY + 40); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(hudX + hudW + 4, hudY + 36 - cLen); ctx.lineTo(hudX + hudW + 4, hudY + 40); ctx.lineTo(hudX + hudW - cLen, hudY + 40); ctx.stroke();
 
       // Telemetry Text
       ctx.fillStyle = '#a5f3fc';
       ctx.font = 'bold 11px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText("VELOCITY: 0.991c [297,094 km/s]", hudX, hudY - 22);
-      ctx.fillText("LORENTZ FACTOR: γ = 7.52", hudX, hudY - 7);
+      ctx.fillText("VELOCITY: 0.991c  •  LORENTZ γ = 7.52", w * 0.5, hudY + 16);
       ctx.fillStyle = '#fef08a';
-      ctx.fillText("TIME DILATION: 1s SHIP = 7.52s EARTH", hudX, hudY + 14);
-      ctx.shadowBlur = 0;
+      ctx.fillText("TIME DILATION: 1.0s SHIP = 7.52s EARTH", w * 0.5, hudY + 30);
       pop();
 
       // 5. High-Tech Bridge Deck Floor
@@ -8549,10 +8549,10 @@ const canvas = document.getElementById('studioCanvas');
         drawBreakfastTableForeground(w, groundY, time);
       }
 
-      // 🔮 Draw Floating Illustrative Hologram over Active Speaker
-      if (activeSpeakerIdx >= 0) {
-        drawFloatingScienceHologram(characters[activeSpeakerIdx], w, h, time);
-      }
+      // 🔮 Draw Floating Illustrative Hologram over Active Speaker (disabled to eliminate stray floating circle bubbles)
+      // if (activeSpeakerIdx >= 0) {
+      //   drawFloatingScienceHologram(characters[activeSpeakerIdx], w, h, time);
+      // }
 
       ctx.restore(); // END VIRTUAL CAMERA WORLD SPACE
 
