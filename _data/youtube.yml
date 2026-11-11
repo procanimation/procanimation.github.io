@@ -1634,3 +1634,22 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)'
   video_url: https://www.youtube.com/watch?v=sedLPUKizoY
   article_url: /experiments/diffusion-models-score-sde.html
+- id: sBDKuo_bepE
+  title: "The Mandelbrot Set in 3D: The Mandelbulb & Spherical Triplex Raymarching"
+  series: Procedural Animation & Mathematical Micro-Simulations
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:45
+  description: The 30-year search for the 3D Mandelbrot set, the Frobenius theorem algebraic barrier, Daniel White and Paul Nylander's 2009 spherical coordinate power transformation, and raymarched distance estimation.
+  tags:
+  - Mandelbulb
+  - 3DFractal
+  - Mandelbrot
+  - Raymarching
+  - Mathematics
+  - WhiteNylander
+  - ScienceShorts
+  - ProceduralAnimation
+  badge: Vol. XXVI
+  gradient: 'linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #f43f5e 100%)'
+  video_url: https://youtube.com/shorts/sBDKuo_bepE
+  article_url: /experiments/mandelbulb-3d-fractal.html
