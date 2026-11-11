@@ -1,0 +1,118 @@
+---
+layout: article
+title: "Procedural Cartoon Family Studio: Character Rigging & Animation"
+tagline: "Hierarchical Kinematics, FFT Formant Lip-Sync & Rayleigh Scattering"
+description: "A production-grade procedural 2D cartoon human animation studio built in HTML5 Canvas and p5.js, featuring continuous Bezier limbs, multi-character cast staging, acoustic lip-sync, and four interactive story acts."
+category: "Computer Graphics & Procedural Animation"
+permalink: /experiments/cartoon-human-animation.html
+---
+
+<p class="article-lead">
+  Traditional 2D digital animation relies on pre-rendered sprite sheets or skeletal puppet deformers with rigid polygon meshes. In this project, we engineer a <strong>pure code-driven procedural cartoon studio</strong> in HTML5 Canvas. Combining <strong>continuous Bezier organic limbs</strong> (eliminating unsightly puppet knee and elbow seams), <strong>hierarchical coordinate trees</strong>, <strong>harmonic secondary micro-springs</strong>, and <strong>real-time FFT formant extraction</strong> for acoustic lip-sync, we bring a four-member cartoon family to life across four distinct architectural and natural settings in the edutainment story: <em>"Why Does the Sky Change Color?"</em>
+</p>
+
+<!-- The Engineering Lexicon -->
+<h3>Procedural Animation & Rigging Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Hierarchical Forward Kinematics (FK)</h4>
+    <p>Every joint down the anatomical skeleton inherits position and rotation from its parent via coordinate stack transforms:
+      $$\mathbf{T}_{\text{hand}} = \mathbf{T}_{\text{root}} \cdot \mathbf{T}_{\text{spine}} \cdot \mathbf{T}_{\text{shoulder}} \cdot \mathbf{R}(\theta_1) \cdot \mathbf{T}_{\text{elbow}} \cdot \mathbf{R}(\theta_2)$$
+      Upper arms dictate elbow pivots, which in turn govern forearm rotation, wrist orientation, and hand gesture poses without joint dislocations.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Continuous Bezier Limbs vs Puppet Seams</h4>
+    <p>Segmented cutout puppets suffer from harsh circular seams at knees and elbows. We resolve this by drawing limbs as continuous, tapering cubic Bezier splines whose anchor points are bounded by smooth semi-circular caps:
+      $$\mathbf{B}(t) = (1-t)^3 \mathbf{P}_0 + 3(1-t)^2 t \mathbf{P}_1 + 3(1-t)t^2 \mathbf{P}_2 + t^3 \mathbf{P}_3$$
+      This yields organic muscle curvature and natural fabric creases when joints flex.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Acoustic Formant Extraction & Lip-Sync</h4>
+    <p>Rather than guessing mouth shapes from arbitrary timers, the speech engine samples Web Audio FFT frequency bins in real time:
+      $$\text{F1 (180–750 Hz)} \implies \text{Jaw Drop (Vowels)}, \quad \text{F2 (800–2000 Hz)} \implies \text{Tongue Resonance (/i/, /e/)}$$
+      Consonant dips instantly compress the lips into closed bilabial curves (/m/, /b/, /p/), synchronized to within a single frame (16.6ms) of voice audio.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Grounded Breathing & Saccadic Gaze</h4>
+    <p>To eliminate distracting "floaty" vertical bouncing, the character root is firmly anchored to the floor ($y = \text{groundY}$). Subtle breathing dilates only the upper chest cavity by $\pm 1.2\%$. Listening characters smoothly glide their gaze toward the active speaker using damped exponential interpolation, while speakers glance warmly toward the camera.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Rayleigh Scattering Physics (Act 3)</h4>
+    <p>In Act 3, Mark (Dad) demonstrates Lord Rayleigh's 1871 scattering law for particles much smaller than light wavelengths:
+      $$I(\lambda) = I_0 \frac{1 + \cos^2 \theta}{2 R^2} \left(\frac{2\pi}{\lambda}\right)^4 \left(\frac{n^2 - 1}{n^2 + 2}\right)^2 \left(\frac{d}{2}\right)^6 \propto \frac{1}{\lambda^4}$$
+      Because 400nm blue light scatters $\approx 9.4\times$ more intensely than 700nm red light, high-frequency blue photons saturate the sky dome while red waves penetrate straight through.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The 4-Act Narrative Staging</h4>
+    <p>The episode unfolds across four dynamically rendered environments:
+      1. <em>The Morning Mystery</em> (Cozy Living Room with bay window).
+      2. <em>The Park Experiment</em> (Outdoor park with swaying trees and butterflies).
+      3. <em>The Light Wave Lab</em> (Studio spotlight with interactive formula whiteboard).
+      4. <em>The Pancake Feast</em> (Dining table with syrup-topped pancakes and hot cocoa).</p>
+  </div>
+</div>
+
+<!-- Interactive Cartoon Family Studio Container -->
+<div class="interactive-simulation-box" style="margin-top:24px;">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🎬 PROCEDURAL CARTOON FAMILY STUDIO</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Episode: "Why Does the Sky Change Color?" • 4 Acts • Neural Voices)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#c084fc;">● Mom (Sarah)</span>
+      <span style="color:#fb923c;">● Leo (Boy)</span>
+      <span style="color:#f472b6;">● Mia (Girl)</span>
+      <span style="color:#2dd4bf;">● Dad (Mark)</span>
+    </div>
+  </div>
+
+  <!-- Studio Canvas -->
+  <div style="position:relative; width:100%; aspect-ratio:16/9; background:#070b14; border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+    <canvas id="studioCanvas" style="width:100%; height:100%; display:block; cursor:crosshair;"></canvas>
+    <div id="statusPill" style="position:absolute; top:12px; right:16px; font-size:11px; font-family:monospace; color:#fde047; background:rgba(3,7,18,0.85); padding:4px 12px; border-radius:9999px; border:1px solid rgba(250,204,21,0.3); pointer-events:none;">
+      Setting: Cozy Living Room • Perspective: Front View
+    </div>
+  </div>
+
+  <!-- Story & Act Control Panel -->
+  <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; align-items:center; justify-content:space-between; background:rgba(15,23,42,0.8); padding:12px 18px; border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button id="btnPlayEpisode" style="background:#059669; color:#fff; border:none; padding:6px 16px; border-radius:6px; font-weight:700; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; gap:6px;">
+        <span>▶️</span> Play Full Story
+      </button>
+      <button id="btnStopStory" style="background:#881337; color:#fecdd3; border:1px solid #9f1239; padding:6px 12px; border-radius:6px; font-weight:600; font-size:0.85rem; cursor:pointer;">
+        Stop 🛑
+      </button>
+    </div>
+
+    <!-- Act Selection Pills -->
+    <div style="display:flex; align-items:center; gap:6px;" id="actButtons">
+      <button id="btnAct1" class="act-btn" data-act="0" style="background:#9333ea; color:#fff; border:none; padding:5px 11px; border-radius:4px; font-size:0.75rem; font-weight:600; cursor:pointer;">Act 1: Morning Mystery</button>
+      <button id="btnAct2" class="act-btn" data-act="1" style="background:#1e293b; color:#94a3b8; border:none; padding:5px 11px; border-radius:4px; font-size:0.75rem; font-weight:500; cursor:pointer;">Act 2: The Park</button>
+      <button id="btnAct3" class="act-btn" data-act="2" style="background:#1e293b; color:#94a3b8; border:none; padding:5px 11px; border-radius:4px; font-size:0.75rem; font-weight:500; cursor:pointer;">Act 3: Light Lab</button>
+      <button id="btnAct4" class="act-btn" data-act="3" style="background:#1e293b; color:#94a3b8; border:none; padding:5px 11px; border-radius:4px; font-size:0.75rem; font-weight:500; cursor:pointer;">Act 4: Pancake Feast</button>
+    </div>
+
+    <!-- View Mode Switcher -->
+    <div style="display:flex; align-items:center; gap:6px;">
+      <span style="font-size:0.8rem; color:#94a3b8; font-weight:600;">Perspective:</span>
+      <button id="btnViewFront" style="background:#0284c7; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:0.75rem; font-weight:600; cursor:pointer;">Front View</button>
+      <button id="btnViewProfile" style="background:#1e293b; color:#94a3b8; border:none; padding:4px 10px; border-radius:4px; font-size:0.75rem; font-weight:500; cursor:pointer;">3/4 Profile</button>
+    </div>
+  </div>
+
+  <input id="customText" type="hidden" value="">
+  <span id="speakerLabel" style="display:none;"></span>
+
+  <!-- Character Quick Test Buttons -->
+  <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; padding:10px 16px; background:rgba(30,41,59,0.4); border-radius:6px; align-items:center;">
+    <span style="font-size:0.75rem; color:#94a3b8; font-weight:600; margin-right:6px;">Audition Cast:</span>
+    <button class="voice-test-btn" data-char="0" style="background:rgba(147,51,234,0.3); border:1px solid #9333ea; color:#e9d5ff; padding:3px 8px; border-radius:4px; font-size:0.75rem; cursor:pointer;">👩 Test Mom (Sarah)</button>
+    <button class="voice-test-btn" data-char="1" style="background:rgba(234,88,12,0.3); border:1px solid #ea580c; color:#fed7aa; padding:3px 8px; border-radius:4px; font-size:0.75rem; cursor:pointer;">👦 Test Leo (Boy)</button>
+    <button class="voice-test-btn" data-char="2" style="background:rgba(236,72,153,0.3); border:1px solid #ec4899; color:#fbcfe8; padding:3px 8px; border-radius:4px; font-size:0.75rem; cursor:pointer;">👧 Test Mia (Girl)</button>
+    <button class="voice-test-btn" data-char="3" style="background:rgba(13,148,136,0.3); border:1px solid #0d9488; color:#ccfbf1; padding:3px 8px; border-radius:4px; font-size:0.75rem; cursor:pointer;">👨 Test Dad (Mark)</button>
+  </div>
+</div>
+
+<script src="/assets/js/cartoon-studio-bundle.js"></script>

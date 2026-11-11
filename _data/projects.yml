@@ -886,6 +886,20 @@
   featured: true
   gradient: "linear-gradient(135deg, #38bdf8 0%, #10b981 50%, #f59e0b 100%)"
 
+- id: "cartoon-human-animation"
+  slug: "cartoon-human-animation"
+  category: "graphics"
+  name: "Procedural Cartoon Family Studio: Physics & Character Rigging"
+  tag: "Computer Graphics • Procedural Animation"
+  tech: "HTML5 Canvas • Continuous Bezier Limbs, FFT Formant Lip-Sync & Multi-Act Staging"
+  description: "A production-grade procedural 2D cartoon human animation studio in Canvas/p5.js with continuous Bezier limbs, multi-character cast staging, acoustic lip-sync, and four interactive story acts explaining Rayleigh scattering."
+  repo_url: "https://github.com/procanimation/procanimation-world/blob/main/p5_cartoon_human_animation.html"
+  article_url: "/experiments/cartoon-human-animation.html"
+  demo_url: "/experiments/cartoon-human-animation.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #c084fc 0%, #f472b6 50%, #2dd4bf 100%)"
+
+
 
 
 
