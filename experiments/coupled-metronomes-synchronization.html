@@ -1,0 +1,356 @@
+---
+layout: article
+title: "Coupled Metronomes & Spontaneous Synchronization"
+tagline: "Christiaan Huygens' 1665 Discovery, The Kuramoto Model & Nonlinear Phase Entrainment"
+description: "How mechanical feedback through a rolling baseboard forces independent chaotic oscillators into spontaneous collective lockstep."
+category: "Classical Mechanics & Nonlinear Dynamics"
+permalink: /experiments/coupled-metronomes-synchronization.html
+---
+
+<p class="article-lead">
+  In 1665, Dutch physicist and astronomer <strong>Christiaan Huygens</strong>—inventor of the pendulum clock—lay ill in bed observing two clocks suspended from a shared wooden support beam. Regardless of how they were initially started, within hours their pendulums invariably fell into exact, synchronized anti-phase motion. Huygens called this an <em>"odd sympathy."</em> Three centuries later, Japanese theoretical physicist <strong>Yoshiki Kuramoto</strong> formalized the universal mathematics of this phenomenon with the <strong>Kuramoto Model</strong>. Today, this principle explains how thousands of Southeast Asian fireflies flash in unison, how pacemaker cells in the sinoatrial node keep your heart beating, and why London's Millennium Bridge swayed violently on opening day.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Synchronization & Nonlinear Dynamics Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Christiaan Huygens' "Odd Sympathy" (1665)</h4>
+    <p>Huygens was the first to document coupled oscillation. When pendulums or metronomes swing on an isolated table, their energy stays trapped. But place them on a common movable foundation—such as a wooden board resting on two aluminum soda cans or cylindrical rollers—and every swing exerts a reactive force on the base under Newton's third law ($F_{\text{recoil}} = -m L \ddot{\theta}$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Kuramoto Model Equation</h4>
+    <p>A population of $N$ coupled limit-cycle oscillators with natural frequencies $\omega_i$ and phases $\theta_i$ evolves according to:
+      $$\frac{d\theta_i}{dt} = \omega_i + \frac{K}{N} \sum_{j=1}^N \sin(\theta_j - \theta_i)$$
+      where $K$ is the coupling constant. The sinusoidal interaction pulls lagging phases forward and slows advanced phases down.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Complex Order Parameter ($r e^{i\psi}$)</h4>
+    <p>To quantify the degree of synchronization, Kuramoto introduced the macroscopic order parameter:
+      $$r e^{i\psi} = \frac{1}{N} \sum_{j=1}^N e^{i\theta_j}$$
+      Here $r \in [0, 1]$ measures phase coherence ($r \approx 0$ is complete disordered chaos, $r \to 1.0$ is perfect lockstep unison), while $\psi$ represents the collective mean phase angle.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Critical Coupling Threshold ($K_c$)</h4>
+    <p>For an infinite ensemble of oscillators with a symmetric frequency distribution $g(\omega)$, synchronization is a continuous phase transition. Below a critical coupling strength:
+      $$K_c = \frac{2}{\pi g(0)}$$
+      the system remains disordered ($r \approx 0$). Once $K > K_c$, order spontaneously emerges and scales as $r \propto \sqrt{K - K_c}$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The London Millennium Bridge Phenomenon</h4>
+    <p>On opening day in June 2000, 2,000 pedestrians walked across the Millennium Bridge over the River Thames. Random lateral footfalls caused subtle deck vibrations. Pedestrians involuntarily synchronized their gaits with the bridge's lateral sway to maintain balance, turning humans into Kuramoto oscillators and causing dramatic resonance that forced the bridge to close for retrofitting.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⏱️ REAL-TIME COUPLED METRONOMES SIMULATOR</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Newtonian Recoil, Kuramoto Phase Entrainment & Complex Order Vector)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#38bdf8;">● Metronome Oscillators</span>
+      <span style="color:#f43f5e;">● Order Vector $r$</span>
+      <span style="color:#4ade80;">● Synchronized State</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:620px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="metronomeCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; right:20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; z-index:10; background:rgba(15,23,42,0.85); padding:10px 16px; border-radius:8px; border:1px solid rgba(56,189,248,0.2);">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="color:#94a3b8; font-size:0.85rem; font-weight:600;">Coupling ($K$):</label>
+        <input type="range" id="couplingSlider" min="0" max="4.0" step="0.1" value="2.0" style="width:130px; accent-color:#38bdf8;">
+        <span id="couplingVal" style="color:#38bdf8; font-family:monospace; font-size:0.85rem; width:35px;">2.0</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="color:#94a3b8; font-size:0.85rem; font-weight:600;">Dispersion ($\Delta\omega$):</label>
+        <input type="range" id="dispersionSlider" min="0" max="0.4" step="0.02" value="0.1" style="width:110px; accent-color:#fbbf24;">
+        <span id="dispersionVal" style="color:#fbbf24; font-family:monospace; font-size:0.85rem; width:35px;">0.10</span>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button id="btnRandomize" style="background:#38bdf8; color:#020617; border:none; padding:6px 14px; font-weight:700; border-radius:6px; cursor:pointer;">Randomize</button>
+        <button id="btnToggle" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:6px 14px; font-weight:600; border-radius:6px; cursor:pointer;">Pause</button>
+      </div>
+    </div>
+
+    <div id="metronomeTelemetry" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.9); border:1px solid rgba(56,189,248,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      Order Parameter: r = 0.00 | K = 2.0 | N = 24
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('metronomeCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const telemetry = document.getElementById('metronomeTelemetry');
+
+  const couplingSlider = document.getElementById('couplingSlider');
+  const couplingVal = document.getElementById('couplingVal');
+  const dispersionSlider = document.getElementById('dispersionSlider');
+  const dispersionVal = document.getElementById('dispersionVal');
+  const btnRandomize = document.getElementById('btnRandomize');
+  const btnToggle = document.getElementById('btnToggle');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = canvas.parentElement.clientWidth;
+    H = canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const N = 24;
+  const baseFreq = 1.6; // Hz
+  let K = 2.0;
+  let dispersion = 0.10;
+  let running = true;
+
+  let metronomes = [];
+  function initMetronomes() {
+    metronomes = [];
+    const colors = ['#38bdf8', '#00f5d4', '#fbbf24', '#f43f5e', '#a855f7', '#4ade80'];
+    for (let i = 0; i < N; i++) {
+      metronomes.push({
+        id: i,
+        omega: (baseFreq + (Math.random() - 0.5) * dispersion * 2) * Math.PI * 2,
+        theta: Math.random() * Math.PI * 2,
+        color: colors[i % colors.length]
+      });
+    }
+  }
+  initMetronomes();
+
+  couplingSlider.addEventListener('input', (e) => {
+    K = parseFloat(e.target.value);
+    couplingVal.textContent = K.toFixed(1);
+  });
+
+  dispersionSlider.addEventListener('input', (e) => {
+    dispersion = parseFloat(e.target.value);
+    dispersionVal.textContent = dispersion.toFixed(2);
+    // adjust omegas
+    for (let m of metronomes) {
+      m.omega = (baseFreq + (Math.random() - 0.5) * dispersion * 2) * Math.PI * 2;
+    }
+  });
+
+  btnRandomize.addEventListener('click', () => {
+    initMetronomes();
+  });
+
+  btnToggle.addEventListener('click', () => {
+    running = !running;
+    btnToggle.textContent = running ? "Pause" : "Resume";
+  });
+
+  let lastTime = performance.now();
+  function animate(now) {
+    requestAnimationFrame(animate);
+    const dt = Math.min(0.04, (now - lastTime) / 1000);
+    lastTime = now;
+
+    if (running) {
+      // Numerical integration of Kuramoto equations using Euler-Heun
+      let sumSin = 0, sumCos = 0;
+      for (let m of metronomes) {
+        sumCos += Math.cos(m.theta);
+        sumSin += Math.sin(m.theta);
+      }
+      const meanX = sumCos / N;
+      const meanY = sumSin / N;
+      const r = Math.hypot(meanX, meanY);
+      const psi = Math.atan2(meanY, meanX);
+
+      // dtheta_i/dt = omega_i + K * r * sin(psi - theta_i)
+      for (let m of metronomes) {
+        const dTheta = m.omega + K * r * Math.sin(psi - m.theta);
+        m.theta = (m.theta + dTheta * dt) % (Math.PI * 2);
+        if (m.theta < 0) m.theta += Math.PI * 2;
+      }
+    }
+
+    // Render Frame
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, W, H);
+
+    // Compute current order parameter
+    let sumCos = 0, sumSin = 0;
+    for (let m of metronomes) {
+      sumCos += Math.cos(m.theta);
+      sumSin += Math.sin(m.theta);
+    }
+    const orderR = Math.hypot(sumCos / N, sumSin / N);
+    const meanPsi = Math.atan2(sumSin / N, sumCos / N);
+
+    telemetry.textContent = `Order Parameter: r = ${(orderR * 100).toFixed(1)}% | K = ${K.toFixed(1)} | N = ${N}`;
+
+    // Baseboard recoil displacement
+    const baseShift = Math.sin(meanPsi) * 16 * orderR;
+
+    // Layout metronomes: 3 rows of 8
+    const cols = 8;
+    const rows = 3;
+    const platW = Math.min(W - 80, 840);
+    const platH = 280;
+    const platX = (W - platW) / 2 + baseShift;
+    const platY = 50;
+
+    // Draw Rollers under platform
+    ctx.fillStyle = '#475569';
+    for (let rx = platX + 40; rx <= platX + platW - 40; rx += 110) {
+      ctx.beginPath();
+      ctx.arc(rx, platY + platH + 12, 12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    // Platform Base
+    ctx.fillStyle = '#1e293b';
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2;
+    ctx.fillRect(platX, platY, platW, platH);
+    ctx.strokeRect(platX, platY, platW, platH);
+
+    // Draw Metronomes
+    const stepX = platW / (cols + 1);
+    const stepY = platH / (rows + 1);
+    const wandLen = 38;
+
+    for (let i = 0; i < N; i++) {
+      const m = metronomes[i];
+      const r_idx = Math.floor(i / cols);
+      const c_idx = i % cols;
+      const mx = platX + (c_idx + 1) * stepX;
+      const my = platY + (r_idx + 1) * stepY + 10;
+
+      const angle = Math.sin(m.theta) * 0.52; // wand angle
+
+      // Body
+      ctx.save();
+      ctx.fillStyle = '#0f172a';
+      ctx.strokeStyle = m.color;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(mx - 8, my - 25);
+      ctx.lineTo(mx + 8, my - 25);
+      ctx.lineTo(mx + 14, my + 25);
+      ctx.lineTo(mx - 14, my + 25);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Wand
+      ctx.translate(mx, my + 15);
+      ctx.rotate(angle);
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, 4);
+      ctx.lineTo(0, -wandLen);
+      ctx.stroke();
+
+      // Bob
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillRect(-3, -wandLen * 0.7 - 3, 6, 6);
+
+      // Tip Bead
+      ctx.beginPath();
+      ctx.arc(0, -wandLen, 3, 0, Math.PI * 2);
+      ctx.fillStyle = m.color;
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    // --- PHASE COHERENCE CIRCLE & ORDER GAUGE (Bottom area) ---
+    const pcX = W * 0.28;
+    const pcY = 440;
+    const pcR = 55;
+
+    // Complex Unit Circle
+    ctx.save();
+    ctx.strokeStyle = 'rgba(148, 163, 184, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(pcX, pcY, pcR, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Crosshairs
+    ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
+    ctx.beginPath();
+    ctx.moveTo(pcX - pcR - 8, pcY); ctx.lineTo(pcX + pcR + 8, pcY);
+    ctx.moveTo(pcX, pcY - pcR - 8); ctx.lineTo(pcX, pcY + pcR + 8);
+    ctx.stroke();
+
+    // Plot phases
+    for (let m of metronomes) {
+      const px = pcX + Math.cos(m.theta) * pcR;
+      const py = pcY + Math.sin(m.theta) * pcR;
+      ctx.beginPath();
+      ctx.arc(px, py, 4, 0, Math.PI * 2);
+      ctx.fillStyle = m.color;
+      ctx.fill();
+    }
+
+    // Macroscopic Order Vector (Kuramoto arrow)
+    const arrowX = pcX + Math.cos(meanPsi) * pcR * orderR;
+    const arrowY = pcY + Math.sin(meanPsi) * pcR * orderR;
+    ctx.strokeStyle = '#f43f5e';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(pcX, pcY);
+    ctx.lineTo(arrowX, arrowY);
+    ctx.stroke();
+    ctx.fillStyle = '#f43f5e';
+    ctx.beginPath();
+    ctx.arc(arrowX, arrowY, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 13px -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText("PHASE COHERENCE CIRCLE", pcX, pcY + pcR + 24);
+    ctx.restore();
+
+    // Order Parameter Meter (Right of circle)
+    const barX = W * 0.48;
+    const barY = 415;
+    const barW = Math.min(W * 0.44, 380);
+    const barH = 20;
+
+    ctx.save();
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '600 14px -apple-system, sans-serif';
+    ctx.fillText(`KURAMOTO ORDER PARAMETER: r = ${(orderR * 100).toFixed(1)}%`, barX, barY - 10);
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
+    ctx.fillRect(barX, barY, barW, barH);
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+    ctx.strokeRect(barX, barY, barW, barH);
+
+    const grad = ctx.createLinearGradient(barX, barY, barX + barW, barY);
+    grad.addColorStop(0, '#38bdf8');
+    grad.addColorStop(0.5, '#fbbf24');
+    grad.addColorStop(1, '#4ade80');
+    ctx.fillStyle = grad;
+    ctx.fillRect(barX + 2, barY + 2, (barW - 4) * Math.min(1.0, orderR), barH - 4);
+
+    ctx.fillStyle = orderR > 0.85 ? '#4ade80' : (orderR > 0.4 ? '#facc15' : '#f43f5e');
+    ctx.font = '700 13px monospace';
+    const statusText = orderR > 0.85 ? "LOCKED: COMPLETE SYNCHRONY" : (orderR > 0.4 ? "ENTRAINING: PARTIAL COHERENCE" : "CHAOTIC: INCOHERENT PHASE DUST");
+    ctx.fillText(statusText, barX, barY + barH + 20);
+    ctx.restore();
+  }
+
+  requestAnimationFrame(animate);
+})();
+</script>

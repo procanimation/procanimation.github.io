@@ -1593,3 +1593,22 @@
   gradient: 'linear-gradient(135deg, #fbbf24 0%, #00f5d4 50%, #a855f7 100%)'
   video_url: https://youtube.com/shorts/GxmYFI_3fPQ
   article_url: /experiments/apollonian-gasket-kissing-circles.html
+- id: izfbuZzefZY
+  title: "Why Metronomes Tick in Sync: Coupled Oscillators & Spontaneous Synchronization"
+  series: Procedural Animation & Mathematical Micro-Simulations
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:45
+  description: Christiaan Huygens' 1665 odd sympathy, Newton's third law recoil on a rolling baseboard, the Kuramoto non-linear phase coupling equation, and collective order emergence.
+  tags:
+  - CoupledMetronomes
+  - SpontaneousSynchronization
+  - KuramotoModel
+  - Physics
+  - NonlinearDynamics
+  - Huygens
+  - ScienceShorts
+  - ProceduralAnimation
+  badge: Vol. XXV
+  gradient: 'linear-gradient(135deg, #38bdf8 0%, #fbbf24 50%, #4ade80 100%)'
+  video_url: https://youtube.com/shorts/izfbuZzefZY
+  article_url: /experiments/coupled-metronomes-synchronization.html

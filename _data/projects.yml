@@ -808,6 +808,19 @@
   featured: true
   gradient: "linear-gradient(135deg, #fbbf24 0%, #00f5d4 50%, #a855f7 100%)"
 
+- id: "coupled-metronomes"
+  slug: "coupled-metronomes"
+  category: "physics"
+  name: "Coupled Metronomes & Spontaneous Synchronization"
+  tag: "Kuramoto Model • Nonlinear Dynamics"
+  tech: "HTML5 Canvas • Runge-Kutta & Kuramoto Phase Solver"
+  description: "Christiaan Huygens' 1665 odd sympathy, Newton's third law recoil on a rolling baseboard, the Kuramoto non-linear phase coupling equation, and collective order emergence."
+  repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/coupled_metronomes"
+  article_url: "/experiments/coupled-metronomes-synchronization.html"
+  demo_url: "/experiments/coupled-metronomes-synchronization.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #fbbf24 50%, #4ade80 100%)"
+
 
 
 
