@@ -834,6 +834,32 @@
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
 
+- id: "mandelbulb"
+  slug: "mandelbulb"
+  category: "math"
+  name: "The 3D Mandelbulb: Spherical Triplex Raymarching"
+  tag: "Fractals • 3D Raymarching"
+  tech: "HTML5 Canvas • White-Nylander Power-8 Spherical Triplex Engine"
+  description: "The 30-year search for the 3D Mandelbrot set, the Frobenius theorem algebraic barrier, Daniel White and Paul Nylander's 2009 spherical coordinate power transformation, and raymarched distance estimation."
+  repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/mandelbulb"
+  article_url: "/experiments/mandelbulb-3d-fractal.html"
+  demo_url: "/experiments/mandelbulb-3d-fractal.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #f43f5e 100%)"
+
+- id: "quantum-eraser"
+  slug: "quantum-eraser"
+  category: "physics"
+  name: "The Quantum Eraser & Wheeler's Delayed-Choice Paradox"
+  tag: "Quantum Mechanics • Entanglement"
+  tech: "HTML5 Canvas • SPDC Entangled Photon & Coincidence Optical Bench"
+  description: "Young's double-slit wave interference, Wheeler's cosmic gravitational lens, Scully-Drühl polarization markers, BBO crystal SPDC entangled pairs, the 8-nanosecond optical delay, and the No-Communication Theorem."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/quantum_eraser"
+  article_url: "/experiments/quantum-eraser-delayed-choice.html"
+  demo_url: "/experiments/quantum-eraser-delayed-choice.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #f43f5e 0%, #a855f7 50%, #00f5d4 100%)"
+
 
 
 

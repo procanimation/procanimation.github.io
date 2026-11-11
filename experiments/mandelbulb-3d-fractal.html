@@ -1,0 +1,296 @@
+---
+layout: article
+title: "The Mandelbulb: 3D Fractal Raymarching"
+tagline: "Daniel White & Paul Nylander (2009), Spherical Triplex Numbers & Distance Estimation"
+description: "How spherical coordinate powers transform the classic 2D Mandelbrot set into an infinite, self-similar 3D fractal cathedral."
+category: "Fractals & Complex Dynamical Systems"
+permalink: /experiments/mandelbulb-3d-fractal.html
+---
+
+<p class="article-lead">
+  The <strong>Mandelbrot set</strong> is universally celebrated as the crown jewel of mathematical visualization. Yet for three decades following Benoît Mandelbrot's 1980 breakthrough, the fractal remained strictly confined to the two-dimensional complex plane $\mathbb{C}$. In three dimensions, complex multiplication breaks down entirely: Ferdinand Georg Frobenius proved in 1877 that the only associative division algebras over the real numbers are $\mathbb{R}$, $\mathbb{C}$, and four-dimensional quaternions $\mathbb{H}$—no three-dimensional number system exists. In 2009, amateur mathematician <strong>Daniel White</strong> and fractal developer <strong>Paul Nylander</strong> bypassed this algebraic wall using <strong>spherical triplex coordinates</strong>, constructing the breathtaking <strong>3D Mandelbulb</strong>.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The 3D Fractal & Raymarching Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Frobenius Theorem (1877)</h4>
+    <p>In two dimensions, complex numbers $z = x + i y$ multiply naturally via $i^2 = -1$, preserving length and angle. However, Frobenius proved that it is algebraically impossible to define a 3-dimensional division algebra where multiplication is both associative and preserves Euclidean lengths. Three-dimensional fractals cannot be produced through standard algebraic fields.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The White-Nylander Spherical Triplex</h4>
+    <p>White and Nylander bypassed Frobenius by converting Cartesian points $(x, y, z)$ into spherical polar coordinates $(r, \theta, \phi)$:
+      $$r = \sqrt{x^2 + y^2 + z^2}, \quad \theta = \arccos(z / r), \quad \phi = \arctan(y / x)$$
+      Raising the triplex vector to power $n$ rotates the polar and azimuthal angles by $n$:
+      $$v^n = r^n \begin{pmatrix} \sin(n\theta)\cos(n\phi) \\ \sin(n\theta)\sin(n\phi) \\ \cos(n\theta) \end{pmatrix}$$</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Power-8 Iteration: $v_{k+1} = v_k^8 + c$</h4>
+    <p>Starting at initial position $v_0 = (0, 0, 0)$ and adding constant point $c = (x, y, z)$, the sequence is iterated:
+      $$v_{k+1} = v_k^8 + c$$
+      While power $n=2$ yields an uninteresting apple-shaped bulb, setting $n=8$ produces spectacular, self-similar 8-fold flower symmetry, Romanesque domes, and infinite Gothic spires.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Sphere Tracing & Distance Estimation (SDF)</h4>
+    <p>Because the Mandelbulb is infinitely detailed, rasterizing polygons is impossible. Instead, computer graphics uses <strong>Raymarching</strong> (Sphere Tracing). Along each camera ray, the distance to the fractal boundary is estimated using the chain rule derivative $dr$:
+      $$d(p) \approx \frac{1}{2} \frac{|v| \ln |v|}{|dr|}$$
+      This Signed Distance Function (SDF) allows rays to take massive, safe geometric steps through empty space without overshooting.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Hausdorff Fractal Dimension ($D \approx 2.85$)</h4>
+    <p>The surface area of the Mandelbulb is non-differentiable and divergent. The boundary possesses an estimated fractional Hausdorff dimension of $D \approx 2.85$, meaning it occupies nearly the full volume of three-dimensional space while remaining bounded inside a sphere of radius $R = 2.0$.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🔮 REAL-TIME 3D MANDELBULB EXPLORER</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive 3D Orbit, Spherical Power n Tuning & Depth-Shaded Filigrees)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#38bdf8;">● Near Surface Filigrees</span>
+      <span style="color:#a855f7;">● Mid-Depth Cavities</span>
+      <span style="color:#f43f5e;">● Deep Core</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:620px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="mandelbulbCanvas" style="width:100%; height:100%; display:block; cursor:grab;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; right:20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; z-index:10; background:rgba(15,23,42,0.85); padding:10px 16px; border-radius:8px; border:1px solid rgba(56,189,248,0.2);">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="color:#94a3b8; font-size:0.85rem; font-weight:600;">Power ($n$):</label>
+        <input type="range" id="powerSlider" min="2" max="10" step="1" value="8" style="width:120px; accent-color:#38bdf8;">
+        <span id="powerVal" style="color:#38bdf8; font-family:monospace; font-size:0.85rem; width:25px;">8</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="color:#94a3b8; font-size:0.85rem; font-weight:600;">Zoom:</label>
+        <input type="range" id="zoomSlider" min="150" max="450" step="10" value="260" style="width:110px; accent-color:#fbbf24;">
+        <span id="zoomVal" style="color:#fbbf24; font-family:monospace; font-size:0.85rem; width:35px;">1.0×</span>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button id="btnAutoRotate" style="background:#38bdf8; color:#020617; border:none; padding:6px 14px; font-weight:700; border-radius:6px; cursor:pointer;">Pause Spin</button>
+        <button id="btnReset" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:6px 14px; font-weight:600; border-radius:6px; cursor:pointer;">Reset View</button>
+      </div>
+    </div>
+
+    <div id="mandelbulbTelemetry" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.9); border:1px solid rgba(56,189,248,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      Mandelbulb n = 8 | Points: 2800 | D ≈ 2.85
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('mandelbulbCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const telemetry = document.getElementById('mandelbulbTelemetry');
+
+  const powerSlider = document.getElementById('powerSlider');
+  const powerVal = document.getElementById('powerVal');
+  const zoomSlider = document.getElementById('zoomSlider');
+  const zoomVal = document.getElementById('zoomVal');
+  const btnAutoRotate = document.getElementById('btnAutoRotate');
+  const btnReset = document.getElementById('btnReset');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = canvas.parentElement.clientWidth;
+    H = canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let power = 8;
+  let zoom = 260;
+  let autoRotate = true;
+  let rotX = 0.35;
+  let rotY = 0.0;
+  let isDragging = false;
+  let lastMouseX = 0, lastMouseY = 0;
+
+  // PRNG
+  function mulberry32(a) {
+    return function() {
+      var t = a += 0x6D2B79F5;
+      t = Math.imul(t ^ t >>> 15, t | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  // Pre-generate surface point cloud for power n
+  let points = [];
+  function generatePoints(n) {
+    points = [];
+    const N = 2600;
+    const rng = mulberry32(42);
+
+    for (let i = 0; i < N; i++) {
+      const u = rng();
+      const v = rng();
+      const theta0 = Math.acos(2.0 * u - 1.0);
+      const phi0 = 2.0 * Math.PI * v;
+
+      let rMin = 0.5;
+      let rMax = 1.35;
+      let hitR = rMin;
+
+      for (let step = 0; step < 6; step++) {
+        const testR = (rMin + rMax) * 0.5;
+        const x0 = testR * Math.sin(theta0) * Math.cos(phi0);
+        const y0 = testR * Math.sin(theta0) * Math.sin(phi0);
+        const z0 = testR * Math.cos(theta0);
+
+        let x = x0, y = y0, z = z0;
+        let escaped = false;
+
+        for (let iter = 0; iter < 5; iter++) {
+          const r = Math.hypot(x, y, z);
+          if (r > 2.0) { escaped = true; break; }
+          const th = Math.acos(z / (r + 1e-7));
+          const ph = Math.atan2(y, x);
+          const rn = Math.pow(r, n);
+          x = rn * Math.sin(n * th) * Math.cos(n * ph) + x0;
+          y = rn * Math.sin(n * th) * Math.sin(n * ph) + y0;
+          z = rn * Math.cos(n * th) + z0;
+        }
+
+        if (escaped) rMax = testR;
+        else { hitR = testR; rMin = testR; }
+      }
+
+      points.push({
+        x: hitR * Math.sin(theta0) * Math.cos(phi0),
+        y: hitR * Math.sin(theta0) * Math.sin(phi0),
+        z: hitR * Math.cos(theta0),
+        r: hitR,
+        theta: theta0,
+        phi: phi0
+      });
+    }
+  }
+  generatePoints(power);
+
+  powerSlider.addEventListener('input', (e) => {
+    power = parseInt(e.target.value);
+    powerVal.textContent = power;
+    generatePoints(power);
+  });
+
+  zoomSlider.addEventListener('input', (e) => {
+    zoom = parseInt(e.target.value);
+    zoomVal.textContent = (zoom / 260).toFixed(1) + "×";
+  });
+
+  btnAutoRotate.addEventListener('click', () => {
+    autoRotate = !autoRotate;
+    btnAutoRotate.textContent = autoRotate ? "Pause Spin" : "Resume Spin";
+  });
+
+  btnReset.addEventListener('click', () => {
+    rotX = 0.35;
+    rotY = 0.0;
+    zoom = 260;
+    zoomSlider.value = 260;
+    zoomVal.textContent = "1.0×";
+  });
+
+  // Mouse interaction
+  canvas.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+    canvas.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    canvas.style.cursor = 'grab';
+  });
+
+  canvas.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - lastMouseX;
+    const dy = e.clientY - lastMouseY;
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+
+    rotY += dx * 0.008;
+    rotX += dy * 0.008;
+    rotX = Math.max(-1.5, Math.min(1.5, rotX));
+  });
+
+  let lastTime = performance.now();
+  function animate(now) {
+    requestAnimationFrame(animate);
+    const dt = Math.min(0.04, (now - lastTime) / 1000);
+    lastTime = now;
+
+    if (autoRotate && !isDragging) {
+      rotY += dt * 0.35;
+    }
+
+    telemetry.textContent = `Mandelbulb n = ${power} | Points: ${points.length} | D ≈ ${(2.0 + power * 0.1).toFixed(2)}`;
+
+    // Render frame
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, W, H);
+
+    const cX = W / 2;
+    const cY = H / 2;
+
+    // Project points
+    const projected = [];
+    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+
+    for (let pt of points) {
+      const x1 = pt.x * cosY + pt.z * sinY;
+      const y1 = pt.y;
+      const z1 = -pt.x * sinY + pt.z * cosY;
+
+      const x2 = x1;
+      const y2 = y1 * cosX - z1 * sinX;
+      const z2 = y1 * sinX + z1 * cosX;
+
+      const fov = 3.0;
+      const pz = z2 + fov;
+      const px = cX + (x2 / pz) * zoom * 2.2;
+      const py = cY + (y2 / pz) * zoom * 2.2;
+
+      projected.push({ px, py, pz: z2, phi: pt.phi, theta: pt.theta });
+    }
+
+    projected.sort((a, b) => b.pz - a.pz);
+
+    // Draw projected points
+    for (let p of projected) {
+      const depthNorm = (p.pz + 1.3) / 2.6;
+      const pSize = Math.max(1.5, (1.0 - p.pz * 0.3) * 3.0);
+      const alpha = Math.min(1.0, Math.max(0.15, depthNorm * 0.9 + 0.1));
+
+      ctx.beginPath();
+      ctx.arc(p.px, p.py, pSize, 0, Math.PI * 2);
+
+      if (depthNorm > 0.6) {
+        ctx.fillStyle = `rgba(56, 189, 248, ${alpha})`;
+      } else if (depthNorm > 0.3) {
+        ctx.fillStyle = `rgba(168, 85, 247, ${alpha})`;
+      } else {
+        ctx.fillStyle = `rgba(244, 63, 94, ${alpha * 0.7})`;
+      }
+      ctx.fill();
+    }
+  }
+
+  requestAnimationFrame(animate);
+})();
+</script>
+

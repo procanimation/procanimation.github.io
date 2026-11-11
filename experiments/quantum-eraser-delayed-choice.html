@@ -1,0 +1,361 @@
+---
+layout: article
+title: "The Quantum Eraser & Wheeler's Delayed-Choice Paradox"
+tagline: "SPDC Entanglement, The 8-Nanosecond Optical Delay & The No-Communication Theorem"
+description: "How delayed-choice quantum erasers test wave-particle duality and demonstrate why future observations cannot alter past history."
+category: "Quantum Mechanics & Foundational Paradoxes"
+permalink: /experiments/quantum-eraser-delayed-choice.html
+---
+
+<p class="article-lead">
+  In 1801, <strong>Thomas Young</strong> proved light travels as a wave. Over a century later, quantum mechanics revealed that individual photons fired one by one still build up an interference pattern. Yet observing <em>which path</em> the photon takes destroys the wave pattern instantaneously, collapsing it into two classical clumps. In 1978, <strong>John Archibald Wheeler</strong> asked: what if we delay the choice of measurement until <em>after</em> the photon has already passed through the slits? In 1999, <strong>Kim et al.</strong> built the definitive laboratory experiment using entangled photons, demonstrating that path information can be erased <strong>8 nanoseconds after</strong> the primary signal photon has already been absorbed. Does the future rewrite the past?
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Quantum Eraser & Measurement Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Wavefunction Interference vs Which-Way Knowledge</h4>
+    <p>In standard double-slit superposition, the probability density on the detector screen includes an interference cross-term:
+      $$I(y) = |\psi_A + \psi_B|^2 = |\psi_A|^2 + |\psi_B|^2 + 2 \text{Re}(\psi_A^* \psi_B)$$
+      When the path becomes distinguishable by an observer, the cross-term vanishes ($2 \text{Re}(\psi_A^* \psi_B) = 0$), leaving a classical sum of two separate clumps.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Wheeler's Cosmic Interferometer (1978)</h4>
+    <p>Wheeler envisioned light from a quasar billions of light years away bent around a massive galaxy by gravitational lensing along two cosmic routes. An astronomer on Earth can choose to point two telescopes (particle path detection) or insert a beam splitter (wave interference). The decision is made billions of years after the light traversed the galaxy.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Scully-Drühl Polarization Eraser (1982)</h4>
+    <p>Marlan Scully and Kai Drühl showed that physical disturbance is not required to destroy interference. Mark slit A with left-circular polarization $|L\rangle$ and slit B with right-circular polarization $|R\rangle$. Because $\langle L | R \rangle = 0$, paths are distinguishable and fringes vanish. Placing a $45^\circ$ diagonal polarizer $|D\rangle = (|L\rangle + |R\rangle)/\sqrt{2}$ erases the path marker, instantly restoring interference!</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Spontaneous Parametric Down-Conversion (SPDC)</h4>
+    <p>In the 1999 Kim et al. experiment, an argon-ion UV laser pumps a nonlinear Beta Barium Borate (BBO) crystal. A single high-energy photon splits into an entangled pair:
+      $$|\psi\rangle = \frac{1}{\sqrt{2}} \left( |A\rangle_s |A\rangle_i + |B\rangle_s |B\rangle_i \right)$$
+      The Signal photon ($s$) travels to primary detector $D_0$, while the Idler photon ($i$) enters an optical maze.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The 8-Nanosecond Optical Delay Loop</h4>
+    <p>The Signal path to $D_0$ is only 1.3 meters long, while the Idler path to detectors $D_1$ through $D_4$ is 3.6 meters long. The Signal photon is absorbed at $D_0$ approximately <strong>7.7 nanoseconds before</strong> the Idler photon even reaches the beam splitters that decide whether its path is preserved or erased!</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The No-Communication Theorem & Anti-Phase Fringes</h4>
+    <p>The experiment does not permit retrocausality or backward-in-time messaging. Looking at $D_0$ alone shows a completely smooth, featureless Gaussian curve. The interference pattern from eraser detector $D_1$ is matched by an anti-phase pattern at $D_2$ shifted by $180^\circ$ ($\pi$). Summed together:
+      $$P(D_0) = P(D_0 | D_1) + P(D_0 | D_2) = \text{Smooth Blur}$$
+      Interference can only be seen through classical coincidence counters, strictly bounded by the speed of light.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚛️ REAL-TIME DELAYED-CHOICE QUANTUM ERASER LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Kim et al. Optical Bench, SPDC Entangled Photons & Coincidence Filters)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#f43f5e;">● Signal Photons (D₀)</span>
+      <span style="color:#a855f7;">● Idler Photons</span>
+      <span style="color:#4ade80;">● Eraser Detectors (D₁, D₂)</span>
+      <span style="color:#fbbf24;">● Which-Way Detectors (D₃, D₄)</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:620px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="eraserCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; right:20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; z-index:10; background:rgba(15,23,42,0.85); padding:10px 16px; border-radius:8px; border:1px solid rgba(56,189,248,0.2);">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="color:#94a3b8; font-size:0.85rem; font-weight:600;">Filter Coincidence:</span>
+        <button id="btnAll" style="background:#38bdf8; color:#020617; border:none; padding:6px 12px; font-weight:700; border-radius:6px; cursor:pointer;">All D₀ (Unfiltered)</button>
+        <button id="btnD1" style="background:rgba(74,222,128,0.2); color:#4ade80; border:1px solid #4ade80; padding:6px 12px; font-weight:600; border-radius:6px; cursor:pointer;">D₁ (Eraser)</button>
+        <button id="btnD2" style="background:rgba(56,189,248,0.2); color:#38bdf8; border:1px solid #38bdf8; padding:6px 12px; font-weight:600; border-radius:6px; cursor:pointer;">D₂ (Eraser Anti-Phase)</button>
+        <button id="btnD3" style="background:rgba(251,191,36,0.2); color:#fbbf24; border:1px solid #fbbf24; padding:6px 12px; font-weight:600; border-radius:6px; cursor:pointer;">D₃ (Path A)</button>
+        <button id="btnD4" style="background:rgba(251,191,36,0.2); color:#fbbf24; border:1px solid #fbbf24; padding:6px 12px; font-weight:600; border-radius:6px; cursor:pointer;">D₄ (Path B)</button>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button id="btnToggleLaser" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:6px 14px; font-weight:600; border-radius:6px; cursor:pointer;">Pause Emission</button>
+      </div>
+    </div>
+
+    <div id="eraserTelemetry" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.9); border:1px solid rgba(56,189,248,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      Coincidence Filter: All D₀ | Temporal Delay: Δt = 7.7 ns | Visibility: V = 0.00
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('eraserCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const telemetry = document.getElementById('eraserTelemetry');
+
+  const btnAll = document.getElementById('btnAll');
+  const btnD1 = document.getElementById('btnD1');
+  const btnD2 = document.getElementById('btnD2');
+  const btnD3 = document.getElementById('btnD3');
+  const btnD4 = document.getElementById('btnD4');
+  const btnToggleLaser = document.getElementById('btnToggleLaser');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = canvas.parentElement.clientWidth;
+    H = canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let activeFilter = "ALL";
+  let emitting = true;
+
+  btnAll.addEventListener('click', () => { activeFilter = "ALL"; updateButtons(); });
+  btnD1.addEventListener('click', () => { activeFilter = "D1"; updateButtons(); });
+  btnD2.addEventListener('click', () => { activeFilter = "D2"; updateButtons(); });
+  btnD3.addEventListener('click', () => { activeFilter = "D3"; updateButtons(); });
+  btnD4.addEventListener('click', () => { activeFilter = "D4"; updateButtons(); });
+
+  btnToggleLaser.addEventListener('click', () => {
+    emitting = !emitting;
+    btnToggleLaser.textContent = emitting ? "Pause Emission" : "Resume Emission";
+  });
+
+  function updateButtons() {
+    const btns = [btnAll, btnD1, btnD2, btnD3, btnD4];
+    btns.forEach(b => {
+      b.style.fontWeight = '600';
+      b.style.opacity = '0.7';
+    });
+    if (activeFilter === "ALL") { btnAll.style.opacity = '1.0'; btnAll.style.fontWeight = '700'; }
+    if (activeFilter === "D1") { btnD1.style.opacity = '1.0'; btnD1.style.fontWeight = '700'; }
+    if (activeFilter === "D2") { btnD2.style.opacity = '1.0'; btnD2.style.fontWeight = '700'; }
+    if (activeFilter === "D3") { btnD3.style.opacity = '1.0'; btnD3.style.fontWeight = '700'; }
+    if (activeFilter === "D4") { btnD4.style.opacity = '1.0'; btnD4.style.fontWeight = '700'; }
+  }
+
+  // Optical bench simulation elements
+  let photons = [];
+  function spawnEntangledPair() {
+    if (!emitting) return;
+    const originSlit = Math.random() < 0.5 ? "A" : "B";
+    // Decide Idler destination based on 50/50 beamsplitters
+    let idlerTarget = "D3";
+    const r = Math.random();
+    if (originSlit === "A") {
+      if (r < 0.5) idlerTarget = "D3"; // direct to D3
+      else if (r < 0.75) idlerTarget = "D1"; // transmitted to D1
+      else idlerTarget = "D2"; // reflected to D2
+    } else {
+      if (r < 0.5) idlerTarget = "D4"; // direct to D4
+      else if (r < 0.75) idlerTarget = "D1"; // reflected to D1
+      else idlerTarget = "D2"; // transmitted to D2
+    }
+
+    photons.push({
+      type: "signal",
+      progress: 0,
+      speed: 0.022,
+      origin: originSlit,
+      idlerTarget: idlerTarget
+    });
+
+    photons.push({
+      type: "idler",
+      progress: 0,
+      speed: 0.012, // Slower/longer path
+      origin: originSlit,
+      target: idlerTarget
+    });
+  }
+
+  let lastTime = performance.now();
+  function loop(now) {
+    requestAnimationFrame(loop);
+    const dt = Math.min(0.04, (now - lastTime) / 1000);
+    lastTime = now;
+
+    if (Math.random() < 0.35) spawnEntangledPair();
+
+    // Clear background
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, W, H);
+
+    const bboX = W * 0.22;
+    const bboY = H * 0.52;
+    const d0X = W * 0.75;
+    const d0Y = H * 0.22;
+    const mazeX = W * 0.75;
+    const mazeY = H * 0.72;
+
+    // Laser Source & Slits
+    ctx.fillStyle = '#a855f7';
+    ctx.fillRect(bboX - 90, bboY - 14, 45, 28);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 11px monospace';
+    ctx.fillText("UV LASER", bboX - 86, bboY + 4);
+
+    // Slit Barrier
+    ctx.fillStyle = '#475569';
+    ctx.fillRect(bboX - 35, bboY - 35, 6, 70);
+
+    // BBO Crystal
+    ctx.fillStyle = 'rgba(0, 245, 212, 0.25)';
+    ctx.strokeStyle = '#00f5d4';
+    ctx.lineWidth = 2;
+    ctx.fillRect(bboX - 12, bboY - 30, 24, 60);
+    ctx.strokeRect(bboX - 12, bboY - 30, 24, 60);
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = '700 12px monospace';
+    ctx.fillText("BBO (SPDC)", bboX - 32, bboY - 40);
+
+    // Optical Path Lines
+    // Signal Path (Top)
+    ctx.strokeStyle = 'rgba(244, 63, 94, 0.4)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(bboX, bboY);
+    ctx.lineTo(d0X, d0Y);
+    ctx.stroke();
+
+    // Idler Path (Bottom)
+    ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)';
+    ctx.beginPath();
+    ctx.moveTo(bboX, bboY);
+    ctx.lineTo(bboX + 120, mazeY);
+    ctx.lineTo(mazeX, mazeY);
+    ctx.stroke();
+
+    // Primary Signal Detector D0
+    ctx.fillStyle = '#1e293b';
+    ctx.strokeStyle = '#f43f5e';
+    ctx.fillRect(d0X, d0Y - 50, 16, 100);
+    ctx.strokeRect(d0X, d0Y - 50, 16, 100);
+
+    ctx.fillStyle = '#f43f5e';
+    ctx.font = '700 13px monospace';
+    ctx.fillText("DETECTOR D₀ (Signal)", d0X + 24, d0Y - 10);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '500 11px monospace';
+    ctx.fillText("Detected 8 ns First", d0X + 24, d0Y + 8);
+
+    // Idler Detectors D1, D2, D3, D4
+    const dets = [
+      { id: "D1", name: "D₁ (Eraser)", y: mazeY - 60, color: "#4ade80" },
+      { id: "D2", name: "D₂ (Eraser Anti-Phase)", y: mazeY - 20, color: "#38bdf8" },
+      { id: "D3", name: "D₃ (Path A)", y: mazeY + 25, color: "#fbbf24" },
+      { id: "D4", name: "D₄ (Path B)", y: mazeY + 65, color: "#fbbf24" }
+    ];
+
+    for (let d of dets) {
+      ctx.fillStyle = d.color;
+      ctx.fillRect(mazeX, d.y - 10, 20, 20);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 12px monospace';
+      ctx.fillText(d.name, mazeX + 26, d.y + 5);
+    }
+
+    // Update and draw flying photons
+    for (let i = photons.length - 1; i >= 0; i--) {
+      const p = photons[i];
+      p.progress += p.speed;
+
+      if (p.type === "signal") {
+        const px = bboX + (d0X - bboX) * p.progress;
+        const py = bboY + (d0Y - bboY) * p.progress;
+        ctx.fillStyle = '#f43f5e';
+        ctx.beginPath();
+        ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        const px = bboX + (mazeX - bboX) * p.progress;
+        const py = bboY + (mazeY - bboY) * p.progress;
+        ctx.fillStyle = '#a855f7';
+        ctx.beginPath();
+        ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (p.progress >= 1.0) photons.splice(i, 1);
+    }
+
+    // Coincidence Counter Intensity Curve on D0
+    ctx.save();
+    const plotX = d0X + 80;
+    const plotY = d0Y - 50;
+    const plotW = Math.min(W - plotX - 30, 220);
+    const plotH = 100;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+    ctx.fillRect(plotX, plotY, plotW, plotH);
+    ctx.strokeRect(plotX, plotY, plotW, plotH);
+
+    ctx.lineWidth = 2.5;
+    if (activeFilter === "ALL") {
+      ctx.strokeStyle = '#ffffff';
+      ctx.beginPath();
+      for (let y = 0; y <= plotH; y += 2) {
+        const ny = (y / plotH) * 6 - 3;
+        const val = Math.exp(-Math.pow(ny * 0.6, 2)) * (plotW - 40);
+        if (y === 0) ctx.moveTo(plotX + val, plotY + y);
+        else ctx.lineTo(plotX + val, plotY + y);
+      }
+      ctx.stroke();
+      telemetry.textContent = `Coincidence Filter: All D₀ (Unfiltered) | Fringes: NONE (Smooth Blur) | V = 0.00`;
+    } else if (activeFilter === "D1") {
+      ctx.strokeStyle = '#4ade80';
+      ctx.beginPath();
+      for (let y = 0; y <= plotH; y += 2) {
+        const ny = (y / plotH) * 12 - 6;
+        const val = Math.pow(Math.cos(ny), 2) * Math.exp(-Math.pow(ny * 0.3, 2)) * (plotW - 35);
+        if (y === 0) ctx.moveTo(plotX + val, plotY + y);
+        else ctx.lineTo(plotX + val, plotY + y);
+      }
+      ctx.stroke();
+      telemetry.textContent = `Coincidence Filter: D₁ (Eraser Active) | Fringes: RESTORED! | V ≈ 0.95`;
+    } else if (activeFilter === "D2") {
+      ctx.strokeStyle = '#38bdf8';
+      ctx.beginPath();
+      for (let y = 0; y <= plotH; y += 2) {
+        const ny = (y / plotH) * 12 - 6;
+        const val = Math.pow(Math.sin(ny), 2) * Math.exp(-Math.pow(ny * 0.3, 2)) * (plotW - 35);
+        if (y === 0) ctx.moveTo(plotX + val, plotY + y);
+        else ctx.lineTo(plotX + val, plotY + y);
+      }
+      ctx.stroke();
+      telemetry.textContent = `Coincidence Filter: D₂ (Anti-Phase Eraser) | Fringes: Shifted by π | V ≈ 0.95`;
+    } else if (activeFilter === "D3") {
+      ctx.strokeStyle = '#fbbf24';
+      ctx.beginPath();
+      for (let y = 0; y <= plotH; y += 2) {
+        const ny = (y / plotH) * 6 - 3;
+        const val = Math.exp(-Math.pow((ny + 1.2) * 1.2, 2)) * (plotW - 40);
+        if (y === 0) ctx.moveTo(plotX + val, plotY + y);
+        else ctx.lineTo(plotX + val, plotY + y);
+      }
+      ctx.stroke();
+      telemetry.textContent = `Coincidence Filter: D₃ (Which-Way Path A Known) | Fringes: NONE (Particle Clump)`;
+    } else if (activeFilter === "D4") {
+      ctx.strokeStyle = '#fbbf24';
+      ctx.beginPath();
+      for (let y = 0; y <= plotH; y += 2) {
+        const ny = (y / plotH) * 6 - 3;
+        const val = Math.exp(-Math.pow((ny - 1.2) * 1.2, 2)) * (plotW - 40);
+        if (y === 0) ctx.moveTo(plotX + val, plotY + y);
+        else ctx.lineTo(plotX + val, plotY + y);
+      }
+      ctx.stroke();
+      telemetry.textContent = `Coincidence Filter: D₄ (Which-Way Path B Known) | Fringes: NONE (Particle Clump)`;
+    }
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 11px monospace';
+    ctx.fillText("COINCIDENCE PROFILE", plotX + 10, plotY + 16);
+    ctx.restore();
+  }
+
+  requestAnimationFrame(loop);
+})();
+</script>
