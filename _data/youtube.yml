@@ -1614,7 +1614,7 @@
   article_url: /experiments/coupled-metronomes-synchronization.html
 - id: sedLPUKizoY
   title: "How AI Creates Reality from Pure Noise: Diffusion Models & Score-Based SDEs"
-  series: Neural Networks & LLMs: From Scratch to Transformers
+  series: "Neural Networks & LLMs: From Scratch to Transformers"
   format: Landscape (16:9 • 1080p Master)
   duration: 09:20
   description: Non-equilibrium thermodynamics, forward Gaussian entropy injection, closed-form jump shortcuts, U-Net denoising score matching ∇_x log p_t(x), Tweedie's formula, continuous Itô SDEs, Anderson's time-reversal, deterministic Probability Flow ODEs, Classifier-Free Guidance (CFG), and Latent Diffusion Models (Stable Diffusion).
