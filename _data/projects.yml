@@ -743,6 +743,33 @@
   featured: true
   gradient: "linear-gradient(135deg, #f59e0b 0%, #00f5d4 50%, #38bdf8 100%)"
 
+- id: "hilbert-curve"
+  slug: "hilbert-curve"
+  category: "math"
+  name: "The Hilbert Curve: 1D Line That Fills 2D Space"
+  tag: "Fractals • Space-Filling Curves"
+  tech: "HTML5 Canvas • Recursive Quadrant Folding"
+  description: "David Hilbert's 1891 continuous space-filling fractal curve, recursive quadrant folding, Hausdorff dimension D = 2.0, and locality-preserving spatial hashing."
+  repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/hilbert_curve"
+  article_url: "/experiments/hilbert-curve-space-filling.html"
+  demo_url: "/experiments/hilbert-curve-space-filling.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #a855f7 50%, #fbbf24 100%)"
+
+- id: "graph-theory"
+  slug: "graph-theory"
+  category: "math"
+  name: "Graph Theory & Network Science"
+  tag: "Topology • Complex Networks"
+  tech: "HTML5 Canvas • Force-Directed Graph Engine"
+  description: "Leonhard Euler's 1736 Seven Bridges of Königsberg, Erdős–Rényi random percolation phase transitions, Watts–Strogatz small-world six degrees of separation, Barabási–Albert scale-free hubs, and Google's PageRank."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/graph_theory"
+  article_url: "/experiments/graph-theory-network-science.html"
+  demo_url: "/experiments/graph-theory-network-science.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)"
+
+
 
 
 

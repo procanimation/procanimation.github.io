@@ -1,0 +1,302 @@
+---
+layout: article
+title: "Graph Theory & Network Science: From Euler's Bridges to Small-World Networks & PageRank"
+tagline: "Leonhard Euler's 1736 Foundation, Erdős–Rényi Random Phase Transitions & Scale-Free Webs"
+description: "How discrete vertices and edges unite the Königsberg bridges, six degrees of separation, Google's PageRank, and the human brain connectome."
+category: "Chaos, Nonlinear Dynamics & Complex Systems"
+permalink: /experiments/graph-theory-network-science.html
+---
+
+<p class="article-lead">
+  In 1736, the Swiss mathematical titan <strong>Leonhard Euler</strong> solved the legendary puzzle of the <strong>Seven Bridges of Königsberg</strong> by making a conceptual leap that founded modern topology: he stripped away geography, replacing landmasses with abstract <em>vertices</em> and bridges with connecting <em>edges</em>. Today, <strong>Graph Theory and Network Science</strong> constitute the universal mathematical language of our interconnected universe—governing everything from random phase transitions in social networks to small-world neural connectomes and Google's multi-billion-page PageRank algorithm.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Graph Theory & Network Science Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Eulerian Path & Degree Parity (1736)</h4>
+    <p>Every time a path enters a vertex, it must exit via a different edge, consuming two edges. A continuous path traversing every edge exactly once exists if and only if the number of vertices with an odd degree is exactly zero (closed circuit) or two (open path starting and ending at the odd vertices). In Königsberg, all four landmasses had odd degrees ($3, 3, 3, 5$), proving a traversal was mathematically impossible.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Erdős–Rényi Phase Transition (1959)</h4>
+    <p>In a random graph $G(N, p)$, edges connect pairs of $N$ nodes with independent probability $p$. As edge probability sweeps past the critical percolation threshold $p_c = 1/N$ (an average degree of $\langle k \rangle = 1.0$), isolated fragments undergo a catastrophic phase transition, abruptly coalescing into a single Giant Connected Component spanning the entire system.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Watts–Strogatz Small-World Model (1998)</h4>
+    <p>Real-world networks simultaneously exhibit dense local clustering (friends of friends are friends) and short global separation ("six degrees"). Watts and Strogatz proved that rewiring just $1\%$ of local edges in a ring lattice into random shortcuts plummets average path length $L$ exponentially while preserving high clustering $C$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Scale-Free Networks & Preferential Attachment</h4>
+    <p>In 1999, Barabási and Albert discovered that real networks do not obey a Gaussian bell curve. Instead, degree distributions follow a heavy-tailed power law: $P(k) \sim k^{-\gamma}$. By the principle of Preferential Attachment ("the rich get richer"), incoming nodes link preferentially to existing hubs, producing scale-free topologies that are robust to random errors but vulnerable to targeted hub attacks.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Google's PageRank & Markov Random Walks</h4>
+    <p>Formulated by Larry Page and Sergey Brin in 1998, PageRank models a random web surfer navigating directed hyperlinks with a damping factor $d = 0.85$ of following links and $1-d = 0.15$ of teleporting to any random page. The steady-state ranking vector $\mathbf{r}$ is the dominant eigenvector ($\lambda = 1$) of the Google stochastic transition matrix:
+      $$\mathbf{r} = \left[ d \mathbf{M} + \frac{1-d}{N} \mathbf{E} \right] \mathbf{r}$$
+    </p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Universal Connectome</h4>
+    <p>The 86 billion neurons and 100 trillion synapses of the human brain operate as a small-world, scale-free network balanced at the critical edge of chaos, maximizing information bandwidth while minimizing biological wiring cost.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌐 INTERACTIVE NETWORK TOPOLOGY SIMULATOR</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Live Force-Directed Graph, Dynamic Rewiring, Scale-Free Hubs & PageRank)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Network Nodes</span>
+      <span style="color:#38bdf8;">― Connecting Edges</span>
+      <span style="color:#fbbf24;">● Dominant Hubs</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:580px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="graphCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; display:flex; flex-wrap:wrap; gap:10px; z-index:10;">
+      <button id="btnModeKonig" style="background:#00f5d4; color:#020617; border:none; padding:8px 14px; font-weight:700; border-radius:6px; cursor:pointer;">1. Königsberg</button>
+      <button id="btnModeRandom" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 14px; font-weight:600; border-radius:6px; cursor:pointer;">2. Erdős–Rényi</button>
+      <button id="btnModeSmallWorld" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 14px; font-weight:600; border-radius:6px; cursor:pointer;">3. Small-World</button>
+      <button id="btnModeScaleFree" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 14px; font-weight:600; border-radius:6px; cursor:pointer;">4. Scale-Free Hubs</button>
+      <button id="btnModePageRank" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 14px; font-weight:600; border-radius:6px; cursor:pointer;">5. PageRank</button>
+    </div>
+
+    <div id="telemetryBadge" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.85); border:1px solid rgba(0,245,212,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      Model: Königsberg | Vertices: 4 | Edges: 7 | Parity: Impossible
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const canvas = document.getElementById('graphCanvas');
+    const ctx = canvas.getContext('2d');
+    const telemetry = document.getElementById('telemetryBadge');
+
+    let W, H;
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      W = rect.width;
+      H = rect.height;
+      canvas.width = W * window.devicePixelRatio;
+      canvas.height = H * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let currentMode = 'konig';
+    let nodes = [];
+    let edges = [];
+
+    function setupKonig() {
+      nodes = [
+        { id: 'N', label: 'North (N)', x: W * 0.45, y: H * 0.25, deg: 3, r: 24, color: '#00f5d4' },
+        { id: 'S', label: 'South (S)', x: W * 0.45, y: H * 0.75, deg: 3, r: 24, color: '#00f5d4' },
+        { id: 'K', label: 'Kneiphof (K)', x: W * 0.35, y: H * 0.50, deg: 5, r: 28, color: '#f59e0b' },
+        { id: 'E', label: 'East (E)', x: W * 0.65, y: H * 0.50, deg: 3, r: 24, color: '#00f5d4' }
+      ];
+      edges = [
+        { from: 'N', to: 'K', curve: -25 },
+        { from: 'N', to: 'K', curve: 25 },
+        { from: 'S', to: 'K', curve: -25 },
+        { from: 'S', to: 'K', curve: 25 },
+        { from: 'E', to: 'K', curve: 0 },
+        { from: 'N', to: 'E', curve: -15 },
+        { from: 'S', to: 'E', curve: 15 }
+      ];
+      telemetry.textContent = 'Model: Königsberg Bridges | Vertices: 4 | Edges: 7 | Euler Circuit: Impossible (All 4 Odd)';
+    }
+
+    function setupRandom() {
+      nodes = [];
+      edges = [];
+      const count = 35;
+      for (let i = 0; i < count; i++) {
+        nodes.push({
+          id: i,
+          x: W * 0.2 + Math.random() * W * 0.6,
+          y: H * 0.2 + Math.random() * H * 0.6,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          r: 7,
+          color: '#38bdf8'
+        });
+      }
+      for (let i = 0; i < count; i++) {
+        for (let j = i + 1; j < count; j++) {
+          if (Math.random() < 0.08) {
+            edges.push({ from: i, to: j });
+          }
+        }
+      }
+      telemetry.textContent = `Model: Erdős–Rényi G(35, 0.08) | Nodes: 35 | Edges: ${edges.length} | Giant Component Emerging`;
+    }
+
+    function setupSmallWorld() {
+      nodes = [];
+      edges = [];
+      const count = 24;
+      const cx = W / 2, cy = H / 2, rad = Math.min(W, H) * 0.35;
+      for (let i = 0; i < count; i++) {
+        const ang = (i / count) * Math.PI * 2 - Math.PI / 2;
+        nodes.push({
+          id: i,
+          x: cx + Math.cos(ang) * rad,
+          y: cy + Math.sin(ang) * rad,
+          r: 8,
+          color: '#00f5d4'
+        });
+      }
+      // Nearest neighbor ring
+      for (let i = 0; i < count; i++) {
+        edges.push({ from: i, to: (i + 1) % count });
+        edges.push({ from: i, to: (i + 2) % count });
+      }
+      // Rewire shortcuts
+      edges.push({ from: 2, to: 14, isShortcut: true });
+      edges.push({ from: 6, to: 19, isShortcut: true });
+      edges.push({ from: 10, to: 23, isShortcut: true });
+      telemetry.textContent = 'Model: Watts–Strogatz Small-World | High Clustering C ≈ 0.65 | Low Path Length L ≈ 2.8';
+    }
+
+    function setupScaleFree() {
+      nodes = [];
+      edges = [];
+      const count = 30;
+      for (let i = 0; i < count; i++) {
+        const isHub = (i === 0 || i === 1);
+        nodes.push({
+          id: i,
+          x: W * 0.25 + Math.random() * W * 0.5,
+          y: H * 0.2 + Math.random() * H * 0.6,
+          r: isHub ? 22 : 6,
+          color: isHub ? '#fbbf24' : '#a855f7'
+        });
+      }
+      for (let i = 2; i < count; i++) {
+        // Connect to hub 0 or 1 preferentially
+        if (Math.random() < 0.75) edges.push({ from: i, to: 0 });
+        if (Math.random() < 0.45) edges.push({ from: i, to: 1 });
+        if (Math.random() < 0.25) edges.push({ from: i, to: Math.floor(Math.random() * i) });
+      }
+      telemetry.textContent = 'Model: Barabási–Albert Scale-Free | Power Law P(k) ~ k^-3 | Dominant Central Hubs';
+    }
+
+    function setupPageRank() {
+      nodes = [
+        { id: 'A', x: W * 0.35, y: H * 0.35, r: 32, rank: '38%', color: '#00f5d4' },
+        { id: 'B', x: W * 0.65, y: H * 0.35, r: 24, rank: '24%', color: '#38bdf8' },
+        { id: 'C', x: W * 0.65, y: H * 0.65, r: 20, rank: '18%', color: '#a855f7' },
+        { id: 'D', x: W * 0.35, y: H * 0.65, r: 16, rank: '12%', color: '#fbbf24' },
+        { id: 'E', x: W * 0.50, y: H * 0.50, r: 14, rank: '8%', color: '#f43f5e' }
+      ];
+      edges = [
+        { from: 'B', to: 'A' }, { from: 'C', to: 'A' }, { from: 'D', to: 'A' },
+        { from: 'A', to: 'B' }, { from: 'C', to: 'B' }, { from: 'D', to: 'C' },
+        { from: 'E', to: 'D' }, { from: 'B', to: 'E' }
+      ];
+      telemetry.textContent = 'Model: Google PageRank | Damping Factor d = 0.85 | Dominant Markov Eigenvector';
+    }
+
+    setupKonig();
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Draw Edges
+      for (let e of edges) {
+        let p1, p2;
+        if (typeof e.from === 'string') {
+          p1 = nodes.find(n => n.id === e.from);
+          p2 = nodes.find(n => n.id === e.to);
+        } else {
+          p1 = nodes[e.from];
+          p2 = nodes[e.to];
+        }
+        if (!p1 || !p2) continue;
+
+        ctx.strokeStyle = e.isShortcut ? '#f43f5e' : 'rgba(56, 189, 248, 0.4)';
+        ctx.lineWidth = e.isShortcut ? 3.0 : 1.8;
+        ctx.beginPath();
+        if (e.curve) {
+          const mx = (p1.x + p2.x) / 2 + e.curve;
+          const my = (p1.y + p2.y) / 2;
+          ctx.moveTo(p1.x, p1.y);
+          ctx.quadraticCurveTo(mx, my, p2.x, p2.y);
+        } else {
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+        }
+        ctx.stroke();
+      }
+
+      // Draw Nodes
+      for (let n of nodes) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = n.color || '#00f5d4';
+        ctx.shadowColor = n.color || '#00f5d4';
+        ctx.shadowBlur = n.r > 15 ? 16 : 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        if (n.label || n.rank) {
+          ctx.font = '700 13px -apple-system, sans-serif';
+          ctx.fillStyle = '#f8fafc';
+          ctx.textAlign = 'center';
+          ctx.fillText(n.label || `${n.id} (${n.rank})`, n.x, n.y + n.r + 18);
+        }
+      }
+    }
+
+    function loop() {
+      draw();
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // Event buttons
+    function setButtonActive(activeBtn) {
+      ['btnModeKonig', 'btnModeRandom', 'btnModeSmallWorld', 'btnModeScaleFree', 'btnModePageRank'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn === activeBtn) {
+          btn.style.background = '#00f5d4';
+          btn.style.color = '#020617';
+          btn.style.fontWeight = '700';
+        } else {
+          btn.style.background = 'rgba(255,255,255,0.1)';
+          btn.style.color = '#fff';
+          btn.style.fontWeight = '600';
+        }
+      });
+    }
+
+    document.getElementById('btnModeKonig').addEventListener('click', function() { setButtonActive(this); setupKonig(); });
+    document.getElementById('btnModeRandom').addEventListener('click', function() { setButtonActive(this); setupRandom(); });
+    document.getElementById('btnModeSmallWorld').addEventListener('click', function() { setButtonActive(this); setupSmallWorld(); });
+    document.getElementById('btnModeScaleFree').addEventListener('click', function() { setButtonActive(this); setupScaleFree(); });
+    document.getElementById('btnModePageRank').addEventListener('click', function() { setButtonActive(this); setupPageRank(); });
+  })();
+</script>
+
+<div class="article-footer-cta" style="margin-top:40px; padding:24px; background:rgba(15,23,42,0.6); border:1px solid rgba(56,189,248,0.2); border-radius:12px;">
+  <h4 style="margin-top:0; color:#38bdf8;">Watch the Master Feature Documentary on YouTube</h4>
+  <p style="color:#94a3b8; font-size:0.95rem;">
+    Explore our complete cinematic documentary feature on Graph Theory & Network Science:
+  </p>
+  <div style="display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;">
+    <a id="ytDocLink" href="https://youtube.com/playlist?list=PLbPPHfxM2AH8" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:#f43f5e; color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:700;">
+      ▶ Watch on Chaos & Complex Systems Playlist
+    </a>
+    <a href="https://github.com/procanimation/science-stuff" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:600; border:1px solid rgba(255,255,255,0.2);">
+      💻 Simulation Source Code on GitHub
+    </a>
+  </div>
+</div>

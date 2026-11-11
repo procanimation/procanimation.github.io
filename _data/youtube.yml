@@ -1492,3 +1492,44 @@
   video_url: https://www.youtube.com/watch?v=3k8mZSzlXOs
   article_url: /experiments/brownian-motion-einstein.html
   id: 3k8mZSzlXOs
+- title: 'The 1D Line That Fills 2D Space: The Hilbert Curve'
+  series: Pure Mathematics & Fractals
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:48
+  description: David Hilbert's 1891 continuous space-filling fractal curve, recursive quadrant folding, Hausdorff dimension D = 2.0, and locality-preserving spatial hashing.
+  tags:
+  - HilbertCurve
+  - SpaceFillingCurve
+  - Fractals
+  - Mathematics
+  - Geometry
+  - ComputerScience
+  - Algorithms
+  - p5js
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #a855f7, #fbbf24)'
+  video_url: https://youtube.com/shorts/C5rvgM-AA94
+  article_url: /experiments/hilbert-curve-space-filling.html
+  id: C5rvgM-AA94
+- title: "The Architecture of Everything: Graph Theory, Small Worlds & Google's PageRank"
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:20
+  description: Leonhard Euler's 1736 Seven Bridges of Königsberg, Erdős–Rényi random percolation phase transitions, Watts–Strogatz small-world six degrees of separation, Barabási–Albert scale-free hubs, and Google's PageRank Markov chain.
+  tags:
+  - GraphTheory
+  - NetworkScience
+  - LeonhardEuler
+  - SmallWorld
+  - PageRank
+  - Algorithms
+  - ErdosRenyi
+  - ComplexSystems
+  - Physics
+  - Documentary
+  - STEM
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)'
+  video_url: https://www.youtube.com/watch?v=pending_graph
+  article_url: /experiments/graph-theory-network-science.html

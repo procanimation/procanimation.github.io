@@ -29,7 +29,7 @@
 - id: PLbPPHfxM2AH8
   title: Chaos, Nonlinear Dynamics & Complex Systems
   url: https://www.youtube.com/playlist?list=PLbPPHfxM2AH8
-  count: 11 Videos
+  count: 12 Videos
   icon: 🌀
   tagline: Strange Attractors, Bifurcations & Emergent Order
   gradient: 'linear-gradient(135deg, #10b981 0%, #14b8a6 50%, #064e3b 100%)'
@@ -50,7 +50,7 @@
 - id: PLcPiE4M61OUc
   title: 'Procedural Animation & Mathematical Micro-Simulations'
   url: https://www.youtube.com/playlist?list=PLcPiE4M61OUc
-  count: 21 Shorts
+  count: 22 Shorts
   icon: ⚡
   tagline: Fractals, Cellular Automata, Chaos Theory & Emergence in 60s
   gradient: 'linear-gradient(135deg, #f43f5e 0%, #fb923c 50%, #facc15 100%)'

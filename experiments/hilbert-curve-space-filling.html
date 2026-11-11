@@ -1,0 +1,195 @@
+---
+layout: article
+title: "The Hilbert Curve: The 1D Line That Fills 2D Space"
+tagline: "David Hilbert's 1891 Fractal, Space-Filling Curves & Locality-Preserving Spatial Hashing"
+description: "How an infinitely folding one-dimensional fractal line completely covers a two-dimensional plane without crossing itself."
+category: "Pure Mathematics & Theoretical Physics"
+permalink: /experiments/hilbert-curve-space-filling.html
+---
+
+<p class="article-lead">
+  In 1890, Italian mathematician <strong>Giuseppe Peano</strong> rocked the foundations of mathematics by proving that a one-dimensional curve could be continuous and surjective—meaning a zero-thickness 1D line could pass through every single point of a 2D square. A year later in 1891, <strong>David Hilbert</strong> published an extraordinarily elegant geometric construction: the <strong>Hilbert Curve</strong>. By recursively dividing a square into four quadrants and connecting them in a rotated U-shaped motif, the Hilbert curve weaves an infinite labyrinth that fills the plane with a Hausdorff dimension of exactly $D = 2.0$.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Space-Filling & Fractal Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Continuous & Surjective Mapping</h4>
+    <p>A space-filling curve is a continuous mapping $f: [0, 1] \to [0, 1]^2$ whose image fills the entire two-dimensional unit square. By Cantor's cardinality theorem, both the unit interval and unit square contain the exact same infinite cardinality of points ($2^{\aleph_0} = \mathfrak{c}$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Hausdorff Dimension ($D = 2.0$)</h4>
+    <p>At each iteration $k$, the scale factor shrinks by $r = 1/2$, while the number of self-similar segments increases by $N = 4$. The fractal Hausdorff dimension is:
+      $$D = \frac{\log N}{\log(1/r)} = \frac{\log 4}{\log 2} = 2.000$$
+      Because $D = 2$, the 1D curve completely occupies two-dimensional Euclidean area.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Infinite Path Length Divergence</h4>
+    <p>At order $k$, the grid resolution is $2^k \times 2^k$ and contains $4^k$ points. The total Euclidean path length is $L_k = 2^k - \frac{1}{2^k}$. As $k \to \infty$, the length diverges to infinity ($L_k \to \infty$), yet it remains strictly bounded inside the finite unit square.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Locality-Preserving Spatial Hashing</h4>
+    <p>Unlike simple raster row-scanning or Z-order (Morton) curves, the Hilbert curve minimizes jump discontinuities. Points that are close along the 1D Hilbert index $d$ are guaranteed to be close in 2D Euclidean space. This locality makes Hilbert indexing the industry standard for GIS mapping (Google S2), spatial databases, and GPU cache locality.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>✨ REAL-TIME HILBERT CURVE GENERATOR</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Order Scaling, Animated Traversal & Chromatic Spectrum)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● 1D Path Traversal</span>
+      <span style="color:#a855f7;">● Quadrant Rotations</span>
+      <span style="color:#fbbf24;">● Space-Filling Limit</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:580px; background:#020308; border-radius:8px; overflow:hidden;">
+    <canvas id="hilbertCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; display:flex; flex-wrap:wrap; gap:10px; z-index:10;">
+      <button id="btnOrderUp" style="background:#00f5d4; color:#020308; border:none; padding:8px 16px; font-weight:700; border-radius:6px; cursor:pointer;">Order +1</button>
+      <button id="btnOrderDown" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; font-weight:600; border-radius:6px; cursor:pointer;">Order -1</button>
+      <button id="btnToggleAnim" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; font-weight:600; border-radius:6px; cursor:pointer;">Pause Flow</button>
+    </div>
+
+    <div id="telemetryBadge" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.85); border:1px solid rgba(0,245,212,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      Order: 4 | Points: 256 | Dimension: D = 2.00
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const canvas = document.getElementById('hilbertCanvas');
+    const ctx = canvas.getContext('2d');
+    const telemetry = document.getElementById('telemetryBadge');
+
+    let W, H;
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      W = rect.width;
+      H = rect.height;
+      canvas.width = W * window.devicePixelRatio;
+      canvas.height = H * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let order = 4;
+    let isFlowing = true;
+    let flowProgress = 1.0;
+    let animPhase = 0;
+
+    function getHilbertPoint(d, ord) {
+      let x = 0, y = 0;
+      let t = d;
+      let s = 1;
+      const limit = 1 << ord;
+      while (s < limit) {
+        const rx = 1 & Math.floor(t / 2);
+        const ry = 1 & (t ^ rx);
+        if (ry === 0) {
+          if (rx === 1) {
+            x = s - 1 - x;
+            y = s - 1 - y;
+          }
+          const tmp = x; x = y; y = tmp;
+        }
+        x += s * rx;
+        y += s * ry;
+        t = Math.floor(t / 4);
+        s <<= 1;
+      }
+      return { x, y };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      const size = Math.min(W * 0.85, H * 0.82);
+      const startX = (W - size) / 2;
+      const startY = (H - size) / 2;
+
+      // Outer stage border
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(startX, startY, size, size);
+
+      const totalPoints = 1 << (order * 2);
+      const gridDim = 1 << order;
+      const cell = size / gridDim;
+
+      // Draw curve
+      ctx.save();
+      const lineWidth = Math.max(1.8, 12.0 / order);
+      ctx.lineWidth = lineWidth;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      let prevPt = null;
+      for (let i = 0; i < totalPoints; i++) {
+        const p = getHilbertPoint(i, order);
+        const px = startX + (p.x + 0.5) * cell;
+        const py = startY + (p.y + 0.5) * cell;
+
+        if (prevPt) {
+          const frac = i / totalPoints;
+          const hue = (frac * 360 + animPhase * 30) % 360;
+          ctx.strokeStyle = `hsl(${hue}, 95%, 60%)`;
+
+          ctx.beginPath();
+          ctx.moveTo(prevPt.x, prevPt.y);
+          ctx.lineTo(px, py);
+          ctx.stroke();
+        }
+        prevPt = { x: px, y: py };
+      }
+      ctx.restore();
+
+      telemetry.textContent = `Order: ${order} | Points: ${totalPoints.toLocaleString()} | Dimension: D = 2.00`;
+    }
+
+    function loop() {
+      if (isFlowing) {
+        animPhase += 0.02;
+      }
+      draw();
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    document.getElementById('btnOrderUp').addEventListener('click', () => {
+      if (order < 6) order++;
+    });
+
+    document.getElementById('btnOrderDown').addEventListener('click', () => {
+      if (order > 1) order--;
+    });
+
+    document.getElementById('btnToggleAnim').addEventListener('click', function() {
+      isFlowing = !isFlowing;
+      this.textContent = isFlowing ? 'Pause Flow' : 'Resume Flow';
+    });
+  })();
+</script>
+
+<div class="article-footer-cta" style="margin-top:40px; padding:24px; background:rgba(15,23,42,0.6); border:1px solid rgba(0,245,212,0.2); border-radius:12px;">
+  <h4 style="margin-top:0; color:#00f5d4;">Watch the Video Short & Explore the Code</h4>
+  <p style="color:#94a3b8; font-size:0.95rem;">
+    Experience the high-framerate procedural Hilbert Curve micro-simulation on our official YouTube channel:
+  </p>
+  <div style="display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;">
+    <a id="ytShortLink" href="https://youtube.com/shorts/C5rvgM-AA94" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:#f43f5e; color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:700;">
+      ▶ Watch on YouTube Shorts
+    </a>
+    <a href="https://github.com/procanimation/mathematics-stuff" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:600; border:1px solid rgba(255,255,255,0.2);">
+      💻 Source Code on GitHub
+    </a>
+  </div>
+</div>
