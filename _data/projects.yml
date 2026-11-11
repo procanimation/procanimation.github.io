@@ -821,6 +821,19 @@
   featured: true
   gradient: "linear-gradient(135deg, #38bdf8 0%, #fbbf24 50%, #4ade80 100%)"
 
+- id: "diffusion-models"
+  slug: "diffusion-models"
+  category: "ai"
+  name: "Diffusion Models & Score-Based Generative SDEs"
+  tag: "Generative AI • Stochastic Calculus"
+  tech: "HTML5 Canvas • 2D Score Vector Field & Langevin SDE Simulator"
+  description: "Non-equilibrium thermodynamics, forward Gaussian entropy injection, closed-form jump shortcuts, U-Net denoising score matching ∇_x log p_t(x), Tweedie's formula, continuous Itô SDEs, Anderson's time-reversal, deterministic Probability Flow ODEs, Classifier-Free Guidance (CFG), and Latent Diffusion Models (Stable Diffusion)."
+  repo_url: "https://github.com/procanimation/ai-stuff/tree/main/diffusion_models"
+  article_url: "/experiments/diffusion-models-score-sde.html"
+  demo_url: "/experiments/diffusion-models-score-sde.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #f43f5e 100%)"
+
 
 
 

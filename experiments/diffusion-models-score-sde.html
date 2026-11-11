@@ -1,0 +1,306 @@
+---
+layout: article
+title: "Diffusion Models & Score-Based Generative SDEs"
+tagline: "Non-Equilibrium Thermodynamics, Denoising Score Matching & Continuous Stochastic Calculus"
+description: "How modern artificial intelligence reverses the thermodynamic arrow of time to crystallize photorealistic images out of pure Gaussian noise."
+category: "Neural Networks & Machine Learning"
+permalink: /experiments/diffusion-models-score-sde.html
+---
+
+<p class="article-lead">
+  How does an artificial neural network create breathtaking portraits, complex scientific molecules, and photorealistic digital universes from nothing more than static white noise? For decades, generative modeling was throttled by mathematical intractability: direct likelihood estimation required an impossible normalizing integral, Generative Adversarial Networks (GANs) suffered from notorious mode collapse and training instability, and Variational Autoencoders (VAEs) produced blurry approximations. In 2015, physicist <strong>Jascha Sohl-Dickstein</strong> unlocked a new mathematical paradigm by looking to <strong>non-equilibrium statistical mechanics</strong>. By treating data generation as the time-reversal of a thermodynamic diffusion process, modern AI converts the impossible challenge of global generation into thousands of microscopic, local denoising decisions.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Generative Diffusion & Stochastic Calculus Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Forward Diffusion Process ($q(x_t | x_{t-1})$)</h4>
+    <p>Given an uncorrupted data point $x_0$, infinitesimal Gaussian noise is systematically added across $T$ timesteps according to variance schedule $\beta_t$:
+      $$q(x_t | x_{t-1}) = \mathcal{N}\left(x_t; \sqrt{1 - \beta_t} x_{t-1}, \beta_t \mathbf{I}\right)$$
+      As $t \to T$, all structured information is erased, leaving an isotropic Gaussian prior $\mathcal{N}(0, \mathbf{I})$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Closed-Form Jump Shortcut</h4>
+    <p>Because the convolution of independent Gaussians is itself Gaussian, we can jump directly to any arbitrary timestep $t$ in a single computation without calculating intermediate states:
+      $$q(x_t | x_0) = \mathcal{N}\left(x_t; \sqrt{\bar{\alpha}_t} x_0, (1 - \bar{\alpha}_t) \mathbf{I}\right)$$
+      where $\alpha_t = 1 - \beta_t$ and $\bar{\alpha}_t = \prod_{s=1}^t \alpha_s$. In practice, $x_t = \sqrt{\bar{\alpha}_t} x_0 + \sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Denoising Score Matching & Tweedie's Formula</h4>
+    <p>In 2020, Jonathan Ho, Ajay Jain, and Pieter Abbeel introduced DDPM. Training a U-Net $\boldsymbol{\epsilon}_\theta(x_t, t)$ to predict the injected noise vector is mathematically equivalent (via Tweedie's formula) to estimating the <strong>Score Function</strong>—the spatial gradient of the log-probability density of the noisy data manifold:
+      $$\nabla_{x_t} \log p_t(x_t) = -\frac{\boldsymbol{\epsilon}_\theta(x_t, t)}{\sqrt{1 - \bar{\alpha}_t}}$$
+      The neural network acts as a vector force field guiding random particles uphill toward regions of high data probability.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Score-Based Generative SDEs (Song & Ermon 2021)</h4>
+    <p>As timesteps approach zero ($dt \to 0$), the discrete process becomes a continuous Itô Stochastic Differential Equation:
+      $$dx = f(x, t) dt + g(t) dw$$
+      Brian Anderson's 1982 theorem guarantees an exact reverse-time SDE:
+      $$dx = \left[ f(x, t) - g(t)^2 \nabla_x \log p_t(x) \right] dt + g(t) d\bar{w}$$
+      Furthermore, there exists an associated deterministic <strong>Probability Flow ODE</strong> sharing the exact same marginal densities, enabling fast solvers (DPMSolver) to synthesize images in 15 steps instead of 1000.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Classifier-Free Guidance (CFG) & Latent Diffusion</h4>
+    <p>To steer generation with text prompts without extra classifier models, Ho and Salimans (2022) introduced CFG:
+      $$\tilde{\boldsymbol{\epsilon}}_\theta(x_t, c) = \boldsymbol{\epsilon}_\theta(x_t, \emptyset) + s \cdot \left(\boldsymbol{\epsilon}_\theta(x_t, c) - \boldsymbol{\epsilon}_\theta(x_t, \emptyset)\right)$$
+      where $s > 1$ amplifies text-aligned features. Combined with Variational Autoencoders compressing pixels into a $64 \times 64 \times 4$ latent space $\mathcal{Z}$ (Latent Diffusion / Stable Diffusion), high-resolution synthesis runs efficiently on consumer hardware.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌌 REAL-TIME 2D SCORE MATCHING & REVERSE DIFFUSION LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Dynamic Score Vector Field ∇_x log p(x), Brownian SDE Trajectories & Tweedie Denoising)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Data Modes</span>
+      <span style="color:#38bdf8;">● Score Vectors ∇_x log p(x)</span>
+      <span style="color:#fbbf24;">● Diffusing Particles</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:620px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="diffusionCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; right:20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; z-index:10; background:rgba(15,23,42,0.85); padding:10px 16px; border-radius:8px; border:1px solid rgba(56,189,248,0.2);">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="color:#94a3b8; font-size:0.85rem; font-weight:600;">Noise Level ($t$):</label>
+        <input type="range" id="noiseSlider" min="0" max="1000" step="10" value="400" style="width:140px; accent-color:#38bdf8;">
+        <span id="noiseVal" style="color:#38bdf8; font-family:monospace; font-size:0.85rem; width:45px;">400</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="color:#94a3b8; font-size:0.85rem; font-weight:600;">Guidance ($s$):</label>
+        <input type="range" id="guidanceSlider" min="1.0" max="12.0" step="0.5" value="5.0" style="width:110px; accent-color:#fbbf24;">
+        <span id="guidanceVal" style="color:#fbbf24; font-family:monospace; font-size:0.85rem; width:35px;">5.0</span>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button id="btnSpawnNoise" style="background:#00f5d4; color:#020617; border:none; padding:6px 14px; font-weight:700; border-radius:6px; cursor:pointer;">Spawn 60 Noisy Particles</button>
+        <button id="btnToggleODE" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:6px 14px; font-weight:600; border-radius:6px; cursor:pointer;">Mode: SDE (Stochastic)</button>
+      </div>
+    </div>
+
+    <div id="diffusionTelemetry" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.9); border:1px solid rgba(56,189,248,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      Score Field Active | Particles: 60 | Method: SDE Langevin
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('diffusionCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const telemetry = document.getElementById('diffusionTelemetry');
+
+  const noiseSlider = document.getElementById('noiseSlider');
+  const noiseVal = document.getElementById('noiseVal');
+  const guidanceSlider = document.getElementById('guidanceSlider');
+  const guidanceVal = document.getElementById('guidanceVal');
+  const btnSpawnNoise = document.getElementById('btnSpawnNoise');
+  const btnToggleODE = document.getElementById('btnToggleODE');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = canvas.parentElement.clientWidth;
+    H = canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let tStep = 400;
+  let guidanceScale = 5.0;
+  let isODE = false;
+
+  // Data clusters (Modes of the target distribution)
+  let modes = [
+    { x: 0.28, y: 0.45, r: 35, weight: 1.0, color: '#00f5d4' },
+    { x: 0.72, y: 0.40, r: 40, weight: 1.2, color: '#38bdf8' },
+    { x: 0.50, y: 0.75, r: 30, weight: 0.8, color: '#a855f7' }
+  ];
+
+  // Diffusing particles
+  let particles = [];
+  function spawnParticles() {
+    particles = [];
+    for (let i = 0; i < 60; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        hist: []
+      });
+    }
+  }
+  spawnParticles();
+
+  noiseSlider.addEventListener('input', (e) => {
+    tStep = parseInt(e.target.value);
+    noiseVal.textContent = tStep;
+  });
+
+  guidanceSlider.addEventListener('input', (e) => {
+    guidanceScale = parseFloat(e.target.value);
+    guidanceVal.textContent = guidanceScale.toFixed(1);
+  });
+
+  btnSpawnNoise.addEventListener('click', spawnParticles);
+
+  btnToggleODE.addEventListener('click', () => {
+    isODE = !isODE;
+    btnToggleODE.textContent = isODE ? "Mode: ODE (Deterministic)" : "Mode: SDE (Stochastic)";
+  });
+
+  // Calculate analytical score vector ∇_x log p_t(x) for Gaussian mixture with variance sigma_t^2
+  function getScore(x, y) {
+    const sigma2 = Math.max(0.01, (tStep / 1000.0) * 0.4 + 0.02);
+    let totalP = 0;
+    let gradX = 0;
+    let gradY = 0;
+
+    for (let m of modes) {
+      const mx = m.x * W;
+      const my = m.y * H;
+      const dx = (x - mx) / W;
+      const dy = (y - my) / H;
+      const dist2 = dx * dx + dy * dy;
+
+      const p_i = m.weight * Math.exp(-dist2 / (2 * sigma2));
+      totalP += p_i;
+
+      // Gradient contribution: - (x - mu_i) / sigma2
+      gradX += p_i * (-dx / sigma2);
+      gradY += p_i * (-dy / sigma2);
+    }
+
+    if (totalP < 1e-9) return { sx: 0, sy: 0 };
+    return {
+      sx: (gradX / totalP) * guidanceScale * 0.5,
+      sy: (gradY / totalP) * guidanceScale * 0.5
+    };
+  }
+
+  let lastTime = performance.now();
+  function loop(now) {
+    requestAnimationFrame(loop);
+    const dt = Math.min(0.04, (now - lastTime) / 1000);
+    lastTime = now;
+
+    // Clear frame
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, W, H);
+
+    // Update telemetry
+    telemetry.textContent = `Score Field Active | Particles: ${particles.length} | Mode: ${isODE ? "ODE (Probability Flow)" : "SDE (Langevin Diffusion)"} | t = ${tStep}`;
+
+    // Draw Vector Field Grid
+    const cols = 28;
+    const rows = 16;
+    const stepX = W / cols;
+    const stepY = H / rows;
+
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        const vx = (i + 0.5) * stepX;
+        const vy = (j + 0.5) * stepY;
+
+        const { sx, sy } = getScore(vx, vy);
+        const mag = Math.hypot(sx, sy);
+        const arrowLen = Math.min(22, mag * 0.8);
+        const ang = Math.atan2(sy, sx);
+
+        ctx.strokeStyle = `rgba(56, 189, 248, ${Math.min(0.4, mag * 0.15 + 0.08)})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(vx, vy);
+        ctx.lineTo(vx + Math.cos(ang) * arrowLen, vy + Math.sin(ang) * arrowLen);
+        ctx.stroke();
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.beginPath();
+        ctx.arc(vx + Math.cos(ang) * arrowLen, vy + Math.sin(ang) * arrowLen, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Draw Target Modes (Glow circles)
+    for (let m of modes) {
+      const mx = m.x * W;
+      const my = m.y * H;
+
+      ctx.save();
+      ctx.fillStyle = `rgba(0, 245, 212, 0.12)`;
+      ctx.beginPath();
+      ctx.arc(mx, my, m.r * 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = m.color;
+      ctx.beginPath();
+      ctx.arc(mx, my, m.r, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 13px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText("DATA CLUSTER", mx, my + 5);
+      ctx.restore();
+    }
+
+    // Update and render particles
+    for (let p of particles) {
+      const { sx, sy } = getScore(p.x, p.y);
+
+      // SDE vs ODE update
+      // dx = score * dt + (isODE ? 0 : sqrt(2*dt) * dW)
+      let driftX = sx * 120 * dt;
+      let driftY = sy * 120 * dt;
+
+      let noiseX = 0;
+      let noiseY = 0;
+      if (!isODE) {
+        const noiseMag = Math.sqrt(2 * dt) * 35 * (tStep / 1000.0);
+        noiseX = (Math.random() - 0.5) * noiseMag * 2;
+        noiseY = (Math.random() - 0.5) * noiseMag * 2;
+      }
+
+      p.x += driftX + noiseX;
+      p.y += driftY + noiseY;
+
+      // Wrap boundaries
+      if (p.x < 0) p.x += W;
+      if (p.x > W) p.x -= W;
+      if (p.y < 0) p.y += H;
+      if (p.y > H) p.y -= H;
+
+      p.hist.push({ x: p.x, y: p.y });
+      if (p.hist.length > 18) p.hist.shift();
+
+      // Draw particle trail
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.35)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      for (let k = 0; k < p.hist.length; k++) {
+        const pt = p.hist[k];
+        if (k === 0) ctx.moveTo(pt.x, pt.y);
+        else ctx.lineTo(pt.x, pt.y);
+      }
+      ctx.stroke();
+
+      // Particle bead
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  requestAnimationFrame(loop);
+})();
+</script>
