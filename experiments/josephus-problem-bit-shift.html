@@ -1,0 +1,310 @@
+---
+layout: article
+title: "The Josephus Problem & The 1-Bit Shift Survivor Secret"
+tagline: "Flavius Josephus (47 AD), Binary Recurrence Relations & Cyclic Bitwise Invariance"
+description: "How mathematical induction, powers of two, and a 1-bit cyclic left shift instantly solve the legendary Josephus elimination ring."
+category: "Discrete Mathematics & Computer Science"
+permalink: /experiments/josephus-problem-bit-shift.html
+---
+
+<p class="article-lead">
+  In 47 AD, during the Siege of Yodfat, Jewish historian <strong>Flavius Josephus</strong> and forty fellow soldiers were trapped in a cave by Roman legions. Refusing capture, the group chose mutual suicide: standing in a circle, counting off, and eliminating every second person until only one remained. Josephus—preferring survival—calculated the exact position to stand and became the sole survivor. For two millennia, the <strong>Josephus Problem</strong> stood as an intriguing combinatorial riddle. In modern computer science, it reveals a breathtakingly beautiful connection between <strong>powers of two</strong> and a <strong>single cyclic binary bit shift</strong>.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Combinatorial & Bitwise Elimination Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Classical Elimination Rule</h4>
+    <p>A circle of $n$ people are numbered $1$ to $n$. Counting begins at position $1$. Every second person ($k = 2$) is eliminated: person $2$ is eliminated first, then $4$, then $6$, continuing around the loop until only one person survives, designated $W(n)$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Power-of-Two Invariance ($n = 2^k$)</h4>
+    <p>Whenever the population $n$ is an exact power of two ($2, 4, 8, 16, 32, 64\dots$), a complete first pass around the circle eliminates every even-numbered person, exactly halving the population while leaving person $1$ with the sword again. By induction, <strong>person #1 always survives</strong>:
+      $$W(2^k) = 1$$</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The General Closed-Form: $W(n) = 2l + 1$</h4>
+    <p>Any positive integer $n$ can be uniquely written as $n = 2^m + l$, where $2^m$ is the largest power of two less than or equal to $n$, and $l$ is the remainder ($0 \le l < 2^m$). Eliminating $l$ people reduces the remaining group to an exact power of two ($2^m$). The person holding the turn after $l$ eliminations is:
+      $$W(n) = 2l + 1$$
+      For Josephus' original circle of $n = 41$: $41 = 32 + 9 \implies W(41) = 2(9) + 1 = \mathbf{19}$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The 1-Bit Cyclic Shift Magic</h4>
+    <p>Represent $n$ in binary: $n = 1 b_{m-1} b_{m-2} \dots b_1 b_0$. Because $2l + 1$ corresponds to shifting the bits of $l$ left by one and setting the least significant bit to $1$, the survivor position is obtained by <strong>taking the leading Most Significant Bit (MSB) and cycling it to the end</strong>:
+      $$W(n) = \text{RotateLeft}(n)$$
+      For $n = 41$: $41 = 101001_2 \implies \text{Rotate}(101001_2) = 010011_2 = \mathbf{19}$. A single CPU instruction solves the life-or-death problem!</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚔️ REAL-TIME JOSEPHUS ELIMINATION & BIT-SHIFT LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Interactive Ring Simulation, Dynamic Recurrence Solver & Real-Time Bit Rotator)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#38bdf8;">● Seat #1</span>
+      <span style="color:#fbbf24;">● Guaranteed Winner W(n)</span>
+      <span style="color:#f43f5e;">● Eliminated Soldiers</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:620px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="josephusCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; right:20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; z-index:10; background:rgba(15,23,42,0.85); padding:10px 16px; border-radius:8px; border:1px solid rgba(56,189,248,0.2);">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="color:#94a3b8; font-size:0.85rem; font-weight:600;">Soldiers ($n$):</label>
+        <input type="range" id="soldierSlider" min="2" max="64" step="1" value="41" style="width:140px; accent-color:#38bdf8;">
+        <span id="soldierVal" style="color:#38bdf8; font-family:monospace; font-size:0.85rem; width:30px;">41</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="color:#94a3b8; font-size:0.85rem; font-weight:600;">Speed:</label>
+        <input type="range" id="speedSlider" min="0.5" max="4.0" step="0.5" value="1.5" style="width:100px; accent-color:#fbbf24;">
+        <span id="speedVal" style="color:#fbbf24; font-family:monospace; font-size:0.85rem; width:35px;">1.5×</span>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button id="btnRestart" style="background:#38bdf8; color:#020617; border:none; padding:6px 14px; font-weight:700; border-radius:6px; cursor:pointer;">Restart Elimination</button>
+        <button id="btnToggleSim" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:6px 14px; font-weight:600; border-radius:6px; cursor:pointer;">Pause</button>
+      </div>
+    </div>
+
+    <div id="josephusTelemetry" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.9); border:1px solid rgba(56,189,248,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      n = 41 = 32 + 9 | W(41) = 2(9) + 1 = 19 | Binary: 101001₂ -> 010011₂ = 19
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('josephusCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const telemetry = document.getElementById('josephusTelemetry');
+
+  const soldierSlider = document.getElementById('soldierSlider');
+  const soldierVal = document.getElementById('soldierVal');
+  const speedSlider = document.getElementById('speedSlider');
+  const speedVal = document.getElementById('speedVal');
+  const btnRestart = document.getElementById('btnRestart');
+  const btnToggleSim = document.getElementById('btnToggleSim');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = canvas.parentElement.clientWidth;
+    H = canvas.height = canvas.parentElement.clientHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let N = 41;
+  let speed = 1.5;
+  let running = true;
+
+  let elimOrder = [];
+  let winner = 19;
+  let currentStep = 0;
+  let stepTimer = 0;
+
+  function computeJosephus(n) {
+    elimOrder = [];
+    const active = [];
+    for (let i = 1; i <= n; i++) active.push(i);
+
+    let idx = 0;
+    while (active.length > 1) {
+      idx = (idx + 1) % active.length;
+      elimOrder.push(active.splice(idx, 1)[0]);
+      idx = idx % active.length;
+    }
+    winner = active[0];
+
+    // Math values
+    const m = Math.floor(Math.log2(n));
+    const l = n - Math.pow(2, m);
+    const winMath = 2 * l + 1;
+
+    // Binary shift
+    const binN = n.toString(2);
+    const binShift = binN.slice(1) + binN[0];
+    const winBin = parseInt(binShift, 2);
+
+    telemetry.textContent = `n = ${n} = 2^${m} + ${l} | W(${n}) = 2(${l})+1 = ${winMath} | Shift: ${binN}₂ -> ${binShift}₂ = ${winBin}`;
+    currentStep = 0;
+    stepTimer = 0;
+  }
+  computeJosephus(N);
+
+  soldierSlider.addEventListener('input', (e) => {
+    N = parseInt(e.target.value);
+    soldierVal.textContent = N;
+    computeJosephus(N);
+  });
+
+  speedSlider.addEventListener('input', (e) => {
+    speed = parseFloat(e.target.value);
+    speedVal.textContent = speed.toFixed(1) + "×";
+  });
+
+  btnRestart.addEventListener('click', () => {
+    computeJosephus(N);
+  });
+
+  btnToggleSim.addEventListener('click', () => {
+    running = !running;
+    btnToggleSim.textContent = running ? "Pause" : "Resume";
+  });
+
+  let lastTime = performance.now();
+  function loop(now) {
+    requestAnimationFrame(loop);
+    const dt = Math.min(0.04, (now - lastTime) / 1000);
+    lastTime = now;
+
+    if (running && currentStep < elimOrder.length) {
+      stepTimer += dt * speed * 2.5;
+      if (stepTimer >= 1.0) {
+        currentStep++;
+        stepTimer = 0;
+      }
+    }
+
+    // Render frame
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, W, H);
+
+    const cX = W * 0.42;
+    const cY = H * 0.48;
+    const rad = Math.min(cX - 40, cY - 50, 220);
+
+    // Ring Guide
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(cX, cY, rad, 0, Math.PI * 2);
+    ctx.stroke();
+
+    const deadSet = new Set(elimOrder.slice(0, currentStep));
+
+    // Draw nodes
+    for (let i = 1; i <= N; i++) {
+      const ang = ((i - 1) / N) * Math.PI * 2 - Math.PI * 0.5;
+      const px = cX + Math.cos(ang) * rad;
+      const py = cY + Math.sin(ang) * rad;
+
+      const isDead = deadSet.has(i);
+      const isWinner = (i === winner && currentStep >= elimOrder.length);
+
+      ctx.save();
+      if (isWinner) {
+        ctx.fillStyle = '#fbbf24';
+        ctx.shadowColor = '#fbbf24';
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.arc(px, py, 14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.fillStyle = '#020617';
+        ctx.font = '800 11px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(i.toString(), px, py + 4);
+      } else if (isDead) {
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.15)';
+        ctx.strokeStyle = '#f43f5e';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(px, py, 9, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.strokeStyle = '#f43f5e';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(px - 4, py - 4); ctx.lineTo(px + 4, py + 4);
+        ctx.moveTo(px + 4, py - 4); ctx.lineTo(px - 4, py + 4);
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = i === 1 ? '#38bdf8' : '#1e293b';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(px, py, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '700 9px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(i.toString(), px, py + 3);
+      }
+      ctx.restore();
+    }
+
+    // Right side: Binary Shift & Recurrence Panel
+    const cardX = W * 0.70;
+    const cardY = H * 0.22;
+    const cardW = Math.min(W - cardX - 25, 280);
+    const cardH = 340;
+
+    ctx.save();
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+    ctx.fillRect(cardX, cardY, cardW, cardH);
+    ctx.strokeRect(cardX, cardY, cardW, cardH);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '700 14px -apple-system, sans-serif';
+    ctx.fillText("CLOSED-FORM DERIVATION", cardX + 16, cardY + 28);
+
+    const m = Math.floor(Math.log2(N));
+    const l = N - Math.pow(2, m);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '600 13px monospace';
+    ctx.fillText(`Group Size n = ${N}`, cardX + 16, cardY + 60);
+    ctx.fillText(`Nearest 2^m = 2^${m} = ${Math.pow(2, m)}`, cardX + 16, cardY + 84);
+    ctx.fillText(`Remainder l = ${l}`, cardX + 16, cardY + 108);
+
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = '700 15px monospace';
+    ctx.fillText(`W(n) = 2l + 1 = ${2 * l + 1}`, cardX + 16, cardY + 145);
+
+    // Binary cyclic shift display
+    ctx.strokeStyle = 'rgba(148, 163, 184, 0.2)';
+    ctx.beginPath();
+    ctx.moveTo(cardX + 16, cardY + 170); ctx.lineTo(cardX + cardW - 16, cardY + 170);
+    ctx.stroke();
+
+    ctx.fillStyle = '#00f5d4';
+    ctx.font = '700 14px -apple-system, sans-serif';
+    ctx.fillText("1-BIT CYCLIC SHIFT", cardX + 16, cardY + 195);
+
+    const binStr = N.toString(2);
+    const shiftedStr = binStr.slice(1) + binStr[0];
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '600 13px monospace';
+    ctx.fillText(`n in Binary:`, cardX + 16, cardY + 225);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(`${binStr}₂`, cardX + 130, cardY + 225);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.fillText(`Shift MSB:`, cardX + 16, cardY + 252);
+    ctx.fillStyle = '#fbbf24';
+    ctx.fillText(`${shiftedStr}₂`, cardX + 130, cardY + 252);
+
+    ctx.fillStyle = '#4ade80';
+    ctx.font = '700 15px monospace';
+    ctx.fillText(`Result = Seat #${parseInt(shiftedStr, 2)}`, cardX + 16, cardY + 295);
+
+    ctx.restore();
+  }
+
+  requestAnimationFrame(loop);
+})();
+</script>

@@ -860,6 +860,19 @@
   featured: true
   gradient: "linear-gradient(135deg, #f43f5e 0%, #a855f7 50%, #00f5d4 100%)"
 
+- id: "josephus-problem"
+  slug: "josephus-problem"
+  category: "math"
+  name: "The Josephus Problem: 1-Bit Shift Survivor Secret"
+  tag: "Combinatorics • Bitwise Algorithms"
+  tech: "HTML5 Canvas • Josephus Recurrence & Cyclic Bit Rotator"
+  description: "Flavius Josephus' 47 AD elimination ring, power-of-two invariance, recurrence decomposition W(n) = 2l + 1, and the 1-bit cyclic binary left shift."
+  repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/josephus_problem"
+  article_url: "/experiments/josephus-problem-bit-shift.html"
+  demo_url: "/experiments/josephus-problem-bit-shift.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fbbf24 100%)"
+
 
 
 

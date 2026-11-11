@@ -1653,3 +1653,22 @@
   gradient: 'linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #f43f5e 100%)'
   video_url: https://youtube.com/shorts/sBDKuo_bepE
   article_url: /experiments/mandelbulb-3d-fractal.html
+- id: zyjs_4-Dl7I
+  title: "The Josephus Problem: The 1-Bit Shift Survivor Secret"
+  series: Procedural Animation & Mathematical Micro-Simulations
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:41
+  description: Flavius Josephus's deadly circle riddle, power-of-two invariance, recurrence relations, and the astonishing 1-bit cyclic left shift binary survivor secret.
+  tags:
+  - JosephusProblem
+  - BinaryBitShift
+  - Algorithms
+  - Mathematics
+  - FlaviusJosephus
+  - ComputerScience
+  - ScienceShorts
+  - ProceduralAnimation
+  badge: Vol. XXVII
+  gradient: 'linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #6366f1 100%)'
+  video_url: https://youtube.com/shorts/zyjs_4-Dl7I
+  article_url: /experiments/josephus-problem-bit-shift.html
