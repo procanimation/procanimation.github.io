@@ -2920,6 +2920,48 @@ const canvas = document.getElementById('studioCanvas');
         theme = "RAYLEIGH_LAW";
       } else if (text.includes("pancake") || text.includes("syrup") || text.includes("marshmallow")) {
         theme = "PANCAKE_FEAST";
+      } else if (text.includes("empty space") || text.includes("ghost") || text.includes("stadium") || text.includes("marble") || text.includes("billiard")) {
+        theme = "ATOMIC_EMPTY_SPACE";
+      } else if (text.includes("magnet") || text.includes("north poles") || text.includes("rubber balloon") || text.includes("cushion")) {
+        theme = "MAGNETIC_CUSHION";
+      } else if (text.includes("pauli exclusion") || text.includes("fermion") || text.includes("hovering") || text.includes("skin atoms") || text.includes("touching")) {
+        theme = "PAULI_EXCLUSION";
+      } else if (text.includes("orbitals") || text.includes("probability waves") || text.includes("standing probability")) {
+        theme = "QUANTUM_ORBITALS";
+      } else if (text.includes("degeneracy") || text.includes("white dwarf") || text.includes("momentum states") || text.includes("h-bar")) {
+        theme = "DEGENERACY_PRESSURE";
+      } else if (text.includes("cheese") || text.includes("sandwich") || text.includes("tomato soup") || text.includes("polymer")) {
+        theme = "GRILLED_CHEESE_FEAST";
+      } else if (text.includes("headlights") || text.includes("speed of light") || text.includes("cosmic speed limit") || text.includes("sci-fi space racer") || text.includes("speed trap")) {
+        theme = "LIGHT_SPEED_BARRIER";
+      } else if (text.includes("time dilation") || text.includes("ticking watch") || text.includes("twin paradox") || text.includes("seven times slower") || text.includes("grandpa")) {
+        theme = "TIME_DILATION_TWIN";
+      } else if (text.includes("light clock") || text.includes("diagonal zigzag") || text.includes("hypotenuse") || text.includes("delta-t prime") || text.includes("mirrors")) {
+        theme = "LIGHT_CLOCK_DIAGONAL";
+      } else if (text.includes("squash") || text.includes("infinite energy") || text.includes("relativistic ovals") || text.includes("contract")) {
+        theme = "LORENTZ_CONTRACTION";
+      } else if (text.includes("pizza") || text.includes("pepperoni") || text.includes("mozzarella") || text.includes("mangia")) {
+        theme = "PIZZA_FEAST";
+      } else if (text.includes("ice cube") || text.includes("defying gravity") || text.includes("magma") || text.includes("floating right") || text.includes("rule-breaker") || text.includes("ice water")) {
+        theme = "FLOATING_ICE_ANOMALY";
+      } else if (text.includes("neighborhood pond") || text.includes("freeze solid") || text.includes("fish") || text.includes("thermal blanket") || text.includes("winter") || text.includes("icy tomb")) {
+        theme = "POND_WINTER_BLANKET";
+      } else if (text.includes("four degrees") || text.includes("anomalous density") || text.includes("peak density") || text.includes("jiggles")) {
+        theme = "WATER_4C_DENSITY";
+      } else if (text.includes("hexagonal") || text.includes("crystal lattice") || text.includes("nine percent") || text.includes("hydrogen bonds")) {
+        theme = "HEXAGONAL_ICE_LATTICE";
+      } else if (text.includes("hot cocoa") || text.includes("marshmallow") || text.includes("chocolate") || text.includes("cinnamon")) {
+        theme = "HOT_COCOA_MARSHMALLOW";
+      } else if (text.includes("paper dart") || text.includes("paper airplane") || text.includes("jumbo jet") || text.includes("titanium")) {
+        theme = "PAPER_AIRPLANE_DEFLECTION";
+      } else if (text.includes("equal transit") || text.includes("textbook") || text.includes("fallacy") || text.includes("upside down") || text.includes("stunt planes") || text.includes("aerobatic")) {
+        theme = "EQUAL_TRANSIT_MYTH_BUSTED";
+      } else if (text.includes("angle of attack") || text.includes("car window") || text.includes("palm") || text.includes("tilts")) {
+        theme = "ANGLE_OF_ATTACK_HAND";
+      } else if (text.includes("downwash") || text.includes("newton's third law") || text.includes("coanda") || text.includes("momentum transfer") || text.includes("deflector")) {
+        theme = "DOWNWASH_NEWTON_LIFT";
+      } else if (text.includes("smoothie") || text.includes("straw") || text.includes("muffin") || text.includes("aviators") || text.includes("slurping")) {
+        theme = "BERNOULLI_SMOOTHIE";
       }
 
       if (!theme) return;
@@ -3159,6 +3201,946 @@ const canvas = document.getElementById('studioCanvas');
           ctx.bezierCurveTo(sx - 4, stackY - 34, sx + 4, stackY - 40, sx - 2, stackY - 48);
           ctx.stroke();
         }
+      } else if (theme === "ATOMIC_EMPTY_SPACE") {
+        // Football stadium with tiny marble nucleus (99.999% empty space)
+        ctx.fillStyle = '#064e3b';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Stadium running track
+        ctx.strokeStyle = '#b45309';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 38, 26, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Green field
+        ctx.fillStyle = '#059669';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 34, 22, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Yard lines
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.lineWidth = 1.0;
+        for (let lx = -24; lx <= 24; lx += 8) {
+          ctx.beginPath();
+          ctx.moveTo(lx, -16);
+          ctx.lineTo(lx, 16);
+          ctx.stroke();
+        }
+
+        // Tiny glowing nucleus in center
+        ctx.fillStyle = '#ef4444';
+        ctx.shadowColor = '#f87171';
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(0, 0, 3.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.fillStyle = '#fef08a';
+        ctx.font = 'bold 7.5px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("99.999% Empty!", 0, -28);
+      } else if (theme === "MAGNETIC_CUSHION") {
+        // Two repulsive North poles pushing with invisible magnetic cushion
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Left magnet (North pointing right)
+        ctx.fillStyle = '#ef4444';
+        ctx.fillRect(-38, -12, 14, 24);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("N", -31, 4);
+
+        // Right magnet (North pointing left)
+        ctx.fillStyle = '#ef4444';
+        ctx.fillRect(24, -12, 14, 24);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText("N", 31, 4);
+
+        // Curved magnetic field repulsion lines
+        for (let arc = 1; arc <= 3; arc++) {
+          ctx.strokeStyle = `rgba(56, 189, 248, ${0.8 - arc * 0.2})`;
+          ctx.lineWidth = 2.0;
+          ctx.beginPath();
+          ctx.arc(-22, 0, arc * 8, -Math.PI * 0.35, Math.PI * 0.35);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(22, 0, arc * 8, Math.PI * 0.65, Math.PI * 1.35);
+          ctx.stroke();
+        }
+
+        // Repulsion lightning spark
+        ctx.fillStyle = '#fef08a';
+        ctx.font = '14px sans-serif';
+        ctx.fillText("⚡", 0, 5);
+      } else if (theme === "PAULI_EXCLUSION") {
+        // Pauli Exclusion Principle: identical spin electrons blocked by quantum barrier
+        ctx.fillStyle = '#0b0f19';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Left Electron Cloud with Spin UP (↑)
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+        ctx.beginPath();
+        ctx.arc(-20, 0, 16, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("↑", -20, 6);
+
+        // Right Electron Cloud with Spin UP (↑)
+        ctx.fillStyle = 'rgba(244, 114, 182, 0.4)';
+        ctx.beginPath();
+        ctx.arc(20, 0, 16, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#f472b6';
+        ctx.fillText("↑", 20, 6);
+
+        // Glowing Quantum Barrier
+        ctx.strokeStyle = '#facc15';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#eab308';
+        ctx.shadowBlur = 12;
+        ctx.beginPath();
+        ctx.moveTo(0, -32);
+        ctx.lineTo(0, 32);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        ctx.fillStyle = '#fef08a';
+        ctx.font = 'bold 8px monospace';
+        ctx.fillText("FORBIDDEN", 0, -22);
+        ctx.fillText("ΔxΔp ≥ ℏ/2", 0, 26);
+      } else if (theme === "QUANTUM_ORBITALS") {
+        // 3D Dumbbell p-orbital lobes
+        ctx.fillStyle = '#030712';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Spherical central core
+        ctx.fillStyle = 'rgba(251, 191, 36, 0.35)';
+        ctx.beginPath();
+        ctx.arc(0, 0, 8, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Upper lobe (cyan)
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.65)';
+        ctx.beginPath();
+        ctx.ellipse(0, -16, 12, 16, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Lower lobe (purple)
+        ctx.fillStyle = 'rgba(192, 132, 252, 0.65)';
+        ctx.beginPath();
+        ctx.ellipse(0, 16, 12, 16, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 9px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("Ψ(r,θ,φ)", 0, 3);
+      } else if (theme === "DEGENERACY_PRESSURE") {
+        // White dwarf star supported by quantum electron degeneracy pressure
+        ctx.fillStyle = '#090d16';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Core white dwarf
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = '#60a5fa';
+        ctx.shadowBlur = 18;
+        ctx.beginPath();
+        ctx.arc(0, 0, 15, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Outward quantum force arrows
+        for (let a = 0; a < 8; a++) {
+          const ang = (a / 8) * Math.PI * 2 + time;
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 2.0;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(ang) * 16, Math.sin(ang) * 16);
+          ctx.lineTo(Math.cos(ang) * 28, Math.sin(ang) * 28);
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 8px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("Degeneracy Pressure", 0, -28);
+      } else if (theme === "GRILLED_CHEESE_FEAST") {
+        // Golden Sourdough Grilled Cheese with molten stretching cheese & tomato soup
+        ctx.fillStyle = '#fffbeb';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Left triangle half
+        ctx.fillStyle = '#b45309';
+        ctx.beginPath();
+        ctx.moveTo(-28, 14);
+        ctx.lineTo(-8, 14);
+        ctx.lineTo(-28, -14);
+        ctx.closePath();
+        ctx.fill();
+
+        // Right triangle half
+        ctx.fillStyle = '#b45309';
+        ctx.beginPath();
+        ctx.moveTo(8, 14);
+        ctx.lineTo(28, 14);
+        ctx.lineTo(28, -14);
+        ctx.closePath();
+        ctx.fill();
+
+        // Molten stretching cheddar cheese cords
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 3.5;
+        ctx.lineCap = 'round';
+        for (let c = -1; c <= 1; c++) {
+          ctx.beginPath();
+          ctx.moveTo(-10, 4 + c * 5);
+          ctx.quadraticCurveTo(0, 8 + c * 7 + Math.sin(time * 3) * 2, 10, 4 + c * 5);
+          ctx.stroke();
+        }
+
+        // Bowl of creamy tomato soup
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.arc(0, -20, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(0, -20, 3, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (theme === "LIGHT_SPEED_BARRIER") {
+        // Cosmic Speed Limit: c = 300,000 km/s invariant barrier
+        ctx.fillStyle = '#030712';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Distant space stars
+        ctx.fillStyle = '#ffffff';
+        [[-25, -20], [18, -25], [-15, 25], [26, 18], [0, -12]].forEach(([sx, sy]) => {
+          ctx.beginPath();
+          ctx.arc(sx, sy, 1.2, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Sci-fi cruiser moving right
+        ctx.fillStyle = '#38bdf8';
+        ctx.beginPath();
+        ctx.moveTo(18, 0);
+        ctx.lineTo(-14, -9);
+        ctx.lineTo(-8, 0);
+        ctx.lineTo(-14, 9);
+        ctx.closePath();
+        ctx.fill();
+
+        // Cockpit canopy
+        ctx.fillStyle = '#fde047';
+        ctx.beginPath();
+        ctx.ellipse(2, 0, 5, 3, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Headlight beam (strictly c, no matter what)
+        const beamGrad = ctx.createLinearGradient(18, 0, bubbleR, 0);
+        beamGrad.addColorStop(0, 'rgba(254, 240, 138, 0.95)');
+        beamGrad.addColorStop(1, 'rgba(254, 240, 138, 0.0)');
+        ctx.fillStyle = beamGrad;
+        ctx.beginPath();
+        ctx.moveTo(18, 0);
+        ctx.lineTo(bubbleR, -16);
+        ctx.lineTo(bubbleR, 16);
+        ctx.closePath();
+        ctx.fill();
+
+        // Cosmic Speed Limit Badge
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.arc(-22, -18, 11, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(-22, -18, 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 9px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("MAX c", -22, -15);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("c = 300,000 km/s", 0, 28);
+      } else if (theme === "TIME_DILATION_TWIN") {
+        // Time Dilation: Earth Clock vs Space Clock ticking 7x slower
+        ctx.fillStyle = '#0b0f19';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Earth Clock (Left - fast ticking)
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.arc(-18, -4, 14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        // Earth Clock hands (rapidly spinning)
+        const earthAng = time * 6.0;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(-18, -4);
+        ctx.lineTo(-18 + Math.cos(earthAng) * 9, -4 + Math.sin(earthAng) * 9);
+        ctx.stroke();
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '7.5px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("Earth 1×", -18, 20);
+
+        // Rocket Clock (Right - 7x slower ticking)
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.arc(18, -4, 14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#f43f5e';
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        // Rocket Clock hand (slow spinning)
+        const rocketAng = time * (6.0 / 7.0);
+        ctx.strokeStyle = '#fca5a5';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(18, -4);
+        ctx.lineTo(18 + Math.cos(rocketAng) * 9, -4 + Math.sin(rocketAng) * 9);
+        ctx.stroke();
+
+        ctx.fillStyle = '#f43f5e';
+        ctx.fillText("Rocket 7× Slower", 18, 20);
+
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 8.5px monospace';
+        ctx.fillText("Δt' = γ · Δt", 0, -22);
+      } else if (theme === "LIGHT_CLOCK_DIAGONAL") {
+        // Light Clock: Photon bouncing between moving mirrors with diagonal zigzag
+        ctx.fillStyle = '#030712';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Top and bottom mirrors
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillRect(-36, -24, 72, 4);
+        ctx.fillRect(-36, 20, 72, 4);
+
+        // Diagonal zigzag light paths
+        ctx.strokeStyle = 'rgba(250, 204, 21, 0.4)';
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([3, 2]);
+        ctx.beginPath();
+        ctx.moveTo(-30, -20);
+        ctx.lineTo(0, 20);
+        ctx.lineTo(30, -20);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Animated bouncing photon along zigzag
+        const cycle = (time * 1.8) % 2; // 0 to 2
+        let px, py;
+        if (cycle < 1) {
+          px = -30 + cycle * 30;
+          py = -20 + cycle * 40;
+        } else {
+          const c2 = cycle - 1;
+          px = 0 + c2 * 30;
+          py = 20 - c2 * 40;
+        }
+
+        ctx.fillStyle = '#fef08a';
+        ctx.shadowColor = '#eab308';
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Label
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 7.5px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("Longer Diagonal = Dilated Time", 0, 31);
+      } else if (theme === "LORENTZ_CONTRACTION") {
+        // Lorentz Length Contraction & Doppler Shift
+        ctx.fillStyle = '#060a14';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Relativistic spaceship squashed horizontally along axis of motion (0.35 width)
+        const squashedWidth = 14;
+        const normalHeight = 22;
+
+        // Blue Doppler shift wavefronts in front (moving right)
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.8;
+        for (let dw = 1; dw <= 3; dw++) {
+          ctx.beginPath();
+          ctx.arc(squashedWidth / 2 + dw * 4, 0, 10 + dw * 4, -Math.PI * 0.35, Math.PI * 0.35);
+          ctx.stroke();
+        }
+
+        // Red Doppler shift stretched waves behind
+        ctx.strokeStyle = '#ef4444';
+        for (let rw = 1; rw <= 2; rw++) {
+          ctx.beginPath();
+          ctx.arc(-squashedWidth / 2 - rw * 10, 0, 10 + rw * 8, Math.PI * 0.65, Math.PI * 1.35);
+          ctx.stroke();
+        }
+
+        // Contracted spaceship body
+        ctx.fillStyle = '#e2e8f0';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, squashedWidth, normalHeight, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Speed vector arrow
+        ctx.fillStyle = '#facc15';
+        ctx.beginPath();
+        ctx.moveTo(18, 0);
+        ctx.lineTo(12, -4);
+        ctx.lineTo(12, 4);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("L = L₀ / γ", 0, -26);
+        ctx.fillText("v → c (Squashed!)", 0, 27);
+      } else if (theme === "PIZZA_FEAST") {
+        // Relativistic Pizza Feast: Golden pizza slice with bubbly cheese & pepperoni
+        ctx.fillStyle = '#fffbeb';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Triangular Pizza Slice
+        ctx.fillStyle = '#d97706'; // Golden brown crust
+        ctx.beginPath();
+        ctx.arc(0, -6, 34, 0.25 * Math.PI, 0.75 * Math.PI);
+        ctx.stroke();
+
+        // Pizza body (melted cheese yellow)
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath();
+        ctx.moveTo(0, 26);
+        ctx.lineTo(-24, -14);
+        ctx.quadraticCurveTo(0, -22, 24, -14);
+        ctx.closePath();
+        ctx.fill();
+
+        // Crust edge
+        ctx.strokeStyle = '#b45309';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(0, 0, 26, -Math.PI * 0.72, -Math.PI * 0.28);
+        ctx.stroke();
+
+        // Relativistic oval pepperoni slices
+        ctx.fillStyle = '#dc2626';
+        [[-8, -4], [6, 2], [-2, 12]].forEach(([px, py]) => {
+          ctx.beginPath();
+          ctx.ellipse(px, py, 6, 4, 0.2, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Stretching melted mozzarella strings
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(0, 26);
+        ctx.quadraticCurveTo(3, 34, 0, 40);
+        ctx.stroke();
+
+        ctx.fillStyle = '#b45309';
+        ctx.font = 'bold 8px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("Relativistic Pizza! 🍕", 0, -26);
+      } else if (theme === "FLOATING_ICE_ANOMALY") {
+        // Floating Ice vs Sinking Rock in Glass of Water
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Glass tumbler outline
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.lineWidth = 2.0;
+        ctx.beginPath();
+        ctx.moveTo(-22, -22);
+        ctx.lineTo(-18, 26);
+        ctx.lineTo(18, 26);
+        ctx.lineTo(22, -22);
+        ctx.stroke();
+
+        // Liquid water inside tumbler
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.45)';
+        ctx.beginPath();
+        ctx.moveTo(-20, -6);
+        ctx.lineTo(-17, 24);
+        ctx.lineTo(17, 24);
+        ctx.lineTo(20, -6);
+        ctx.closePath();
+        ctx.fill();
+
+        // Sunk Dense Rock on bottom
+        ctx.fillStyle = '#64748b';
+        ctx.beginPath();
+        ctx.ellipse(8, 20, 6, 4, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Floating Ice Cube (partially submerged at surface)
+        ctx.fillStyle = '#e0f2fe';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.5;
+        ctx.fillRect(-14, -12, 14, 14);
+        ctx.strokeRect(-14, -12, 14, 14);
+
+        // Floating Ice label
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 7.5px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("Ice Floats!", 0, -28);
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText("ρ_ice < ρ_water", 0, 36);
+      } else if (theme === "POND_WINTER_BLANKET") {
+        // Winter Pond: Surface ice blanket protecting swimming fish in 4°C water
+        ctx.fillStyle = '#0284c7';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Top chilly winter air
+        ctx.fillStyle = '#334155';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, 20);
+
+        // Floating Surface Ice Crust (0°C)
+        ctx.fillStyle = '#e0f2fe';
+        ctx.fillRect(-bubbleR, -bubbleR + 20, bubbleR * 2, 10);
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 7px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("❄️ Ice Shelf: 0°C", 0, -18);
+
+        // Liquid Pond Water Below (4°C)
+        ctx.fillStyle = '#0369a1';
+        ctx.fillRect(-bubbleR, -bubbleR + 30, bubbleR * 2, bubbleR * 2 - 30);
+
+        // Cute Happy Fish swimming safely
+        ctx.fillStyle = '#f97316';
+        ctx.beginPath();
+        ctx.ellipse(-4, 10, 10, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        // Tail
+        ctx.beginPath();
+        ctx.moveTo(6, 10);
+        ctx.lineTo(13, 5);
+        ctx.lineTo(13, 15);
+        ctx.closePath();
+        ctx.fill();
+        // Eye
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(-8, 8, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 7.5px monospace';
+        ctx.fillText("Protected 4°C Water!", 0, 30);
+      } else if (theme === "WATER_4C_DENSITY") {
+        // Water's 4°C Peak Density Curve
+        ctx.fillStyle = '#0b0f19';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Axes
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(-32, 22);
+        ctx.lineTo(32, 22);
+        ctx.moveTo(-32, 22);
+        ctx.lineTo(-32, -24);
+        ctx.stroke();
+
+        // Parabolic density curve peaking at 4°C
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for (let x = -30; x <= 30; x += 2) {
+          // Peak at x = -6 (representing 4°C)
+          const normX = (x + 6) / 20;
+          const y = -8 + normX * normX * 18;
+          if (x === -30) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Peak point star (4°C)
+        ctx.fillStyle = '#facc15';
+        ctx.shadowColor = '#eab308';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(-6, -8, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("Peak: 4°C (1.00 g/cm³)", 0, -26);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '7px sans-serif';
+        ctx.fillText("Density Drops Below 4°C!", 0, 34);
+      } else if (theme === "HEXAGONAL_ICE_LATTICE") {
+        // Open Hexagonal Ice Crystal Lattice (+9% Volume Expansion)
+        ctx.fillStyle = '#030712';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // 6 H2O molecules arranged in hexagon
+        const hexR = 22;
+        const hexPoints = [];
+        for (let i = 0; i < 6; i++) {
+          const ang = (i / 6) * Math.PI * 2 + (time * 0.5);
+          hexPoints.push({
+            x: Math.cos(ang) * hexR,
+            y: Math.sin(ang) * hexR
+          });
+        }
+
+        // Hydrogen bonds connecting the hexagon (dashed)
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([3, 2]);
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const next = (i + 1) % 6;
+          ctx.moveTo(hexPoints[i].x, hexPoints[i].y);
+          ctx.lineTo(hexPoints[next].x, hexPoints[next].y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Water molecules (Oxygen red, Hydrogens white)
+        hexPoints.forEach(p => {
+          // Oxygen atom
+          ctx.fillStyle = '#ef4444';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+          ctx.fill();
+          // Hydrogen ears
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(p.x - 3, p.y - 3, 2, 0, Math.PI * 2);
+          ctx.arc(p.x + 3, p.y - 3, 2, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Center Empty Volume Callout
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("+9% Empty", 0, -2);
+        ctx.fillText("Space!", 0, 8);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '7px sans-serif';
+        ctx.fillText("Hexagonal Lattice", 0, 34);
+      } else if (theme === "HOT_COCOA_MARSHMALLOW") {
+        // Steaming Hot Cocoa Mug with Floating Marshmallows
+        ctx.fillStyle = '#fffbeb';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Ceramic Mug (warm terracotta red)
+        ctx.fillStyle = '#dc2626';
+        ctx.beginPath();
+        ctx.roundRect(-20, -10, 40, 36, [2, 2, 10, 10]);
+        ctx.fill();
+
+        // Mug Handle
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(22, 6, 8, -Math.PI * 0.45, Math.PI * 0.45);
+        ctx.stroke();
+
+        // Rich Hot Chocolate surface
+        ctx.fillStyle = '#78350f';
+        ctx.beginPath();
+        ctx.ellipse(0, -10, 18, 6, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Floating fluffy white marshmallows
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 1;
+        [[-7, -11], [5, -9], [0, -7]].forEach(([mx, my]) => {
+          ctx.beginPath();
+          ctx.ellipse(mx, my, 5, 3.5, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        });
+
+        // Steaming wisps
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.6)';
+        ctx.lineWidth = 1.5;
+        for (let s = -1; s <= 1; s++) {
+          ctx.beginPath();
+          const sx = s * 8;
+          ctx.moveTo(sx, -18);
+          ctx.bezierCurveTo(sx - 3, -24, sx + 3, -30, sx - 2, -36);
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = '#78350f';
+        ctx.font = 'bold 8px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("Hot Cocoa Toast! ☕", 0, 34);
+      } else if (theme === "PAPER_AIRPLANE_DEFLECTION") {
+        // Paper Airplane Dart Gliding with Upward Lift Vector
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Folded Paper Dart Body
+        ctx.fillStyle = '#f8fafc';
+        ctx.beginPath();
+        ctx.moveTo(24, -2);
+        ctx.lineTo(-24, -14);
+        ctx.lineTo(-14, 0);
+        ctx.closePath();
+        ctx.fill();
+
+        // Bottom fold wing (shaded)
+        ctx.fillStyle = '#cbd5e1';
+        ctx.beginPath();
+        ctx.moveTo(24, -2);
+        ctx.lineTo(-24, 14);
+        ctx.lineTo(-14, 0);
+        ctx.closePath();
+        ctx.fill();
+
+        // Speed trail streaks
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
+        ctx.lineWidth = 1.8;
+        for (let t = -1; t <= 1; t++) {
+          ctx.beginPath();
+          ctx.moveTo(-26, t * 10);
+          ctx.lineTo(-38, t * 10);
+          ctx.stroke();
+        }
+
+        // Upward Lift Force Arrow
+        ctx.strokeStyle = '#22c55e';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(0, 16);
+        ctx.lineTo(0, -26);
+        ctx.stroke();
+        // Arrowhead
+        ctx.fillStyle = '#22c55e';
+        ctx.beginPath();
+        ctx.moveTo(0, -30);
+        ctx.lineTo(-4, -22);
+        ctx.lineTo(4, -22);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#22c55e';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("LIFT ↑", 0, -32);
+        ctx.fillStyle = '#fde047';
+        ctx.fillText("Paper Glider Flight", 0, 32);
+      } else if (theme === "EQUAL_TRANSIT_MYTH_BUSTED") {
+        // Airfoil with Equal Transit Time Myth BUSTED Stamp
+        ctx.fillStyle = '#090d16';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Cambered Airfoil Shape
+        ctx.fillStyle = '#94a3b8';
+        ctx.beginPath();
+        ctx.moveTo(24, 4);
+        ctx.bezierCurveTo(8, -20, -18, -16, -26, 0);
+        ctx.bezierCurveTo(-18, 10, 8, 8, 24, 4);
+        ctx.closePath();
+        ctx.fill();
+
+        // Upper Streamline (arrives MUCH earlier, not equal!)
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(-36, -6);
+        ctx.bezierCurveTo(-18, -24, 12, -24, 36, -2);
+        ctx.stroke();
+
+        // Big Red "MYTH BUSTED" Stamp
+        ctx.save();
+        ctx.rotate(-0.25);
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2.5;
+        ctx.strokeRect(-28, -12, 56, 24);
+        ctx.fillStyle = '#ef4444';
+        ctx.font = 'bold 9px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("MYTH BUSTED", 0, 4);
+        ctx.restore();
+
+        ctx.fillStyle = '#f87171';
+        ctx.font = 'bold 7px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("No Equal Transit Time!", 0, 34);
+      } else if (theme === "ANGLE_OF_ATTACK_HAND") {
+        // Hand Tilted Out of Moving Car Window
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Tilted palm out window (angled at 20 degrees)
+        ctx.save();
+        ctx.rotate(-0.35); // Angle of attack
+
+        // Palm & fingers
+        ctx.fillStyle = '#fbcfe8';
+        ctx.strokeStyle = '#f472b6';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(-22, -6, 44, 12, 4);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        // Rushing oncoming air deflecting down
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.0;
+        ctx.beginPath();
+        ctx.moveTo(-36, 10);
+        ctx.lineTo(-10, 10);
+        ctx.lineTo(20, 24);
+        ctx.stroke();
+
+        // Reaction Force UP
+        ctx.strokeStyle = '#22c55e';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(0, 12);
+        ctx.lineTo(0, -24);
+        ctx.stroke();
+        ctx.fillStyle = '#22c55e';
+        ctx.beginPath();
+        ctx.moveTo(0, -28);
+        ctx.lineTo(-4, -20);
+        ctx.lineTo(4, -20);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 7.5px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("Angle of Attack α", 0, -30);
+        ctx.fillText("Deflect Air Down → Push UP!", 0, 34);
+      } else if (theme === "DOWNWASH_NEWTON_LIFT") {
+        // Newton's Third Law & Downwash Lab
+        ctx.fillStyle = '#030712';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Wing Profile
+        ctx.fillStyle = '#e2e8f0';
+        ctx.beginPath();
+        ctx.moveTo(20, 8);
+        ctx.bezierCurveTo(4, -18, -16, -14, -24, 0);
+        ctx.bezierCurveTo(-16, 8, 6, 8, 20, 8);
+        ctx.closePath();
+        ctx.fill();
+
+        // Massive Downwash Deflection Streamlines
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.0;
+        for (let s = -1; s <= 1; s++) {
+          ctx.beginPath();
+          ctx.moveTo(-36, -8 + s * 8);
+          ctx.quadraticCurveTo(-4, -18 + s * 8, 28, 22 + s * 8);
+          ctx.stroke();
+        }
+
+        // Downward Action Force
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2.0;
+        ctx.beginPath();
+        ctx.moveTo(18, 14);
+        ctx.lineTo(18, 30);
+        ctx.stroke();
+
+        // Upward Reactive Lift Force
+        ctx.strokeStyle = '#22c55e';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(0, 4);
+        ctx.lineTo(0, -24);
+        ctx.stroke();
+        ctx.fillStyle = '#22c55e';
+        ctx.beginPath();
+        ctx.moveTo(0, -28);
+        ctx.lineTo(-4, -20);
+        ctx.lineTo(4, -20);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText("F_lift = - F_downwash", 0, -30);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '7px sans-serif';
+        ctx.fillText("Newton's 3rd Law", 0, 34);
+      } else if (theme === "BERNOULLI_SMOOTHIE") {
+        // Blueberry Smoothie with Straw (Bernoulli Suction)
+        ctx.fillStyle = '#fffbeb';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Tall Glass
+        ctx.strokeStyle = 'rgba(100, 116, 139, 0.6)';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(-16, -18);
+        ctx.lineTo(-12, 26);
+        ctx.lineTo(12, 26);
+        ctx.lineTo(16, -18);
+        ctx.stroke();
+
+        // Purple Blueberry Smoothie Fill
+        ctx.fillStyle = '#7c3aed';
+        ctx.beginPath();
+        ctx.moveTo(-15, -10);
+        ctx.lineTo(-12, 24);
+        ctx.lineTo(12, 24);
+        ctx.lineTo(15, -10);
+        ctx.closePath();
+        ctx.fill();
+
+        // Striped Drinking Straw
+        ctx.strokeStyle = '#f43f5e';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(4, 20);
+        ctx.lineTo(10, -24);
+        ctx.lineTo(18, -32);
+        ctx.stroke();
+
+        // Blueberry Muffin on side
+        ctx.fillStyle = '#d97706';
+        ctx.beginPath();
+        ctx.ellipse(-24, 20, 10, 6, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#4338ca'; // blueberries
+        ctx.beginPath();
+        ctx.arc(-26, 18, 2, 0, Math.PI * 2);
+        ctx.arc(-22, 22, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#6d28d9';
+        ctx.font = 'bold 7.5px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("Bernoulli Smoothie! 🫐", 0, -26);
       }
 
       ctx.restore();
