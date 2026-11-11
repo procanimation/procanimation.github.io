@@ -1,0 +1,286 @@
+---
+layout: article
+title: "The Banach-Tarski Paradox: Decomposing and Doubling Spheres"
+tagline: "Free Groups, The Axiom of Choice & Non-Measurable Vitali Clouds"
+description: "How abstract group symmetries and the Axiom of Choice allow a 3D sphere to be sliced into 5 pieces and reassembled into two identical spheres with zero stretching."
+category: "Pure Mathematics & Set Theory"
+permalink: /experiments/banach-tarski-paradox.html
+---
+
+<p class="article-lead">
+  In 1924, Polish mathematicians <strong>Stefan Banach</strong> and <strong>Alfred Tarski</strong> published a theorem that shook the foundations of geometry: a solid three-dimensional ball can be partitioned into a finite number of non-overlapping pieces, rotated in space with <strong>zero stretching or distortion</strong>, and reassembled into <strong>two identical solid balls</strong> of the exact same size as the original ($S^2 \cong 2 \cdot S^2$). Even more astonishingly, a pea-sized ball can be dissected into five pieces and reconstituted into a solid sphere the size of the Sun. How does rigorous mathematics permit such an apparent violation of physics and conservation of volume?
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Banach-Tarski Mathematical Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Free Group $F_2$ on Two Generators</h4>
+    <p>Consider two independent rotations, $a$ and $b$, around perpendicular axes by an irrational angle $\theta = \arccos(1/3) \approx 70.53^\circ$. Because $\theta/\pi$ is irrational, no finite sequence of rotations ever loops back without retracing its exact inverse. These rotations generate the free group $F_2$: an algebraic structure of infinite irreducible words built from $\{a, b, a^{-1}, b^{-1}\}$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Cayley Tree Self-Similarity</h4>
+    <p>The Cayley graph of $F_2$ is an infinite 4-regular tree. Group multiplication exhibits an algebraic sleight-of-hand: multiplying the subset of all words starting with $a^{-1}$ (denoted $W(a^{-1})$) by the rotation $a$ cancels the leading letter, transforming one single branch into three full branches:
+      $$a \cdot W(a^{-1}) = F_2 \setminus W(a)$$
+      A single quarter of the group reproduces three-quarters of the entire infinite tree under pure rotation!</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Zermelo's Axiom of Choice (1904)</h4>
+    <p>Given any collection of non-empty disjoint sets, the Axiom of Choice (AC) states that it is possible to select exactly one representative element from each set. In the Banach-Tarski construction, points on the unit sphere are partitioned into uncountably infinite equivalence bins (orbits) under the action of $F_2$. AC selects one point per orbit to seed the decomposition.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Non-Measurable Sets (Vitali Dust)</h4>
+    <p>The pieces $A_1, \dots, A_5$ created by applying $F_2$ words to the chosen orbit representatives are not smooth geometrical slices. They are infinitely dense, unvisualizable, porous fractal dust clouds. They are <strong>non-measurable</strong>: the mathematical Lebesgue measure function $\lambda(E)$ is completely undefined for them. Because they have no defined volume, "volume conservation" does not apply.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Five-Piece Doubling Theorem</h4>
+    <p>Raphael M. Robinson proved in 1947 that 5 is the absolute minimum number of pieces required to duplicate a solid sphere in $\mathbb{R}^3$:
+      $$B^3 = A_1 \cup A_2 \cup A_3 \cup A_4 \cup A_5$$
+      Piece $A_1$ remains fixed, $A_2$ is rotated by $a$ to yield $A_1 \cup a A_2 = B^3$. Pieces $A_3, A_4, A_5$ are rotated by $b$ and $b^2$ to independently reassemble the second identical sphere $B^3$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Continuous Continuum vs Discrete Quanta</h4>
+    <p>Why can't we duplicate real gold? A pea-sized ball of gold contains $\approx 10^{22}$ discrete atoms governed by quantum mechanics and the Planck length ($\ell_P \approx 1.6 \times 10^{-35}\text{ m}$). Matter cannot be partitioned into infinitely dense mathematical point sets. The Banach-Tarski paradox exists solely within the continuous topology of the real numbers $\mathbb{R}^3$.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>🌐 INTERACTIVE BANACH-TARSKI 3D DECOMPOSITION & REASSEMBLY LAB</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Rigid 3D Isometries • 5-Piece Dissection • Free Group Symmetries)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#38bdf8;">● Piece A₁ (Stationary)</span>
+      <span style="color:#10b981;">● Piece A₂ (Rotation a)</span>
+      <span style="color:#f59e0b;">● Piece A₃ (Stationary Twin)</span>
+      <span style="color:#ec4899;">● Piece A₄ (Rotation b)</span>
+      <span style="color:#a855f7;">● Piece A₅ (Origin Center)</span>
+    </div>
+  </div>
+
+  <canvas id="btCanvas" width="900" height="520" style="width:100%; height:auto; background:#030712; display:block; border-radius:8px;"></canvas>
+
+  <div class="sim-controls" style="display:flex; flex-wrap:wrap; gap:16px; margin-top:14px; align-items:center; justify-content:space-between; background:rgba(15,23,42,0.7); padding:12px 18px; border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label for="phaseSlider" style="font-size:0.85rem; color:#94a3b8; font-weight:600;">Reassembly Morph:</label>
+      <input type="range" id="phaseSlider" min="0" max="1" step="0.01" value="0.5" style="width:180px;">
+      <span id="phaseVal" style="font-family:monospace; font-size:0.85rem; color:#38bdf8;">Exploded</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label for="rotSlider" style="font-size:0.85rem; color:#94a3b8; font-weight:600;">Rotation Speed:</label>
+      <input type="range" id="rotSlider" min="0" max="2" step="0.1" value="1.0" style="width:110px;">
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <label for="viewMode" style="font-size:0.85rem; color:#94a3b8; font-weight:600;">View Mode:</label>
+      <select id="viewMode" style="background:#1e293b; color:#f8fafc; border:1px solid #334155; padding:4px 8px; border-radius:4px; font-size:0.85rem;">
+        <option value="pieces">5 Banach-Tarski Pieces</option>
+        <option value="solid">Gold Sphere Solid Surface</option>
+        <option value="orbits">Non-Measurable Orbit Dust</option>
+      </select>
+    </div>
+
+    <button id="animBtn" style="background:#0284c7; color:#fff; border:none; padding:6px 14px; border-radius:4px; font-weight:600; cursor:pointer; font-size:0.85rem;">Auto-Play Morph</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('btCanvas');
+  const ctx = canvas.getContext('2d');
+  const phaseSlider = document.getElementById('phaseSlider');
+  const phaseVal = document.getElementById('phaseVal');
+  const rotSlider = document.getElementById('rotSlider');
+  const viewMode = document.getElementById('viewMode');
+  const animBtn = document.getElementById('animBtn');
+
+  let animating = false;
+  let animDir = 1;
+  let angleY = 0;
+  let angleX = 0.25;
+
+  // Generate 1200 points on Fibonacci sphere
+  const NUM_PTS = 1200;
+  const pts = [];
+  const pieceColors = ["#38bdf8", "#10b981", "#f59e0b", "#ec4899", "#a855f7"];
+
+  for (let i = 0; i < NUM_PTS; i++) {
+    const y = 1 - (i / (NUM_PTS - 1)) * 2;
+    const rAtY = Math.sqrt(1 - y * y);
+    const phi = i * Math.PI * (3 - Math.sqrt(5));
+    const x = Math.cos(phi) * rAtY;
+    const z = Math.sin(phi) * rAtY;
+    const hash = Math.sin(x * 12.9898 + y * 78.233 + z * 37.719) * 43758.5453;
+    const pid = Math.floor(Math.abs(hash * 100)) % 5;
+    const rad = Math.pow(Math.random(), 0.35);
+    pts.push({ x, y, z, pid, r: rad });
+  }
+
+  function project(x, y, z, cx, cy, scale) {
+    const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
+    const x1 = x * cosY + z * sinY;
+    const z1 = -x * sinY + z * cosY;
+
+    const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
+    const y2 = y * cosX - z1 * sinX;
+    const z2 = y * sinX + z1 * cosX;
+
+    const fov = 3.5;
+    const factor = fov / (fov + z2);
+    return {
+      px: cx + x1 * scale * factor,
+      py: cy + y2 * scale * factor,
+      depth: z2,
+      scale: factor
+    };
+  }
+
+  function update() {
+    const speed = parseFloat(rotSlider.value);
+    angleY += 0.015 * speed;
+
+    if (animating) {
+      let p = parseFloat(phaseSlider.value);
+      p += 0.005 * animDir;
+      if (p >= 1) { p = 1; animDir = -1; }
+      else if (p <= 0) { p = 0; animDir = 1; }
+      phaseSlider.value = p;
+    }
+
+    const p = parseFloat(phaseSlider.value);
+    if (p < 0.2) phaseVal.textContent = "Original Sphere (1x B³)";
+    else if (p > 0.8) phaseVal.textContent = "Duplicated Twin Spheres (2x B³)";
+    else phaseVal.textContent = `Decomposed Pieces (${(p*100).toFixed(0)}%)`;
+
+    draw(p);
+    requestAnimationFrame(update);
+  }
+
+  function draw(p) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Subtle coordinate lines
+    ctx.strokeStyle = "rgba(255,255,255,0.04)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width / 2, 0); ctx.lineTo(canvas.width / 2, canvas.height);
+    ctx.stroke();
+
+    const mode = viewMode.value;
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const baseScale = 90;
+
+    // Piece explosion targets
+    const explodedOffsets = [
+      { x: -160, y: -50 },
+      { x: -80, y: 70 },
+      { x: 80, y: -60 },
+      { x: 160, y: 60 },
+      { x: 0, y: 0 }
+    ];
+
+    // Final targets: Pieces 0, 1 -> Left Sphere (-170px); Pieces 2, 3, 4 -> Right Sphere (+170px)
+    const finalTargets = [
+      { x: -170, y: 0 },
+      { x: -170, y: 0 },
+      { x: 170, y: 0 },
+      { x: 170, y: 0 },
+      { x: 170, y: 0 }
+    ];
+
+    // Projected dots buffer
+    const projected = [];
+
+    for (let i = 0; i < pts.length; i++) {
+      const pt = pts[i];
+      const pid = pt.pid;
+
+      let ox = 0, oy = 0;
+      if (p <= 0.5) {
+        // Morph from 0 (single sphere at center) to 0.5 (exploded)
+        const t = p * 2;
+        ox = explodedOffsets[pid].x * t;
+        oy = explodedOffsets[pid].y * t;
+      } else {
+        // Morph from 0.5 (exploded) to 1.0 (two converged spheres)
+        const t = (p - 0.5) * 2;
+        ox = explodedOffsets[pid].x * (1 - t) + finalTargets[pid].x * t;
+        oy = explodedOffsets[pid].y * (1 - t) + finalTargets[pid].y * t;
+      }
+
+      // Piece 1 rotation by 'a' during convergence
+      let px = pt.x * pt.r, py = pt.y * pt.r, pz = pt.z * pt.r;
+      if (pid === 1 && p > 0.5) {
+        const angA = (p - 0.5) * 2 * 1.23;
+        const tx = px * Math.cos(angA) - py * Math.sin(angA);
+        const ty = px * Math.sin(angA) + py * Math.cos(angA);
+        px = tx; py = ty;
+      }
+      // Piece 3 rotation by 'b' during convergence
+      if (pid === 3 && p > 0.5) {
+        const angB = (p - 0.5) * 2 * 1.23;
+        const tx = px * Math.cos(angB) + pz * Math.sin(angB);
+        const tz = -px * Math.sin(angB) + pz * Math.cos(angB);
+        px = tx; pz = tz;
+      }
+
+      const proj = project(px, py, pz, cx + ox, cy + oy, baseScale);
+      projected.push({
+        px: proj.px,
+        py: proj.py,
+        depth: proj.depth,
+        scale: proj.scale,
+        pid: pid
+      });
+    }
+
+    projected.sort((a, b) => a.depth - b.depth);
+
+    for (const d of projected) {
+      const depthNorm = (d.depth + 1.0) / 2.0;
+      const brightness = Math.max(0.2, 1.0 - depthNorm);
+      let col = pieceColors[d.pid];
+
+      if (mode === "solid") {
+        col = `rgba(251, 191, 36, ${0.4 + brightness * 0.6})`;
+      } else if (mode === "orbits") {
+        col = (d.pid === 1 || d.pid === 3) ? `rgba(56, 189, 248, ${brightness})` : `rgba(244, 63, 94, ${brightness})`;
+      }
+
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      ctx.arc(d.px, d.py, Math.max(1.2, 2.4 * d.scale * brightness), 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Status HUD overlay
+    ctx.font = "bold 13px monospace";
+    ctx.fillStyle = "#94a3b8";
+    if (p < 0.2) {
+      ctx.fillText("Initial State: One Unit Ball B³", 20, 30);
+    } else if (p > 0.8) {
+      ctx.fillStyle = "#38bdf8";
+      ctx.fillText("Sphere 1: A₁ ∪ (a·A₂)", cx - 220, cy + 130);
+      ctx.fillStyle = "#f59e0b";
+      ctx.fillText("Sphere 2: A₃ ∪ (b·A₄) ∪ (b²·A₅)", cx + 70, cy + 130);
+      ctx.fillStyle = "#10b981";
+      ctx.fillText("Theorem Proved: S² ≅ 2·S²", 20, 30);
+    } else {
+      ctx.fillText("Rigid Isometries: Dissected into 5 Non-Measurable Pieces", 20, 30);
+    }
+  }
+
+  animBtn.onclick = () => {
+    animating = !animating;
+    animBtn.textContent = animating ? "Pause Morph" : "Auto-Play Morph";
+    animBtn.style.background = animating ? "#f43f5e" : "#0284c7";
+  };
+
+  update();
+})();
+</script>
+

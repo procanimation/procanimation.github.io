@@ -1691,3 +1691,22 @@
   gradient: 'linear-gradient(135deg, #f43f5e 0%, #a855f7 50%, #00f5d4 100%)'
   video_url: https://www.youtube.com/watch?v=5fPwvOOw9Qg
   article_url: /experiments/quantum-eraser-delayed-choice.html
+- id: ANAZUhbqvMk
+  title: "The Banach-Tarski Paradox: How Mathematics Clones a Sphere"
+  series: Pure Mathematics & Foundations of Set Theory
+  format: Full Feature (16:9 • 1080p Master)
+  duration: 06:05
+  description: Stefan Banach and Alfred Tarski's 1924 sphere duplication, the free group F₂ on two generators, Cayley tree self-similarity, Zermelo's Axiom of Choice, and non-measurable Vitali dust sets.
+  tags:
+  - BanachTarski
+  - AxiomOfChoice
+  - FreeGroup
+  - MeasureTheory
+  - SetTheory
+  - PureMathematics
+  - MathDocumentary
+  - ScienceAnimation
+  badge: Vol. XXX
+  gradient: 'linear-gradient(135deg, #38bdf8 0%, #10b981 50%, #f59e0b 100%)'
+  video_url: https://www.youtube.com/watch?v=ANAZUhbqvMk
+  article_url: /experiments/banach-tarski-paradox.html
