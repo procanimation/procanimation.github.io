@@ -2724,6 +2724,448 @@ const canvas = document.getElementById('studioCanvas');
     }
 
     // ==========================================
+    // ✨ RICH ANIMATION FX: ATMOSPHERIC PARTICLES
+    // ==========================================
+    function drawAtmosphericParticles(w, groundY, time, envMode) {
+      push();
+      if (envMode === "LIVING_ROOM") {
+        // Floating golden dust motes illuminated by the bay window sunbeams
+        for (let i = 0; i < 28; i++) {
+          const px = (w * 0.32 + (i * 31) % (w * 0.36) + Math.sin(time * 0.7 + i * 1.3) * 16);
+          const py = (70 + (i * 37) % (groundY - 110) + Math.cos(time * 0.5 + i * 2.1) * 12);
+          const alpha = 0.22 + Math.sin(time * 1.8 + i) * 0.16;
+          const r = 1.1 + (i % 3) * 0.5;
+          ctx.fillStyle = `rgba(254, 240, 138, ${Math.max(0, alpha)})`;
+          ctx.beginPath();
+          ctx.arc(px, py, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (envMode === "PARK") {
+        // Drifting flower petals & gentle dandelion fluff in the breeze
+        for (let i = 0; i < 16; i++) {
+          const px = ((i * 67 + time * 32) % (w + 40)) - 20;
+          const py = (90 + (i * 41) % (groundY - 120) + Math.sin(time * 1.2 + i) * 18);
+          const alpha = 0.35 + Math.sin(time * 2.0 + i) * 0.20;
+          push();
+          translate(px, py);
+          rotate(time * 1.5 + i);
+          ctx.fillStyle = (i % 2 === 0) ? `rgba(251, 207, 232, ${alpha})` : `rgba(254, 249, 195, ${alpha})`;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, 4.5, 2.2, 0, 0, Math.PI * 2);
+          ctx.fill();
+          pop();
+        }
+      } else if (envMode === "STUDIO") {
+        // High-tech quantum energy motes & photon sparks in the spotlight
+        for (let i = 0; i < 22; i++) {
+          const px = (w * 0.5 + Math.sin(time * 0.9 + i * 2.0) * (w * 0.26));
+          const py = (groundY - 30 - ((time * 38 + i * 35) % (groundY - 90)));
+          const alpha = 0.28 + Math.sin(time * 3.0 + i) * 0.22;
+          ctx.fillStyle = (i % 2 === 0) ? `rgba(56, 189, 248, ${alpha})` : `rgba(251, 191, 36, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(px, py, 1.4 + (i % 3) * 0.6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      pop();
+    }
+
+    // ==========================================
+    // 🎨 COMIC & ANIME EXPRESSION EMOTES
+    // ==========================================
+    function drawComicEmotes(char, idx, charX, charY, isTalking, time) {
+      push();
+      translate(charX, charY);
+      const sc = char.scale;
+
+      // 1. Dad's Smart Glasses Specular Star Flash (✨)
+      if (char.role === "Father" && (char.emotion === "teach" || isTalking)) {
+        const flashCycle = (time * 1.2) % 4.0;
+        if (flashCycle < 0.65) {
+          const flashProgress = flashCycle / 0.65;
+          const flashScale = Math.sin(flashProgress * Math.PI) * 1.4;
+          const starX = 14 * sc;
+          const starY = -102 * sc;
+
+          push();
+          translate(starX, starY);
+          ctx.scale(flashScale, flashScale);
+          ctx.fillStyle = '#ffffff';
+          ctx.shadowColor = '#38bdf8';
+          ctx.shadowBlur = 12;
+
+          // 4-pointed sparkle star
+          ctx.beginPath();
+          ctx.moveTo(0, -9);
+          ctx.quadraticCurveTo(1.5, -1.5, 9, 0);
+          ctx.quadraticCurveTo(1.5, 1.5, 0, 9);
+          ctx.quadraticCurveTo(-1.5, 1.5, -9, 0);
+          ctx.quadraticCurveTo(-1.5, -1.5, 0, -9);
+          ctx.fill();
+
+          // Center bright core
+          ctx.fillStyle = '#e0f2fe';
+          ctx.beginPath();
+          ctx.arc(0, 0, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          pop();
+        }
+      }
+
+      // 2. Leo's Epiphany Lightbulb (💡) when answering
+      if (char.role === "Boy" && char.spokenText.includes("That's easy")) {
+        const bulbY = -142 * sc + Math.sin(time * 4) * 3;
+        push();
+        translate(0, bulbY);
+        // Yellow glow aura
+        ctx.fillStyle = 'rgba(253, 224, 71, 0.28)';
+        ctx.beginPath();
+        ctx.arc(0, 0, 22, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Radiating ping rays
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2.2;
+        ctx.lineCap = 'round';
+        for (let a = 0; a < 6; a++) {
+          const ang = -Math.PI * 0.75 + (a / 5) * (Math.PI * 0.5);
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(ang) * 16, Math.sin(ang) * 16);
+          ctx.lineTo(Math.cos(ang) * 23, Math.sin(ang) * 23);
+          ctx.stroke();
+        }
+
+        // Lightbulb body
+        ctx.fillStyle = '#fef08a';
+        ctx.strokeStyle = '#d97706';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, -4, 9, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        // Screw base
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillRect(-4, 5, 8, 4);
+        pop();
+      }
+
+      // 3. Leo's Anime Sweat Drop (💧) when hypothesis is playfully challenged
+      if (char.role === "Boy" && (activeSpeakerIdx === 0 && characters[0].spokenText.includes("Nice guess Leo"))) {
+        const dropY = -106 * sc + Math.sin(time * 3.5) * 2;
+        push();
+        translate(-24 * sc, dropY);
+        ctx.fillStyle = '#38bdf8';
+        ctx.strokeStyle = '#0284c7';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(0, -7);
+        ctx.quadraticCurveTo(5, -1, 5, 4);
+        ctx.arc(0, 4, 5, 0, Math.PI, false);
+        ctx.quadraticCurveTo(-5, -1, 0, -7);
+        ctx.fill();
+        ctx.stroke();
+        // Specular highlight
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(-1.5, 2.5, 1.3, 0, Math.PI * 2);
+        ctx.fill();
+        pop();
+      }
+
+      // 4. Mia's Wonder Sparkle Stars in Eyes (✨)
+      if (char.role === "Girl" && (char.emotion === "excited" || char.spokenText.includes("rainbow") || char.spokenText.includes("Look out"))) {
+        [-6.5 * sc, 6.5 * sc].forEach(ex => {
+          const ey = -95 * sc;
+          push();
+          translate(ex, ey);
+          const starScale = 0.8 + Math.sin(time * 6) * 0.25;
+          ctx.scale(starScale, starScale);
+          ctx.fillStyle = '#fef08a';
+          ctx.beginPath();
+          ctx.moveTo(0, -3.5);
+          ctx.lineTo(1, -1);
+          ctx.lineTo(3.5, 0);
+          ctx.lineTo(1, 1);
+          ctx.lineTo(0, 3.5);
+          ctx.lineTo(-1, 1);
+          ctx.lineTo(-3.5, 0);
+          ctx.lineTo(-1, -1);
+          ctx.closePath();
+          ctx.fill();
+          pop();
+        });
+      }
+
+      pop();
+    }
+
+    // ==========================================
+    // 🔮 FLOATING HOLOGRAPHIC SCIENCE ILLUSTRATIONS
+    // ==========================================
+    function drawFloatingScienceHologram(speaker, w, h, time) {
+      if (!speaker || !speaker.spokenText) return;
+      const text = speaker.spokenText.toLowerCase();
+
+      // Determine concept theme
+      let theme = null;
+      if (text.includes("sunset") || text.includes("fiery red") || text.includes("vanish")) {
+        theme = "SUNSET";
+      } else if (text.includes("mirror") || text.includes("ocean")) {
+        theme = "OCEAN_MIRROR";
+      } else if (text.includes("lazy waves") || text.includes("electromagnetic") || text.includes("rainbow")) {
+        theme = "WAVELENGTHS";
+      } else if (text.includes("scatter") || text.includes("rayleigh scattering") || text.includes("photons")) {
+        theme = "RAYLEIGH_SCATTER";
+      } else if (text.includes("lambda to the fourth") || text.includes("400-nanometer") || text.includes("light laboratory")) {
+        theme = "RAYLEIGH_LAW";
+      } else if (text.includes("pancake") || text.includes("syrup") || text.includes("marshmallow")) {
+        theme = "PANCAKE_FEAST";
+      }
+
+      if (!theme) return;
+
+      push();
+      // Position bubble floating near speaker's shoulder
+      const bubbleSide = (speaker.x < w * 0.5) ? 1 : -1;
+      const bubbleX = speaker.x + bubbleSide * 85;
+      const bubbleY = Math.max(90, (h * 0.81) - 175 * speaker.scale + Math.sin(time * 2.2) * 5);
+      const bubbleR = 46;
+
+      // Little connecting thought bubbles trailing from character head
+      const headX = speaker.x + bubbleSide * 18;
+      const headY = (h * 0.81) - 100 * speaker.scale;
+      [
+        { x: headX, y: headY, r: 4 },
+        { x: headX + bubbleSide * 16, y: headY - 18, r: 6 },
+        { x: headX + bubbleSide * 34, y: headY - 38, r: 9 }
+      ].forEach(b => {
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+        ctx.strokeStyle = 'rgba(125, 211, 252, 0.55)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      });
+
+      // Main Glassmorphic Science Bubble
+      ctx.save();
+      translate(bubbleX, bubbleY);
+
+      // Outer Glow Aura
+      ctx.shadowColor = (theme === "SUNSET") ? 'rgba(249, 115, 22, 0.55)' :
+                        (theme === "RAYLEIGH_SCATTER" || theme === "RAYLEIGH_LAW") ? 'rgba(56, 189, 248, 0.65)' :
+                        'rgba(168, 85, 247, 0.55)';
+      ctx.shadowBlur = 18;
+      ctx.fillStyle = 'rgba(10, 15, 30, 0.90)';
+      ctx.beginPath();
+      ctx.arc(0, 0, bubbleR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Iridescent Luminous Border
+      const borderGrad = ctx.createLinearGradient(-bubbleR, -bubbleR, bubbleR, bubbleR);
+      borderGrad.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
+      borderGrad.addColorStop(0.5, 'rgba(56, 189, 248, 0.8)');
+      borderGrad.addColorStop(1, 'rgba(236, 72, 153, 0.7)');
+      ctx.strokeStyle = borderGrad;
+      ctx.lineWidth = 2.2;
+      ctx.stroke();
+
+      // Clip inner circle for clean illustration rendering
+      ctx.beginPath();
+      ctx.arc(0, 0, bubbleR - 2, 0, Math.PI * 2);
+      ctx.clip();
+
+      // RENDER SPECIFIC THEME ART
+      if (theme === "SUNSET") {
+        // Glowing Sunset Sphere over Mountain Ridge
+        const skyGrad = ctx.createLinearGradient(0, -bubbleR, 0, bubbleR);
+        skyGrad.addColorStop(0, '#7c2d12');
+        skyGrad.addColorStop(0.5, '#ea580c');
+        skyGrad.addColorStop(1, '#fef08a');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Blazing red sun
+        ctx.fillStyle = '#fee2e2';
+        ctx.shadowColor = '#ef4444';
+        ctx.shadowBlur = 14;
+        ctx.beginPath();
+        ctx.arc(0, 6 + Math.sin(time) * 2, 16, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Dark Mountain Silhouette
+        ctx.fillStyle = '#1e1b4b';
+        ctx.beginPath();
+        ctx.moveTo(-bubbleR, bubbleR);
+        ctx.lineTo(-24, 12);
+        ctx.lineTo(2, 20);
+        ctx.lineTo(26, 8);
+        ctx.lineTo(bubbleR, bubbleR);
+        ctx.closePath();
+        ctx.fill();
+      } else if (theme === "OCEAN_MIRROR") {
+        // Cartoon Blue Ocean Waves with Reflection Mirror
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+        // Ocean ripples
+        for (let row = 0; row < 3; row++) {
+          ctx.strokeStyle = (row === 0) ? '#38bdf8' : (row === 1 ? '#0284c7' : '#0369a1');
+          ctx.lineWidth = 3.0;
+          ctx.beginPath();
+          for (let x = -bubbleR; x <= bubbleR; x += 4) {
+            const y = row * 14 - 4 + Math.sin(x * 0.15 + time * 3.5 + row) * 5;
+            if (x === -bubbleR) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+        // Shining mirror sparkle
+        ctx.fillStyle = '#fef08a';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("🪞🌊", 0, -18);
+      } else if (theme === "WAVELENGTHS") {
+        // Red Long Waves vs Blue Short Waves
+        ctx.fillStyle = '#090d16';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Top: Long Red Waves (700nm)
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for (let x = -bubbleR; x <= bubbleR; x += 2) {
+          const y = -16 + Math.sin(x * 0.08 - time * 2.5) * 8;
+          if (x === -bubbleR) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.fillStyle = '#fca5a5';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText("Red: λ=700nm", -36, -26);
+
+        // Bottom: Short Blue Waves (400nm)
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for (let x = -bubbleR; x <= bubbleR; x += 2) {
+          const y = 18 + Math.sin(x * 0.24 - time * 5.0) * 8;
+          if (x === -bubbleR) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.fillStyle = '#bae6fd';
+        ctx.fillText("Blue: λ=400nm", -36, 8);
+      } else if (theme === "RAYLEIGH_SCATTER") {
+        // Rayleigh Scattering: Molecule scattering blue photons radially
+        ctx.fillStyle = '#060a14';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Center Atmospheric Molecule (N2/O2)
+        ctx.fillStyle = '#38bdf8';
+        ctx.shadowColor = '#0284c7';
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(-5, 0, 8, 0, Math.PI * 2);
+        ctx.arc(5, 0, 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 8px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("N₂", 0, 3);
+
+        // Radiating Scattered Blue Photons
+        for (let a = 0; a < 6; a++) {
+          const ang = (a / 6) * Math.PI * 2 + time * 1.5;
+          const rayDist = 18 + ((time * 25 + a * 6) % 18);
+          ctx.strokeStyle = '#67e8f9';
+          ctx.lineWidth = 2.0;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(ang) * 12, Math.sin(ang) * 12);
+          ctx.lineTo(Math.cos(ang) * rayDist, Math.sin(ang) * rayDist);
+          ctx.stroke();
+          // Arrow head
+          ctx.fillStyle = '#a5f3fc';
+          ctx.beginPath();
+          ctx.arc(Math.cos(ang) * rayDist, Math.sin(ang) * rayDist, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Long red wave passing right through without collision
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.85)';
+        ctx.lineWidth = 2.0;
+        ctx.beginPath();
+        for (let x = -bubbleR; x <= bubbleR; x += 2) {
+          const y = 26 + Math.sin(x * 0.10 - time * 2.0) * 4;
+          if (x === -bubbleR) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      } else if (theme === "RAYLEIGH_LAW") {
+        // Lord Rayleigh Mathematical Law Badge
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = 'bold 13px system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("I ∝ 1/λ⁴", 0, -8);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 9.5px monospace';
+        ctx.fillText("Blue ≈ 10×", 0, 10);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '8px sans-serif';
+        ctx.fillText("Scattering", 0, 22);
+      } else if (theme === "PANCAKE_FEAST") {
+        // Golden Stack of Pancakes with Maple Syrup & Steam
+        ctx.fillStyle = '#fffbeb';
+        ctx.fillRect(-bubbleR, -bubbleR, bubbleR * 2, bubbleR * 2);
+
+        // Fluffy pancake stack
+        const stackY = 12;
+        for (let p = 0; p < 3; p++) {
+          const py = stackY - p * 8;
+          ctx.fillStyle = '#d97706';
+          ctx.beginPath();
+          ctx.ellipse(0, py + 3, 24, 7, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#fde68a';
+          ctx.beginPath();
+          ctx.ellipse(0, py, 22, 6, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Melting Butter Pat
+        ctx.fillStyle = '#fef08a';
+        ctx.fillRect(-6, stackY - 24, 12, 6);
+
+        // Dripping Golden Syrup
+        ctx.strokeStyle = '#b45309';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(8, stackY - 18);
+        ctx.quadraticCurveTo(12, stackY - 8, 10, stackY + 2);
+        ctx.stroke();
+
+        // Rising steam curls
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.6)';
+        ctx.lineWidth = 1.5;
+        for (let s = -1; s <= 1; s++) {
+          ctx.beginPath();
+          const sx = s * 10;
+          ctx.moveTo(sx, stackY - 26);
+          ctx.bezierCurveTo(sx - 4, stackY - 34, sx + 4, stackY - 40, sx - 2, stackY - 48);
+          ctx.stroke();
+        }
+      }
+
+      ctx.restore();
+      pop();
+    }
+
+    // ==========================================
     // 🏡 ENVIRONMENT 1: COZY LIVING ROOM
     // ==========================================
     function drawLivingRoom(w, h, groundY, time) {
@@ -3842,6 +4284,17 @@ const canvas = document.getElementById('studioCanvas');
       requestAnimationFrame(render);
     }
 
+    // Virtual Dynamic Camera System
+    let camera = {
+      x: 0,
+      y: 0,
+      targetX: 0,
+      targetY: 0,
+      zoom: 1.0,
+      targetZoom: 1.0,
+      shake: 0
+    };
+
     function drawCanvasFrame(time, dt, isDeterministic = false) {
       const rect = canvas.getBoundingClientRect();
       const w = rect.width;
@@ -3856,6 +4309,43 @@ const canvas = document.getElementById('studioCanvas');
 
       const groundY = h * 0.81;
 
+      // 🎬 Dynamic Camera Director: smoothly focuses on active speaker
+      if (activeSpeakerIdx >= 0) {
+        const spk = characters[activeSpeakerIdx];
+        if (isStoryMode && storyEpisode.acts[storyActIdx] && storyEpisode.acts[storyActIdx].actNum === 3) {
+          // Act 3: Solo Father Science Lab Hero Framing
+          camera.targetX = 0;
+          camera.targetY = -8;
+          camera.targetZoom = 1.15;
+        } else {
+          // Dynamic speaker pan
+          const offset = (spk.x - w * 0.5);
+          camera.targetX = offset * 0.32;
+          camera.targetY = -6;
+          camera.targetZoom = 1.10;
+        }
+      } else {
+        camera.targetX = 0;
+        camera.targetY = 0;
+        camera.targetZoom = 1.0;
+      }
+
+      const camLerp = isDeterministic ? 0.14 : 0.07;
+      camera.x += (camera.targetX - camera.x) * camLerp;
+      camera.y += (camera.targetY - camera.y) * camLerp;
+      camera.zoom += (camera.targetZoom - camera.zoom) * camLerp;
+
+      // BEGIN VIRTUAL CAMERA WORLD SPACE
+      ctx.save();
+      const shakeAmt = camera.shake || 0;
+      const sx = (Math.random() - 0.5) * shakeAmt;
+      const sy = (Math.random() - 0.5) * shakeAmt;
+      camera.shake = Math.max(0, shakeAmt - dt * 4.0);
+
+      ctx.translate(w * 0.5 + sx, h * 0.55 + sy);
+      ctx.scale(camera.zoom, camera.zoom);
+      ctx.translate(-w * 0.5 - camera.x, -h * 0.55 - camera.y);
+
       // Draw Selected Environment!
       if (currentEnvMode === "LIVING_ROOM") {
         drawLivingRoom(w, h, groundY, time);
@@ -3868,6 +4358,9 @@ const canvas = document.getElementById('studioCanvas');
       } else {
         drawStudioStage(w, h, groundY, time);
       }
+
+      // Atmospheric environmental particles
+      drawAtmosphericParticles(w, groundY, time, currentEnvMode);
 
       // Real-Time Frame-Accurate Acoustic Lip-Sync (Zero Latency & Natural Syllable Cadence)
       const isNeuralPlaying = neuralAudioPlayer && !neuralAudioPlayer.paused && !neuralAudioPlayer.ended;
@@ -4083,6 +4576,10 @@ const canvas = document.getElementById('studioCanvas');
         push();
         translate(char.x, charY);
         ctx.scale(char.scale, char.scale);
+        if (isCurrentlyTalking) {
+          const squash = Math.sin(time * 3.8) * 0.022;
+          ctx.scale(1.0 - squash * 0.5, 1.0 + squash);
+        }
 
         if (currentViewMode === "FRONT") {
           // ====================================================
@@ -5216,14 +5713,24 @@ const canvas = document.getElementById('studioCanvas');
         }
 
         pop(); // Character Root
+
+        // Render Character Comic & Anime Emotes (Glasses sparkle, sweat drop, lightbulb)
+        drawComicEmotes(char, idx, char.x, charY, isCurrentlyTalking, time);
       });
 
-            // 🥞 In Pancake Feast (Act 4), draw Foreground Breakfast Table (Pancakes, Syrup, Butter, Hot Cocoa)
+      // 🥞 In Pancake Feast (Act 4), draw Foreground Breakfast Table (Pancakes, Syrup, Butter, Hot Cocoa)
       if (currentEnvMode === "LIVING_ROOM" && (showBreakfastTable || (isStoryMode && storyEpisode.acts[storyActIdx] && storyEpisode.acts[storyActIdx].actNum === 4))) {
         drawBreakfastTableForeground(w, groundY, time);
       }
 
-      // Draw Cinematic Subtitles & Act Title Banner
+      // 🔮 Draw Floating Illustrative Hologram over Active Speaker
+      if (activeSpeakerIdx >= 0) {
+        drawFloatingScienceHologram(characters[activeSpeakerIdx], w, h, time);
+      }
+
+      ctx.restore(); // END VIRTUAL CAMERA WORLD SPACE
+
+      // Draw Cinematic Subtitles & Act Title Banner (in fixed broadcast screen space)
       drawCinematicSubtitles(w, h, groundY);
       drawActTitleOverlay(w, h, dt);
 
