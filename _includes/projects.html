@@ -17,8 +17,16 @@
     <!-- Projects Grid -->
     <div class="projects-grid">
       {% for proj in site.data.projects %}
+      {% assign matched_video = site.data.youtube | where: "article_url", proj.article_url | first %}
+      {% unless matched_video %}
+        {% assign matched_video = site.data.youtube | where: "title", proj.name | first %}
+      {% endunless %}
       <div class="project-card" data-category="{{ proj.category }}">
         <div class="project-gradient-header" style="background: {{ proj.gradient }};">
+          {% if matched_video.id and matched_video.id != "none" %}
+          <img src="https://i.ytimg.com/vi/{{ matched_video.id }}/hqdefault.jpg" alt="{{ proj.name }}" class="project-thumb-img" loading="lazy" onerror="this.style.display='none'">
+          <div class="project-thumb-overlay"></div>
+          {% endif %}
           <span class="project-tag">{{ proj.tag }}</span>
           <span class="project-tech">{{ proj.tech }}</span>
         </div>

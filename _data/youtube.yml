@@ -1534,3 +1534,43 @@
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)'
   video_url: https://www.youtube.com/watch?v=miTfcebk2l0
   article_url: /experiments/graph-theory-network-science.html
+- id: pXd9L9b8gCU
+  title: "How Nature Partitions Everything: Voronoi Diagrams & Delaunay Triangulation"
+  series: Procedural Animation & Mathematical Micro-Simulations
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:54
+  description: Georgy Voronoy's 1908 space partitioning, perpendicular bisector wavefront collisions, Boris Delaunay's dual empty circumcircle triangulation, and Lloyd's centroidal relaxation in nature.
+  tags:
+  - Voronoi
+  - Delaunay
+  - Geometry
+  - ComputationalGeometry
+  - Algorithms
+  - Mathematics
+  - NaturePatterns
+  - ScienceShorts
+  - ProceduralAnimation
+  badge: Vol. XXIII
+  gradient: 'linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #f43f5e 100%)'
+  video_url: https://youtube.com/shorts/pXd9L9b8gCU
+  article_url: /experiments/voronoi-diagrams-space-partition.html
+- id: 3laX8JvX7iU
+  title: "The Fabric of Reality: Special Relativity, Time Dilation & Minkowski Spacetime"
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 08:00
+  description: Albert Einstein's 1905 invariance of c, the Michelson-Morley null result, Pythagorean light clock time dilation, Lorentz-FitzGerald length contraction, and Hermann Minkowski's 4D spacetime interval.
+  tags:
+  - SpecialRelativity
+  - AlbertEinstein
+  - TimeDilation
+  - LengthContraction
+  - MinkowskiSpacetime
+  - SpeedOfLight
+  - Physics
+  - Documentary
+  - STEM
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #f43f5e 0%, #fbbf24 50%, #38bdf8 100%)'
+  video_url: https://www.youtube.com/watch?v=3laX8JvX7iU
+  article_url: /experiments/special-relativity-spacetime.html

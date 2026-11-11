@@ -56,6 +56,10 @@
       {% for video in site.data.youtube %}
       <div class="video-card">
         <a href="{{ video.video_url }}" target="_blank" class="video-thumbnail-wrapper" style="background: {{ video.gradient }}; text-decoration: none;">
+          {% if video.id and video.id != "none" %}
+          <img src="https://i.ytimg.com/vi/{{ video.id }}/hqdefault.jpg" alt="{{ video.title }}" class="video-thumb-img" loading="lazy" onerror="this.style.display='none'">
+          <div class="video-thumb-overlay"></div>
+          {% endif %}
           <span class="video-badge">{{ video.badge }}</span>
           <div class="play-btn">▶</div>
           <span class="video-duration">{{ video.duration }}</span>

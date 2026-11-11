@@ -51,15 +51,39 @@
   }
 
   .project-gradient-header {
-    height: 140px;
+    height: 160px;
     position: relative;
     padding: 16px;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    overflow: hidden;
+
+    .project-thumb-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+    }
+
+    .project-thumb-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(2, 6, 23, 0.35) 0%, rgba(2, 6, 23, 0.75) 100%);
+      z-index: 2;
+    }
 
     .project-tag {
-      background: rgba(0, 0, 0, 0.6);
+      position: relative;
+      z-index: 3;
+      background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(8px);
       padding: 4px 10px;
       border-radius: $radius-full;
@@ -70,13 +94,22 @@
     }
 
     .project-tech {
-      background: rgba(255, 255, 255, 0.2);
+      position: relative;
+      z-index: 3;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(8px);
       padding: 4px 10px;
       border-radius: $radius-full;
       font-size: 0.75rem;
       font-weight: 700;
       color: #fff;
+    }
+  }
+
+  &:hover {
+    .project-thumb-img {
+      transform: scale(1.08);
     }
   }
 

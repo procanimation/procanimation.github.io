@@ -769,6 +769,32 @@
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)"
 
+- id: "voronoi-diagrams"
+  slug: "voronoi-diagrams"
+  category: "math"
+  name: "Voronoi Diagrams & Delaunay Triangulation"
+  tag: "Computational Geometry • Nature Patterns"
+  tech: "HTML5 Canvas • Perpendicular Bisectors & Lloyd's Relaxation"
+  description: "Georgy Voronoy's 1908 space partitioning, expanding wavefront collisions, Boris Delaunay's dual empty circumcircle triangulation, and Lloyd's centroidal relaxation in nature."
+  repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/voronoi_diagrams"
+  article_url: "/experiments/voronoi-diagrams-space-partition.html"
+  demo_url: "/experiments/voronoi-diagrams-space-partition.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #f43f5e 100%)"
+
+- id: "special-relativity"
+  slug: "special-relativity"
+  category: "science"
+  name: "Special Relativity & Spacetime Invariance"
+  tag: "Spacetime • Theoretical Physics"
+  tech: "HTML5 Canvas • Relativistic Light Clock & Minkowski 4D Diagram"
+  description: "Albert Einstein's 1905 invariance of c, Michelson-Morley null result, Pythagorean light clock time dilation, Lorentz-FitzGerald length contraction, and Hermann Minkowski's 4D spacetime interval."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/special_relativity"
+  article_url: "/experiments/special-relativity-spacetime.html"
+  demo_url: "/experiments/special-relativity-spacetime.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #f43f5e 0%, #fbbf24 50%, #38bdf8 100%)"
+
 
 
 
