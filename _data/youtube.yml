@@ -1672,3 +1672,22 @@
   gradient: 'linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #6366f1 100%)'
   video_url: https://youtube.com/shorts/zyjs_4-Dl7I
   article_url: /experiments/josephus-problem-bit-shift.html
+- id: 5fPwvOOw9Qg
+  title: "Does the Future Change the Past? The Delayed-Choice Quantum Eraser"
+  series: Quantum Mechanics & Foundational Paradoxes
+  format: Full Feature (16:9 • 1080p Master)
+  duration: 08:45
+  description: Young's double-slit experiment, Wheeler's delayed-choice gravitational lens, Scully-Drühl quantum eraser, Kim et al.'s SPDC entangled photon delay, and the No-Communication Theorem.
+  tags:
+  - QuantumEraser
+  - DelayedChoice
+  - QuantumMechanics
+  - Entanglement
+  - SPDC
+  - WaveParticleDuality
+  - TheoreticalPhysics
+  - ScienceDocumentary
+  badge: Vol. XXIX
+  gradient: 'linear-gradient(135deg, #f43f5e 0%, #a855f7 50%, #00f5d4 100%)'
+  video_url: https://www.youtube.com/watch?v=5fPwvOOw9Qg
+  article_url: /experiments/quantum-eraser-delayed-choice.html
