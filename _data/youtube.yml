@@ -1450,3 +1450,43 @@
   gradient: 'linear-gradient(135deg, #00f5d4, #ffd166, #ff007f)'
   video_url: https://youtube.com/shorts/8MKP2kf-FKU
   article_url: /experiments/penrose-tiling-quasicrystals.html
+- title: 'When Pure Chaos Builds A Perfect Bell Curve: The Galton Board'
+  series: Probability, Chaos & Statistics
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:50
+  description: Francis Galton's 1889 Quincunx, random 50/50 peg deflections, Pascal's triangle binomial lattice, and the emergence of the Gaussian Bell Curve.
+  tags:
+  - GaltonBoard
+  - CentralLimitTheorem
+  - BellCurve
+  - NormalDistribution
+  - Quincunx
+  - Probability
+  - Statistics
+  - Mathematics
+  - Physics
+  - CreativeCoding
+  badge: Master HD Short
+  gradient: 'linear-gradient(135deg, #00f5d4, #38bdf8, #fbbf24)'
+  video_url: https://youtube.com/shorts/pending_galton
+  article_url: /experiments/galton-board-central-limit.html
+- title: "How Jiggling Pollen Proved Atoms Exist: Brownian Motion & Einstein's 1905 Miracle"
+  series: Documentary Feature
+  format: Landscape (16:9 • 1080p Master)
+  duration: 05:31
+  description: Robert Brown's 1827 botanical mystery, late 19th-century skepticism from Mach and Ostwald, Einstein's 1905 Poisson statistical recoil, the Stokes-Einstein relation, and Jean Perrin's 1926 Nobel Prize.
+  tags:
+  - BrownianMotion
+  - AlbertEinstein
+  - Atoms
+  - StatisticalMechanics
+  - StokesEinstein
+  - JeanPerrin
+  - Diffusion
+  - Physics
+  - Documentary
+  - STEM
+  badge: Featured Documentary
+  gradient: 'linear-gradient(135deg, #f59e0b 0%, #00f5d4 50%, #38bdf8 100%)'
+  video_url: https://www.youtube.com/watch?v=pending_brownian
+  article_url: /experiments/brownian-motion-einstein.html

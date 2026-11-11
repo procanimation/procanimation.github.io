@@ -717,6 +717,33 @@
   featured: true
   gradient: "linear-gradient(135deg, #00f5d4 0%, #ffd166 50%, #ff007f 100%)"
 
+- id: "galton-board"
+  slug: "galton-board"
+  category: "math"
+  name: "The Galton Board & Central Limit Theorem"
+  tag: "Probability • Normal Distribution"
+  tech: "HTML5 Canvas • Binomial Lattice Physics"
+  description: "Sir Francis Galton's 1889 Quincunx, random 50/50 peg deflections, Pascal's triangle lattice, and the emergence of the Gaussian Bell Curve."
+  repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/galton_board"
+  article_url: "/experiments/galton-board-central-limit.html"
+  demo_url: "/experiments/galton-board-central-limit.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #fbbf24 100%)"
+
+- id: "brownian-motion"
+  slug: "brownian-motion"
+  category: "physics"
+  name: "Brownian Motion & Einstein's 1905 Proof of Atoms"
+  tag: "Statistical Mechanics • Diffusion"
+  tech: "HTML5 Canvas • Molecular Solvent Collision Engine"
+  description: "Robert Brown's 1827 mystery, Albert Einstein's 1905 Poisson statistical recoil, the Stokes-Einstein relation, and Jean Perrin's 1926 Nobel Prize."
+  repo_url: "https://github.com/procanimation/science-stuff/tree/main/brownian_motion"
+  article_url: "/experiments/brownian-motion-einstein.html"
+  demo_url: "/experiments/brownian-motion-einstein.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #f59e0b 0%, #00f5d4 50%, #38bdf8 100%)"
+
+
 
 
 

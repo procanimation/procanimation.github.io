@@ -1,7 +1,7 @@
 - id: PLVaAmyIFA544
   title: 'Classical Physics: The Visual Intuition Guide'
   url: https://www.youtube.com/playlist?list=PLVaAmyIFA544
-  count: 11 Videos
+  count: 12 Videos
   icon: ⚙️
   tagline: Newtonian Mechanics, Conservation Laws & Celestial Dynamics
   gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #78350f 100%)'
@@ -50,7 +50,7 @@
 - id: PLcPiE4M61OUc
   title: 'Procedural Animation & Mathematical Micro-Simulations'
   url: https://www.youtube.com/playlist?list=PLcPiE4M61OUc
-  count: 20 Shorts
+  count: 21 Shorts
   icon: ⚡
   tagline: Fractals, Cellular Automata, Chaos Theory & Emergence in 60s
   gradient: 'linear-gradient(135deg, #f43f5e 0%, #fb923c 50%, #facc15 100%)'

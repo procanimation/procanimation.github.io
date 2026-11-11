@@ -1,0 +1,329 @@
+---
+layout: article
+title: "The Galton Board: Central Limit Theorem & Emergence of the Bell Curve"
+tagline: "Sir Francis Galton's 1889 Quincunx, Pascal's Binomial Lattice & The Universal Gaussian Law"
+description: "How thousands of chaotic 50/50 peg collisions spontaneously assemble into a mathematically perfect normal distribution."
+category: "Chaos, Probability & Statistical Physics"
+permalink: /experiments/galton-board-central-limit.html
+---
+
+<p class="article-lead">
+  In 1889, Victorian polymath <strong>Sir Francis Galton</strong> unveiled a hypnotic mechanical invention called the <strong>Quincunx</strong> (or <em>Galton Board</em>). At the top, hundreds of tiny steel spheres are poured through a narrow funnel into a triangular array of brass pins. At every pin, each falling ball undergoes an unbiased, independent binary coin toss: bounce 50% left, or bounce 50% right. Individually, every ball traces an unpredictable chaotic trajectory. Yet when thousands of balls accumulate in the collection bins below, a miraculous mathematical order crystallizes: pure randomness assembles into the pristine, symmetrical geometry of the <strong>Gaussian Bell Curve</strong>.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Probability & Central Limit Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>The Quincunx Binomial Lattice</h4>
+    <p>Let a ball fall through $n$ rows of pegs. At each row $r$, it deflects right with probability $p = 0.5$ and left with probability $1-p = 0.5$. The total number of rightward deflections $k$ is governed by the binomial coefficient $\binom{n}{k} = \frac{n!}{k!(n-k)!}$, exactly matching row $n$ of Pascal's Triangle.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The De Moivre–Laplace Theorem</h4>
+    <p>Discovered by Abraham de Moivre in 1738 and expanded by Pierre-Simon Laplace in 1812: as the number of trials $n \to \infty$, the discrete binomial distribution $B(n, p)$ converges smoothly to a continuous Gaussian normal distribution with mean $\mu = np$ and variance $\sigma^2 = np(1-p)$.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Central Limit Theorem (CLT)</h4>
+    <p>The CLT is the bedrock of modern statistical mechanics: whenever a macroscopic measurement is the sum of many independent, identically distributed microscopic random variables, the normalized sum inevitably converges to the Gaussian distribution, regardless of the underlying variable's shape.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Gaussian Probability Density Function</h4>
+    <p>The continuous bell curve envelope is given analytically by:
+      $$f(x) = \frac{1}{\sigma \sqrt{2\pi}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)$$
+      In the Galton Board, with $n = 14$ rows and $p = 0.5$, $\mu = 7$ (the center bin) and standard deviation $\sigma = \sqrt{14 \times 0.25} \approx 1.87$ bins.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>⚡ INTERACTIVE GALTON BOARD SIMULATOR</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Live Canvas Bead Physics, Adjustable Bias & Analytical Gaussian Envelope)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#00f5d4;">● Falling Beads</span>
+      <span style="color:#38bdf8;">― Analytical Gaussian Curve</span>
+      <span style="color:#fbbf24;">● Pascal Binomial Bins</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:580px; background:#02040a; border-radius:8px; overflow:hidden;">
+    <canvas id="galtonCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; display:flex; flex-wrap:wrap; gap:10px; z-index:10;">
+      <button id="btnDropBurst" style="background:#00f5d4; color:#02040a; border:none; padding:8px 16px; font-weight:700; border-radius:6px; cursor:pointer;">Drop +100 Beads</button>
+      <button id="btnToggleStream" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; font-weight:600; border-radius:6px; cursor:pointer;">Pause Stream</button>
+      <button id="btnResetBoard" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; font-weight:600; border-radius:6px; cursor:pointer;">Reset Bins</button>
+      <label style="display:inline-flex; align-items:center; gap:6px; color:#cbd5e1; font-size:0.85rem; font-family:sans-serif; background:rgba(15,23,42,0.8); padding:4px 10px; border-radius:6px;">
+        Right Bias ($p$): <input id="biasSlider" type="range" min="0.2" max="0.8" step="0.05" value="0.5" style="width:80px;">
+        <span id="biasVal" style="color:#00f5d4; font-family:monospace;">0.50</span>
+      </label>
+    </div>
+
+    <div id="telemetryBadge" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.85); border:1px solid rgba(0,245,212,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      Total: 0 | Mean μ: 6.00 | σ: 1.73
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const canvas = document.getElementById('galtonCanvas');
+    const ctx = canvas.getContext('2d');
+    const telemetry = document.getElementById('telemetryBadge');
+    const biasSlider = document.getElementById('biasSlider');
+    const biasVal = document.getElementById('biasVal');
+
+    let W, H;
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      W = rect.width;
+      H = rect.height;
+      canvas.width = W * window.devicePixelRatio;
+      canvas.height = H * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const ROWS = 12;
+    const BINS = ROWS + 1; // 13 bins
+    let biasP = 0.5;
+
+    let binCounts = new Array(BINS).fill(0);
+    let totalSettled = 0;
+    let activeParticles = [];
+    let isStreaming = true;
+
+    // Peg positions
+    function getPegs() {
+      const pegs = [];
+      const topY = 70;
+      const spacingY = 24;
+      const spacingX = 32;
+      const centerX = W / 2;
+
+      for (let r = 0; r < ROWS; r++) {
+        const count = r + 1;
+        const rowY = topY + r * spacingY;
+        const startX = centerX - ((count - 1) * spacingX) / 2;
+        for (let c = 0; c < count; c++) {
+          pegs.push({ r, c, x: startX + c * spacingX, y: rowY });
+        }
+      }
+      return pegs;
+    }
+
+    function addParticle() {
+      const centerX = W / 2;
+      activeParticles.push({
+        x: centerX + (Math.random() - 0.5) * 6,
+        y: 30,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: 1.5 + Math.random(),
+        radius: 3.5,
+        hue: 160 + Math.random() * 50
+      });
+    }
+
+    function update() {
+      if (isStreaming && Math.random() < 0.65) {
+        addParticle();
+      }
+
+      const pegs = getPegs();
+      const binTopY = 70 + ROWS * 24 + 15;
+      const binBottomY = H - 55;
+      const binWidth = (BINS * 32) / BINS;
+      const binLeftX = (W / 2) - (BINS * binWidth) / 2;
+
+      for (let i = activeParticles.length - 1; i >= 0; i--) {
+        const p = activeParticles[i];
+        p.vy += 0.22; // gravity
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Peg collision
+        for (let j = 0; j < pegs.length; j++) {
+          const peg = pegs[j];
+          const dx = p.x - peg.x;
+          const dy = p.y - peg.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < p.radius + 3.0) {
+            // Deflection biased by biasP
+            const bounceRight = Math.random() < biasP;
+            p.vx = (bounceRight ? 1 : -1) * (1.2 + Math.random() * 0.6);
+            p.vy = Math.max(0.8, p.vy * 0.4);
+            p.x = peg.x + (bounceRight ? 1 : -1) * (p.radius + 3.2);
+            break;
+          }
+        }
+
+        // Settling into bin
+        if (p.y >= binBottomY) {
+          let bIdx = Math.floor((p.x - binLeftX) / binWidth);
+          bIdx = Math.max(0, Math.min(BINS - 1, bIdx));
+          binCounts[bIdx]++;
+          totalSettled++;
+          activeParticles.splice(i, 1);
+        }
+      }
+
+      // Update telemetry
+      const mu = ROWS * biasP;
+      const sigma = Math.sqrt(ROWS * biasP * (1 - biasP));
+      telemetry.textContent = `Total: ${totalSettled} | Mean μ: ${mu.toFixed(2)} | σ: ${sigma.toFixed(2)}`;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      const pegs = getPegs();
+      const binTopY = 70 + ROWS * 24 + 15;
+      const binBottomY = H - 55;
+      const binWidth = (BINS * 32) / BINS;
+      const binLeftX = (W / 2) - (BINS * binWidth) / 2;
+
+      // Draw Funnel
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(W / 2 - 50, 15);
+      ctx.lineTo(W / 2 - 10, 45);
+      ctx.lineTo(W / 2 - 10, 60);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(W / 2 + 50, 15);
+      ctx.lineTo(W / 2 + 10, 45);
+      ctx.lineTo(W / 2 + 10, 60);
+      ctx.stroke();
+
+      // Draw Pegs
+      for (let i = 0; i < pegs.length; i++) {
+        const peg = pegs[i];
+        ctx.beginPath();
+        ctx.arc(peg.x, peg.y, 3.2, 0, Math.PI * 2);
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fill();
+      }
+
+      // Draw Bins
+      for (let b = 0; b <= BINS; b++) {
+        const wx = binLeftX + b * binWidth;
+        ctx.strokeStyle = 'rgba(100, 116, 139, 0.3)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(wx, binTopY);
+        ctx.lineTo(wx, binBottomY);
+        ctx.stroke();
+      }
+
+      // Bottom baseline
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.5)';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(binLeftX - 10, binBottomY);
+      ctx.lineTo(binLeftX + BINS * binWidth + 10, binBottomY);
+      ctx.stroke();
+
+      // Draw Bin Stacks
+      const stackBeadSpacing = 4.5;
+      for (let b = 0; b < BINS; b++) {
+        const count = binCounts[b];
+        const bcx = binLeftX + (b + 0.5) * binWidth;
+        const visible = Math.min(count, 35);
+        for (let s = 0; s < visible; s++) {
+          const sy = binBottomY - 4 - s * stackBeadSpacing;
+          ctx.beginPath();
+          ctx.arc(bcx, sy, 2.6, 0, Math.PI * 2);
+          ctx.fillStyle = '#00f5d4';
+          ctx.fill();
+        }
+      }
+
+      // Draw Active Particles
+      for (let i = 0; i < activeParticles.length; i++) {
+        const p = activeParticles[i];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `hsl(${p.hue}, 95%, 65%)`;
+        ctx.shadowColor = '#00f5d4';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+
+      // Draw Analytical Gaussian Curve
+      if (totalSettled > 15) {
+        ctx.save();
+        const mu = (BINS - 1) * biasP;
+        const sigma = Math.sqrt(ROWS * biasP * (1 - biasP));
+        const maxExpected = totalSettled / (sigma * Math.sqrt(2 * Math.PI));
+        const peakHeight = Math.min(maxExpected, 35) * stackBeadSpacing;
+
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#38bdf8';
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+
+        const samples = 80;
+        for (let s = 0; s <= samples; s++) {
+          const coord = (s / samples) * (BINS - 1);
+          const px = binLeftX + (coord + 0.5) * binWidth;
+          const z = (coord - mu) / sigma;
+          const py = binBottomY - Math.exp(-0.5 * z * z) * peakHeight;
+          if (s === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // Event listeners
+    document.getElementById('btnDropBurst').addEventListener('click', () => {
+      for (let i = 0; i < 100; i++) setTimeout(addParticle, i * 15);
+    });
+
+    document.getElementById('btnToggleStream').addEventListener('click', function() {
+      isStreaming = !isStreaming;
+      this.textContent = isStreaming ? 'Pause Stream' : 'Resume Stream';
+    });
+
+    document.getElementById('btnResetBoard').addEventListener('click', () => {
+      binCounts.fill(0);
+      totalSettled = 0;
+      activeParticles = [];
+    });
+
+    biasSlider.addEventListener('input', function() {
+      biasP = parseFloat(this.value);
+      biasVal.textContent = biasP.toFixed(2);
+    });
+  })();
+</script>
+
+<div class="article-footer-cta" style="margin-top:40px; padding:24px; background:rgba(15,23,42,0.6); border:1px solid rgba(0,245,212,0.2); border-radius:12px;">
+  <h4 style="margin-top:0; color:#00f5d4;">Watch the Video Short & Explore the Open Source Code</h4>
+  <p style="color:#94a3b8; font-size:0.95rem;">
+    Experience the high-framerate 60 FPS Galton Board micro-simulation rendered with p5.js on our official YouTube channel:
+  </p>
+  <div style="display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;">
+    <a href="https://youtube.com/playlist?list=PLcPiE4M61OUc" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:#f43f5e; color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:700;">
+      ▶ Watch on YouTube Shorts
+    </a>
+    <a href="https://github.com/procanimation/mathematics-stuff" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:600; border:1px solid rgba(255,255,255,0.2);">
+      💻 Source Code on GitHub
+    </a>
+  </div>
+</div>
