@@ -1468,8 +1468,9 @@
   - CreativeCoding
   badge: Master HD Short
   gradient: 'linear-gradient(135deg, #00f5d4, #38bdf8, #fbbf24)'
-  video_url: https://youtube.com/shorts/pending_galton
+  video_url: https://youtube.com/shorts/zjErrAd5e2g
   article_url: /experiments/galton-board-central-limit.html
+  id: zjErrAd5e2g
 - title: "How Jiggling Pollen Proved Atoms Exist: Brownian Motion & Einstein's 1905 Miracle"
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
@@ -1488,5 +1489,6 @@
   - STEM
   badge: Featured Documentary
   gradient: 'linear-gradient(135deg, #f59e0b 0%, #00f5d4 50%, #38bdf8 100%)'
-  video_url: https://www.youtube.com/watch?v=pending_brownian
+  video_url: https://www.youtube.com/watch?v=3k8mZSzlXOs
   article_url: /experiments/brownian-motion-einstein.html
+  id: 3k8mZSzlXOs
