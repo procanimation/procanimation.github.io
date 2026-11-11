@@ -125,6 +125,141 @@ const canvas = document.getElementById('studioCanvas');
     btnEnvPark.addEventListener('click', () => setEnvironment("PARK"));
     btnEnvStudio.addEventListener('click', () => setEnvironment("STUDIO"));
 
+    // ==========================================
+    // 🎬 DIRECTOR SUITE INTERACTIVE CONTROLLER
+    // ==========================================
+    let isDirectorPlaying = false;
+    let directorTime = 0.0;
+    let showBones = false;
+
+    const directorScrubber = document.getElementById('directorScrubber');
+    const btnDirectorPlay = document.getElementById('btnDirectorPlay');
+    const btnStepBack = document.getElementById('btnStepBack');
+    const btnStepForward = document.getElementById('btnStepForward');
+    const btnToggleBones = document.getElementById('btnToggleBones');
+    const btnSnapshotFrame = document.getElementById('btnSnapshotFrame');
+    const directorTimeDisplay = document.getElementById('directorTimeDisplay');
+    const directorFrameDisplay = document.getElementById('directorFrameDisplay');
+    const directorActBadge = document.getElementById('directorActBadge');
+
+    function formatTimeDisplay(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      const ms = Math.floor((sec % 1) * 100);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}.${String(ms).padStart(2, '0')}`;
+    }
+
+    function updateDirectorUI(t) {
+      directorTime = Math.max(0, t);
+      if (directorScrubber) directorScrubber.value = directorTime;
+      const frameNum = Math.floor(directorTime * 30);
+      const maxSec = directorScrubber ? parseFloat(directorScrubber.max) : 214;
+      if (directorTimeDisplay) {
+        directorTimeDisplay.textContent = `${formatTimeDisplay(directorTime)} / ${formatTimeDisplay(maxSec)}`;
+      }
+      if (directorFrameDisplay) {
+        directorFrameDisplay.textContent = `(Frame ${frameNum})`;
+      }
+      if (window.EPISODE_TIMELINE && window.EPISODE_TIMELINE.acts) {
+        const currentAct = window.EPISODE_TIMELINE.acts.find(a => directorTime >= a.start && directorTime <= a.end + 1.25) || window.EPISODE_TIMELINE.acts[0];
+        if (currentAct && directorActBadge) {
+          directorActBadge.textContent = `Act ${currentAct.actNum}: ${currentAct.title} (${currentAct.env})`;
+        }
+      }
+    }
+
+    function scrubToTime(t) {
+      updateDirectorUI(t);
+      if (window.renderEpisodeAtTime) {
+        window.renderEpisodeAtTime(directorTime);
+      }
+    }
+
+    if (directorScrubber) {
+      directorScrubber.addEventListener('input', (e) => {
+        isDirectorPlaying = false;
+        if (btnDirectorPlay) btnDirectorPlay.textContent = "▶";
+        scrubToTime(parseFloat(e.target.value));
+      });
+    }
+
+    if (btnDirectorPlay) {
+      btnDirectorPlay.addEventListener('click', () => {
+        isDirectorPlaying = !isDirectorPlaying;
+        btnDirectorPlay.textContent = isDirectorPlaying ? "⏸" : "▶";
+      });
+    }
+
+    if (btnStepBack) {
+      btnStepBack.addEventListener('click', () => {
+        isDirectorPlaying = false;
+        if (btnDirectorPlay) btnDirectorPlay.textContent = "▶";
+        scrubToTime(directorTime - 1.0 / 30.0);
+      });
+    }
+
+    if (btnStepForward) {
+      btnStepForward.addEventListener('click', () => {
+        isDirectorPlaying = false;
+        if (btnDirectorPlay) btnDirectorPlay.textContent = "▶";
+        scrubToTime(directorTime + 1.0 / 30.0);
+      });
+    }
+
+    document.querySelectorAll('.act-jump-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        isDirectorPlaying = false;
+        if (btnDirectorPlay) btnDirectorPlay.textContent = "▶";
+        scrubToTime(parseFloat(btn.getAttribute('data-time')));
+      });
+    });
+
+    if (btnToggleBones) {
+      btnToggleBones.addEventListener('click', () => {
+        showBones = !showBones;
+        btnToggleBones.className = showBones ?
+          "px-2.5 py-1 rounded-lg bg-pink-600 text-white flex items-center gap-1 text-[11px] font-bold shadow" :
+          "px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center gap-1 text-[11px]";
+      });
+    }
+
+    if (btnSnapshotFrame) {
+      btnSnapshotFrame.addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = `cartoon_snapshot_${directorTime.toFixed(2)}s.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === "INPUT" && e.target.type === "text") return;
+
+      if (e.code === "Space") {
+        e.preventDefault();
+        isDirectorPlaying = !isDirectorPlaying;
+        if (btnDirectorPlay) btnDirectorPlay.textContent = isDirectorPlaying ? "⏸" : "▶";
+      } else if (e.code === "ArrowRight") {
+        e.preventDefault();
+        const step = e.shiftKey ? 1.0 : (1.0 / 30.0);
+        isDirectorPlaying = false;
+        if (btnDirectorPlay) btnDirectorPlay.textContent = "▶";
+        scrubToTime(directorTime + step);
+      } else if (e.code === "ArrowLeft") {
+        e.preventDefault();
+        const step = e.shiftKey ? 1.0 : (1.0 / 30.0);
+        isDirectorPlaying = false;
+        if (btnDirectorPlay) btnDirectorPlay.textContent = "▶";
+        scrubToTime(directorTime - step);
+      } else if (e.code === "KeyS") {
+        e.preventDefault();
+        if (btnSnapshotFrame) btnSnapshotFrame.click();
+      } else if (e.code === "KeyB") {
+        e.preventDefault();
+        if (btnToggleBones) btnToggleBones.click();
+      }
+    });
+
     function push() { ctx.save(); }
     function pop() { ctx.restore(); }
     function translate(x, y) { ctx.translate(x, y); }
@@ -5979,6 +6114,850 @@ const canvas = document.getElementById('studioCanvas');
       // Clean runway tarmac
     }
 
+    // ==========================================
+    // 🔭 EPISODE 3: SPECIAL RELATIVITY ENVIRONMENTS
+    // ==========================================
+
+    // 1. STARLIGHT OBSERVATORY (Act 1)
+    function drawStarlightObservatory(w, h, groundY, time) {
+      // 1. Celestial Deep Indigo Night Sky through Dome Slit
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+      skyGrad.addColorStop(0, '#020617');
+      skyGrad.addColorStop(0.35, '#0b0f19');
+      skyGrad.addColorStop(0.7, '#1e1b4b');
+      skyGrad.addColorStop(1, '#2e1065');
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // 2. Cosmic Nebula Cloud & Stars
+      push();
+      const nebGrad = ctx.createRadialGradient(w * 0.72, h * 0.25, 10, w * 0.72, h * 0.25, 260);
+      nebGrad.addColorStop(0, 'rgba(168, 85, 247, 0.28)');
+      nebGrad.addColorStop(0.4, 'rgba(56, 189, 248, 0.16)');
+      nebGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = nebGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // Starfield with gentle twinkle
+      const starCount = 95;
+      for (let i = 0; i < starCount; i++) {
+        const sx = (i * 137.5) % w;
+        const sy = (i * 93.7) % (groundY * 0.88);
+        const sz = (i % 3 === 0) ? 2.2 : ((i % 2 === 0) ? 1.4 : 0.9);
+        const alpha = 0.45 + Math.sin(time * 2.2 + i * 1.5) * 0.35;
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0.1, alpha)})`;
+        ctx.beginPath();
+        ctx.arc(sx, sy, sz, 0, Math.PI * 2);
+        ctx.fill();
+        if (sz > 2.0 && alpha > 0.65) {
+          ctx.strokeStyle = `rgba(165, 243, 252, ${alpha * 0.4})`;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(sx - 4, sy); ctx.lineTo(sx + 4, sy);
+          ctx.moveTo(sx, sy - 4); ctx.lineTo(sx, sy + 4);
+          ctx.stroke();
+        }
+      }
+
+      // Silver Crescent Moon
+      const mx = w * 0.18, my = h * 0.18, mr = 24;
+      ctx.shadowColor = 'rgba(224, 231, 255, 0.6)';
+      ctx.shadowBlur = 20;
+      ctx.fillStyle = '#f8fafc';
+      ctx.beginPath();
+      ctx.arc(mx, my, mr, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      // Dark side cutout for crescent
+      ctx.fillStyle = '#0b0f19';
+      ctx.beginPath();
+      ctx.arc(mx + 9, my - 4, mr * 0.90, 0, Math.PI * 2);
+      ctx.fill();
+      pop();
+
+      // 3. Classical Dome Interior Slit Frame & Arches
+      push();
+      // Left dome arch rib
+      ctx.fillStyle = '#1c1917';
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(w * 0.08, 0);
+      ctx.quadraticCurveTo(w * 0.14, groundY * 0.5, w * 0.10, groundY);
+      ctx.lineTo(0, groundY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Right dome arch rib
+      ctx.beginPath();
+      ctx.moveTo(w, 0);
+      ctx.lineTo(w * 0.92, 0);
+      ctx.quadraticCurveTo(w * 0.86, groundY * 0.5, w * 0.90, groundY);
+      ctx.lineTo(w, groundY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Overhead heavy dome arch ring
+      ctx.fillStyle = '#292524';
+      ctx.fillRect(0, 0, w, 28);
+      ctx.strokeStyle = '#b45309';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(0, 0, w, 28);
+
+      // Brass dome rivets
+      ctx.fillStyle = '#d97706';
+      for (let rx = 30; rx < w; rx += 55) {
+        ctx.beginPath(); ctx.arc(rx, 14, 3, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // Hanging Brass Gimbal Lantern in center
+      const lx = w * 0.50, ly = 32;
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(lx, 28); ctx.lineTo(lx, ly + 25); ctx.stroke();
+      ctx.fillStyle = '#d97706';
+      ctx.beginPath(); ctx.roundRect(lx - 10, ly + 25, 20, 26, 4); ctx.fill();
+      // Lantern Warm Glow
+      const lGlow = ctx.createRadialGradient(lx, ly + 38, 5, lx, ly + 38, 120);
+      lGlow.addColorStop(0, 'rgba(251, 191, 36, 0.45)');
+      lGlow.addColorStop(1, 'rgba(251, 191, 36, 0)');
+      ctx.fillStyle = lGlow;
+      ctx.fillRect(lx - 120, ly, 240, 200);
+
+      // Polished Parquet Hardwood Floor
+      const floorGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      floorGrad.addColorStop(0, '#451a03');
+      floorGrad.addColorStop(0.3, '#291102');
+      floorGrad.addColorStop(1, '#180700');
+      ctx.fillStyle = floorGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+
+      // Floor plank lines
+      ctx.strokeStyle = 'rgba(180, 83, 9, 0.25)'; ctx.lineWidth = 1.2;
+      for (let px = 0; px < w; px += 45) {
+        ctx.beginPath();
+        ctx.moveTo(px, groundY);
+        ctx.lineTo(px + (px - w * 0.5) * 0.35, h);
+        ctx.stroke();
+      }
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w, groundY); ctx.stroke();
+
+      // Constellation Wall Chart (Left wall)
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(w * 0.02, groundY * 0.38, 70, 95);
+      ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2;
+      ctx.strokeRect(w * 0.02, groundY * 0.38, 70, 95);
+      // Orion constellation lines on chart
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.0;
+      ctx.beginPath();
+      ctx.moveTo(w * 0.02 + 20, groundY * 0.38 + 25);
+      ctx.lineTo(w * 0.02 + 50, groundY * 0.38 + 20);
+      ctx.lineTo(w * 0.02 + 35, groundY * 0.38 + 50);
+      ctx.lineTo(w * 0.02 + 20, groundY * 0.38 + 75);
+      ctx.lineTo(w * 0.02 + 50, groundY * 0.38 + 70);
+      ctx.stroke();
+      pop();
+
+      // 4. The Great Brass Telescope (Center-Left)
+      push();
+      const tx = w * 0.34, ty = groundY;
+      translate(tx, ty);
+
+      // Mahogany Tripod
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(0, -95); ctx.lineTo(-42, 0); // Left leg
+      ctx.moveTo(0, -95); ctx.lineTo(0, 0);   // Center leg
+      ctx.moveTo(0, -95); ctx.lineTo(44, 0);  // Right leg
+      ctx.stroke();
+      // Brass leg braces
+      ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(-25, -45); ctx.lineTo(26, -45);
+      ctx.stroke();
+
+      // Cast-iron Mount & Pivot
+      ctx.fillStyle = '#1e293b';
+      ctx.beginPath(); ctx.arc(0, -95, 12, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#d97706';
+      ctx.beginPath(); ctx.arc(0, -95, 6, 0, Math.PI * 2); ctx.fill();
+
+      // Counterweight shaft
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(0, -95); ctx.lineTo(35, -70); ctx.stroke();
+      ctx.fillStyle = '#334155';
+      ctx.beginPath(); ctx.roundRect(30, -78, 14, 16, 3); ctx.fill();
+
+      // Great Brass Barrel (Angled up at 38 deg)
+      push();
+      translate(0, -95);
+      rotate(-Math.PI * 0.22); // ~39 deg upward angle
+
+      // Main barrel body gradient (Polished Gold Brass)
+      const brassGrad = ctx.createLinearGradient(0, -12, 0, 12);
+      brassGrad.addColorStop(0, '#fde047');
+      brassGrad.addColorStop(0.3, '#d97706');
+      brassGrad.addColorStop(0.7, '#b45309');
+      brassGrad.addColorStop(1, '#78350f');
+      ctx.fillStyle = brassGrad;
+      ctx.beginPath();
+      ctx.roundRect(-45, -10, 160, 20, 3);
+      ctx.fill();
+      ctx.strokeStyle = '#fef08a'; ctx.lineWidth = 1.2; ctx.stroke();
+
+      // Front Objective Lens Ring (Larger diameter)
+      ctx.fillStyle = '#facc15';
+      ctx.beginPath(); ctx.roundRect(105, -13, 14, 26, 2); ctx.fill();
+      // Blue lens reflection
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath(); ctx.ellipse(118, 0, 2.5, 11, 0, 0, Math.PI * 2); ctx.fill();
+
+      // Eyepiece assembly & star diagonal
+      ctx.fillStyle = '#d97706';
+      ctx.beginPath(); ctx.roundRect(-60, -7, 18, 14, 2); ctx.fill();
+      ctx.fillStyle = '#1e293b';
+      ctx.beginPath(); ctx.roundRect(-68, -4, 10, 8, 1); ctx.fill();
+
+      // Finder Scope mounted parallel on top
+      ctx.fillStyle = '#ca8a04';
+      ctx.fillRect(-20, -19, 70, 6);
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-10, -13); ctx.lineTo(-10, -10);
+      ctx.moveTo(35, -13); ctx.lineTo(35, -10);
+      ctx.stroke();
+      pop();
+      pop();
+    }
+
+    // 2. STARSHIP BRIDGE (Act 2)
+    function drawStarshipBridge(w, h, groundY, time) {
+      // 1. Panoramic Outer Space Viewport
+      ctx.fillStyle = '#02040a';
+      ctx.fillRect(0, 0, w, groundY);
+
+      // 2. Relativistic Warp Star Streaks (Flying towards/past camera)
+      push();
+      const cx = w * 0.50, cy = groundY * 0.45;
+      const numStreaks = 70;
+      for (let i = 0; i < numStreaks; i++) {
+        const angle = (i * 2.39996) % (Math.PI * 2);
+        const baseDist = ((i * 19.3 + time * 140) % 480) + 18;
+        const streakLen = baseDist * 0.28;
+
+        const x1 = cx + Math.cos(angle) * (baseDist - streakLen);
+        const y1 = cy + Math.sin(angle) * (baseDist - streakLen) * 0.65;
+        const x2 = cx + Math.cos(angle) * baseDist;
+        const y2 = cy + Math.sin(angle) * baseDist * 0.65;
+
+        // Doppler shift: blue/cyan ahead, red/amber behind
+        const isCyan = (i % 3 !== 0);
+        ctx.strokeStyle = isCyan ? 'rgba(56, 189, 248, 0.75)' : 'rgba(244, 63, 94, 0.70)';
+        ctx.lineWidth = Math.min(3.0, (baseDist / 160) + 0.8);
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+      pop();
+
+      // 3. Curved Futuristic Viewport Hull Frame
+      push();
+      ctx.fillStyle = '#090d16';
+      // Left hull pillar
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(w * 0.12, 0);
+      ctx.lineTo(w * 0.08, groundY);
+      ctx.lineTo(0, groundY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Right hull pillar
+      ctx.beginPath();
+      ctx.moveTo(w, 0);
+      ctx.lineTo(w * 0.88, 0);
+      ctx.lineTo(w * 0.92, groundY);
+      ctx.lineTo(w, groundY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Overhead chamfered frame
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(w, 0);
+      ctx.lineTo(w * 0.88, 38);
+      ctx.lineTo(w * 0.12, 38);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#06b6d4'; ctx.lineWidth = 2.0; ctx.stroke();
+
+      // Neon cyan recessed ambient edge lighting
+      ctx.shadowColor = '#06b6d4'; ctx.shadowBlur = 10;
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(w * 0.12, 38);
+      ctx.lineTo(w * 0.08, groundY);
+      ctx.moveTo(w * 0.88, 38);
+      ctx.lineTo(w * 0.92, groundY);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      pop();
+
+      // 4. Floating Holographic Cockpit HUD
+      push();
+      const hudX = w * 0.50, hudY = groundY * 0.32;
+      ctx.shadowColor = '#06b6d4'; ctx.shadowBlur = 12;
+      ctx.strokeStyle = 'rgba(6, 182, 212, 0.55)'; ctx.lineWidth = 1.5;
+
+      // Holographic reticle circle
+      ctx.beginPath();
+      ctx.arc(hudX, hudY, 52, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath();
+      ctx.arc(hudX, hudY, 68, time * 0.5, time * 0.5 + Math.PI * 1.5);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Telemetry Text
+      ctx.fillStyle = '#a5f3fc';
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText("VELOCITY: 0.991c [297,094 km/s]", hudX, hudY - 22);
+      ctx.fillText("LORENTZ FACTOR: γ = 7.52", hudX, hudY - 7);
+      ctx.fillStyle = '#fef08a';
+      ctx.fillText("TIME DILATION: 1s SHIP = 7.52s EARTH", hudX, hudY + 14);
+      ctx.shadowBlur = 0;
+      pop();
+
+      // 5. High-Tech Bridge Deck Floor
+      const deckGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      deckGrad.addColorStop(0, '#0f172a');
+      deckGrad.addColorStop(0.4, '#090d16');
+      deckGrad.addColorStop(1, '#020617');
+      ctx.fillStyle = deckGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+
+      // Floor grid lines
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.22)'; ctx.lineWidth = 1.0;
+      for (let fx = w * 0.1; fx < w * 0.95; fx += 55) {
+        ctx.beginPath();
+        ctx.moveTo(fx, groundY);
+        ctx.lineTo(fx + (fx - w * 0.5) * 0.4, h);
+        ctx.stroke();
+      }
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w, groundY); ctx.stroke();
+    }
+
+    // 3. RELATIVITY LASER LAB (Act 3)
+    function drawRelativityLaserLab(w, h, groundY, time) {
+      // 1. Cleanroom Dark Acoustic Walls
+      const wallGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+      wallGrad.addColorStop(0, '#070a12');
+      wallGrad.addColorStop(0.5, '#0b0f19');
+      wallGrad.addColorStop(1, '#111827');
+      ctx.fillStyle = wallGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // Modular acoustic wall seams & cable trays
+      ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5;
+      for (let wx = 80; wx < w; wx += 120) {
+        ctx.beginPath(); ctx.moveTo(wx, 0); ctx.lineTo(wx, groundY); ctx.stroke();
+      }
+
+      // Overhead industrial cable tray
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, w, 22);
+      ctx.strokeStyle = '#334155'; ctx.lineWidth = 2;
+      ctx.strokeRect(0, 0, w, 22);
+
+      // Laser Hazard Caution Sign
+      push();
+      const sx = w * 0.82, sy = 34;
+      ctx.fillStyle = '#eab308';
+      ctx.beginPath();
+      ctx.moveTo(sx, sy); ctx.lineTo(sx + 24, sy + 38); ctx.lineTo(sx - 24, sy + 38); ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText("⚡", sx, sy + 30);
+      ctx.font = 'bold 9px monospace';
+      ctx.fillStyle = '#facc15';
+      ctx.fillText("CLASS 4 LASER LAB", sx, sy + 50);
+      pop();
+
+      // Epoxy Coated Cleanroom Floor
+      const floorGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      floorGrad.addColorStop(0, '#1e293b');
+      floorGrad.addColorStop(0.3, '#0f172a');
+      floorGrad.addColorStop(1, '#020617');
+      ctx.fillStyle = floorGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+
+      // Yellow caution floor hazard stripe
+      ctx.save();
+      ctx.beginPath(); ctx.rect(0, groundY + 2, w, 14); ctx.clip();
+      ctx.fillStyle = '#eab308';
+      ctx.fillRect(0, groundY + 2, w, 14);
+      ctx.fillStyle = '#000000';
+      for (let hx = -20; hx < w + 40; hx += 24) {
+        ctx.beginPath();
+        ctx.moveTo(hx, groundY + 2);
+        ctx.lineTo(hx + 12, groundY + 2);
+        ctx.lineTo(hx, groundY + 16);
+        ctx.lineTo(hx - 12, groundY + 16);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.restore();
+
+      // 2. The Einstein Light Clock Experiment Rig (Center-Left)
+      push();
+      const rigX = w * 0.24, rigY = groundY - 30;
+
+      // Rest Clock Apparatus (Left)
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(rigX - 35, rigY - 140, 70, 8); // Top mirror
+      ctx.fillRect(rigX - 35, rigY, 70, 8);       // Bottom mirror
+      ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2.0;
+      ctx.strokeRect(rigX - 35, rigY - 140, 70, 8);
+      ctx.strokeRect(rigX - 35, rigY, 70, 8);
+
+      // Stainless vertical support posts
+      ctx.strokeStyle = '#64748b'; ctx.lineWidth = 3.0;
+      ctx.beginPath();
+      ctx.moveTo(rigX - 30, rigY); ctx.lineTo(rigX - 30, rigY - 140);
+      ctx.moveTo(rigX + 30, rigY); ctx.lineTo(rigX + 30, rigY - 140);
+      ctx.stroke();
+
+      // Pulsing Green Laser Photon (Bouncing straight up & down: v = 0)
+      const bounceProg = (time * 2.8) % 2.0; // 0..2
+      const photonY = (bounceProg < 1.0) ?
+        (rigY - bounceProg * 140) :
+        (rigY - 140 + (bounceProg - 1.0) * 140);
+
+      ctx.shadowColor = '#22c55e'; ctx.shadowBlur = 14;
+      ctx.strokeStyle = 'rgba(34, 197, 94, 0.45)'; ctx.lineWidth = 3.0;
+      ctx.beginPath();
+      ctx.moveTo(rigX, rigY); ctx.lineTo(rigX, rigY - 140); ctx.stroke();
+
+      // Glowing Photon packet
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.arc(rigX, photonY, 5.0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#4ade80';
+      ctx.beginPath(); ctx.arc(rigX, photonY, 3.0, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = '#86efac'; ctx.font = 'bold 11px monospace'; ctx.textAlign = 'center';
+      ctx.fillText("REST CLOCK: d = c · Δt", rigX, rigY + 22);
+
+      // 3. Moving Clock Diagonal Hypotenuse Track (Right side)
+      const moveX1 = w * 0.65, moveX2 = w * 0.88;
+      ctx.strokeStyle = '#64748b'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.5;
+      // Base triangle legs: horizontal displacement v*dt & vertical c*dt
+      ctx.beginPath();
+      ctx.moveTo(moveX1, rigY); ctx.lineTo(moveX2, rigY);
+      ctx.moveTo(moveX1, rigY); ctx.lineTo(moveX1, rigY - 140);
+      ctx.stroke();
+
+      // Diagonal Hypotenuse laser path (c * dt')
+      ctx.setLineDash([]);
+      ctx.shadowColor = '#f97316'; ctx.shadowBlur = 12;
+      ctx.strokeStyle = '#fb923c'; ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(moveX1, rigY);
+      ctx.lineTo((moveX1 + moveX2) * 0.5, rigY - 140);
+      ctx.lineTo(moveX2, rigY);
+      ctx.stroke();
+
+      // Moving photon on hypotenuse
+      const hProg = (time * 1.8) % 2.0;
+      let px, py;
+      if (hProg < 1.0) {
+        px = moveX1 + (moveX2 - moveX1) * 0.5 * hProg;
+        py = rigY - 140 * hProg;
+      } else {
+        const hp2 = hProg - 1.0;
+        px = (moveX1 + moveX2) * 0.5 + (moveX2 - moveX1) * 0.5 * hp2;
+        py = rigY - 140 + 140 * hp2;
+      }
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.arc(px, py, 5.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#f97316';
+      ctx.beginPath(); ctx.arc(px, py, 3.2, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Mathematical derivation overlay banner
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.fillRect(w * 0.54, rigY - 180, 240, 32);
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.2;
+      ctx.strokeRect(w * 0.54, rigY - 180, 240, 32);
+      ctx.fillStyle = '#38bdf8'; ctx.font = 'bold 12px monospace'; ctx.textAlign = 'center';
+      ctx.fillText("Δt' = Δt / √(1 - v²/c²) = γ · Δt", w * 0.66, rigY - 159);
+      pop();
+    }
+
+    // 4. STARGAZING BALCONY (Act 4)
+    function drawStargazingBalcony(w, h, groundY, time) {
+      // 1. Alpine Mountain Night Sky
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+      skyGrad.addColorStop(0, '#020617');
+      skyGrad.addColorStop(0.3, '#0b0f19');
+      skyGrad.addColorStop(0.7, '#1e1b4b');
+      skyGrad.addColorStop(1, '#312e81');
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // 2. The Milky Way Dust Lane (Sweeping diagonal luminous band)
+      push();
+      ctx.save();
+      translate(w * 0.5, groundY * 0.4);
+      rotate(-0.38);
+      const mwGrad = ctx.createLinearGradient(-350, -80, 350, 80);
+      mwGrad.addColorStop(0, 'rgba(67, 56, 202, 0)');
+      mwGrad.addColorStop(0.35, 'rgba(129, 140, 248, 0.28)');
+      mwGrad.addColorStop(0.5, 'rgba(238, 242, 255, 0.38)');
+      mwGrad.addColorStop(0.65, 'rgba(168, 85, 247, 0.26)');
+      mwGrad.addColorStop(1, 'rgba(49, 46, 129, 0)');
+      ctx.fillStyle = mwGrad;
+      ctx.fillRect(-400, -80, 800, 160);
+      ctx.restore();
+
+      // Crisp Starlight
+      for (let i = 0; i < 90; i++) {
+        const sx = (i * 157.3) % w;
+        const sy = (i * 109.1) % (groundY * 0.85);
+        const sz = (i % 4 === 0) ? 2.0 : ((i % 2 === 0) ? 1.3 : 0.8);
+        const a = 0.5 + Math.sin(time * 2.0 + i) * 0.35;
+        ctx.fillStyle = `rgba(255, 255, 255, ${a})`;
+        ctx.beginPath(); ctx.arc(sx, sy, sz, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // Periodic Shooting Star (Meteor)
+      const meteorCycle = (time * 0.4) % 1.0;
+      if (meteorCycle < 0.25) {
+        const mProg = meteorCycle / 0.25;
+        const mx = w * 0.78 - mProg * 260;
+        const my = h * 0.08 + mProg * 140;
+        const mGrad = ctx.createLinearGradient(mx + 60, my - 32, mx, my);
+        mGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        mGrad.addColorStop(1, 'rgba(255, 255, 255, 0.95)');
+        ctx.strokeStyle = mGrad;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(mx + 60, my - 32);
+        ctx.lineTo(mx, my);
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(mx, my, 2.5, 0, Math.PI * 2); ctx.fill();
+      }
+      pop();
+
+      // 3. Layered Alpine Mountain Silhouettes (Distant horizon)
+      push();
+      // Far Mountains
+      ctx.fillStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.moveTo(0, groundY);
+      ctx.lineTo(0, groundY - 75);
+      ctx.lineTo(w * 0.22, groundY - 145);
+      ctx.lineTo(w * 0.44, groundY - 80);
+      ctx.lineTo(w * 0.68, groundY - 165);
+      ctx.lineTo(w * 0.86, groundY - 105);
+      ctx.lineTo(w, groundY - 130);
+      ctx.lineTo(w, groundY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Near Mountain Ridge
+      ctx.fillStyle = '#090d16';
+      ctx.beginPath();
+      ctx.moveTo(0, groundY);
+      ctx.lineTo(0, groundY - 45);
+      ctx.lineTo(w * 0.28, groundY - 85);
+      ctx.lineTo(w * 0.55, groundY - 40);
+      ctx.lineTo(w * 0.82, groundY - 95);
+      ctx.lineTo(w, groundY - 55);
+      ctx.lineTo(w, groundY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Twinkling valley village lights below
+      ctx.fillStyle = 'rgba(251, 191, 36, 0.7)';
+      for (let vx = w * 0.32; vx < w * 0.70; vx += 24) {
+        const vy = groundY - 18 + (vx % 11);
+        ctx.beginPath(); ctx.arc(vx, vy, 1.2, 0, Math.PI * 2); ctx.fill();
+      }
+      pop();
+
+      // 4. Balcony Stone Terrace Floor & Parapet
+      push();
+      const stoneGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      stoneGrad.addColorStop(0, '#334155');
+      stoneGrad.addColorStop(0.2, '#1e293b');
+      stoneGrad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = stoneGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+
+      // Flagstone floor slabs
+      ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5;
+      for (let fx = 0; fx < w; fx += 65) {
+        ctx.beginPath();
+        ctx.moveTo(fx, groundY); ctx.lineTo(fx + (fx - w * 0.5) * 0.3, h); ctx.stroke();
+      }
+      ctx.strokeStyle = '#475569'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w, groundY); ctx.stroke();
+      pop();
+    }
+
+    // ==========================================
+    // 🧰 EPISODE 3 FOREGROUND PROPS
+    // ==========================================
+    function drawObservatoryForeground(w, groundY, time) {
+      // Celestial globe on walnut pedestal (Right corner)
+      push();
+      const gx = w * 0.88, gy = groundY;
+      translate(gx, gy);
+
+      // Turned walnut pedestal
+      ctx.fillStyle = '#451a03';
+      ctx.beginPath(); ctx.roundRect(-16, -25, 32, 25, 3); ctx.fill();
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = '#78350f';
+      ctx.fillRect(-6, -65, 12, 42);
+
+      // Brass meridian ring (Tilted at 23.5 deg)
+      push();
+      translate(0, -78);
+      rotate(-0.41); // 23.5 deg tilt
+      ctx.strokeStyle = '#d97706'; ctx.lineWidth = 3.5;
+      ctx.beginPath(); ctx.arc(0, 0, 24, 0, Math.PI * 2); ctx.stroke();
+
+      // Lapis Lazuli Celestial Globe
+      ctx.fillStyle = '#1e3a8a';
+      ctx.beginPath(); ctx.arc(0, 0, 20, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 1.0;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 20, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 0, 8, 20, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      pop();
+      pop();
+    }
+
+    function drawStarshipConsoleForeground(w, groundY, time) {
+      push();
+      // Forward command console rim
+      const conY = groundY - 12;
+      ctx.fillStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.moveTo(0, conY);
+      ctx.lineTo(w * 0.28, conY + 12);
+      ctx.lineTo(w * 0.72, conY + 12);
+      ctx.lineTo(w, conY);
+      ctx.lineTo(w, groundY);
+      ctx.lineTo(0, groundY);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 1.5; ctx.stroke();
+
+      // Status indicator lights
+      const colors = ['#22c55e', '#38bdf8', '#f59e0b', '#ec4899'];
+      for (let i = 0; i < 8; i++) {
+        const lx = w * 0.32 + i * 28;
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.beginPath(); ctx.arc(lx, conY + 8, 2.5, 0, Math.PI * 2); ctx.fill();
+      }
+      pop();
+    }
+
+    function drawRelativityLabForeground(w, groundY, time) {
+      push();
+      // Stainless steel optical breadboard table front edge
+      const tblX = w * 0.18, tblW = w * 0.64;
+      const tblY = groundY - 15;
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(tblX, tblY, tblW, 15);
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.2; ctx.strokeRect(tblX, tblY, tblW, 15);
+      pop();
+    }
+
+    function drawStargazingBalconyForeground(w, groundY, time) {
+      push();
+      // Decorative Wrought-Iron Balcony Railing
+      const railY = groundY - 48;
+      ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 3.5;
+      // Top handrail
+      ctx.beginPath(); ctx.moveTo(0, railY); ctx.lineTo(w, railY); ctx.stroke();
+      // Mid rail
+      ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2.0;
+      ctx.beginPath(); ctx.moveTo(0, railY + 22); ctx.lineTo(w, railY + 22); ctx.stroke();
+
+      // Vertical balusters with spear finials
+      for (let bx = 16; bx < w; bx += 32) {
+        ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2.2;
+        ctx.beginPath(); ctx.moveTo(bx, railY); ctx.lineTo(bx, groundY); ctx.stroke();
+        // Decorative finial spearhead
+        ctx.fillStyle = '#334155';
+        ctx.beginPath();
+        ctx.moveTo(bx, railY - 6);
+        ctx.lineTo(bx - 3, railY);
+        ctx.lineTo(bx + 3, railY);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Stone Balustrade Pillar on left
+      const pilX = w * 0.12;
+      ctx.fillStyle = '#334155';
+      ctx.beginPath(); ctx.roundRect(pilX - 18, railY - 10, 36, 60, 4); ctx.fill();
+      ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5; ctx.stroke();
+
+      // Warm Brass Camping Hurricane Lantern resting on stone pillar
+      const lanX = pilX, lanY = railY - 10;
+      // Lantern Glow Circle
+      const lGlow = ctx.createRadialGradient(lanX, lanY - 16, 4, lanX, lanY - 16, 95);
+      lGlow.addColorStop(0, 'rgba(251, 191, 36, 0.40)');
+      lGlow.addColorStop(1, 'rgba(251, 191, 36, 0)');
+      ctx.fillStyle = lGlow;
+      ctx.fillRect(lanX - 95, lanY - 110, 190, 190);
+
+      // Brass lantern base & glass chimney
+      ctx.fillStyle = '#d97706';
+      ctx.beginPath(); ctx.roundRect(lanX - 9, lanY - 8, 18, 8, 2); ctx.fill();
+      ctx.fillStyle = 'rgba(254, 240, 138, 0.85)';
+      ctx.beginPath(); ctx.roundRect(lanX - 7, lanY - 26, 14, 18, 2); ctx.fill();
+      ctx.fillStyle = '#b45309';
+      ctx.beginPath(); ctx.roundRect(lanX - 9, lanY - 32, 18, 6, 2); ctx.fill();
+
+      // Steaming Thermal Flask & Tea Mug on Balustrade (Right side)
+      const thX = w * 0.82, thY = groundY - 10;
+      // Stainless Steel Thermos
+      ctx.fillStyle = '#94a3b8';
+      ctx.beginPath(); ctx.roundRect(thX, thY - 26, 13, 26, 3); ctx.fill();
+      ctx.fillStyle = '#0284c7';
+      ctx.fillRect(thX + 1, thY - 30, 11, 5);
+
+      // Ceramic Tea Mug
+      ctx.fillStyle = '#f43f5e';
+      ctx.beginPath(); ctx.roundRect(thX + 22, thY - 14, 12, 14, 2); ctx.fill();
+      // Procedural Steam Wisps rising from tea mug
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      for (let s = 0; s < 3; s++) {
+        const sx = thX + 24 + s * 3;
+        const sy = thY - 16;
+        ctx.moveTo(sx, sy);
+        ctx.quadraticCurveTo(
+          sx + Math.sin(time * 3 + s) * 4,
+          sy - 10,
+          sx + Math.sin(time * 2.5 + s) * 6,
+          sy - 22
+        );
+      }
+      ctx.stroke();
+      pop();
+    }
+
+    // ==========================================
+    // 🦴 DIRECTOR SUITE SKELETAL RIG GIZMO
+    // ==========================================
+    function drawCharacterSkeletonGizmo(char, cx, cy, isTalking) {
+      push();
+      ctx.save();
+      translate(cx, cy);
+      ctx.scale(char.scale, char.scale);
+
+      ctx.strokeStyle = '#00f5ff'; // Bright Neon Cyan Bones
+      ctx.fillStyle = '#ff007f';   // Bright Neon Magenta Joints
+      ctx.lineWidth = 2.4;
+      ctx.shadowColor = '#00f5ff';
+      ctx.shadowBlur = 8;
+
+      const headY = -94;
+      const neckY = -72;
+      const spineY = -35;
+      const pelvisY = 0;
+      const lSh = { x: -22, y: -55 };
+      const rSh = { x: 23, y: -55 };
+      const lHip = { x: -12, y: 0 };
+      const rHip = { x: 12, y: 0 };
+
+      // Spine & Head
+      ctx.beginPath();
+      ctx.moveTo(0, headY);
+      ctx.lineTo(0, neckY);
+      ctx.lineTo(0, spineY);
+      ctx.lineTo(0, pelvisY);
+      // Clavicles
+      ctx.moveTo(lSh.x, lSh.y);
+      ctx.lineTo(0, neckY);
+      ctx.lineTo(rSh.x, rSh.y);
+      // Pelvis bar
+      ctx.moveTo(lHip.x, lHip.y);
+      ctx.lineTo(0, pelvisY);
+      ctx.lineTo(rHip.x, rHip.y);
+      ctx.stroke();
+
+      // Legs
+      let lKnee, lFoot, rKnee, rFoot;
+      if (char.isSitting) {
+        lKnee = { x: -26, y: 14 }; lFoot = { x: -30, y: 26 };
+        rKnee = { x: 26, y: 14 };  rFoot = { x: 30, y: 26 };
+      } else {
+        lKnee = { x: -12, y: 38 }; lFoot = { x: -12, y: 74 };
+        rKnee = { x: 12, y: 38 };  rFoot = { x: 12, y: 74 };
+      }
+      ctx.beginPath();
+      ctx.moveTo(lHip.x, lHip.y); ctx.lineTo(lKnee.x, lKnee.y); ctx.lineTo(lFoot.x, lFoot.y);
+      ctx.moveTo(rHip.x, rHip.y); ctx.lineTo(rKnee.x, rKnee.y); ctx.lineTo(rFoot.x, rFoot.y);
+      ctx.stroke();
+
+      // Arms
+      const lElbow = { x: -34, y: -30 };
+      const lHand = { x: -38, y: -8 };
+      const rElbow = { x: 34, y: -30 };
+      const rHand = { x: 38, y: -8 };
+      ctx.beginPath();
+      ctx.moveTo(lSh.x, lSh.y); ctx.lineTo(lElbow.x, lElbow.y); ctx.lineTo(lHand.x, lHand.y);
+      ctx.moveTo(rSh.x, rSh.y); ctx.lineTo(rElbow.x, rElbow.y); ctx.lineTo(rHand.x, rHand.y);
+      ctx.stroke();
+
+      // Joint Nodes
+      const joints = [
+        { x: 0, y: headY },
+        { x: 0, y: neckY },
+        { x: 0, y: spineY },
+        { x: 0, y: pelvisY },
+        { x: lSh.x, y: lSh.y },
+        { x: rSh.x, y: rSh.y },
+        { x: lElbow.x, y: lElbow.y },
+        { x: rElbow.x, y: rElbow.y },
+        { x: lHand.x, y: lHand.y },
+        { x: rHand.x, y: rHand.y },
+        { x: lHip.x, y: lHip.y },
+        { x: rHip.x, y: rHip.y },
+        { x: lKnee.x, y: lKnee.y },
+        { x: rKnee.x, y: rKnee.y },
+        { x: lFoot.x, y: lFoot.y },
+        { x: rFoot.x, y: rFoot.y }
+      ];
+
+      ctx.fillStyle = '#ff007f';
+      ctx.shadowColor = '#ff007f';
+      joints.forEach(j => {
+        ctx.beginPath();
+        ctx.arc(j.x, j.y, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.restore();
+      pop();
+    }
+
+
     // Realistic Context-Aware Contact Shadow
     function drawContextShadow(x, groundY, scale, isTalking) {
       push();
@@ -6083,6 +7062,30 @@ const canvas = document.getElementById('studioCanvas');
         characters[1].x = w * 0.40; characters[1].isSitting = false;
         characters[2].x = w * 0.22; characters[2].isSitting = false;
         characters[3].x = w * 0.80; characters[3].isSitting = false;
+      } else if (currentEnvMode === "STARLIGHT_OBSERVATORY") {
+        // Mia seated at observation bench, Mom by telescope, Leo center with model, Dad on right
+        characters[0].x = w * 0.42; characters[0].isSitting = false;
+        characters[1].x = w * 0.65; characters[1].isSitting = false;
+        characters[2].x = w * 0.22; characters[2].isSitting = true;
+        characters[3].x = w * 0.84; characters[3].isSitting = false;
+      } else if (currentEnvMode === "STARSHIP_BRIDGE") {
+        // Leo at navigation helm, Mom at science console, Mia at sensor station, Dad at command center
+        characters[0].x = w * 0.45; characters[0].isSitting = false;
+        characters[1].x = w * 0.24; characters[1].isSitting = false;
+        characters[2].x = w * 0.68; characters[2].isSitting = false;
+        characters[3].x = w * 0.85; characters[3].isSitting = false;
+      } else if (currentEnvMode === "RELATIVITY_LASER_LAB") {
+        // Dad solo hero centered at optical table
+        characters[0].x = w * 0.16; characters[0].isSitting = false;
+        characters[1].x = w * 0.35; characters[1].isSitting = false;
+        characters[2].x = w * 0.70; characters[2].isSitting = false;
+        characters[3].x = w * 0.50; characters[3].isSitting = false;
+      } else if (currentEnvMode === "STARGAZING_BALCONY") {
+        // Family gathering on outdoor observation terrace under stars
+        characters[0].x = w * 0.40; characters[0].isSitting = false;
+        characters[1].x = w * 0.64; characters[1].isSitting = false;
+        characters[2].x = w * 0.20; characters[2].isSitting = false;
+        characters[3].x = w * 0.84; characters[3].isSitting = false;
       } else {
         // Default 4-lineup for legacy episodes
         characters[0].x = w * 0.16;
@@ -6141,6 +7144,14 @@ const canvas = document.getElementById('studioCanvas');
         drawWindTunnelLab(w, h, groundY, time);
       } else if (currentEnvMode === "SUNSET_RUNWAY") {
         drawSunsetRunwayTarmac(w, h, groundY, time);
+      } else if (currentEnvMode === "STARLIGHT_OBSERVATORY") {
+        drawStarlightObservatory(w, h, groundY, time);
+      } else if (currentEnvMode === "STARSHIP_BRIDGE") {
+        drawStarshipBridge(w, h, groundY, time);
+      } else if (currentEnvMode === "RELATIVITY_LASER_LAB") {
+        drawRelativityLaserLab(w, h, groundY, time);
+      } else if (currentEnvMode === "STARGAZING_BALCONY") {
+        drawStargazingBalcony(w, h, groundY, time);
       } else if (currentEnvMode === "LIVING_ROOM") {
         drawLivingRoom(w, h, groundY, time);
         // If in pancake feast mode (Act 4), draw rear dining chairs behind family members
@@ -7510,6 +8521,11 @@ const canvas = document.getElementById('studioCanvas');
 
         // Render Character Comic & Anime Emotes (Glasses sparkle, sweat drop, lightbulb)
         drawComicEmotes(char, idx, char.x, charY, isCurrentlyTalking, time);
+
+        // 🦴 Director Suite Skeleton Bone Overlay
+        if (showBones) {
+          drawCharacterSkeletonGizmo(char, char.x, charY, isCurrentlyTalking);
+        }
       });
 
       // Foreground props per environment
@@ -7521,6 +8537,14 @@ const canvas = document.getElementById('studioCanvas');
         drawWindTunnelForeground(w, groundY, time);
       } else if (currentEnvMode === "SUNSET_RUNWAY") {
         drawSunsetRunwayForeground(w, groundY, time);
+      } else if (currentEnvMode === "STARLIGHT_OBSERVATORY") {
+        drawObservatoryForeground(w, groundY, time);
+      } else if (currentEnvMode === "STARSHIP_BRIDGE") {
+        drawStarshipConsoleForeground(w, groundY, time);
+      } else if (currentEnvMode === "RELATIVITY_LASER_LAB") {
+        drawRelativityLabForeground(w, groundY, time);
+      } else if (currentEnvMode === "STARGAZING_BALCONY") {
+        drawStargazingBalconyForeground(w, groundY, time);
       } else if (currentEnvMode === "LIVING_ROOM" && (showBreakfastTable || (isStoryMode && storyEpisode.acts[storyActIdx] && storyEpisode.acts[storyActIdx].actNum === 4))) {
         drawBreakfastTableForeground(w, groundY, time);
       }
