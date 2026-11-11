@@ -2766,6 +2766,42 @@ const canvas = document.getElementById('studioCanvas');
           ctx.arc(px, py, 1.4 + (i % 3) * 0.6, 0, Math.PI * 2);
           ctx.fill();
         }
+      } else if (envMode === "AIRPORT_HILL") {
+        // Gentle grass pollen & dandelion drifts across the observation hill
+        for (let i = 0; i < 20; i++) {
+          const px = ((i * 57 + time * 36) % (w + 40)) - 20;
+          const py = (80 + (i * 39) % (groundY - 100) + Math.sin(time * 1.5 + i) * 14);
+          const alpha = 0.30 + Math.sin(time * 2.0 + i) * 0.18;
+          ctx.fillStyle = `rgba(254, 249, 195, ${alpha})`;
+          ctx.beginPath(); ctx.arc(px, py, 1.6 + (i % 3) * 0.6, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (envMode === "HANGAR_WORKSHOP") {
+        // Floating workshop wood dust & golden cone lamp motes
+        for (let i = 0; i < 22; i++) {
+          const px = (w * 0.1 + (i * 47) % (w * 0.8) + Math.sin(time * 0.8 + i) * 12);
+          const py = (60 + (i * 41) % (groundY - 90) + Math.cos(time * 0.6 + i) * 8);
+          const alpha = 0.25 + Math.sin(time * 2.2 + i) * 0.15;
+          ctx.fillStyle = `rgba(254, 240, 138, ${alpha})`;
+          ctx.beginPath(); ctx.arc(px, py, 1.2 + (i % 2) * 0.7, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (envMode === "WIND_TUNNEL") {
+        // High-speed micro-streamer particles in cyan & lime
+        for (let i = 0; i < 26; i++) {
+          const px = ((time * 220 + i * 45) % (w + 60)) - 30;
+          const py = (90 + (i * 33) % (groundY - 120));
+          const alpha = 0.35 + Math.sin(time * 4.0 + i) * 0.25;
+          ctx.fillStyle = (i % 2 === 0) ? `rgba(56, 189, 248, ${alpha})` : `rgba(74, 222, 128, ${alpha})`;
+          ctx.beginPath(); ctx.arc(px, py, 1.5 + (i % 3) * 0.5, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (envMode === "SUNSET_RUNWAY") {
+        // Golden twilight embers and runway beacon sparkles
+        for (let i = 0; i < 18; i++) {
+          const px = ((i * 71 + time * 18) % (w + 40)) - 20;
+          const py = (100 + (i * 43) % (groundY - 120) + Math.sin(time * 1.1 + i) * 16);
+          const alpha = 0.32 + Math.sin(time * 2.5 + i) * 0.20;
+          ctx.fillStyle = (i % 2 === 0) ? `rgba(251, 146, 60, ${alpha})` : `rgba(250, 204, 21, ${alpha})`;
+          ctx.beginPath(); ctx.arc(px, py, 1.8 + (i % 3) * 0.7, 0, Math.PI * 2); ctx.fill();
+        }
       }
       pop();
     }
@@ -5211,6 +5247,738 @@ const canvas = document.getElementById('studioCanvas');
       ctx.stroke();
     }
 
+    // ==========================================
+    // ✈️ ENVIRONMENT 3: AIRPORT OBSERVATION HILL (EP05 ACT 1)
+    // ==========================================
+    function drawAirportObservationHill(w, h, groundY, time) {
+      // 1. Sky Gradient (Bright blue morning with horizon haze)
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY * 0.7);
+      skyGrad.addColorStop(0, '#0284c7');
+      skyGrad.addColorStop(0.5, '#38bdf8');
+      skyGrad.addColorStop(0.85, '#bae6fd');
+      skyGrad.addColorStop(1, '#fef08a');
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // 2. High Altitude Cirrus & Puffy Cumulus Clouds
+      push();
+      const loopW = w + 200;
+      const clouds = [
+        { x: (time * 8) % loopW - 100, y: 35, s: 1.2 },
+        { x: (time * 5 + 320) % loopW - 100, y: 55, s: 0.9 },
+        { x: (time * 6 + 650) % loopW - 100, y: 40, s: 1.4 }
+      ];
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
+      clouds.forEach(c => {
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, 22 * c.s, 0, Math.PI * 2);
+        ctx.arc(c.x + 20 * c.s, c.y - 8 * c.s, 28 * c.s, 0, Math.PI * 2);
+        ctx.arc(c.x + 44 * c.s, c.y - 2 * c.s, 24 * c.s, 0, Math.PI * 2);
+        ctx.arc(c.x + 64 * c.s, c.y + 4 * c.s, 18 * c.s, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      pop();
+
+      // 3. Ascending Commercial Airliner (Boeing 747 silhouette)
+      push();
+      const jetProgress = (time * 18) % (w + 400) - 150;
+      const jetY = 75 - (jetProgress / (w + 400)) * 25;
+      translate(jetProgress, jetY);
+      rotate(-0.10);
+
+      // Contrail trails
+      const trailGrad = ctx.createLinearGradient(-180, 0, 0, 0);
+      trailGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+      trailGrad.addColorStop(1, 'rgba(255, 255, 255, 0.65)');
+      ctx.strokeStyle = trailGrad;
+      ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(-180, 2);
+      ctx.lineTo(0, 2);
+      ctx.moveTo(-180, -2);
+      ctx.lineTo(0, -2);
+      ctx.stroke();
+
+      // Fuselage
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.ellipse(15, 0, 24, 4.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // Swept Wings
+      ctx.fillStyle = '#cbd5e1';
+      ctx.beginPath();
+      ctx.moveTo(10, 0);
+      ctx.lineTo(-4, -18);
+      ctx.lineTo(2, -18);
+      ctx.lineTo(16, 0);
+      ctx.lineTo(2, 18);
+      ctx.lineTo(-4, 18);
+      ctx.closePath();
+      ctx.fill();
+      // Tail Fin
+      ctx.fillStyle = '#0284c7';
+      ctx.beginPath();
+      ctx.moveTo(-4, 0);
+      ctx.lineTo(-12, -9);
+      ctx.lineTo(-7, -9);
+      ctx.lineTo(2, 0);
+      ctx.closePath();
+      ctx.fill();
+      pop();
+
+      // 4. Distant Airfield & Runway on Horizon
+      const horizonY = groundY * 0.68;
+      ctx.fillStyle = '#64748b';
+      ctx.fillRect(0, horizonY - 14, w, 14);
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(0, horizonY, w, 16);
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([12, 10]);
+      ctx.beginPath();
+      ctx.moveTo(0, horizonY + 8);
+      ctx.lineTo(w, horizonY + 8);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Control Tower Silhouette at w * 0.88
+      const twrX = w * 0.88;
+      ctx.fillStyle = '#475569';
+      ctx.fillRect(twrX - 8, horizonY - 45, 16, 45);
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(twrX - 16, horizonY - 58, 32, 14);
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillRect(twrX - 12, horizonY - 55, 24, 8);
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.arc(twrX, horizonY - 60, 5, Math.PI, 0); ctx.fill();
+      if (Math.sin(time * 5) > 0.4) {
+        ctx.fillStyle = '#22c55e';
+        ctx.shadowColor = '#22c55e';
+        ctx.shadowBlur = 8;
+        ctx.beginPath(); ctx.arc(twrX, horizonY - 63, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      // 5. Midground Rolling Grassy Hills
+      ctx.fillStyle = '#15803d';
+      ctx.beginPath(); ctx.arc(w * 0.25, groundY + 80, w * 0.55, Math.PI, 0); ctx.fill();
+      ctx.fillStyle = '#16a34a';
+      ctx.beginPath(); ctx.arc(w * 0.75, groundY + 70, w * 0.50, Math.PI, 0); ctx.fill();
+
+      // 6. Foreground Observation Hill (Main Ground)
+      const hillGrad = ctx.createLinearGradient(0, horizonY + 16, 0, h);
+      hillGrad.addColorStop(0, '#22c55e');
+      hillGrad.addColorStop(0.35, '#16a34a');
+      hillGrad.addColorStop(1, '#15803d');
+      ctx.fillStyle = hillGrad;
+      ctx.beginPath();
+      ctx.moveTo(0, groundY - 18);
+      ctx.quadraticCurveTo(w * 0.35, groundY - 28, w * 0.65, groundY - 14);
+      ctx.quadraticCurveTo(w * 0.85, groundY - 6, w, groundY);
+      ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      ctx.fill();
+
+      // 7. Striped Airport Windsock on Left Hilltop (at w * 0.12)
+      push();
+      const wsX = w * 0.12;
+      const wsY = groundY - 26;
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3.5;
+      ctx.beginPath(); ctx.moveTo(wsX, wsY); ctx.lineTo(wsX, wsY - 95); ctx.stroke();
+      ctx.fillStyle = '#f8fafc';
+      ctx.beginPath(); ctx.arc(wsX, wsY - 95, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.lineWidth = 2.0;
+      ctx.beginPath(); ctx.moveTo(wsX - 5, wsY - 92); ctx.lineTo(wsX + 12, wsY - 92); ctx.stroke();
+
+      // Fluttering Striped Windsock
+      const wsFlutter = Math.sin(time * 7) * 3.5;
+      const wsDroop = 6 + Math.cos(time * 3) * 2;
+      translate(wsX + 12, wsY - 92);
+
+      const sockStripes = [
+        { color: '#ea580c', w: 14, h1: 16, h2: 14 },
+        { color: '#ffffff', w: 14, h1: 14, h2: 12 },
+        { color: '#ea580c', w: 14, h1: 12, h2: 10 },
+        { color: '#ffffff', w: 14, h1: 10, h2: 8 },
+        { color: '#ea580c', w: 14, h1: 8,  h2: 6 }
+      ];
+
+      let curX = 0;
+      sockStripes.forEach((st, idx) => {
+        const segFlutter = (idx * 0.2) * wsFlutter;
+        const segY = (idx * 0.2) * wsDroop;
+        ctx.fillStyle = st.color;
+        ctx.beginPath();
+        ctx.moveTo(curX, -st.h1 * 0.5 + segY);
+        ctx.lineTo(curX + st.w, -st.h2 * 0.5 + segY + segFlutter);
+        ctx.lineTo(curX + st.w, st.h2 * 0.5 + segY + segFlutter);
+        ctx.lineTo(curX, st.h1 * 0.5 + segY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.15)'; ctx.lineWidth = 0.8; ctx.stroke();
+        curX += st.w;
+      });
+      pop();
+    }
+
+    // ==========================================
+    // 🛠️ ENVIRONMENT 4: AVIATION HANGAR WORKSHOP (EP05 ACT 2)
+    // ==========================================
+    function drawAviationHangarWorkshop(w, h, groundY, time) {
+      // 1. Corrugated Steel Wall
+      const wallGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+      wallGrad.addColorStop(0, '#0f172a');
+      wallGrad.addColorStop(0.6, '#1e293b');
+      wallGrad.addColorStop(1, '#334155');
+      ctx.fillStyle = wallGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // Corrugated ridges
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.25)'; ctx.lineWidth = 2;
+      for (let rx = 15; rx < w; rx += 28) {
+        ctx.beginPath(); ctx.moveTo(rx, 0); ctx.lineTo(rx, groundY); ctx.stroke();
+      }
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)'; ctx.lineWidth = 1;
+      for (let rx = 17; rx < w; rx += 28) {
+        ctx.beginPath(); ctx.moveTo(rx, 0); ctx.lineTo(rx, groundY); ctx.stroke();
+      }
+
+      // 2. Structural Steel Roof Arch & Yellow Hazard Stripes
+      push();
+      ctx.strokeStyle = '#475569'; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.arc(w * 0.5, groundY * 1.1, w * 0.65, Math.PI * 1.12, Math.PI * 1.88); ctx.stroke();
+      for (let hx = 0; hx < w; hx += 30) {
+        ctx.fillStyle = (Math.floor(hx / 30) % 2 === 0) ? '#eab308' : '#0f172a';
+        ctx.fillRect(hx, 0, 30, 10);
+      }
+      pop();
+
+      // 3. Pegboard Tool Wall on Left
+      push();
+      const pegW = w * 0.28;
+      const pegH = groundY * 0.48;
+      const pegX = w * 0.06;
+      const pegY = 40;
+      ctx.fillStyle = '#64748b';
+      ctx.beginPath(); ctx.roundRect(pegX, pegY, pegW, pegH, 6); ctx.fill();
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2; ctx.stroke();
+
+      // Peg holes
+      ctx.fillStyle = '#1e293b';
+      for (let px = pegX + 16; px < pegX + pegW - 10; px += 18) {
+        for (let py = pegY + 16; py < pegY + pegH - 10; py += 18) {
+          ctx.beginPath(); ctx.arc(px, py, 2, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      // Hanging Hand Tools
+      ctx.fillStyle = '#cbd5e1';
+      ctx.beginPath();
+      ctx.moveTo(pegX + 30, pegY + 30); ctx.lineTo(pegX + 90, pegY + 30);
+      ctx.lineTo(pegX + 80, pegY + 48); ctx.lineTo(pegX + 30, pegY + 38);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#ea580c';
+      ctx.beginPath(); ctx.arc(pegX + 26, pegY + 34, 8, 0, Math.PI * 2); ctx.fill();
+
+      // Wrench
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(pegX + 130, pegY + 28); ctx.lineTo(pegX + 130, pegY + 75); ctx.stroke();
+      ctx.beginPath(); ctx.arc(pegX + 130, pegY + 26, 7, 0, Math.PI * 2); ctx.stroke();
+
+      // T-Square
+      ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(pegX + 175, pegY + 25); ctx.lineTo(pegX + 215, pegY + 25); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(pegX + 195, pegY + 25); ctx.lineTo(pegX + 195, pegY + 95); ctx.stroke();
+      pop();
+
+      // 4. Large Aviation Blueprint on Right Wall
+      push();
+      const bpX = w * 0.42;
+      const bpH = groundY * 0.52;
+      const bpW = w * 0.48;
+      const bpY = 35;
+      ctx.fillStyle = '#1e3a8a';
+      ctx.beginPath(); ctx.roundRect(bpX, bpY, bpW, bpH, 6); ctx.fill();
+      ctx.strokeStyle = '#60a5fa'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath(); ctx.arc(bpX + 8, bpY + 8, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(bpX + bpW - 8, bpY + 8, 4, 0, Math.PI * 2); ctx.fill();
+
+      ctx.font = 'bold 11px system-ui, monospace';
+      ctx.fillStyle = '#93c5fd';
+      ctx.textAlign = 'left';
+      ctx.fillText("📐 AIRFOIL DYNAMICS & ANGLE OF ATTACK (α)", bpX + 16, bpY + 22);
+
+      // Airfoil Cross Section
+      const afX = bpX + 35;
+      const afY = bpY + bpH * 0.56;
+      ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(afX, afY);
+      ctx.bezierCurveTo(afX + 50, afY - 36, afX + 140, afY - 28, afX + 210, afY);
+      ctx.bezierCurveTo(afX + 130, afY + 8, afX + 50, afY + 12, afX, afY);
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.8)'; ctx.lineWidth = 1.2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(afX - 25, afY); ctx.lineTo(afX + 240, afY); ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.font = '10px monospace';
+      ctx.fillStyle = '#38bdf8'; ctx.fillText("Top: Coanda Curve Hugging", afX + 45, afY - 42);
+      ctx.fillStyle = '#4ade80'; ctx.fillText("Trailing: Downwash Vector ↓", afX + 120, afY + 28);
+      ctx.fillStyle = '#f87171'; ctx.fillText("MYTH BUSTED: Equal Transit Time is False!", afX + 10, afY + 46);
+      pop();
+
+      // 5. Industrial Concrete Hangar Floor
+      const floorGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      floorGrad.addColorStop(0, '#475569');
+      floorGrad.addColorStop(0.3, '#334155');
+      floorGrad.addColorStop(1, '#1e293b');
+      ctx.fillStyle = floorGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+
+      // Floor Expansion Joints
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.4)'; ctx.lineWidth = 2;
+      for (let fx = 0; fx < w; fx += 140) {
+        ctx.beginPath(); ctx.moveTo(fx, groundY); ctx.lineTo(fx - 40, h); ctx.stroke();
+      }
+      ctx.strokeStyle = '#eab308'; ctx.lineWidth = 3;
+      ctx.setLineDash([12, 8]);
+      ctx.strokeRect(w * 0.18, groundY + 12, w * 0.64, h - groundY - 24);
+      ctx.setLineDash([]);
+    }
+
+    // ==========================================
+    // 💨 ENVIRONMENT 5: AERODYNAMIC WIND TUNNEL LAB (EP05 ACT 3)
+    // ==========================================
+    function drawWindTunnelLab(w, h, groundY, time) {
+      // 1. Dark Tech Facility Wall
+      const wallGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+      wallGrad.addColorStop(0, '#060a12');
+      wallGrad.addColorStop(0.5, '#0b1324');
+      wallGrad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = wallGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // Hexagonal Tiles
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.04)'; ctx.lineWidth = 1;
+      for (let x = 30; x < w; x += 60) {
+        for (let y = 30; y < groundY - 20; y += 50) {
+          ctx.strokeRect(x, y, 40, 30);
+        }
+      }
+
+      // 2. High-Tech Digital HUD Telemetry Panel
+      push();
+      const hudW = Math.min(w * 0.90, 820);
+      const hudX = (w - hudW) * 0.5;
+      const hudY = 24;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.beginPath(); ctx.roundRect(hudX, hudY, hudW, 46, 8); ctx.fill();
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.5)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+      ctx.font = 'bold 11px system-ui, monospace';
+      ctx.fillStyle = '#38bdf8';
+      ctx.textAlign = 'left';
+      ctx.fillText("⚡ AERODYNAMIC WIND TUNNEL FACILITY • SUBSONIC FLOW SECTION", hudX + 16, hudY + 18);
+
+      ctx.font = '10px monospace';
+      ctx.fillStyle = '#4ade80'; ctx.fillText("VELOCITY: 185 KTS", hudX + 16, hudY + 36);
+      ctx.fillStyle = '#fbbf24'; ctx.fillText("ATTACK ANGLE: α = +7.5°", hudX + 170, hudY + 36);
+      ctx.fillStyle = '#38bdf8'; ctx.fillText("DOWNWASH DEFLECTION: 1,840 kg/s ↓", hudX + 360, hudY + 36);
+      ctx.fillStyle = '#f43f5e'; ctx.fillText("NET LIFT: ↑ F_lift = -F_downwash", hudX + 610, hudY + 36);
+      pop();
+
+      // 3. Transparent Wind Tunnel Testing Section
+      push();
+      const wtW = Math.min(w * 0.86, 780);
+      const wtH = groundY * 0.44;
+      const wtX = (w - wtW) * 0.5;
+      const wtY = 85;
+
+      // Outer Flange Rings
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(wtX - 16, wtY - 6, 16, wtH + 12);
+      ctx.fillRect(wtX + wtW, wtY - 6, 16, wtH + 12);
+
+      // Glass Tunnel Interior
+      const glassGrad = ctx.createLinearGradient(0, wtY, 0, wtY + wtH);
+      glassGrad.addColorStop(0, 'rgba(8, 47, 73, 0.55)');
+      glassGrad.addColorStop(0.5, 'rgba(12, 74, 110, 0.35)');
+      glassGrad.addColorStop(1, 'rgba(8, 47, 73, 0.65)');
+      ctx.fillStyle = glassGrad;
+      ctx.fillRect(wtX, wtY, wtW, wtH);
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2.0; ctx.strokeRect(wtX, wtY, wtW, wtH);
+
+      // Measurement Grid Lines
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)'; ctx.lineWidth = 1;
+      for (let gx = wtX + 30; gx < wtX + wtW; gx += 40) {
+        ctx.beginPath(); ctx.moveTo(gx, wtY); ctx.lineTo(gx, wtY + wtH); ctx.stroke();
+      }
+      for (let gy = wtY + 25; gy < wtY + wtH; gy += 30) {
+        ctx.beginPath(); ctx.moveTo(wtX, gy); ctx.lineTo(wtX + wtW, gy); ctx.stroke();
+      }
+
+      // Airfoil Model inside Tunnel
+      const wingCenterX = wtX + wtW * 0.42;
+      const wingCenterY = wtY + wtH * 0.48;
+      const wingChord = 125;
+
+      // Support Pylon
+      ctx.fillStyle = '#64748b';
+      ctx.fillRect(wingCenterX - 4, wingCenterY, 8, wtY + wtH - wingCenterY);
+
+      // Airfoil Wing Profile (Tilted at Angle of Attack ~7 deg)
+      push();
+      translate(wingCenterX, wingCenterY);
+      rotate(-0.13);
+
+      ctx.fillStyle = '#e2e8f0'; ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2.0;
+      ctx.beginPath();
+      ctx.moveTo(-wingChord * 0.5, 0);
+      ctx.bezierCurveTo(-wingChord * 0.25, -24, wingChord * 0.2, -18, wingChord * 0.5, 0);
+      ctx.bezierCurveTo(wingChord * 0.2, 6, -wingChord * 0.25, 8, -wingChord * 0.5, 0);
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+
+      // Upward Lift Force Arrow
+      ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 3.5;
+      ctx.beginPath(); ctx.moveTo(0, -10); ctx.lineTo(0, -48); ctx.stroke();
+      ctx.fillStyle = '#22c55e';
+      ctx.beginPath();
+      ctx.moveTo(0, -56); ctx.lineTo(-7, -46); ctx.lineTo(7, -46); ctx.closePath(); ctx.fill();
+      ctx.font = 'bold 10px system-ui';
+      ctx.fillStyle = '#22c55e';
+      ctx.fillText("LIFT ↑", -14, -60);
+      pop();
+
+      // Real-Time Streamline Flow Smoke Particles
+      const streamLinesY = [
+        { y: wingCenterY - 48, top: true },
+        { y: wingCenterY - 26, top: true },
+        { y: wingCenterY - 10, top: true },
+        { y: wingCenterY + 14, top: false },
+        { y: wingCenterY + 34, top: false },
+        { y: wingCenterY + 54, top: false }
+      ];
+
+      streamLinesY.forEach((sl, sIdx) => {
+        ctx.strokeStyle = sl.top ? 'rgba(56, 189, 248, 0.75)' : 'rgba(74, 222, 128, 0.65)';
+        ctx.lineWidth = 2.0;
+        ctx.beginPath();
+        for (let sx = wtX + 5; sx <= wtX + wtW - 5; sx += 6) {
+          let sy = sl.y;
+          if (sx < wingCenterX - 70) {
+            sy = sl.y;
+          } else if (sx >= wingCenterX - 70 && sx <= wingCenterX + 70) {
+            const relX = (sx - (wingCenterX - 70)) / 140.0;
+            sy = sl.top ? (sl.y - Math.sin(relX * Math.PI) * 16) : (sl.y + Math.sin(relX * Math.PI) * 6);
+          } else {
+            const wakeDist = (sx - (wingCenterX + 70));
+            sy = sl.y + Math.min(38, wakeDist * 0.28);
+          }
+          if (sx === wtX + 5) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
+        }
+        ctx.stroke();
+
+        // Traveling smoke packets
+        const packetOffset = ((time * 160 + sIdx * 55) % (wtW - 20));
+        const px = wtX + 10 + packetOffset;
+        let py = sl.y;
+        if (px >= wingCenterX - 70 && px <= wingCenterX + 70) {
+          const relX = (px - (wingCenterX - 70)) / 140.0;
+          py = sl.top ? (sl.y - Math.sin(relX * Math.PI) * 16) : (sl.y + Math.sin(relX * Math.PI) * 6);
+        } else if (px > wingCenterX + 70) {
+          py = sl.y + Math.min(38, (px - (wingCenterX + 70)) * 0.28);
+        }
+        ctx.fillStyle = sl.top ? '#e0f2fe' : '#bbf7d0';
+        ctx.shadowColor = sl.top ? '#38bdf8' : '#4ade80';
+        ctx.shadowBlur = 8;
+        ctx.beginPath(); ctx.arc(px, py, 3.5, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      ctx.font = 'bold 11px system-ui';
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText("DOWNWASH MOMENTUM ↓", wingCenterX + 100, wingCenterY + 45);
+      pop();
+
+      // 4. Lab Tech Floor
+      const floorGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      floorGrad.addColorStop(0, '#0f172a');
+      floorGrad.addColorStop(0.3, '#090d16');
+      floorGrad.addColorStop(1, '#020617');
+      ctx.fillStyle = floorGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+
+      // Glowing Neon Floor Strip
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2.5;
+      ctx.shadowColor = '#0284c7'; ctx.shadowBlur = 10;
+      ctx.beginPath(); ctx.moveTo(0, groundY + 1); ctx.lineTo(w, groundY + 1); ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    // ==========================================
+    // 🌅 ENVIRONMENT 6: SUNSET RUNWAY TARMAC (EP05 ACT 4)
+    // ==========================================
+    function drawSunsetRunwayTarmac(w, h, groundY, time) {
+      // 1. Fiery Sunset Horizon Sky Gradient
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+      skyGrad.addColorStop(0, '#1e1b4b');
+      skyGrad.addColorStop(0.35, '#581c87');
+      skyGrad.addColorStop(0.65, '#be123c');
+      skyGrad.addColorStop(0.85, '#ea580c');
+      skyGrad.addColorStop(1, '#facc15');
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // 2. Setting Sun on Horizon
+      push();
+      const sunX = w * 0.52;
+      const sunY = groundY - 18;
+      const sunHalo = ctx.createRadialGradient(sunX, sunY, 15, sunX, sunY, 110);
+      sunHalo.addColorStop(0, 'rgba(254, 240, 138, 0.95)');
+      sunHalo.addColorStop(0.4, 'rgba(249, 115, 22, 0.45)');
+      sunHalo.addColorStop(1, 'rgba(190, 18, 60, 0)');
+      ctx.fillStyle = sunHalo;
+      ctx.beginPath(); ctx.arc(sunX, sunY, 110, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fffbeb';
+      ctx.beginPath(); ctx.arc(sunX, sunY, 28, 0, Math.PI * 2); ctx.fill();
+      pop();
+
+      // 3. Mountain Ridge Silhouettes
+      ctx.fillStyle = '#311042';
+      ctx.beginPath();
+      ctx.moveTo(0, groundY);
+      ctx.lineTo(w * 0.15, groundY - 32);
+      ctx.lineTo(w * 0.32, groundY - 18);
+      ctx.lineTo(w * 0.48, groundY - 38);
+      ctx.lineTo(w * 0.68, groundY - 24);
+      ctx.lineTo(w * 0.85, groundY - 42);
+      ctx.lineTo(w, groundY - 14);
+      ctx.lineTo(w, groundY);
+      ctx.closePath();
+      ctx.fill();
+
+      // 4. Distant Airport Control Tower & Parked Prop Plane
+      const twrX = w * 0.14;
+      ctx.fillStyle = '#180728';
+      ctx.fillRect(twrX - 6, groundY - 55, 12, 55);
+      ctx.fillRect(twrX - 12, groundY - 68, 24, 13);
+      if (Math.sin(time * 4) > 0) {
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath(); ctx.arc(twrX, groundY - 71, 3, 0, Math.PI * 2); ctx.fill();
+      }
+
+      const plnX = w * 0.86;
+      ctx.fillStyle = '#180728';
+      ctx.beginPath();
+      ctx.ellipse(plnX, groundY - 14, 30, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillRect(plnX - 24, groundY - 26, 8, 14);
+      ctx.fillRect(plnX - 8, groundY - 16, 28, 4);
+
+      // 5. Soaring Balsa Glider Silhouette in the Golden Sky!
+      push();
+      const gliderProg = (time * 24) % (w + 300) - 100;
+      const gliderY = 65 + Math.sin(time * 1.5) * 12;
+      translate(gliderProg, gliderY);
+      rotate(0.06);
+
+      ctx.fillStyle = '#180728';
+      ctx.beginPath();
+      ctx.moveTo(-28, -2);
+      ctx.lineTo(0, -6);
+      ctx.lineTo(28, -2);
+      ctx.lineTo(22, 2);
+      ctx.lineTo(0, 0);
+      ctx.lineTo(-22, 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = '#180728';
+      ctx.beginPath(); ctx.moveTo(-32, 0); ctx.lineTo(18, 0); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(-32, 0); ctx.lineTo(-38, -8); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(-32, 0); ctx.lineTo(-38, 8); ctx.stroke();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.beginPath(); ctx.ellipse(18, 0, 2, 7, 0, 0, Math.PI * 2); ctx.stroke();
+      pop();
+
+      // 6. Asphalt Runway Ground with Runway Edge Lights
+      const rwyGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      rwyGrad.addColorStop(0, '#27272a');
+      rwyGrad.addColorStop(0.3, '#18181b');
+      rwyGrad.addColorStop(1, '#09090b');
+      ctx.fillStyle = rwyGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+
+      // Yellow Centerline Stripe
+      ctx.strokeStyle = '#eab308';
+      ctx.lineWidth = 3.5;
+      ctx.setLineDash([24, 18]);
+      ctx.beginPath();
+      ctx.moveTo(w * 0.5, groundY);
+      ctx.lineTo(w * 0.5, h);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Glowing Runway Edge Lights
+      const lightXs = [w * 0.08, w * 0.22, w * 0.36, w * 0.64, w * 0.78, w * 0.92];
+      lightXs.forEach((lx, lIdx) => {
+        const ly = groundY + 8;
+        const isCyan = (lIdx % 2 === 0);
+        const lColor = isCyan ? '#06b6d4' : '#f59e0b';
+
+        ctx.fillStyle = '#52525b';
+        ctx.fillRect(lx - 3, ly - 4, 6, 8);
+
+        ctx.shadowColor = lColor; ctx.shadowBlur = 12;
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(lx, ly - 4, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.strokeStyle = lColor; ctx.lineWidth = 1.0;
+        ctx.beginPath();
+        ctx.moveTo(lx - 7, ly - 4); ctx.lineTo(lx + 7, ly - 4);
+        ctx.moveTo(lx, ly - 11); ctx.lineTo(lx, ly + 3);
+        ctx.stroke();
+      });
+    }
+
+    // ==========================================
+    // 🧰 EPISODE 5 FOREGROUND PROPS
+    // ==========================================
+    function drawAirportHillForeground(w, groundY, time) {
+      push();
+      const bx = w * 0.60;
+      const bw = w * 0.36;
+      const by = groundY - 10;
+      const bh = 50;
+
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+      ctx.beginPath();
+      ctx.ellipse(bx + bw * 0.5, by + bh * 0.6, bw * 0.52, bh * 0.45, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(bx + 18, by);
+      ctx.lineTo(bx + bw - 18, by);
+      ctx.lineTo(bx + bw + 12, by + bh);
+      ctx.lineTo(bx - 12, by + bh);
+      ctx.closePath();
+      ctx.clip();
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillRect(bx - 20, by, bw + 40, bh + 10);
+
+      ctx.fillStyle = '#dc2626';
+      const tileSize = 16;
+      for (let tx = bx - 20; tx < bx + bw + 30; tx += tileSize) {
+        for (let ty = by; ty < by + bh + 10; ty += tileSize) {
+          if ((Math.floor((tx - bx) / tileSize) + Math.floor((ty - by) / tileSize)) % 2 === 0) {
+            ctx.fillRect(tx, ty, tileSize, tileSize);
+          }
+        }
+      }
+      ctx.restore();
+
+      // Picnic Basket
+      ctx.fillStyle = '#b45309';
+      ctx.beginPath(); ctx.roundRect(bx + 10, by + 14, 28, 20, 4); ctx.fill();
+      ctx.fillStyle = '#78350f';
+      ctx.fillRect(bx + 8, by + 12, 32, 5);
+
+      // Thermos Flask
+      ctx.fillStyle = '#cbd5e1';
+      ctx.beginPath(); ctx.roundRect(bx + 44, by + 12, 12, 22, 3); ctx.fill();
+      ctx.fillStyle = '#0284c7';
+      ctx.fillRect(bx + 45, by + 10, 10, 5);
+      pop();
+    }
+
+    function drawHangarWorkbenchForeground(w, groundY, time) {
+      push();
+      const benchX = w * 0.22;
+      const benchW = w * 0.38;
+      const benchY = groundY - 14;
+      const benchH = 38;
+
+      const woodGrad = ctx.createLinearGradient(0, benchY, 0, benchY + benchH);
+      woodGrad.addColorStop(0, '#92400e');
+      woodGrad.addColorStop(0.15, '#78350f');
+      woodGrad.addColorStop(1, '#451a03');
+      ctx.fillStyle = woodGrad;
+      ctx.beginPath(); ctx.roundRect(benchX, benchY, benchW, benchH, 4); ctx.fill();
+      ctx.strokeStyle = '#b45309'; ctx.lineWidth = 1.5; ctx.stroke();
+
+      ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(benchX + 2, benchY + 1); ctx.lineTo(benchX + benchW - 2, benchY + 1); ctx.stroke();
+
+      ctx.fillStyle = '#292524';
+      ctx.fillRect(benchX + 12, benchY + benchH, 14, 45);
+      ctx.fillRect(benchX + benchW - 26, benchY + benchH, 14, 45);
+
+      ctx.fillStyle = '#065f46';
+      ctx.beginPath(); ctx.roundRect(benchX + 35, benchY + 3, 110, 24, 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'; ctx.lineWidth = 0.8;
+      for (let mx = benchX + 45; mx < benchX + 140; mx += 15) {
+        ctx.beginPath(); ctx.moveTo(mx, benchY + 3); ctx.lineTo(mx, benchY + 27); ctx.stroke();
+      }
+
+      ctx.fillStyle = '#fef08a';
+      ctx.beginPath();
+      ctx.ellipse(benchX + 90, benchY + 14, 38, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#facc15';
+      ctx.fillRect(benchX + benchW - 40, benchY + 4, 12, 18);
+      ctx.fillStyle = '#ea580c';
+      ctx.beginPath(); ctx.moveTo(benchX + benchW - 40, benchY + 4); ctx.lineTo(benchX + benchW - 34, benchY - 4); ctx.lineTo(benchX + benchW - 28, benchY + 4); ctx.fill();
+      pop();
+    }
+
+    function drawWindTunnelForeground(w, groundY, time) {
+      push();
+      const conX = w * 0.12;
+      const conW = w * 0.24;
+      const conY = groundY - 18;
+      const conH = 42;
+
+      const conGrad = ctx.createLinearGradient(0, conY, 0, conY + conH);
+      conGrad.addColorStop(0, '#1e293b');
+      conGrad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = conGrad;
+      ctx.beginPath(); ctx.roundRect(conX, conY, conW, conH, 6); ctx.fill();
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.5; ctx.stroke();
+
+      ctx.fillStyle = '#022c22';
+      ctx.fillRect(conX + 12, conY + 8, 70, 26);
+      ctx.strokeStyle = '#10b981'; ctx.lineWidth = 1.2;
+      ctx.strokeRect(conX + 12, conY + 8, 70, 26);
+
+      ctx.strokeStyle = '#34d399'; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      for (let ox = conX + 14; ox < conX + 80; ox += 2) {
+        const oy = conY + 21 + Math.sin((ox - conX) * 0.25 + time * 6) * 7;
+        if (ox === conX + 14) ctx.moveTo(ox, oy);
+        else ctx.lineTo(ox, oy);
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath(); ctx.arc(conX + 105, conY + 16, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath(); ctx.arc(conX + 125, conY + 16, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#eab308';
+      ctx.beginPath(); ctx.arc(conX + 145, conY + 16, 6, 0, Math.PI * 2); ctx.fill();
+      pop();
+    }
+
+    function drawSunsetRunwayForeground(w, groundY, time) {
+      // Clean runway tarmac
+    }
+
     // Realistic Context-Aware Contact Shadow
     function drawContextShadow(x, groundY, scale, isTalking) {
       push();
@@ -5221,7 +5989,7 @@ const canvas = document.getElementById('studioCanvas');
       let shadowColorOuter = 'rgba(0, 0, 0, 0.55)';
       let shadowColorMid = 'rgba(0, 0, 0, 0.25)';
 
-      if (currentEnvMode === "PARK") {
+      if (currentEnvMode === "PARK" || currentEnvMode === "AIRPORT_HILL") {
         shadowColorInner = 'rgba(6, 40, 15, 0.65)';
         shadowColorOuter = 'rgba(6, 40, 15, 0.45)';
         shadowColorMid = 'rgba(6, 40, 15, 0.20)';
@@ -5229,6 +5997,14 @@ const canvas = document.getElementById('studioCanvas');
         shadowColorInner = 'rgba(40, 20, 10, 0.60)';
         shadowColorOuter = 'rgba(40, 20, 10, 0.40)';
         shadowColorMid = 'rgba(40, 20, 10, 0.18)';
+      } else if (currentEnvMode === "SUNSET_RUNWAY") {
+        shadowColorInner = 'rgba(24, 7, 40, 0.70)';
+        shadowColorOuter = 'rgba(49, 16, 66, 0.45)';
+        shadowColorMid = 'rgba(88, 28, 135, 0.20)';
+      } else if (currentEnvMode === "WIND_TUNNEL" || currentEnvMode === "HANGAR_WORKSHOP") {
+        shadowColorInner = 'rgba(2, 6, 23, 0.70)';
+        shadowColorOuter = 'rgba(15, 23, 42, 0.50)';
+        shadowColorMid = 'rgba(30, 41, 59, 0.25)';
       }
 
       // Outer soft ambient blur
@@ -5282,10 +6058,38 @@ const canvas = document.getElementById('studioCanvas');
       const w = rect.width;
       const h = rect.height;
 
-      characters[0].x = w * 0.16;
-      characters[1].x = w * 0.38;
-      characters[2].x = w * 0.60;
-      characters[3].x = w * 0.82;
+      // Dynamic Staging: position and posture per environment!
+      if (currentEnvMode === "AIRPORT_HILL") {
+        // Leo & Dad center-left observing flight; Mom & Mia seated on picnic blanket on right
+        characters[0].x = w * 0.72; characters[0].isSitting = true;
+        characters[1].x = w * 0.44; characters[1].isSitting = false;
+        characters[2].x = w * 0.86; characters[2].isSitting = true;
+        characters[3].x = w * 0.28; characters[3].isSitting = false;
+      } else if (currentEnvMode === "HANGAR_WORKSHOP") {
+        // Leo & Dad at workbench (left & center); Mom & Mia on right
+        characters[0].x = w * 0.75; characters[0].isSitting = false;
+        characters[1].x = w * 0.30; characters[1].isSitting = false;
+        characters[2].x = w * 0.88; characters[2].isSitting = false;
+        characters[3].x = w * 0.52; characters[3].isSitting = false;
+      } else if (currentEnvMode === "WIND_TUNNEL") {
+        // Dad at control console (left), Leo watching tunnel (mid), Mom & Mia on right
+        characters[0].x = w * 0.76; characters[0].isSitting = false;
+        characters[1].x = w * 0.45; characters[1].isSitting = false;
+        characters[2].x = w * 0.88; characters[2].isSitting = false;
+        characters[3].x = w * 0.22; characters[3].isSitting = false;
+      } else if (currentEnvMode === "SUNSET_RUNWAY") {
+        // Glider launch celebration across the runway
+        characters[0].x = w * 0.65; characters[0].isSitting = false;
+        characters[1].x = w * 0.40; characters[1].isSitting = false;
+        characters[2].x = w * 0.22; characters[2].isSitting = false;
+        characters[3].x = w * 0.80; characters[3].isSitting = false;
+      } else {
+        // Default 4-lineup for legacy episodes
+        characters[0].x = w * 0.16;
+        characters[1].x = w * 0.38;
+        characters[2].x = w * 0.60;
+        characters[3].x = w * 0.82;
+      }
 
       ctx.clearRect(0, 0, w, h);
 
@@ -5329,7 +6133,15 @@ const canvas = document.getElementById('studioCanvas');
       ctx.translate(-w * 0.5 - camera.x, -h * 0.55 - camera.y);
 
       // Draw Selected Environment!
-      if (currentEnvMode === "LIVING_ROOM") {
+      if (currentEnvMode === "AIRPORT_HILL") {
+        drawAirportObservationHill(w, h, groundY, time);
+      } else if (currentEnvMode === "HANGAR_WORKSHOP") {
+        drawAviationHangarWorkshop(w, h, groundY, time);
+      } else if (currentEnvMode === "WIND_TUNNEL") {
+        drawWindTunnelLab(w, h, groundY, time);
+      } else if (currentEnvMode === "SUNSET_RUNWAY") {
+        drawSunsetRunwayTarmac(w, h, groundY, time);
+      } else if (currentEnvMode === "LIVING_ROOM") {
         drawLivingRoom(w, h, groundY, time);
         // If in pancake feast mode (Act 4), draw rear dining chairs behind family members
         if (showBreakfastTable || (isStoryMode && storyEpisode.acts[storyActIdx] && storyEpisode.acts[storyActIdx].actNum === 4)) {
@@ -6700,8 +7512,16 @@ const canvas = document.getElementById('studioCanvas');
         drawComicEmotes(char, idx, char.x, charY, isCurrentlyTalking, time);
       });
 
-      // 🥞 In Pancake Feast (Act 4), draw Foreground Breakfast Table (Pancakes, Syrup, Butter, Hot Cocoa)
-      if (currentEnvMode === "LIVING_ROOM" && (showBreakfastTable || (isStoryMode && storyEpisode.acts[storyActIdx] && storyEpisode.acts[storyActIdx].actNum === 4))) {
+      // Foreground props per environment
+      if (currentEnvMode === "AIRPORT_HILL") {
+        drawAirportHillForeground(w, groundY, time);
+      } else if (currentEnvMode === "HANGAR_WORKSHOP") {
+        drawHangarWorkbenchForeground(w, groundY, time);
+      } else if (currentEnvMode === "WIND_TUNNEL") {
+        drawWindTunnelForeground(w, groundY, time);
+      } else if (currentEnvMode === "SUNSET_RUNWAY") {
+        drawSunsetRunwayForeground(w, groundY, time);
+      } else if (currentEnvMode === "LIVING_ROOM" && (showBreakfastTable || (isStoryMode && storyEpisode.acts[storyActIdx] && storyEpisode.acts[storyActIdx].actNum === 4))) {
         drawBreakfastTableForeground(w, groundY, time);
       }
 
@@ -6772,7 +7592,7 @@ const canvas = document.getElementById('studioCanvas');
       }
 
       // 4. Staging
-      showBreakfastTable = (currentAct.actNum === 4);
+      showBreakfastTable = (currentEnvMode === "LIVING_ROOM" && currentAct.actNum === 4);
 
       // 5. Identify Active Speaker & Dialogue
       let activeLine = null;
