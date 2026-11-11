@@ -1512,10 +1512,11 @@
   video_url: https://youtube.com/shorts/C5rvgM-AA94
   article_url: /experiments/hilbert-curve-space-filling.html
   id: C5rvgM-AA94
-- title: "The Architecture of Everything: Graph Theory, Small Worlds & Google's PageRank"
+- id: miTfcebk2l0
+  title: "The Architecture of Everything: Graph Theory, Small Worlds & Google's PageRank"
   series: Documentary Feature
   format: Landscape (16:9 • 1080p Master)
-  duration: 05:20
+  duration: 06:28
   description: Leonhard Euler's 1736 Seven Bridges of Königsberg, Erdős–Rényi random percolation phase transitions, Watts–Strogatz small-world six degrees of separation, Barabási–Albert scale-free hubs, and Google's PageRank Markov chain.
   tags:
   - GraphTheory
@@ -1531,5 +1532,5 @@
   - STEM
   badge: Featured Documentary
   gradient: 'linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #a855f7 100%)'
-  video_url: https://www.youtube.com/watch?v=pending_graph
+  video_url: https://www.youtube.com/watch?v=miTfcebk2l0
   article_url: /experiments/graph-theory-network-science.html
