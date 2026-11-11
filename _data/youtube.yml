@@ -1574,3 +1574,22 @@
   gradient: 'linear-gradient(135deg, #f43f5e 0%, #fbbf24 50%, #38bdf8 100%)'
   video_url: https://www.youtube.com/watch?v=3laX8JvX7iU
   article_url: /experiments/special-relativity-spacetime.html
+- id: GxmYFI_3fPQ
+  title: "When Circles Kiss to Infinity: The Apollonian Gasket & Descartes' Theorem"
+  series: Procedural Animation & Mathematical Micro-Simulations
+  format: Shorts (9:16 Vertical • 30 FPS)
+  duration: 00:52
+  description: Apollonius' 200 BC kissing circles problem, René Descartes' 1643 circle curvature theorem, Frederick Soddy's integer radius packings, and infinite fractal boundary geometry.
+  tags:
+  - ApollonianGasket
+  - DescartesTheorem
+  - CirclePacking
+  - Fractals
+  - Mathematics
+  - Geometry
+  - ScienceShorts
+  - ProceduralAnimation
+  badge: Vol. XXIV
+  gradient: 'linear-gradient(135deg, #fbbf24 0%, #00f5d4 50%, #a855f7 100%)'
+  video_url: https://youtube.com/shorts/GxmYFI_3fPQ
+  article_url: /experiments/apollonian-gasket-kissing-circles.html

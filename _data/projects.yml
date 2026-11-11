@@ -795,6 +795,19 @@
   featured: true
   gradient: "linear-gradient(135deg, #f43f5e 0%, #fbbf24 50%, #38bdf8 100%)"
 
+- id: "apollonian-gasket"
+  slug: "apollonian-gasket"
+  category: "math"
+  name: "The Apollonian Gasket: Kissing Circles"
+  tag: "Fractals • Descartes Theorem"
+  tech: "HTML5 Canvas • Recursive Complex Descartes Solver"
+  description: "Apollonius' 200 BC kissing circles problem, René Descartes' 1643 circle curvature theorem, Frederick Soddy's integer radius packings, and infinite fractal boundary geometry."
+  repo_url: "https://github.com/procanimation/mathematics-stuff/tree/main/apollonian_gasket"
+  article_url: "/experiments/apollonian-gasket-kissing-circles.html"
+  demo_url: "/experiments/apollonian-gasket-kissing-circles.html"
+  featured: true
+  gradient: "linear-gradient(135deg, #fbbf24 0%, #00f5d4 50%, #a855f7 100%)"
+
 
 
 

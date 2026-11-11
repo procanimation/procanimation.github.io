@@ -1,0 +1,280 @@
+---
+layout: article
+title: "The Apollonian Gasket: When Circles Kiss to Infinity"
+tagline: "Apollonius of Perga, René Descartes' 1643 Circle Theorem & Integral Fractal Packings"
+description: "How recursive mutually tangent circles form an infinite self-similar fractal gasket with Hausdorff dimension D ≈ 1.3057."
+category: "Pure Mathematics & Theoretical Physics"
+permalink: /experiments/apollonian-gasket-kissing-circles.html
+---
+
+<p class="article-lead">
+  In 200 BC, Greek geometer <strong>Apollonius of Perga</strong> formulated a classic geometric challenge: given three mutually tangent ("kissing") circles, how can one construct a fourth circle tangent to all three? For nearly two millennia, the problem was treated as an isolated Euclidean puzzle. Then in 1643, French philosopher and mathematician <strong>René Descartes</strong> discovered an extraordinary algebraic relation: <strong>Descartes' Circle Theorem</strong>. By defining the "bend" or curvature of each circle as the reciprocal of its radius ($k = 1/r$), Descartes proved that four mutually kissing circles satisfy a quadratic relationship: the square of the sum of their curvatures equals twice the sum of the squares of their curvatures. Packing new tangent circles recursively into every curvilinear triangular void produces the breathtaking, infinitely intricate <strong>Apollonian Gasket</strong>.
+</p>
+
+<!-- The Math Lexicon -->
+<h3>The Circle Packing & Curvature Lexicon</h3>
+<div class="chaos-lexicon-grid">
+  <div class="lexicon-card">
+    <h4>Curvature Definition ($k = 1/r$)</h4>
+    <p>In Apollonian geometry, every circle is characterized by its curvature (or bend) $k = 1/r$. For internally tangent circles (such as the outer enclosing boundary that surrounds the others), the curvature is defined with a negative sign ($k_{\text{outer}} = -1/R$). A straight line is simply a circle of infinite radius with zero curvature ($k = 0$).</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Descartes' Circle Theorem (1643)</h4>
+    <p>If four circles are mutually tangent at six distinct points, their curvatures $k_1, k_2, k_3, k_4$ satisfy:
+      $$(k_1 + k_2 + k_3 + k_4)^2 = 2 \left(k_1^2 + k_2^2 + k_3^2 + k_4^2\right)$$
+      Given three kissing circles, solving for the fourth yields two conjugate solutions:
+      $$k_4 = k_1 + k_2 + k_3 \pm 2 \sqrt{k_1 k_2 + k_2 k_3 + k_3 k_1}$$</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>The Complex Descartes Theorem</h4>
+    <p>To determine the exact spatial coordinates $(x_4, y_4)$ of the newly generated circle, the centers are treated as points in the complex plane $z = x + i y$:
+      $$k_4 z_4 = k_1 z_1 + k_2 z_2 + k_3 z_3 \pm 2 \sqrt{k_1 k_2 z_1 z_2 + k_2 k_3 z_2 z_3 + k_3 k_1 z_3 z_1}$$
+      This allows exact, closed-form computation of all recursive circle coordinates without numerical approximation.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Integral Apollonian Packings & Soddy's "Kiss Precise"</h4>
+    <p>In 1936, Nobel laureate chemist Frederick Soddy rediscovered Descartes' theorem and published a famous poem, <em>"The Kiss Precise,"</em> in <em>Nature</em>. When the initial four curvatures are integers (e.g. $[-1, 2, 2, 3]$), every subsequent recursive circle throughout the infinite packing inherits an exact integer curvature. This connects Apollonian gaskets to deep Diophantine equations, modular forms, and hyperbolic 3-manifolds.</p>
+  </div>
+  <div class="lexicon-card">
+    <h4>Hausdorff Fractal Dimension ($D \approx 1.30568$)</h4>
+    <p>Because the circular boundaries touch at isolated tangent points without overlapping, the residual curvilinear dust left between the circles forms an exact fractal set with a fractional Hausdorff dimension:
+      $$D \approx 1.3056828\dots$$
+      The total perimeter of all circles diverges to infinity, yet the packing remains strictly bounded inside the outer disk.</p>
+  </div>
+</div>
+
+<!-- Interactive Simulation Box -->
+<div class="interactive-simulation-box">
+  <div class="simulation-header">
+    <div class="sim-title">
+      <span>✨ REAL-TIME APOLLONIAN GASKET GENERATOR</span>
+      <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Recursive Descartes Circle Packing, Interactive Depth & Chromatic Bloom)</span>
+    </div>
+    <div class="sim-legend">
+      <span style="color:#38bdf8;">● Outer Boundary Circle</span>
+      <span style="color:#fbbf24;">● Golden Generations</span>
+      <span style="color:#00f5d4;">● Cyan Generations</span>
+    </div>
+  </div>
+
+  <div class="canvas-stage" style="position:relative; width:100%; height:580px; background:#020617; border-radius:8px; overflow:hidden;">
+    <canvas id="apollonianCanvas" style="width:100%; height:100%; display:block;"></canvas>
+    
+    <div style="position:absolute; bottom:16px; left:20px; display:flex; flex-wrap:wrap; gap:10px; z-index:10;">
+      <button id="btnDepthUp" style="background:#fbbf24; color:#020617; border:none; padding:8px 16px; font-weight:700; border-radius:6px; cursor:pointer;">Depth +1</button>
+      <button id="btnDepthDown" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; font-weight:600; border-radius:6px; cursor:pointer;">Depth -1</button>
+      <button id="btnRotate" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; font-weight:600; border-radius:6px; cursor:pointer;">Toggle Rotation</button>
+    </div>
+
+    <div id="apollonianTelemetry" style="position:absolute; top:16px; right:20px; background:rgba(15,23,42,0.85); border:1px solid rgba(251,191,36,0.3); padding:8px 16px; border-radius:8px; font-family:monospace; font-size:0.85rem; color:#cbd5e1;">
+      Depth: 4 | Circles: 161 | D ≈ 1.3057
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('apollonianCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const telemetry = document.getElementById('apollonianTelemetry');
+  const btnDepthUp = document.getElementById('btnDepthUp');
+  const btnDepthDown = document.getElementById('btnDepthDown');
+  const btnRotate = document.getElementById('btnRotate');
+
+  let W, H;
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    W = canvas.width = rect.width || 800;
+    H = canvas.height = rect.height || 580;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Complex {
+    constructor(re, im) { this.re = re; this.im = im; }
+    add(c) { return new Complex(this.re + c.re, this.im + c.im); }
+    sub(c) { return new Complex(this.re - c.re, this.im - c.im); }
+    scale(s) { return new Complex(this.re * s, this.im * s); }
+    mul(c) { return new Complex(this.re * c.re - this.im * c.im, this.re * c.im + this.im * c.re); }
+    sqrt() {
+      const m = Math.hypot(this.re, this.im);
+      const ang = Math.atan2(this.im, this.re);
+      const sm = Math.sqrt(m);
+      return new Complex(sm * Math.cos(ang / 2), sm * Math.sin(ang / 2));
+    }
+  }
+
+  class Circle {
+    constructor(k, re, im, gen = 0) {
+      this.k = k;
+      this.r = Math.abs(1 / k);
+      this.z = new Complex(re, im);
+      this.gen = gen;
+    }
+    get x() { return this.z.re; }
+    get y() { return this.z.im; }
+  }
+
+  function descartesNext(c1, c2, c3) {
+    const k1 = c1.k, k2 = c2.k, k3 = c3.k;
+    const kSum = k1 + k2 + k3;
+    const kRad = 2 * Math.sqrt(Math.abs(k1 * k2 + k2 * k3 + k3 * k1));
+    const k4_plus = kSum + kRad;
+    const k4_minus = kSum - kRad;
+
+    const z1 = c1.z, z2 = c2.z, z3 = c3.z;
+    const term1 = z1.scale(k1).add(z2.scale(k2)).add(z3.scale(k3));
+    const p12 = z1.mul(z2).scale(k1 * k2);
+    const p23 = z2.mul(z3).scale(k2 * k3);
+    const p31 = z3.mul(z1).scale(k3 * k1);
+    const rootTerm = p12.add(p23).add(p31).sqrt().scale(2);
+
+    const z4_plus = term1.add(rootTerm).scale(1 / k4_plus);
+    const z4_minus = term1.sub(rootTerm).scale(1 / k4_minus);
+
+    return [
+      new Circle(k4_plus, z4_plus.re, z4_plus.im),
+      new Circle(k4_minus, z4_minus.re, z4_minus.im)
+    ];
+  }
+
+  let currentDepth = 4;
+  let rotating = true;
+
+  function buildGasket(maxDepth) {
+    const circles = [];
+    const R_OUTER = Math.min(W, H) * 0.42;
+
+    const cOuter = new Circle(-1 / R_OUTER, 0, 0, 0);
+    circles.push(cOuter);
+
+    const rInner = R_OUTER / 2;
+    const c1 = new Circle(1 / rInner, -rInner, 0, 1);
+    const c2 = new Circle(1 / rInner, rInner, 0, 1);
+    circles.push(c1);
+    circles.push(c2);
+
+    const candidates = descartesNext(cOuter, c1, c2);
+    const cTop = candidates[0]; cTop.gen = 2;
+    const cBot = candidates[1]; cBot.gen = 2;
+    circles.push(cTop);
+    circles.push(cBot);
+
+    let queue = [
+      [cOuter, c1, cTop, 2],
+      [cOuter, c1, cBot, 2],
+      [cOuter, c2, cTop, 2],
+      [cOuter, c2, cBot, 2],
+      [c1, c2, cTop, 2],
+      [c1, c2, cBot, 2]
+    ];
+
+    function isDuplicate(c) {
+      for (let existing of circles) {
+        if (Math.hypot(existing.x - c.x, existing.y - c.y) < 1.0 && Math.abs(existing.r - c.r) < 1.0) return true;
+      }
+      return false;
+    }
+
+    for (let depth = 2; depth <= maxDepth; depth++) {
+      const nextQueue = [];
+      for (let [a, b, c] of queue) {
+        for (let cand of descartesNext(a, b, c)) {
+          if (cand.r > 1.5 && cand.r < R_OUTER && !isDuplicate(cand)) {
+            if (Math.hypot(cand.x, cand.y) + cand.r <= R_OUTER + 2.0) {
+              cand.gen = depth + 1;
+              circles.push(cand);
+              nextQueue.push([a, b, cand]);
+              nextQueue.push([b, c, cand]);
+              nextQueue.push([c, a, cand]);
+            }
+          }
+        }
+      }
+      queue = nextQueue;
+    }
+    return circles;
+  }
+
+  let circles = buildGasket(currentDepth);
+
+  btnDepthUp.addEventListener('click', () => {
+    if (currentDepth < 5) {
+      currentDepth++;
+      circles = buildGasket(currentDepth);
+    }
+  });
+
+  btnDepthDown.addEventListener('click', () => {
+    if (currentDepth > 1) {
+      currentDepth--;
+      circles = buildGasket(currentDepth);
+    }
+  });
+
+  btnRotate.addEventListener('click', () => {
+    rotating = !rotating;
+  });
+
+  let startTime = performance.now();
+  function draw(now) {
+    const elapsed = (now - startTime) / 1000;
+    const rot = rotating ? elapsed * 0.15 : 0;
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.save();
+    ctx.translate(W / 2, H / 2);
+    ctx.rotate(rot);
+
+    for (let c of circles) {
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+
+      if (c.gen === 0) {
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.4)';
+        ctx.fill();
+      } else {
+        const isGold = (c.gen % 2 === 1);
+        ctx.strokeStyle = isGold ? '#fbbf24' : '#00f5d4';
+        ctx.lineWidth = Math.max(1.2, 3 - c.gen * 0.4);
+        ctx.stroke();
+        ctx.fillStyle = isGold ? 'rgba(251, 191, 36, 0.12)' : 'rgba(0, 245, 212, 0.12)';
+        ctx.fill();
+      }
+    }
+    ctx.restore();
+
+    if (telemetry) {
+      telemetry.textContent = `Depth: ${currentDepth} | Circles: ${circles.length} | Hausdorff D ≈ 1.3057`;
+    }
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+</script>
+
+<div style="margin-top:40px; padding:24px; background:rgba(15,23,42,0.6); border:1px solid rgba(251,191,36,0.25); border-radius:12px;">
+  <h4 style="margin-top:0; color:#fbbf24;">Watch the Procedural Animation Micro-Simulation</h4>
+  <p style="color:#94a3b8; font-size:0.95rem;">
+    Explore our cinematic procedural visualization on YouTube Shorts (narrated by Jenny):
+  </p>
+  <div style="display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;">
+    <a id="ytApollonianLink" href="https://youtube.com/shorts/GxmYFI_3fPQ" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:#f43f5e; color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:700;">
+      ▶ Watch on YouTube Shorts
+    </a>
+    <a href="https://youtube.com/playlist?list=PLcPiE4M61OUc" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:600; border:1px solid rgba(255,255,255,0.2);">
+      📂 Micro-Simulations Playlist
+    </a>
+    <a href="https://github.com/procanimation/mathematics-stuff" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); color:#fff; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:600; border:1px solid rgba(255,255,255,0.2);">
+      💻 Simulation Source Code on GitHub
+    </a>
+  </div>
+</div>
+
