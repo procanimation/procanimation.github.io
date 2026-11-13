@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modular 2D Sprite Character Animation Engine | Procanimation Studio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #090d16;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+    }
+    #stage-container {
+      position: relative;
+      width: 960px;
+      height: 540px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(56, 189, 248, 0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0f172a;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .hud-controls {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 10px 18px;
+      border-radius: 40px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 10;
+    }
+    .badge {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      z-index: 10;
+    }
+    button {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    button:hover, button.active {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+    }
+    .char-toggle {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="stage-container">
+    <div class="badge">🎨 Modular 2D Sprite Cutout Animation Engine</div>
+
+    <div class="char-toggle">
+      <button class="active" onclick="setCharacter('male')">👨 Leo / Male</button>
+      <button onclick="setCharacter('female')">👩 Sarah / Female</button>
+    </div>
+
+    <canvas id="stageCanvas" width="1920" height="1080"></canvas>
+
+    <div class="hud-controls">
+      <button class="active" onclick="setPose('point')">👉 1. Point / Explain</button>
+      <button onclick="setPose('cheer')">🎉 2. Eureka / Cheer</button>
+      <button onclick="setPose('idle')">🧍 3. Idle / Talking</button>
+      <button onclick="setPose('interact')">🔬 4. Lab Interact</button>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('stageCanvas');
+    const ctx = canvas.getContext('2d');
+    const w = 1920;
+    const h = 1080;
+
+    let time = 0;
+    let currentChar = 'male';
+    let currentPose = 'point';
+    let currentViseme = 'happy';
+
+    // Sprite Assets Cache
+    const sprites = {};
+    const spriteUrls = {
+      // Male Poses
+      'male_idle': '../assets/sprites/cartoon/poses/male_idle.png',
+      'male_point': '../assets/sprites/cartoon/poses/male_point.png',
+      'male_cheer': '../assets/sprites/cartoon/poses/male_cheer.png',
+      'male_interact': '../assets/sprites/cartoon/poses/male_interact.png',
+
+      // Female Poses
+      'female_idle': '../assets/sprites/cartoon/poses/female_idle.png',
+      'female_point': '../assets/sprites/cartoon/poses/female_point.png',
+      'female_cheer': '../assets/sprites/cartoon/poses/female_cheer.png',
+      'female_interact': '../assets/sprites/cartoon/poses/female_interact.png',
+
+      // Modular Mouth Visemes
+      'mouth_happy': '../assets/sprites/cartoon/face/mouth_happy.png',
+      'mouth_oh': '../assets/sprites/cartoon/face/mouth_oh.png',
+      'mouth_teeth': '../assets/sprites/cartoon/face/mouth_teeth.png',
+      'mouth_straight': '../assets/sprites/cartoon/face/mouth_straight.png',
+      'mouth_glad': '../assets/sprites/cartoon/face/mouth_glad.png',
+    };
+
+    let loadedCount = 0;
+    const totalCount = Object.keys(spriteUrls).length;
+    for (const [key, url] of Object.entries(spriteUrls)) {
+      const img = new Image();
+      img.onload = () => { loadedCount++; };
+      img.src = url;
+      sprites[key] = img;
+    }
+
+    window.setCharacter = function(c) {
+      currentChar = c;
+      document.querySelectorAll('.char-toggle button').forEach(b => {
+        if (b.textContent.toLowerCase().includes(c)) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    };
+
+    window.setPose = function(p) {
+      currentPose = p;
+      document.querySelectorAll('.hud-controls button').forEach(b => {
+        if (b.textContent.toLowerCase().includes(p)) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    };
+
+    // ==========================================
+    // 🎨 SCIENCE CLASSROOM / LAB STAGE
+    // ==========================================
+    function drawScienceLabBackground() {
+      // Rich Teal to Navy Vignette
+      const bg = ctx.createLinearGradient(0, 0, 0, h);
+      bg.addColorStop(0, '#040d1a');
+      bg.addColorStop(0.65, '#0a192f');
+      bg.addColorStop(1, '#0f2744');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      // Warm Amber Spotlight on Stage
+      const spot = ctx.createRadialGradient(w * 0.5, 750, 40, w * 0.5, 750, 550);
+      spot.addColorStop(0, 'rgba(56, 189, 248, 0.14)');
+      spot.addColorStop(0.7, 'rgba(14, 165, 233, 0.04)');
+      spot.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = spot;
+      ctx.fillRect(0, 0, w, h);
+
+      // Floor Stage Line & Grid
+      const floorGrad = ctx.createLinearGradient(0, 800, 0, h);
+      floorGrad.addColorStop(0, '#0f172a');
+      floorGrad.addColorStop(1, '#020617');
+      ctx.fillStyle = floorGrad;
+      ctx.fillRect(0, 800, w, h - 800);
+
+      ctx.strokeStyle = '#0284c7';
+      ctx.lineWidth = 3.0;
+      ctx.beginPath();
+      ctx.moveTo(0, 800); ctx.lineTo(w, 800);
+      ctx.stroke();
+
+      // Atmospheric Floating Dust Particles
+      ctx.fillStyle = 'rgba(125, 211, 252, 0.45)';
+      for (let i = 0; i < 20; i++) {
+        const px = (Math.sin(time * 0.2 + i * 2) * 0.5 + 0.5) * w;
+        const py = (Math.cos(time * 0.25 + i * 3) * 0.4 + 0.5) * (h * 0.8);
+        const pr = 1.5 + Math.sin(time + i) * 0.8;
+        ctx.beginPath();
+        ctx.arc(px, py, pr, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // ==========================================
+    // 🎭 SPRITE CUTOUT CHARACTER ENGINE
+    // ==========================================
+    function drawSpriteCharacter(cx, cy, scale) {
+      const spriteKey = `${currentChar}_${currentPose}`;
+      const charImg = sprites[spriteKey] || sprites[`${currentChar}_idle`];
+      if (!charImg || !charImg.complete) return;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+
+      // 1. Procedural 12-Principles Kinematics on Top of Sprite
+      // Subtle breathing & speech bounce
+      const breath = Math.sin(time * 3.5) * 0.015;
+      let squash = 1.0 + breath;
+      let stretch = 1.0 - breath * 0.5;
+      let bobY = Math.sin(time * 3.5) * 6;
+
+      if (currentPose === 'cheer') {
+        // Energetic jumping float
+        bobY -= 20 + Math.sin(time * 6) * 12;
+        squash = 1.05 + Math.sin(time * 6) * 0.04;
+        stretch = 0.96;
+      } else if (currentPose === 'point') {
+        // Confident forward lean
+        squash = 1.02;
+        bobY += Math.sin(time * 4) * 4;
+      }
+
+      // Contact Ground Shadow
+      ctx.save();
+      ctx.scale(1.0, 0.25);
+      ctx.beginPath();
+      ctx.arc(0, 0, 110 * scale, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(2, 6, 23, 0.55)';
+      ctx.fill();
+      ctx.restore();
+
+      // Apply Character Transform
+      ctx.translate(0, bobY);
+      ctx.scale(scale * stretch, scale * squash);
+
+      // Draw Main Illustrated Character Sprite
+      const spriteW = charImg.width * 2.8;
+      const spriteH = charImg.height * 2.8;
+      ctx.drawImage(charImg, -spriteW * 0.5, -spriteH, spriteW, spriteH);
+
+      // 2. Dynamic Lip-Sync Sprite Overlay on Face!
+      // Select viseme based on talking cycle
+      const cycle = (time * 8) % (Math.PI * 2);
+      let vKey = 'mouth_straight';
+      if (Math.sin(cycle) > 0.4) vKey = 'mouth_oh';
+      else if (Math.sin(cycle) > -0.1) vKey = 'mouth_happy';
+      else if (Math.sin(cycle) > -0.6) vKey = 'mouth_teeth';
+      else vKey = 'mouth_straight';
+
+      const mouthImg = sprites[vKey];
+      if (mouthImg && mouthImg.complete) {
+        // Mouth Anchor on Character Face
+        const mouthX = (currentChar === 'male' ? 4 : 2);
+        const mouthY = -spriteH * 0.73;
+        const mw = mouthImg.width * 2.4;
+        const mh = mouthImg.height * 2.4;
+        ctx.drawImage(mouthImg, mouthX - mw * 0.5, mouthY - mh * 0.5, mw, mh);
+      }
+
+      // 3. Floating Science Hologram / Lightbulb on "Cheer"
+      if (currentPose === 'cheer') {
+        const starT = time * 5;
+        ctx.save();
+        ctx.translate(60, -spriteH - 20);
+        ctx.scale(1.0 + Math.sin(starT) * 0.15, 1.0 + Math.sin(starT) * 0.15);
+        ctx.beginPath();
+        for (let i = 0; i < 8; i++) {
+          const r = (i % 2 === 0) ? 26 : 10;
+          const a = (i * Math.PI) / 4;
+          ctx[i === 0 ? 'moveTo' : 'lineTo'](Math.cos(a) * r, Math.sin(a) * r);
+        }
+        ctx.closePath();
+        ctx.fillStyle = '#fbbf24';
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#d97706';
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      ctx.restore();
+    }
+
+    // ==========================================
+    // 🔄 ANIMATION LOOP
+    // ==========================================
+    let lastT = performance.now();
+    function loop(now) {
+      const dt = Math.min(0.05, (now - lastT) / 1000);
+      lastT = now;
+      time += dt;
+
+      ctx.clearRect(0, 0, w, h);
+      drawScienceLabBackground();
+      drawSpriteCharacter(w * 0.5, 800, 1.55);
+
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    // Frame capture helper for Playwright
+    window.renderSpriteDemoAtTime = function(t, charType, poseType) {
+      time = t;
+      currentChar = charType || 'male';
+      currentPose = poseType || 'point';
+      ctx.clearRect(0, 0, w, h);
+      drawScienceLabBackground();
+      drawSpriteCharacter(w * 0.5, 800, 1.55);
+      return canvas.toDataURL('image/jpeg', 0.95);
+    };
+  </script>
+</body>
+</html>
