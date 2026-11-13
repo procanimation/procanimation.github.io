@@ -6864,6 +6864,655 @@ const canvas = document.getElementById('studioCanvas');
     // ==========================================
     // 🦴 DIRECTOR SUITE SKELETAL RIG GIZMO
     // ==========================================
+
+    // ==========================================
+    // ⚛️ EPISODE 2: QUANTUM MATTER & SOLID WALLS ENVIRONMENTS
+    // ==========================================
+
+    // 1. PHYSICS LECTURE HALL (Act 1)
+    function drawPhysicsLectureHall(w, h, groundY, time) {
+      // 1. Warm Mahogany Academic Amphitheater Paneling
+      const wallGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+      wallGrad.addColorStop(0, '#1c0d02');
+      wallGrad.addColorStop(0.4, '#291102');
+      wallGrad.addColorStop(0.85, '#3b1807');
+      wallGrad.addColorStop(1, '#451a03');
+      ctx.fillStyle = wallGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // Curved Tiered Lecture Benches ascending into background
+      push();
+      ctx.strokeStyle = '#1c0d02'; ctx.lineWidth = 3.5;
+      for (let tier = 1; tier <= 4; tier++) {
+        const ty = groundY * 0.22 + tier * 32;
+        ctx.fillStyle = '#291102';
+        ctx.beginPath();
+        ctx.moveTo(0, ty);
+        ctx.quadraticCurveTo(w * 0.5, ty + 18, w, ty);
+        ctx.lineTo(w, ty + 12);
+        ctx.quadraticCurveTo(w * 0.5, ty + 30, 0, ty + 12);
+        ctx.closePath();
+        ctx.fill(); ctx.stroke();
+      }
+      pop();
+
+      // 2. Grand Central Green Chalkboard
+      push();
+      const boardW = w * 0.52;
+      const boardH = groundY * 0.55;
+      const boardX = (w - boardW) * 0.50;
+      const boardY = groundY * 0.12;
+
+      // Heavy Oak Chalkboard Frame
+      ctx.fillStyle = '#58220c';
+      ctx.beginPath(); ctx.roundRect(boardX - 10, boardY - 10, boardW + 20, boardH + 20, 6); ctx.fill();
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.5; ctx.stroke();
+
+      // Slate Green Blackboard Surface
+      const slateGrad = ctx.createLinearGradient(boardX, boardY, boardX, boardY + boardH);
+      slateGrad.addColorStop(0, '#022c22');
+      slateGrad.addColorStop(0.5, '#064e3b');
+      slateGrad.addColorStop(1, '#022c22');
+      ctx.fillStyle = slateGrad;
+      ctx.fillRect(boardX, boardY, boardW, boardH);
+
+      // Chalk dust smudge effects
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.fillRect(boardX + 20, boardY + boardH * 0.6, boardW - 40, boardH * 0.35);
+
+      // Chalk Formulas & Orbital Diagrams
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 13px serif';
+      ctx.fillText("Schrödinger:  iħ ∂ψ/∂t = Ĥ ψ", boardX + 22, boardY + 30);
+      ctx.fillStyle = '#a7f3d0';
+      ctx.font = '11px monospace';
+      ctx.fillText("Quantum States: n=1,2,3...  l=0..n-1  m=-l..+l  s=±½", boardX + 22, boardY + 52);
+
+      // Chalk orbital wave diagrams
+      // 1s spherical orbital
+      ctx.strokeStyle = '#6ee7b7'; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.arc(boardX + 70, boardY + 105, 24, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = '#6ee7b7'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText("1s Orbital", boardX + 70, boardY + 142);
+
+      // 2p dumbbell figure-8 orbital
+      const pX = boardX + 175, pY = boardY + 105;
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.ellipse(pX - 14, pY, 14, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(pX + 14, pY, 14, 8, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText("2p_x Orbital", pX, pY + 37);
+
+      // Pauli Exclusion Formula Box
+      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 1.5;
+      ctx.strokeRect(boardX + boardW - 195, boardY + 80, 180, 50);
+      ctx.fillStyle = '#fef08a'; ctx.font = 'bold 11px monospace'; ctx.textAlign = 'center';
+      ctx.fillText("PAULI PRINCIPLE:", boardX + boardW - 105, boardY + 100);
+      ctx.fillText("ψ(1,2) = -ψ(2,1)", boardX + boardW - 105, boardY + 118);
+
+      // Chalk Ledge & Chalk sticks
+      ctx.fillStyle = '#78350f';
+      ctx.fillRect(boardX - 12, boardY + boardH + 8, boardW + 24, 8);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(boardX + 40, boardY + boardH + 3, 16, 4);
+      ctx.fillStyle = '#facc15';
+      ctx.fillRect(boardX + 62, boardY + boardH + 3, 14, 4);
+      pop();
+
+      // 3. Vintage Brass Desk Gooseneck Lamps (Left & Right)
+      [w * 0.14, w * 0.86].forEach((lampX, idx) => {
+        push();
+        translate(lampX, groundY * 0.42);
+        // Brass base & stem
+        ctx.fillStyle = '#d97706';
+        ctx.beginPath(); ctx.roundRect(-8, 30, 16, 8, 2); ctx.fill();
+        ctx.strokeStyle = '#b45309'; ctx.lineWidth = 3.0;
+        ctx.beginPath();
+        ctx.moveTo(0, 30);
+        ctx.quadraticCurveTo(idx === 0 ? 15 : -15, 0, idx === 0 ? 12 : -12, -18);
+        ctx.stroke();
+        // Brass dome shade
+        ctx.fillStyle = '#facc15';
+        ctx.beginPath();
+        ctx.arc(idx === 0 ? 12 : -12, -18, 12, 0, Math.PI);
+        ctx.fill();
+
+        // Warm Tungsten Light Cone
+        const coneGrad = ctx.createRadialGradient(idx === 0 ? 12 : -12, -15, 4, idx === 0 ? 12 : -12, -15, 140);
+        coneGrad.addColorStop(0, 'rgba(254, 240, 138, 0.42)');
+        coneGrad.addColorStop(0.5, 'rgba(251, 191, 36, 0.18)');
+        coneGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = coneGrad;
+        ctx.beginPath();
+        ctx.moveTo(idx === 0 ? 12 : -12, -15);
+        ctx.lineTo(idx === 0 ? 95 : -95, 120);
+        ctx.lineTo(idx === 0 ? -45 : 45, 120);
+        ctx.closePath();
+        ctx.fill();
+        pop();
+      });
+
+      // 4. Polished Academic Oak Floor
+      const floorGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      floorGrad.addColorStop(0, '#451a03');
+      floorGrad.addColorStop(0.35, '#291102');
+      floorGrad.addColorStop(1, '#1c0d02');
+      ctx.fillStyle = floorGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+      ctx.strokeStyle = '#58220c'; ctx.lineWidth = 2.0;
+      ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w, groundY); ctx.stroke();
+    }
+
+    // 2. ATOMIC SCALE CHAMBER (Act 2)
+    function drawAtomicScaleChamber(w, h, groundY, time) {
+      // 1. Deep Subatomic Quantum Vacuum
+      const qGrad = ctx.createRadialGradient(w * 0.5, groundY * 0.45, 20, w * 0.5, groundY * 0.45, w * 0.65);
+      qGrad.addColorStop(0, '#110c26');
+      qGrad.addColorStop(0.5, '#070514');
+      qGrad.addColorStop(1, '#020108');
+      ctx.fillStyle = qGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // 2. Quantum Uncertainty Grid Plane
+      push();
+      ctx.strokeStyle = 'rgba(147, 51, 234, 0.18)'; ctx.lineWidth = 1.0;
+      for (let gx = 0; gx < w; gx += 45) {
+        ctx.beginPath(); ctx.moveTo(gx, groundY); ctx.lineTo(w * 0.5 + (gx - w * 0.5) * 0.35, groundY * 0.45); ctx.stroke();
+      }
+      for (let gy = groundY * 0.48; gy < groundY; gy += 18) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
+      }
+      pop();
+
+      // 3. Glowing Atomic Nucleus (Center)
+      push();
+      const nucX = w * 0.50, nucY = groundY * 0.45;
+      translate(nucX, nucY);
+
+      // Intense Strong Nuclear Force Aura
+      const aura = ctx.createRadialGradient(0, 0, 10, 0, 0, 95);
+      aura.addColorStop(0, 'rgba(239, 68, 68, 0.65)');
+      aura.addColorStop(0.4, 'rgba(168, 85, 247, 0.35)');
+      aura.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = aura;
+      ctx.beginPath(); ctx.arc(0, 0, 95, 0, Math.PI * 2); ctx.fill();
+
+      // Cluster of Protons (Red) and Neutrons (Blue)
+      const nucleons = [
+        { x: -9, y: -8, isP: true },
+        { x: 8, y: -10, isP: false },
+        { x: -12, y: 7, isP: false },
+        { x: 5, y: 9, isP: true },
+        { x: -2, y: -1, isP: true },
+        { x: 14, y: 1, isP: false }
+      ];
+      nucleons.forEach((n, i) => {
+        const floatY = n.y + Math.sin(time * 3 + i) * 1.5;
+        ctx.fillStyle = n.isP ? '#ef4444' : '#3b82f6';
+        ctx.shadowColor = n.isP ? '#f87171' : '#60a5fa';
+        ctx.shadowBlur = 8;
+        ctx.beginPath(); ctx.arc(n.x, floatY, 8.5, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+        // Specular 3D highlight
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+        ctx.beginPath(); ctx.arc(n.x - 2.5, floatY - 2.5, 2.5, 0, Math.PI * 2); ctx.fill();
+      });
+      pop();
+
+      // 4. Undulating 3D Electron Probability Cloud Envelopes
+      push();
+      translate(nucX, nucY);
+      const waveOsc = Math.sin(time * 2.2) * 6;
+
+      // Outer Spherical 1s Probability Cloud (Translucent shimmering envelope)
+      ctx.strokeStyle = 'rgba(192, 132, 252, 0.45)';
+      ctx.lineWidth = 2.0;
+      ctx.setLineDash([8, 6]);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 155 + waveOsc, 120 + waveOsc * 0.7, time * 0.2, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // 2p Dumbbell Lobes rotating in 3D perspective
+      ctx.save();
+      rotate(time * 0.35);
+      const lobeGradL = ctx.createRadialGradient(-75, 0, 8, -75, 0, 65);
+      lobeGradL.addColorStop(0, 'rgba(56, 189, 248, 0.40)');
+      lobeGradL.addColorStop(1, 'rgba(56, 189, 248, 0)');
+      ctx.fillStyle = lobeGradL;
+      ctx.beginPath(); ctx.ellipse(-75, 0, 65, 38, 0, 0, Math.PI * 2); ctx.fill();
+
+      const lobeGradR = ctx.createRadialGradient(75, 0, 8, 75, 0, 65);
+      lobeGradR.addColorStop(0, 'rgba(236, 72, 153, 0.40)');
+      lobeGradR.addColorStop(1, 'rgba(236, 72, 153, 0)');
+      ctx.fillStyle = lobeGradR;
+      ctx.beginPath(); ctx.ellipse(75, 0, 65, 38, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // Floating quantum probability particles
+      for (let p = 0; p < 24; p++) {
+        const pAngle = (p * 0.26 + time * 0.8) % (Math.PI * 2);
+        const pDist = 60 + ((p * 23 + time * 35) % 110);
+        const px = Math.cos(pAngle) * pDist;
+        const py = Math.sin(pAngle) * pDist * 0.75;
+        ctx.fillStyle = (p % 2 === 0) ? '#a5f3fc' : '#fbcfe8';
+        ctx.beginPath(); ctx.arc(px, py, 1.8, 0, Math.PI * 2); ctx.fill();
+      }
+      pop();
+
+      // Subatomic floor plane
+      const subFloor = ctx.createLinearGradient(0, groundY, 0, h);
+      subFloor.addColorStop(0, '#0f172a');
+      subFloor.addColorStop(1, '#020617');
+      ctx.fillStyle = subFloor;
+      ctx.fillRect(0, groundY, w, h - groundY);
+      ctx.strokeStyle = '#a855f7'; ctx.lineWidth = 2.0;
+      ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w, groundY); ctx.stroke();
+    }
+
+    // 3. PARTICLE ACCELERATOR LAB (Act 3)
+    function drawParticleAcceleratorLab(w, h, groundY, time) {
+      // 1. Subterranean Circular Beamline Tunnel Walls
+      const tunGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+      tunGrad.addColorStop(0, '#090d16');
+      tunGrad.addColorStop(0.5, '#0f172a');
+      tunGrad.addColorStop(1, '#1e293b');
+      ctx.fillStyle = tunGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // Industrial tunnel arch segments
+      ctx.strokeStyle = '#334155'; ctx.lineWidth = 2.0;
+      for (let tx = 60; tx < w; tx += 95) {
+        ctx.beginPath(); ctx.moveTo(tx, 0); ctx.lineTo(tx, groundY); ctx.stroke();
+      }
+
+      // Overhead heavy industrial cable trays
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, w, 24);
+      ctx.strokeStyle = '#475569'; ctx.lineWidth = 2; ctx.strokeRect(0, 0, w, 24);
+
+      // 2. The Main Circular Stainless Steel Beam Pipe
+      push();
+      const pipeY = groundY * 0.44;
+      const pipeGrad = ctx.createLinearGradient(0, pipeY - 26, 0, pipeY + 26);
+      pipeGrad.addColorStop(0, '#cbd5e1');
+      pipeGrad.addColorStop(0.3, '#94a3b8');
+      pipeGrad.addColorStop(0.7, '#64748b');
+      pipeGrad.addColorStop(1, '#334155');
+      ctx.fillStyle = pipeGrad;
+      ctx.fillRect(0, pipeY - 22, w, 44);
+      ctx.strokeStyle = '#f8fafc'; ctx.lineWidth = 1.2;
+      ctx.strokeRect(0, pipeY - 22, w, 44);
+
+      // Flange couplings with titanium bolts
+      for (let fx = 80; fx < w; fx += 180) {
+        ctx.fillStyle = '#475569';
+        ctx.fillRect(fx - 10, pipeY - 28, 20, 56);
+        ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.5; ctx.strokeRect(fx - 10, pipeY - 28, 20, 56);
+        // Bolt circles
+        ctx.fillStyle = '#f8fafc';
+        [-20, -10, 10, 20].forEach(by => {
+          ctx.beginPath(); ctx.arc(fx, pipeY + by, 2.2, 0, Math.PI * 2); ctx.fill();
+        });
+      }
+
+      // Superconducting Quadrupole Magnet (Center)
+      const magX = w * 0.50, magW = 210, magH = 95;
+      ctx.fillStyle = '#1e293b';
+      ctx.beginPath(); ctx.roundRect(magX - magW * 0.5, pipeY - magH * 0.5, magW, magH, 8); ctx.fill();
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2.5; ctx.stroke();
+
+      // Yellow/Black Caution Stripes across magnet body
+      ctx.save();
+      ctx.beginPath(); ctx.rect(magX - magW * 0.5, pipeY - magH * 0.5, magW, 16); ctx.clip();
+      ctx.fillStyle = '#eab308'; ctx.fillRect(magX - magW * 0.5, pipeY - magH * 0.5, magW, 16);
+      ctx.fillStyle = '#000000';
+      for (let cx = magX - magW * 0.5 - 20; cx < magX + magW * 0.5 + 20; cx += 22) {
+        ctx.beginPath();
+        ctx.moveTo(cx, pipeY - magH * 0.5); ctx.lineTo(cx + 10, pipeY - magH * 0.5);
+        ctx.lineTo(cx - 5, pipeY - magH * 0.5 + 16); ctx.lineTo(cx - 15, pipeY - magH * 0.5 + 16);
+        ctx.closePath(); ctx.fill();
+      }
+      ctx.restore();
+
+      // Cryogenic Digital HUD Displays
+      ctx.fillStyle = '#022c22';
+      ctx.fillRect(magX - 85, pipeY - 20, 170, 42);
+      ctx.strokeStyle = '#10b981'; ctx.lineWidth = 1.2; ctx.strokeRect(magX - 85, pipeY - 20, 170, 42);
+
+      ctx.fillStyle = '#34d399'; ctx.font = 'bold 10px monospace'; ctx.textAlign = 'center';
+      ctx.fillText("CRYO TEMP: 1.9 K (-271.3°C)", magX, pipeY - 4);
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText("MAGNETIC FLUX: B = 8.33 T", magX, pipeY + 9);
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillText("FERMION SPIN s=½ [|↑⟩ |↓⟩]", magX, pipeY + 20);
+
+      // Glowing Blue Particle Beam Streamer pulsing along pipe axis
+      const beamProgress = (time * 300) % w;
+      ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 12;
+      ctx.strokeStyle = '#60a5fa'; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(beamProgress - 40, pipeY); ctx.lineTo(beamProgress, pipeY); ctx.stroke();
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.arc(beamProgress, pipeY, 3.5, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
+      pop();
+
+      // Epoxy Coated Facility Floor
+      const floorGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      floorGrad.addColorStop(0, '#1e293b');
+      floorGrad.addColorStop(0.3, '#0f172a');
+      floorGrad.addColorStop(1, '#020617');
+      ctx.fillStyle = floorGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2.2;
+      ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w, groundY); ctx.stroke();
+    }
+
+    // 4. BRICK COURTYARD CAFE (Act 4)
+    function drawBrickCourtyardCafe(w, h, groundY, time) {
+      // 1. Twilight Golden Hour Sky
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+      skyGrad.addColorStop(0, '#1e1b4b');
+      skyGrad.addColorStop(0.5, '#4338ca');
+      skyGrad.addColorStop(0.85, '#b45309');
+      skyGrad.addColorStop(1, '#f59e0b');
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, w, groundY);
+
+      // 2. Weathered Red Terracotta Brick Wall (Right side & back)
+      push();
+      const wallX = w * 0.15;
+      const brickGrad = ctx.createLinearGradient(wallX, 0, w, 0);
+      brickGrad.addColorStop(0, '#7c2d12');
+      brickGrad.addColorStop(0.5, '#9a3412');
+      brickGrad.addColorStop(1, '#451a03');
+      ctx.fillStyle = brickGrad;
+      ctx.fillRect(wallX, groundY * 0.25, w - wallX, groundY * 0.75);
+
+      // Brick pattern courses
+      ctx.strokeStyle = 'rgba(254, 215, 170, 0.25)'; ctx.lineWidth = 1.2;
+      const bH = 14, bW = 32;
+      let row = 0;
+      for (let by = groundY * 0.25; by < groundY; by += bH) {
+        const offset = (row % 2 === 0) ? 0 : bW * 0.5;
+        ctx.beginPath(); ctx.moveTo(wallX, by); ctx.lineTo(w, by); ctx.stroke();
+        for (let bx = wallX + offset; bx < w; bx += bW) {
+          ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx, by + bH); ctx.stroke();
+        }
+        row++;
+      }
+
+      // Climbing Lush Green Ivy Vines
+      ctx.fillStyle = '#15803d'; ctx.strokeStyle = '#14532d'; ctx.lineWidth = 2.0;
+      const vineXs = [w * 0.22, w * 0.38, w * 0.58, w * 0.82];
+      vineXs.forEach(vx => {
+        ctx.beginPath();
+        ctx.moveTo(vx, groundY);
+        ctx.quadraticCurveTo(vx - 14, groundY * 0.6, vx + 8, groundY * 0.28);
+        ctx.stroke();
+        // Ivy leaves
+        for (let ly = groundY - 20; ly > groundY * 0.30; ly -= 24) {
+          ctx.beginPath();
+          ctx.ellipse(vx + 6, ly, 7, 5, 0.4, 0, Math.PI * 2);
+          ctx.ellipse(vx - 8, ly - 8, 6.5, 4.5, -0.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+      pop();
+
+      // 3. Warm Glowing Fairy String Lights draped overhead
+      push();
+      ctx.strokeStyle = '#292524'; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, 35);
+      ctx.quadraticCurveTo(w * 0.25, 75, w * 0.50, 45);
+      ctx.quadraticCurveTo(w * 0.75, 78, w, 40);
+      ctx.stroke();
+
+      // Glowing Fairy Bulbs
+      for (let i = 0; i < 14; i++) {
+        const tVal = (i + 0.5) / 14;
+        let bx, by;
+        if (tVal < 0.5) {
+          const t2 = tVal * 2;
+          bx = w * 0.5 * t2;
+          by = (1 - t2) * (1 - t2) * 35 + 2 * (1 - t2) * t2 * 75 + t2 * t2 * 45;
+        } else {
+          const t2 = (tVal - 0.5) * 2;
+          bx = w * 0.5 + w * 0.5 * t2;
+          by = (1 - t2) * (1 - t2) * 45 + 2 * (1 - t2) * t2 * 78 + t2 * t2 * 40;
+        }
+
+        // Warm Golden Glow
+        ctx.shadowColor = '#facc15'; ctx.shadowBlur = 14;
+        ctx.fillStyle = '#fef08a';
+        ctx.beginPath(); ctx.arc(bx, by + 4, 3.5, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+      pop();
+
+      // 4. Courtyard Cobblestone Ground
+      const cobbleGrad = ctx.createLinearGradient(0, groundY, 0, h);
+      cobbleGrad.addColorStop(0, '#3f3f46');
+      cobbleGrad.addColorStop(0.3, '#27272a');
+      cobbleGrad.addColorStop(1, '#18181b');
+      ctx.fillStyle = cobbleGrad;
+      ctx.fillRect(0, groundY, w, h - groundY);
+
+      // Cobblestone paver outlines
+      ctx.strokeStyle = '#18181b'; ctx.lineWidth = 1.5;
+      for (let cy = groundY + 8; cy < h; cy += 16) {
+        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+      }
+      ctx.strokeStyle = '#71717a'; ctx.lineWidth = 2.0;
+      ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(w, groundY); ctx.stroke();
+    }
+
+    // ==========================================
+    // 🧰 EPISODE 2 FOREGROUND PROPS
+    // ==========================================
+    function drawLectureHallForeground(w, groundY, time) {
+      push();
+      // Oak lecture desk along center-left
+      const deskX = w * 0.18, deskW = w * 0.38;
+      const deskY = groundY - 18, deskH = 34;
+
+      const oakGrad = ctx.createLinearGradient(0, deskY, 0, deskY + deskH);
+      oakGrad.addColorStop(0, '#78350f');
+      oakGrad.addColorStop(0.2, '#58220c');
+      oakGrad.addColorStop(1, '#291102');
+      ctx.fillStyle = oakGrad;
+      ctx.beginPath(); ctx.roundRect(deskX, deskY, deskW, deskH, 4); ctx.fill();
+      ctx.strokeStyle = '#92400e'; ctx.lineWidth = 1.8; ctx.stroke();
+
+      // Physics Textbooks & Notebook on desk
+      ctx.fillStyle = '#1e3a8a';
+      ctx.beginPath(); ctx.roundRect(deskX + 25, deskY - 6, 32, 10, 2); ctx.fill();
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath(); ctx.roundRect(deskX + 28, deskY - 14, 26, 8, 2); ctx.fill();
+
+      // Ceramic Pencil Cup
+      ctx.fillStyle = '#f8fafc';
+      ctx.beginPath(); ctx.roundRect(deskX + deskW - 35, deskY - 14, 12, 16, 2); ctx.fill();
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillRect(deskX + deskW - 32, deskY - 22, 3, 9);
+      pop();
+    }
+
+    function drawAtomicChamberForeground(w, groundY, time) {
+      // Quantum Coulomb potential barrier curve overlay in lower corner
+      push();
+      const cx = w * 0.82, cy = groundY - 12;
+      ctx.strokeStyle = '#a855f7'; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cx - 50, cy);
+      ctx.quadraticCurveTo(cx - 20, cy - 35, cx + 40, cy - 38);
+      ctx.stroke();
+      ctx.fillStyle = '#d8b4fe'; ctx.font = '9px monospace';
+      ctx.fillText("V(r) = q₁q₂/4πε₀r", cx - 45, cy - 42);
+      pop();
+    }
+
+    function drawAcceleratorLabForeground(w, groundY, time) {
+      push();
+      // Beamline Diagnostic Terminal (Right side)
+      const conX = w * 0.78, conW = w * 0.18;
+      const conY = groundY - 22, conH = 44;
+      ctx.fillStyle = '#0f172a';
+      ctx.beginPath(); ctx.roundRect(conX, conY, conW, conH, 4); ctx.fill();
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.5; ctx.stroke();
+
+      // Green oscilloscope wave
+      ctx.fillStyle = '#022c22';
+      ctx.fillRect(conX + 8, conY + 6, conW - 16, 22);
+      ctx.strokeStyle = '#10b981'; ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      for (let ox = conX + 10; ox < conX + conW - 10; ox += 2) {
+        const oy = conY + 17 + Math.sin((ox - conX) * 0.35 + time * 8) * 6;
+        if (ox === conX + 10) ctx.moveTo(ox, oy);
+        else ctx.lineTo(ox, oy);
+      }
+      ctx.stroke();
+      pop();
+    }
+
+    function drawCourtyardCafeForeground(w, groundY, time) {
+      push();
+      // Round Wrought-Iron Parisian Bistro Table (Center)
+      const tblX = w * 0.50, tblY = groundY - 12;
+      const tblR = 52;
+
+      // Cast-Iron Pedestal Leg
+      ctx.strokeStyle = '#18181b'; ctx.lineWidth = 5.0;
+      ctx.beginPath(); ctx.moveTo(tblX, tblY); ctx.lineTo(tblX, groundY); ctx.stroke();
+      // Ornate foot curls
+      ctx.lineWidth = 3.0;
+      ctx.beginPath();
+      ctx.moveTo(tblX - 22, groundY); ctx.quadraticCurveTo(tblX, groundY - 6, tblX + 22, groundY);
+      ctx.stroke();
+
+      // Round Polished Marble Table Top
+      ctx.fillStyle = '#f8fafc';
+      ctx.beginPath(); ctx.ellipse(tblX, tblY, tblR, 12, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2.0; ctx.stroke();
+
+      // Ceramic Hot Chocolate Mugs with Steam Wisps
+      [-18, 18].forEach(mx => {
+        ctx.fillStyle = (mx < 0) ? '#dc2626' : '#2563eb';
+        ctx.beginPath(); ctx.roundRect(tblX + mx - 7, tblY - 16, 14, 16, 2); ctx.fill();
+        // White Marshmallow topping
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(tblX + mx, tblY - 16, 4.5, 0, Math.PI * 2); ctx.fill();
+        // Steam wisps
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(tblX + mx, tblY - 20);
+        ctx.quadraticCurveTo(tblX + mx + Math.sin(time * 3) * 4, tblY - 28, tblX + mx + Math.cos(time * 2.5) * 6, tblY - 38);
+        ctx.stroke();
+      });
+
+      // Plate of Warm Golden Croissants
+      ctx.fillStyle = '#f1f5f9';
+      ctx.beginPath(); ctx.ellipse(tblX, tblY - 2, 16, 6, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.0; ctx.stroke();
+      // Flaky Golden Croissant
+      ctx.fillStyle = '#d97706';
+      ctx.beginPath();
+      ctx.ellipse(tblX, tblY - 5, 11, 4.5, 0.2, 0, Math.PI * 2);
+      ctx.fill();
+      pop();
+    }
+
+    // ==========================================
+    // 💡 2.5D DYNAMIC DIRECTIONAL RIM LIGHTING ENGINE
+    // ==========================================
+    function drawCharacterRimLight(char, cx, cy, envMode, time) {
+      push();
+      ctx.save();
+      translate(cx, cy);
+      ctx.scale(char.scale, char.scale);
+
+      // Determine directional rim light color & light direction based on environment
+      let rimColor = 'rgba(255, 255, 255, 0.40)';
+      let rimDir = -1; // -1 = light from left, 1 = light from right
+
+      if (envMode === "PHYSICS_LECTURE_HALL") {
+        rimColor = 'rgba(254, 240, 138, 0.65)'; // Warm tungsten brass lamp
+        rimDir = -1;
+      } else if (envMode === "ATOMIC_SCALE_CHAMBER") {
+        rimColor = 'rgba(216, 180, 254, 0.75)'; // Quantum violet probability cloud
+        rimDir = 1;
+      } else if (envMode === "PARTICLE_ACCELERATOR_LAB") {
+        rimColor = 'rgba(96, 165, 250, 0.80)';  // Superconducting cryo-blue
+        rimDir = 1;
+      } else if (envMode === "BRICK_COURTYARD_CAFE") {
+        rimColor = 'rgba(251, 191, 36, 0.70)';  // Cafe fairy lights & sunset amber
+        rimDir = -1;
+      } else if (envMode === "STARLIGHT_OBSERVATORY") {
+        rimColor = 'rgba(165, 243, 252, 0.70)'; // Lunar silver-cyan
+        rimDir = -1;
+      } else if (envMode === "STARSHIP_BRIDGE") {
+        rimColor = 'rgba(6, 182, 212, 0.75)';   // Neon cyan cockpit
+        rimDir = 1;
+      } else if (envMode === "RELATIVITY_LASER_LAB") {
+        rimColor = 'rgba(74, 222, 128, 0.80)';  // Pulsing laser green
+        rimDir = -1;
+      } else if (envMode === "STARGAZING_BALCONY") {
+        rimColor = 'rgba(251, 191, 36, 0.75)';  // Warm lantern golden-amber
+        rimDir = -1;
+      } else if (envMode === "AIRPORT_HILL" || envMode === "PARK") {
+        rimColor = 'rgba(254, 240, 138, 0.60)'; // Warm sunlight
+        rimDir = 1;
+      } else if (envMode === "SUNSET_RUNWAY") {
+        rimColor = 'rgba(249, 115, 22, 0.75)';  // Golden hour twilight
+        rimDir = 1;
+      }
+
+      ctx.strokeStyle = rimColor;
+      ctx.shadowColor = rimColor;
+      ctx.shadowBlur = 8;
+      ctx.lineWidth = 2.4;
+      ctx.lineCap = 'round';
+
+      // 1. Hair Crown Contour Rim
+      ctx.beginPath();
+      if (rimDir < 0) {
+        ctx.arc(0, -96, 26, Math.PI * 0.95, Math.PI * 1.65);
+      } else {
+        ctx.arc(0, -96, 26, Math.PI * 1.35, Math.PI * 2.05);
+      }
+      ctx.stroke();
+
+      // 2. Shoulder & Deltoid Rim
+      ctx.beginPath();
+      if (rimDir < 0) {
+        ctx.moveTo(-23, -56);
+        ctx.quadraticCurveTo(-26, -50, -28, -35);
+      } else {
+        ctx.moveTo(23, -56);
+        ctx.quadraticCurveTo(26, -50, 28, -35);
+      }
+      ctx.stroke();
+
+      // 3. Torso Edge Rim Accent
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      if (rimDir < 0) {
+        ctx.moveTo(-16, -42);
+        ctx.lineTo(-14, -10);
+      } else {
+        ctx.moveTo(16, -42);
+        ctx.lineTo(14, -10);
+      }
+      ctx.stroke();
+
+      ctx.restore();
+      pop();
+    }
+
     function drawCharacterSkeletonGizmo(char, cx, cy, isTalking) {
       push();
       ctx.save();
@@ -7086,6 +7735,30 @@ const canvas = document.getElementById('studioCanvas');
         characters[1].x = w * 0.64; characters[1].isSitting = false;
         characters[2].x = w * 0.20; characters[2].isSitting = false;
         characters[3].x = w * 0.84; characters[3].isSitting = false;
+      } else if (currentEnvMode === "PHYSICS_LECTURE_HALL") {
+        // Leo & Mia seated at front lecture desk; Mom by chalkboard; Dad at lectern
+        characters[0].x = w * 0.68; characters[0].isSitting = false;
+        characters[1].x = w * 0.26; characters[1].isSitting = true;
+        characters[2].x = w * 0.45; characters[2].isSitting = true;
+        characters[3].x = w * 0.85; characters[3].isSitting = false;
+      } else if (currentEnvMode === "ATOMIC_SCALE_CHAMBER") {
+        // Explorers standing inside quantum probability cloud
+        characters[0].x = w * 0.44; characters[0].isSitting = false;
+        characters[1].x = w * 0.24; characters[1].isSitting = false;
+        characters[2].x = w * 0.66; characters[2].isSitting = false;
+        characters[3].x = w * 0.84; characters[3].isSitting = false;
+      } else if (currentEnvMode === "PARTICLE_ACCELERATOR_LAB") {
+        // Dad solo hero centered at superconducting beamline
+        characters[0].x = w * 0.16; characters[0].isSitting = false;
+        characters[1].x = w * 0.35; characters[1].isSitting = false;
+        characters[2].x = w * 0.70; characters[2].isSitting = false;
+        characters[3].x = w * 0.50; characters[3].isSitting = false;
+      } else if (currentEnvMode === "BRICK_COURTYARD_CAFE") {
+        // Family gathered at outdoor Parisian bistro cafe table under fairy lights
+        characters[0].x = w * 0.65; characters[0].isSitting = false;
+        characters[1].x = w * 0.22; characters[1].isSitting = false;
+        characters[2].x = w * 0.42; characters[2].isSitting = false;
+        characters[3].x = w * 0.84; characters[3].isSitting = false;
       } else {
         // Default 4-lineup for legacy episodes
         characters[0].x = w * 0.16;
@@ -7152,6 +7825,14 @@ const canvas = document.getElementById('studioCanvas');
         drawRelativityLaserLab(w, h, groundY, time);
       } else if (currentEnvMode === "STARGAZING_BALCONY") {
         drawStargazingBalcony(w, h, groundY, time);
+      } else if (currentEnvMode === "PHYSICS_LECTURE_HALL") {
+        drawPhysicsLectureHall(w, h, groundY, time);
+      } else if (currentEnvMode === "ATOMIC_SCALE_CHAMBER") {
+        drawAtomicScaleChamber(w, h, groundY, time);
+      } else if (currentEnvMode === "PARTICLE_ACCELERATOR_LAB") {
+        drawParticleAcceleratorLab(w, h, groundY, time);
+      } else if (currentEnvMode === "BRICK_COURTYARD_CAFE") {
+        drawBrickCourtyardCafe(w, h, groundY, time);
       } else if (currentEnvMode === "LIVING_ROOM") {
         drawLivingRoom(w, h, groundY, time);
         // If in pancake feast mode (Act 4), draw rear dining chairs behind family members
@@ -8522,6 +9203,9 @@ const canvas = document.getElementById('studioCanvas');
         // Render Character Comic & Anime Emotes (Glasses sparkle, sweat drop, lightbulb)
         drawComicEmotes(char, idx, char.x, charY, isCurrentlyTalking, time);
 
+        // 💡 2.5D Directional Rim Lighting
+        drawCharacterRimLight(char, char.x, charY, currentEnvMode, time);
+
         // 🦴 Director Suite Skeleton Bone Overlay
         if (showBones) {
           drawCharacterSkeletonGizmo(char, char.x, charY, isCurrentlyTalking);
@@ -8545,6 +9229,14 @@ const canvas = document.getElementById('studioCanvas');
         drawRelativityLabForeground(w, groundY, time);
       } else if (currentEnvMode === "STARGAZING_BALCONY") {
         drawStargazingBalconyForeground(w, groundY, time);
+      } else if (currentEnvMode === "PHYSICS_LECTURE_HALL") {
+        drawLectureHallForeground(w, groundY, time);
+      } else if (currentEnvMode === "ATOMIC_SCALE_CHAMBER") {
+        drawAtomicChamberForeground(w, groundY, time);
+      } else if (currentEnvMode === "PARTICLE_ACCELERATOR_LAB") {
+        drawAcceleratorLabForeground(w, groundY, time);
+      } else if (currentEnvMode === "BRICK_COURTYARD_CAFE") {
+        drawCourtyardCafeForeground(w, groundY, time);
       } else if (currentEnvMode === "LIVING_ROOM" && (showBreakfastTable || (isStoryMode && storyEpisode.acts[storyActIdx] && storyEpisode.acts[storyActIdx].actNum === 4))) {
         drawBreakfastTableForeground(w, groundY, time);
       }
