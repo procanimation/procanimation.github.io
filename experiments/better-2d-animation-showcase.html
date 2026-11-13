@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Better 2D Cartoon Character Animation Engine | Procanimation Studio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #090d16;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+    }
+    #stage-container {
+      position: relative;
+      width: 960px;
+      height: 540px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(56, 189, 248, 0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0f172a;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .hud-controls {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 10px 18px;
+      border-radius: 40px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 10;
+    }
+    .badge {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      z-index: 10;
+    }
+    button {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    button:hover, button.active {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+    }
+    .viseme-pills {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      display: flex;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 6px 12px;
+      border-radius: 20px;
+      z-index: 10;
+    }
+    .v-btn {
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="stage-container">
+    <div class="badge">🎨 Procanimation Better 2D Animation Engine</div>
+
+    <div class="viseme-pills">
+      <button class="v-btn active" onclick="setViseme('TALK')">Speech Cycle</button>
+      <button class="v-btn" onclick="setViseme('AH')">AH (Open)</button>
+      <button class="v-btn" onclick="setViseme('OO')">OO (Round)</button>
+      <button class="v-btn" onclick="setViseme('EE')">EE (Teeth)</button>
+      <button class="v-btn" onclick="setViseme('MBP')">MBP (Closed)</button>
+    </div>
+
+    <canvas id="stageCanvas" width="1920" height="1080"></canvas>
+
+    <div class="hud-controls">
+      <button class="active" onclick="setPose('EUREKA')">💡 1. Eureka Discovery</button>
+      <button onclick="setPose('EXPLAIN')">🗣️ 2. Dynamic Explaining</button>
+      <button onclick="setPose('THINK')">🤔 3. Curious Thinking</button>
+      <button onclick="setPose('CONFIDENT')">😎 4. Confident Stand</button>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('stageCanvas');
+    const ctx = canvas.getContext('2d');
+    const w = 1920;
+    const h = 1080;
+
+    let time = 0;
+    let currentPose = 'EUREKA';
+    let targetPose = 'EUREKA';
+    let transitionProgress = 1.0;
+    let currentViseme = 'TALK';
+
+    // Character State
+    let blinkTimer = 0;
+    let isBlinking = false;
+    let hairSpringAngle = 0;
+    let hairSpringVel = 0;
+
+    function setPose(pose) {
+      if (currentPose === pose) return;
+      targetPose = pose;
+      transitionProgress = 0.0;
+      currentPose = pose;
+      document.querySelectorAll('.hud-controls button').forEach(b => {
+        if (b.textContent.includes(pose)) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    }
+
+    window.setViseme = function(v) {
+      currentViseme = v;
+      document.querySelectorAll('.viseme-pills button').forEach(b => {
+        if (b.textContent.includes(v)) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    };
+
+    // Helper: Draw Vector Cel-Shaded Shadow Arc
+    function drawCelShadow(pathFunc, shadowCol = 'rgba(15, 23, 42, 0.18)') {
+      ctx.save();
+      ctx.fillStyle = shadowCol;
+      pathFunc();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // ==========================================
+    // 👄 BOLD VECTOR PHONEME MOUTH SYSTEM
+    // ==========================================
+    function drawExpressiveMouth(cx, cy, scale, t, viseme) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(scale, scale);
+
+      let mouthState = viseme;
+      if (viseme === 'TALK') {
+        const cycle = (time * 7) % (Math.PI * 2);
+        const s = Math.sin(cycle);
+        if (s > 0.4) mouthState = 'AH';
+        else if (s > -0.2) mouthState = 'EE';
+        else if (s > -0.7) mouthState = 'OO';
+        else mouthState = 'MBP';
+      }
+
+      ctx.lineWidth = 3.5;
+      ctx.strokeStyle = '#0f172a';
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      if (mouthState === 'MBP') {
+        // Closed Lips Line with expressive smile curve
+        ctx.beginPath();
+        ctx.moveTo(-16, -1);
+        ctx.quadraticCurveTo(0, 4, 16, -1);
+        ctx.stroke();
+      } else if (mouthState === 'OO') {
+        // Round Pursed Vowel Mouth (O / U)
+        ctx.beginPath();
+        ctx.ellipse(0, 2, 10, 15, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#450a0a';
+        ctx.fill();
+        ctx.stroke();
+
+        // Deep Inner Shadow
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 7, 10, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#1c0505';
+        ctx.fill();
+      } else if (mouthState === 'EE') {
+        // Wide Smile with Upper & Lower Teeth Visible (E / S / T)
+        ctx.beginPath();
+        ctx.moveTo(-24, -4);
+        ctx.quadraticCurveTo(0, -6, 24, -4);
+        ctx.quadraticCurveTo(28, 6, 22, 12);
+        ctx.quadraticCurveTo(0, 16, -22, 12);
+        ctx.quadraticCurveTo(-28, 6, -24, -4);
+        ctx.closePath();
+        ctx.fillStyle = '#450a0a';
+        ctx.fill();
+        ctx.stroke();
+
+        // Upper White Teeth Arch
+        ctx.beginPath();
+        ctx.moveTo(-20, -3);
+        ctx.lineTo(20, -3);
+        ctx.quadraticCurveTo(18, 5, 0, 5);
+        ctx.quadraticCurveTo(-18, 5, -20, -3);
+        ctx.closePath();
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.stroke();
+
+        // Lower White Teeth Arch
+        ctx.beginPath();
+        ctx.moveTo(-16, 12);
+        ctx.lineTo(16, 12);
+        ctx.quadraticCurveTo(14, 7, 0, 7);
+        ctx.quadraticCurveTo(-14, 7, -16, 12);
+        ctx.closePath();
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+      } else {
+        // AH / Wide Open Talking Smile with Teeth & Pink Tongue
+        ctx.beginPath();
+        ctx.moveTo(-26, -6);
+        ctx.quadraticCurveTo(0, -9, 26, -6);
+        ctx.quadraticCurveTo(28, 12, 18, 26);
+        ctx.quadraticCurveTo(0, 32, -18, 26);
+        ctx.quadraticCurveTo(-28, 12, -26, -6);
+        ctx.closePath();
+        ctx.fillStyle = '#5c0b1e'; // Deep Oral Cavity
+        ctx.fill();
+        ctx.stroke();
+
+        // Upper Teeth
+        ctx.beginPath();
+        ctx.moveTo(-22, -6);
+        ctx.lineTo(22, -6);
+        ctx.quadraticCurveTo(18, 6, 0, 6);
+        ctx.quadraticCurveTo(-18, 6, -22, -6);
+        ctx.closePath();
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.stroke();
+
+        // Warm Pink Tongue
+        ctx.beginPath();
+        ctx.arc(0, 26, 14, Math.PI * 1.15, Math.PI * 1.85);
+        ctx.quadraticCurveTo(12, 16, 0, 16);
+        ctx.quadraticCurveTo(-12, 16, -12, 22);
+        ctx.fillStyle = '#fb7185';
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    // ==========================================
+    // 👁️ EXPRESSIVE BIG 2D CARTOON EYES
+    // ==========================================
+    function drawExpressiveEye(ex, ey, radius, gazeX, gazeY, isBlinking, browOffset, isRight) {
+      ctx.save();
+      ctx.translate(ex, ey);
+
+      if (isBlinking) {
+        // Snappy Eyelid Line
+        ctx.lineWidth = 4.0;
+        ctx.strokeStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.moveTo(-radius * 0.9, 0);
+        ctx.quadraticCurveTo(0, radius * 0.3, radius * 0.9, 0);
+        ctx.stroke();
+        ctx.restore();
+        return;
+      }
+
+      // Sclera (White)
+      ctx.beginPath();
+      ctx.ellipse(0, 0, radius, radius * 1.25, 0, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.lineWidth = 3.5;
+      ctx.strokeStyle = '#0f172a';
+      ctx.stroke();
+
+      // Soft Upper Eyelid Cast Shadow
+      ctx.beginPath();
+      ctx.ellipse(0, -radius * 0.45, radius * 0.95, radius * 0.5, 0, 0, Math.PI);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.08)';
+      ctx.fill();
+
+      // Large Vibrant Cartoon Iris
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(0, 0, radius - 1, radius * 1.25 - 1, 0, 0, Math.PI * 2);
+      ctx.clip();
+
+      const irisR = radius * 0.78;
+      const gx = gazeX * 5.0;
+      const gy = gazeY * 3.5;
+
+      ctx.beginPath();
+      ctx.arc(gx, gy, irisR, 0, Math.PI * 2);
+      const irisGrad = ctx.createLinearGradient(gx, gy - irisR, gx, gy + irisR);
+      irisGrad.addColorStop(0, '#0369a1');
+      irisGrad.addColorStop(0.6, '#38bdf8');
+      irisGrad.addColorStop(1, '#bae6fd');
+      ctx.fillStyle = irisGrad;
+      ctx.fill();
+
+      // Pupil
+      ctx.beginPath();
+      ctx.arc(gx, gy, irisR * 0.52, 0, Math.PI * 2);
+      ctx.fillStyle = '#090d16';
+      ctx.fill();
+
+      // Specular Stars & Twinkles
+      ctx.beginPath();
+      ctx.arc(gx - irisR * 0.32, gy - irisR * 0.32, irisR * 0.28, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(gx + irisR * 0.32, gy + irisR * 0.32, irisR * 0.15, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.restore();
+
+      // Bold Curved Eyelash Crest
+      ctx.lineWidth = 4.0;
+      ctx.strokeStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.arc(0, -radius * 0.1, radius, Math.PI * 1.15, Math.PI * 1.85);
+      ctx.stroke();
+
+      // Expressive Thick Eyebrow with Emotional Arch
+      ctx.lineWidth = 6.0;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#78350f';
+      ctx.beginPath();
+      const browY = -radius * 1.6 + browOffset;
+      const tilt = isRight ? 4 : -4;
+      ctx.moveTo(-radius * 0.9, browY - tilt);
+      ctx.quadraticCurveTo(0, browY - 6, radius * 0.9, browY + tilt);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // ==========================================
+    // 🖐️ ARTICULATED 2D CARTOON HAND (4-FINGER VECTOR)
+    // ==========================================
+    function drawCartoonHand(x, y, angle, style = "point") {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+
+      ctx.lineWidth = 3.2;
+      ctx.strokeStyle = '#0f172a';
+      ctx.fillStyle = '#fde047'; // Warm Skin Tone
+
+      if (style === "point") {
+        // Pointing Index Finger with Tucked Thumb & Knuckles
+        ctx.beginPath();
+        // Palm & Knuckles
+        ctx.ellipse(0, 4, 14, 16, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        // Extended Index Finger
+        ctx.beginPath();
+        ctx.roundRect(-5, -34, 10, 36, 5);
+        ctx.fill();
+        ctx.stroke();
+
+        // Tucked Thumb
+        ctx.beginPath();
+        ctx.ellipse(12, 6, 7, 10, 0.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      } else if (style === "open_palm") {
+        // Open Explanatory Palm (4 articulated curved fingers)
+        [-12, -4, 4, 12].forEach((fx, idx) => {
+          ctx.beginPath();
+          ctx.roundRect(fx - 4, -26 - (idx === 1 || idx === 2 ? 4 : 0), 8, 28, 4);
+          ctx.fill();
+          ctx.stroke();
+        });
+        // Palm Base
+        ctx.beginPath();
+        ctx.ellipse(0, 8, 18, 15, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        // Thumb
+        ctx.beginPath();
+        ctx.ellipse(16, 4, 6, 12, 0.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      } else {
+        // Relaxed Hand
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 15, 14, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+
+    // ==========================================
+    // 🕺 ORGANIC BEZIER LIMB DRAWING
+    // ==========================================
+    function drawOrganicArm(x1, y1, x2, y2, x3, y3, sleeveColor, skinColor, handStyle = "point") {
+      ctx.lineWidth = 3.4;
+      ctx.strokeStyle = '#0f172a';
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+
+      // Upper Arm Sleeve
+      ctx.beginPath();
+      ctx.moveTo(x1 - 14, y1);
+      ctx.quadraticCurveTo((x1 + x2) * 0.5 - 12, (y1 + y2) * 0.5, x2 - 12, y2);
+      ctx.lineTo(x2 + 12, y2);
+      ctx.quadraticCurveTo((x1 + x2) * 0.5 + 12, (y1 + y2) * 0.5, x1 + 14, y1);
+      ctx.closePath();
+      ctx.fillStyle = sleeveColor;
+      ctx.fill();
+      ctx.stroke();
+
+      // Forearm Skin (Tapering to wrist)
+      ctx.beginPath();
+      ctx.moveTo(x2 - 10, y2);
+      ctx.quadraticCurveTo((x2 + x3) * 0.5 - 9, (y2 + y3) * 0.5, x3 - 7, y3);
+      ctx.lineTo(x3 + 7, y3);
+      ctx.quadraticCurveTo((x2 + x3) * 0.5 + 9, (y2 + y3) * 0.5, x2 + 10, y2);
+      ctx.closePath();
+      ctx.fillStyle = skinColor;
+      ctx.fill();
+      ctx.stroke();
+
+      // Hand Angle
+      const handAngle = Math.atan2(y3 - y2, x3 - x2) - Math.PI / 2;
+      drawCartoonHand(x3, y3, handAngle, handStyle);
+    }
+
+    // ==========================================
+    // 🌟 FULL CHARACTER RENDERER (LEO 2D PRO)
+    // ==========================================
+    function drawCharacter2D(cx, cy, scale) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(scale, scale);
+
+      // Animation Easing & Timing
+      const breath = Math.sin(time * 3) * 0.02;
+      let squashY = 1.0;
+      let stretchX = 1.0;
+      let rootY = 0;
+      let headTilt = 0;
+      let rArmX = 140, rArmY = -120; // Hand target
+      let lArmX = -100, lArmY = 20;
+      let browOffset = 0;
+      let handStyle = "point";
+
+      if (currentPose === 'EUREKA') {
+        // Snappy Discovery Pose: Anticipation dip into upward spring
+        const p = Math.sin(time * 3);
+        squashY = 1.04 + p * 0.03;
+        stretchX = 0.98 - p * 0.02;
+        headTilt = -0.12 + Math.sin(time * 2.5) * 0.04;
+        rArmX = 135 + Math.sin(time * 4) * 5;
+        rArmY = -140 + Math.cos(time * 4) * 6;
+        lArmX = -90; lArmY = 10;
+        browOffset = -8; // Raised brows
+        handStyle = "point";
+      } else if (currentPose === 'EXPLAIN') {
+        // Expressive Two-Handed Explaining
+        squashY = 1.0 + breath;
+        headTilt = Math.sin(time * 2.2) * 0.06;
+        rArmX = 120 + Math.sin(time * 3.5) * 12;
+        rArmY = -30 + Math.cos(time * 3.5) * 10;
+        lArmX = -120 - Math.sin(time * 3.5) * 12;
+        lArmY = -30 - Math.cos(time * 3.5) * 10;
+        browOffset = -3;
+        handStyle = "open_palm";
+      } else if (currentPose === 'THINK') {
+        // Thinking with Hand on Chin
+        squashY = 0.98;
+        headTilt = 0.15;
+        rArmX = 40; rArmY = -60; // Touches chin
+        lArmX = -85; lArmY = 30;
+        browOffset = 2; // Skeptical furrow
+        handStyle = "point";
+      } else {
+        // Confident Hands on Hips
+        squashY = 1.0 + breath;
+        headTilt = -0.05;
+        rArmX = 90; rArmY = 20;
+        lArmX = -90; lArmY = 20;
+        browOffset = -5;
+        handStyle = "relaxed";
+      }
+
+      // 1. Contact Floor Shadow
+      ctx.beginPath();
+      ctx.ellipse(0, 140, 110 * stretchX, 22, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.45)';
+      ctx.fill();
+
+      // 2. Legs (Continuous anatomical 2D pants)
+      [-32, 32].forEach(lx => {
+        ctx.beginPath();
+        ctx.roundRect(lx - 16, 20, 32, 110, 14);
+        ctx.fillStyle = '#1e293b';
+        ctx.fill();
+        ctx.lineWidth = 3.5;
+        ctx.strokeStyle = '#0f172a';
+        ctx.stroke();
+
+        // Red Sneaker with White Toe Cap
+        ctx.beginPath();
+        ctx.roundRect(lx - 20, 120, 46, 22, [6, 12, 6, 6]);
+        ctx.fillStyle = '#ef4444';
+        ctx.fill();
+        ctx.stroke();
+
+        // White Toe Rubber Cap
+        ctx.beginPath();
+        ctx.arc(lx + 20, 131, 9, -Math.PI / 2, Math.PI / 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.stroke();
+      });
+
+      // 3. Torso (Electric Blue Hoodie with Organic Curve)
+      ctx.save();
+      ctx.scale(stretchX, squashY);
+
+      ctx.beginPath();
+      ctx.moveTo(-52, -70);
+      ctx.quadraticCurveTo(-65, -10, -56, 32);
+      ctx.lineTo(56, 32);
+      ctx.quadraticCurveTo(65, -10, 52, -70);
+      ctx.closePath();
+      ctx.fillStyle = '#2563eb';
+      ctx.fill();
+      ctx.lineWidth = 3.6;
+      ctx.strokeStyle = '#0f172a';
+      ctx.stroke();
+
+      // Hoodie Cel-Shadow (Darker Blue Crease)
+      ctx.beginPath();
+      ctx.moveTo(-54, 10);
+      ctx.quadraticCurveTo(0, 22, 54, 10);
+      ctx.lineTo(56, 32);
+      ctx.lineTo(-56, 32);
+      ctx.closePath();
+      ctx.fillStyle = '#1d4ed8';
+      ctx.fill();
+
+      // White T-Shirt Collar Triangle
+      ctx.beginPath();
+      ctx.moveTo(-16, -70);
+      ctx.lineTo(0, -52);
+      ctx.lineTo(16, -70);
+      ctx.closePath();
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.stroke();
+
+      // Left Arm (Behind / Mid)
+      drawOrganicArm(-52, -60, -90, -15, lArmX, lArmY, '#2563eb', '#fde047', handStyle);
+
+      // Right Arm (Front Hero Arm)
+      drawOrganicArm(52, -60, 95, -50, rArmX, rArmY, '#2563eb', '#fde047', handStyle);
+
+      ctx.restore(); // End Torso Scale
+
+      // 4. Head Group (with Neck & Head Tilt)
+      ctx.save();
+      ctx.translate(0, -95);
+      ctx.rotate(headTilt);
+
+      // Neck
+      ctx.beginPath();
+      ctx.roundRect(-14, -8, 28, 24, 6);
+      ctx.fillStyle = '#facc15';
+      ctx.fill();
+      ctx.lineWidth = 3.2;
+      ctx.strokeStyle = '#0f172a';
+      ctx.stroke();
+
+      // Neck Shadow
+      ctx.beginPath();
+      ctx.rect(-14, -8, 28, 10);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.15)';
+      ctx.fill();
+
+      // Head Base Shape (Soft Cartoon Oval)
+      ctx.beginPath();
+      ctx.ellipse(0, -52, 64, 68, 0, 0, Math.PI * 2);
+      ctx.fillStyle = '#fde047'; // Bright Warm Skin
+      ctx.fill();
+      ctx.lineWidth = 3.8;
+      ctx.strokeStyle = '#0f172a';
+      ctx.stroke();
+
+      // Rosy Cartoon Cheeks
+      [-36, 36].forEach(cx => {
+        ctx.beginPath();
+        ctx.ellipse(cx, -40, 14, 8, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.28)';
+        ctx.fill();
+      });
+
+      // Stylized Chocolate Hair Shell
+      ctx.beginPath();
+      ctx.moveTo(-64, -65);
+      ctx.quadraticCurveTo(-68, -125, 0, -125);
+      ctx.quadraticCurveTo(68, -125, 64, -65);
+      ctx.quadraticCurveTo(56, -75, 42, -70);
+      ctx.quadraticCurveTo(20, -100, -10, -82);
+      ctx.quadraticCurveTo(-38, -98, -64, -65);
+      ctx.closePath();
+      ctx.fillStyle = '#78350f';
+      ctx.fill();
+      ctx.lineWidth = 3.8;
+      ctx.strokeStyle = '#0f172a';
+      ctx.stroke();
+
+      // Hair Shimmer / Specular Highlight Arc
+      ctx.beginPath();
+      ctx.arc(0, -114, 46, Math.PI * 1.25, Math.PI * 1.75);
+      ctx.lineWidth = 4.5;
+      ctx.strokeStyle = '#b45309';
+      ctx.stroke();
+
+      // Secondary Damped Spring Hair Tuft!
+      ctx.save();
+      ctx.translate(12, -125);
+      ctx.rotate(hairSpringAngle);
+      ctx.beginPath();
+      ctx.moveTo(-10, 0);
+      ctx.quadraticCurveTo(8, -32, 28, -24);
+      ctx.quadraticCurveTo(14, -8, 8, 0);
+      ctx.closePath();
+      ctx.fillStyle = '#78350f';
+      ctx.fill();
+      ctx.lineWidth = 3.2;
+      ctx.strokeStyle = '#0f172a';
+      ctx.stroke();
+      ctx.restore();
+
+      // Nose (Cute Curved Wedge)
+      ctx.beginPath();
+      ctx.moveTo(-2, -52);
+      ctx.quadraticCurveTo(6, -48, 0, -42);
+      ctx.lineWidth = 3.2;
+      ctx.strokeStyle = '#0f172a';
+      ctx.stroke();
+
+      // Big Expressive Eyes!
+      const gazeX = Math.sin(time * 1.5) * 0.35;
+      const gazeY = Math.cos(time * 1.2) * 0.2;
+      drawExpressiveEye(-25, -60, 20, gazeX, gazeY, isBlinking, browOffset, false);
+      drawExpressiveEye(25, -60, 20, gazeX, gazeY, isBlinking, browOffset, true);
+
+      // Bold Vector Phoneme Mouth!
+      drawExpressiveMouth(0, -28, 1.0, time, currentViseme);
+
+      ctx.restore(); // End Head Group
+
+      // Floating Idea Sparkle Star if in Eureka Pose
+      if (currentPose === 'EUREKA') {
+        const starScale = 1.0 + Math.sin(time * 6) * 0.15;
+        ctx.save();
+        ctx.translate(rArmX + 15, rArmY - 45);
+        ctx.scale(starScale, starScale);
+        ctx.beginPath();
+        for (let i = 0; i < 8; i++) {
+          const r = (i % 2 === 0) ? 24 : 9;
+          const a = (i * Math.PI) / 4;
+          ctx[i === 0 ? 'moveTo' : 'lineTo'](Math.cos(a) * r, Math.sin(a) * r);
+        }
+        ctx.closePath();
+        ctx.fillStyle = '#fbbf24';
+        ctx.fill();
+        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = '#d97706';
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      ctx.restore(); // End Character Root
+    }
+
+    // ==========================================
+    // 🎨 STAGE ENVIRONMENT (VIBRANT SCIENCE LAB)
+    // ==========================================
+    function drawStudioStage() {
+      // 1. Soft Gradient Background
+      const bg = ctx.createLinearGradient(0, 0, 0, h);
+      bg.addColorStop(0, '#090d16');
+      bg.addColorStop(0.7, '#0f172a');
+      bg.addColorStop(1, '#1e1b4b');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      // Floor Line & Gradient
+      const floorGrad = ctx.createLinearGradient(0, 780, 0, h);
+      floorGrad.addColorStop(0, '#1e293b');
+      floorGrad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = floorGrad;
+      ctx.fillRect(0, 780, w, h - 780);
+
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+      ctx.lineWidth = 2.0;
+      ctx.beginPath();
+      ctx.moveTo(0, 780); ctx.lineTo(w, 780);
+      ctx.stroke();
+
+      // Atmospheric Vignette Soft Light
+      const glow = ctx.createRadialGradient(w * 0.5, 600, 50, w * 0.5, 600, 600);
+      glow.addColorStop(0, 'rgba(56, 189, 248, 0.08)');
+      glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, h);
+    }
+
+    // ==========================================
+    // 🔄 MAIN ANIMATION LOOP
+    // ==========================================
+    let lastT = performance.now();
+    function render(now) {
+      const dt = Math.min(0.05, (now - lastT) / 1000);
+      lastT = now;
+      time += dt;
+
+      // Blinking Logic (Quick 0.16s snappy blink every 3.5s)
+      blinkTimer -= dt;
+      if (blinkTimer <= 0) {
+        isBlinking = true;
+        if (blinkTimer <= -0.16) {
+          isBlinking = false;
+          blinkTimer = 2.8 + Math.random() * 2.5;
+        }
+      }
+
+      // Hair Spring Physics
+      const targetSpring = (currentPose === 'EUREKA') ? Math.sin(time * 5) * 0.18 : Math.sin(time * 2.5) * 0.05;
+      const springForce = -18.0 * (hairSpringAngle - targetSpring) - 6.5 * hairSpringVel;
+      hairSpringVel += springForce * dt;
+      hairSpringAngle += hairSpringVel * dt;
+
+      // Clear & Draw
+      ctx.clearRect(0, 0, w, h);
+      drawStudioStage();
+
+      // Center Stage Character
+      drawCharacter2D(w * 0.5, 780, 2.8);
+
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+
+    // Frame capture function for Playwright
+    window.renderDemoAtTime = function(t, pose, viseme) {
+      time = t;
+      currentPose = pose || 'EUREKA';
+      currentViseme = viseme || 'AH';
+      ctx.clearRect(0, 0, w, h);
+      drawStudioStage();
+      drawCharacter2D(w * 0.5, 780, 2.8);
+      return canvas.toDataURL('image/jpeg', 0.95);
+    };
+  </script>
+</body>
+</html>
